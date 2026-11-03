@@ -18,7 +18,7 @@
 | 模块接口及具体设计 | [SDD](docs/SDD.md) |
 | 当前进度和待决策 | [PROJECT_CONTEXT](docs/PROJECT_CONTEXT.md) |
 | 文件位置 | [CODEBASE_MAP](docs/CODEBASE_MAP.md) |
-| 可用 Skills | [SKILLS](docs/SKILLS.md) |
+| 可用 Skills | [SKILLS](docs/SKILLS.md)：第三方原版技能的来源与使用边界 |
 | 可执行检查 | [HARNESS](docs/HARNESS.md) |
 | 文档一致性 | [DOCUMENTATION_VALIDATION](docs/DOCUMENTATION_VALIDATION.md) |
 
@@ -50,6 +50,7 @@
 - 未经明确要求不创建发布/部署工作流、不推送发布版本、不运行不可信第三方脚本。
 - Git 提交建议遵循 Conventional Commits、中文主题、适当 emoji；以仓库未来正式规范为准。
 - 文档阶段不为形式创建空 Skill、空源码目录、虚构脚本或通过状态。
+- 第三方 Skills 固定上游 SHA、许可证和来源，见 [记录](.agents/skills/UPSTREAM.md)；工具调用必须匹配当前连接与权限。
 
 ## 7. 完成判定
 

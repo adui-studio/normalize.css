@@ -1,39 +1,37 @@
 # SKILLS — Agent 能力索引
 
-**状态：规划与评估。当前仓库没有自有 Skill，也没有证据表明任何第三方 Skill 已为本项目安装。** 本阶段仅整理发现原则与待选能力，不创建占位技能。
+**状态**：三个官方上游第三方 Skills 已真实纳入本仓库的文档评审分支；保留原始 `SKILL.md`、`github-issues` 的十份 references 与原始 MIT 许可证。**main 在 PR 合并前尚无这些文件；用户本机的 Skill 自动发现尚未验证。**
 
-## 1. 何时使用 Skill
+## 已纳入的第三方 Skills
 
-仅当某个过程**重复发生、复杂且容易遗漏、需要特定检查或工具**时，才考虑复用/创建 Skill。单纯格式化文档、修改一条 CSS 声明、普通 Git 操作不需要专门 Skill。
+来源：[github/awesome-copilot](https://github.com/github/awesome-copilot)，固定上游提交 [`8178d1939a203f691067073dcab2a3f1e14072d3`](https://github.com/github/awesome-copilot/tree/8178d1939a203f691067073dcab2a3f1e14072d3/skills)。
 
-技能优先级受 [AGENTS.md](../AGENTS.md) 规则约束；任何第三方 Skill 需要审查来源、许可证、脚本、权限和实际工具兼容性。
+| Skill | 原版入口 | 使用场景 | 本轮状态 |
+| --- | --- | --- | --- |
+| github-issues | [SKILL.md](../.agents/skills/github-issues/SKILL.md) | 先核对仓库与 Issue 类型，再提供可复现问题、功能或任务的结构化提交 | 已用于 Issue Forms；尚未新建 Issue |
+| conventional-commit | [SKILL.md](../.agents/skills/conventional-commit/SKILL.md) | 结构化提交标题与中文变更说明 | 已用于本轮文档提交 |
+| bug-reproduction-brief | [SKILL.md](../.agents/skills/bug-reproduction-brief/SKILL.md) | 先记录环境、最小复现、期望与实际，暂缓未经证实的修复 | 已用于浏览器 Issue Form 和 [表单规则研究](research/FORM_CONTROLS_REVIEW.md)；尚未做浏览器实测 |
 
-## 2. 候选能力（均未安装、未实现）
+这些是**直接使用上游 Skills 文件**，不是只借鉴后自编；完整来源、许可证和本地命令见 [UPSTREAM.md](../.agents/skills/UPSTREAM.md)。
 
-| 候选名称 | 预期触发 | 输入 | 预期输出 | 状态 |
-| --- | --- | --- | --- | --- |
-| CSS normalization rule audit | 提议新增或修改 Normalize 规则 | 浏览器差异、目标版本、Fixture | 差异证据、最小修复、风险与验证清单 | 候选 |
-| Cross-browser regression review | 进入浏览器测试阶段 | 浏览器矩阵、样式产物、页面 Fixtures | 可复现浏览器对照结果 | 候选 |
-| Package release review | 计划发布 npm 包时 | 变更、包导出、许可证、测试证据 | 发布准备清单与阻塞事项 | 候选 |
+## 本地启用与升级
 
-评估时优先检查是否可由普通项目文档和真实 Harness 命令表达，避免把简单流程过度包装为 Skill。
+Codex、OpenCode 均支持项目 `.agents/skills/<name>/SKILL.md`；在本地检出评审分支后可供 Agent 发现。本环境因网络 DNS 限制**未运行 Skills CLI**，也没有在用户电脑上执行安装。可在本机进入仓库根目录后按官方 CLI 方式选择安装：
 
-## 3. 选用及创建规范（未来）
+```powershell
+npx skills add github/awesome-copilot -s github-issues -s conventional-commit -s bug-reproduction-brief -a codex opencode -y
+```
 
-- 确认目标 Agent 实际读取的技能目录；不能想当然假定 `.agents/skills` 必定自动生效。
-- 定义 name、description、触发条件、输入输出、流程、限制、异常处理、验证方式。
-- 如确需脚本或引用资源，再创建 `SKILL.md`、`scripts/`、`references/` 等最小文件。
-- 运行第三方脚本前，审核其网络、文件系统及凭证权限；不执行来历不明代码。
-- Skill 必须指向真实存在的 Harness/测试资产；不声称尚未运行的步骤已通过。
+该命令可能更新/覆盖仓库自带的原版文件，应先审阅上游变化和 Git diff。**以上命令尚未在本轮执行。**
 
-## 4. 已存在能力与验证
+## 继续观察的能力
 
-| 项目 | 状态 |
-| --- | --- |
-| 仓库自有 Skills | 无 |
-| 已安装第三方 Skills | 未确认；不列为已安装 |
-| 自动发现目录 | 未确定 |
-| 脚本及测试 | 未建立 |
-| 授权第三方自动执行 | 无 |
+Normalize 规则审查、跨浏览器回归、发布审查可在真正出现稳定重复工作流后分别考虑创建项目专用 Skill；当前不创建空 Skill、脚本或依赖。
 
-**更新约定**：引入、弃用或调整真正使用的 Skill 时，记录来源、许可证、安装位置、触发、已验证版本及状态，并同步 [AGENTS](../AGENTS.md)、[HARNESS](HARNESS.md) 与 [文档校验](DOCUMENTATION_VALIDATION.md)。
+## 使用红线
+
+- 当前用户要求与 [AGENTS.md](../AGENTS.md) 高于第三方 Skill 的流程建议。
+- 上游 Skill 中的工具名需按当前真实已连接工具适配；不假定某个 MCP 名称一定存在。
+- 未授权不得写 CSS 源码、安装依赖、创建/合并 PR、发布 npm 或执行第三方脚本。
+- 本项目**不增加任何 CI**。
+- Skill 源文件存在不表示用户本机发现已验证，规范研究也不等于浏览器测试通过。
