@@ -41,10 +41,10 @@ npm exec -- vp dev
 打开本地 Vite+ 服务器提示的地址下的 `/fixtures/`，选择 R-003 的 T0 原生与 T1 候选页面，或 R-004 的原生与字号风险页面。每页会展示可复制的计算样式 JSON。无需 Vite+ 安装也可以使用**内置 Node 测试**检验探针逻辑：
 
 ```sh
-node --test tests/probe.node.test.mjs
+node --test tests/fixtures.node.test.mjs tests/package.node.test.mjs tests/probe.node.test.mjs
 ```
 
-**运行状态（2026-11-03）**：Node 内置测试 2/2 通过、探针语法检查通过；因执行环境为 Node 22.16.0 且 npm Registry 不可用，`vp check/test/dev` 尚未运行、没有生成锁文件。容器内 Chromium 144 无头执行超时，**没有获得浏览器计算样式结果**；最低目标 Chrome/Edge 120、Firefox 121、Safari 17.2 和对应移动端均为 NOT_RUN。Fixture 中的候选 CSS **只供测试，不会发布**。不增加 CI。
+**运行状态（2026-11-03）**：Node 内置测试 **8/8 通过**（探针 2、Fixture 4、包契约 2），探针与测试文件语法检查通过；因执行环境为 Node 22.16.0 且 npm Registry 不可用，`vp check/test/dev` 尚未运行、没有生成锁文件。容器内 Chromium 144 无头执行超时，**没有获得浏览器计算样式结果**；最低目标 Chrome/Edge 120、Firefox 121、Safari 17.2 和对应移动端均为 NOT_RUN。Fixture 中的候选 CSS **只供测试，不会发布**。已在开发用 `package.json` 设置 `files: ["dist"]` 与 `sideEffects: ["**/*.css"]`，并真实运行 `npm pack --dry-run --json --ignore-scripts --offline .`：当前缺少 `dist`，仅列出 `package.json`，**这不是 CSS 包打包成功**；未添加 `exports`，保持 `private: true`。不增加 CI。
 
 ## 设计边界
 
@@ -79,7 +79,7 @@ node --test tests/probe.node.test.mjs
 | [开发准入清单](docs/research/REVIEW_GATE.md) | 四份已接受 ADR 与剩余验证门槛 |
 | [MVP 实施计划](docs/plans/MVP_IMPLEMENTATION_PLAN.md) | W-01～W-07 的任务分解、依赖、测试与发布前验收 |
 | [Vite+ 本地 Harness 设计](docs/plans/VITEPLUS_LOCAL_HARNESS_DESIGN.md) | 开发分支已开始实施；本地 Fixture 与 Node 测试已存在，Vite+ 实际运行仍受阻 |
-| [纯 CSS npm 包交付研究](docs/plans/CSS_PACKAGE_DELIVERY_REVIEW.md) | W-04 的根入口、CSS 副作用、纯 CSS 产物与消费端验收（未实施） |
+| [纯 CSS npm 包交付研究](docs/plans/CSS_PACKAGE_DELIVERY_REVIEW.md) | W-04 已部分落实文件白名单与 CSS 副作用元数据；根入口和消费端测试仍未实施 |
 | [浏览器矩阵](docs/research/BROWSER_REVIEW.md) | 支持范围与测试策略草案 |
 | [竞品对照](docs/research/COMPETITOR_REVIEW.md) | 六类 Normalize/Reset 方案源码研究 |
 
@@ -91,7 +91,7 @@ node --test tests/probe.node.test.mjs
 
 ## 开发前门槛
 
-维护者已批准开始开发，**开发工具链固定为 Vite+**。目前仅已实现 W-03 的最小 Fixture/测试基础，依赖安装和旧浏览器验证仍被当前执行环境阻塞。W-04 的包导出、W-05 的 CSS 正式规则尚未实施；最低目标版本、规则必要性和生态兼容性必须有真实结果，不增加任何 CI，也不擅自发布。
+维护者已批准开始开发，**开发工具链固定为 Vite+**。目前已实现 W-03 的 Fixture/离线测试，并启动 W-04 的预发行元数据约束；依赖安装和旧浏览器验证仍被当前执行环境阻塞。W-04 的真实 CSS 包导出、W-05 的正式规则尚未实施；最低目标版本、规则必要性和生态兼容性必须有真实结果，不增加任何 CI，也不擅自发布。
 
 ## 许可证
 

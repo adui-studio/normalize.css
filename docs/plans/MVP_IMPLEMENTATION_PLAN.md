@@ -12,7 +12,7 @@
 | --- | --- | --- |
 | [ADR-0001](../adr/0001-css-base-strategy.md) | 长期采用默认 Normalize + 可选 Reset / Forms / A11y 的模块化边界 | 首版会交付全部模块 |
 | [ADR-0002](../adr/0002-cascade-layers.md) | 默认 CSS 不内置 `@layer`，必要时逐条评估 `:where()` | 所有用户 CSS 必然可覆盖，或旧浏览器已经实测 |
-| [ADR-0003](../adr/0003-mvp-package-contract.md) | MVP 只公开 `@adui/normalize.css` 默认 CSS 入口 | 现在已有 npm 导出；`/reset.css`、`/forms.css`、`/a11y.css`、`/all.css` 均首版延期 |
+| [ADR-0003](../adr/0003-mvp-package-contract.md) | MVP 只规划 `@adui/normalize.css` 默认 CSS 入口 | **尚未实现 npm exports 或公开 CSS 文件**；`/reset.css`、`/forms.css`、`/a11y.css`、`/all.css` 均首版延期 |
 | [ADR-0004](../adr/0004-browser-support-policy.md) | 固定 Baseline 2023 特性准入；Chrome/Edge 120、Firefox 121、Safari 17.2（含相应移动核心家族）已批准为最低测试目标 | **只是最低测试目标批准**；未实测，不包括未确认 WebView |
 
 ## 1. 实施原则和验收标准
@@ -30,8 +30,8 @@
 | --- | --- | --- | --- | --- | --- |
 | W-01 | 第一阶段 | 冻结浏览器最低测试目标和验证边界 | 七项 [最低测试目标](../research/BASELINE_2023_MAPPING.md) 已批准，固定时间线核对通过；仍需 OS/设备/发行版证据 | 取得真实版本测试结果后才可在发行说明承诺支持，不自动覆盖 WebView | **版本目标已批准，实测待进行** |
 | W-02 | 第一阶段 | 最小规则证据卡与原生 Fixture 设计 | [R-003/R-004 证据卡](../research/RULE_EVIDENCE_R003_R004.md) 和 [本地验证执行指南](../research/R003_R004_LOCAL_VERIFICATION.md) 已包含旧版官方环境获取线索、T0/T1/T2 与记录模板 | 必测父级 400/600/700、Chrome/Edge 120、Firefox 121、Safari 17.2 与对应移动端；不以源码当实测 | **执行方案已形成；浏览器实测未做** |
-| W-03 | 第二阶段 | Vite+ 本地 Harness 与验证规范 | 已创建 `package.json`、`vite.config.ts`、R-003/004 T0/T1 HTML、计算样式探针和测试；[设计](VITEPLUS_LOCAL_HARNESS_DESIGN.md) 持续跟踪 | Node 探针测试 2/2 通过；Vite+ 命令、浏览器真实结果、锁文件仍待验证，无 CI | **开发进行中／部分验证** |
-| W-04 | 第二阶段 | Vite+ 下的单一 CSS 包导出与副作用验证 | 已形成 [包导出验收研究](CSS_PACKAGE_DELIVERY_REVIEW.md)，列出 A/B 构建方案、根 CSS exports、sideEffects 和 P-01～P-10 生产消费端验证 | 保证真实 CSS tarball、Vite+/Webpack 消费构建保留样式、无 JS 运行时；不额外公开子路径 | **设计完成，实施需开发授权** |
+| W-03 | 第二阶段 | Vite+ 本地 Harness 与验证规范 | 已创建 `package.json`、`vite.config.ts`、R-003/004 T0/T1 HTML、计算样式探针和测试；[设计](VITEPLUS_LOCAL_HARNESS_DESIGN.md) 持续跟踪 | Node 离线测试 8/8 通过；Vite+ 命令、浏览器真实结果、锁文件仍待验证，无 CI | **开发进行中／部分验证** |
+| W-04 | 第二阶段 | Vite+ 下的单一 CSS 包导出与副作用验证 | 已落实 `files: ["dist"]`、`sideEffects: ["**/*.css"]` 并在离线 npm pack dry-run 中验证白名单；[验收研究](CSS_PACKAGE_DELIVERY_REVIEW.md) 提供 P-01～P-10 后续步骤 | **尚无 dist、exports、真实 CSS tarball 和消费端验证**；保持私有，不发布额外入口 | **元数据部分实现／包导出未完成** |
 | W-05 | 第三阶段 | 逐条最小 Normalize 修复 | 按证据准入的最小 CSS、R-ID → 来源 → 测试映射及变更说明 | 有证据才实现；不内建 `@layer`，不加默认 Reset/Forms/A11y；视觉回归无新增重大问题 | 未开始（需开发授权） |
 | W-06 | 第四阶段 | 跨浏览器、无障碍、生态与发布前验收 | Chromium/Firefox/真实 Safari/iOS、组件库/Reset 对照、npm tarball 与 LICENSE 记录 | 逐项列出通过/失败/未运行及可重现信息；阻塞项不得宣传为通过 | 未开始（需开发授权） |
 | W-07 | 第五阶段 | 文档、许可证与版本发布评审 | README 中文/英文、兼容矩阵、迁移/风险说明、发布前检查表 | 包入口、实际功能、浏览器声明与证据一致；Release 与 npm 发布仍须单独授权 | 未开始 |

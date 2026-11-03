@@ -1,6 +1,6 @@
 # W-04 — 纯 CSS npm 包导出与副作用验收方案
 
-- **状态**：开发前研究 / 验收方案；**尚未创建 package.json、CSS 或发布产物，未执行打包/安装/测试**。
+- **状态**：**W-04 已开始部分实施**，开发用 `package.json` 已存在并完成白名单/`sideEffects` 元数据配置；执行过离线 `npm pack --dry-run`。**仍无正式 CSS、exports、真实包产物或消费端测试**。
 - **日期**：2026-11-03
 - **关联**：[Issue #5](https://github.com/adui-studio/normalize.css/issues/5) · [ADR-0003](../adr/0003-mvp-package-contract.md) · [ADR-0005](../adr/0005-viteplus-toolchain.md) · [W-03 Harness 设计](VITEPLUS_LOCAL_HARNESS_DESIGN.md) · [MVP 计划](MVP_IMPLEMENTATION_PLAN.md)
 - **范围**：只验证已接受的 `@adui/normalize.css` **根 CSS 入口**，无运行时 JavaScript 依赖，不发布任何可选 CSS 子路径。
@@ -66,7 +66,16 @@
 4. 再审查 LICENSE、README、`files`、`sideEffects`、零运行时 JS 等发布门槛；npm 包签发和 Release 仍需单独许可。
 5. **本项目不增加任何 CI / GitHub Actions / 自动发布**，不使用仅靠脚本名便无法复现的虚假“测试通过”。
 
-## 6. 研究与事实边界
+## 6. 已执行的元数据与白名单预检（2026-11-03）
+
+- W-03 开发分支的 `package.json` 仍为 `private: true`、`vite-plus@1.4.0` 开发依赖、**没有运行时 dependencies、没有 `exports` / `main` / `module`**。
+- W-04 已新增 `files: ["dist"]` 与 `sideEffects: ["**/*.css"]`；这两个字段是**开发阶段约束声明**，不等于生产构建已证明 CSS 一定保留。
+- 本地实际运行 `npm pack --dry-run --json --ignore-scripts --offline .`：返回 **exit code 0**。修改前开发用包文件列表包含 `fixtures/`、`tests/` 和 `vite.config.ts`；修改后因尚无 `dist/`，仅列出 `package.json`（本地复制目录未包含 GitHub 原有 README / LICENSE；最终必须以完整仓库重新检查）。
+- 新增零依赖 `tests/package.node.test.mjs`，与 Fixture/探针测试合计 **8/8 通过**。
+- **本次只证明文件白名单与元数据契约的本地行为**。P-01（CSS 实际存在）、P-02/03（生产构建保留 CSS）、P-06（子路径拒绝）、P-07（真实 CSS tarball）、P-09（独立安装）全部仍为 `NOT_RUN`，不得关闭 W-04。
+- 当前环境 Node 22.16.0 不满足 Vite+ 要求，npm Registry DNS 不可用；`vp pack` **未运行**，不能宣布方案 A 已通过或已被否决。
+
+## 7. 研究与事实边界
 
 - **已核对**：Vite+ CSS bundling 能力、Node `exports` 的路径与封装规则、Webpack CSS 副作用/打包行为、npm tarball 过滤机制。
 - **尚未确认**：纯 CSS `vp pack` 的实际输出、根入口对 CSS / JS 导入的兼容性、`style` 元数据的消费者支持、真实 tarball 与副作用测试。

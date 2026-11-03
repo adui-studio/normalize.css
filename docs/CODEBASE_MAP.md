@@ -11,7 +11,7 @@ normalize.css/
 ├── README.en.md              # 本轮文档：英文概览
 ├── AGENTS.md                 # Agent 规则入口
 ├── .gitignore                # 本地依赖、构建产物忽略
-├── package.json              # W-03 已存在：private + vite-plus 1.4.0
+├── package.json              # W-03/W-04：private、vite-plus 1.4.0、CSS 文件白名单/副作用元数据
 ├── vite.config.ts            # W-03 已存在：Vite+ 单元测试配置
 ├── fixtures/                 # W-03 已存在：R-003/R-004 T0/T1 页面与探针
 │   ├── index.html
@@ -22,6 +22,8 @@ normalize.css/
 │   └── r004-risk-review.html
 ├── tests/                    # W-03 已存在：契约和 Node 内置单测
 │   ├── fixtures.test.ts
+│   ├── fixtures.node.test.mjs
+│   ├── package.node.test.mjs
 │   └── probe.node.test.mjs
 ├── .github/                  # 评审分支：Issue/PR 模板，无 CI
 │   ├── ISSUE_TEMPLATE/
@@ -69,7 +71,7 @@ normalize.css/
         └── 0005-viteplus-toolchain.md # Accepted
 ```
 
-W-03 开发分支基于尚未合并的文档评审分支；新增仅有测试 Fixture、Node 探针和 Vite+ 开发依赖**声明**，尚未安装依赖。以上内容在合并前均不能描述为 main 已存在；没有新增正式 Normalize CSS、运行时依赖或 CI。
+W-03/W-04 开发分支基于尚未合并的文档评审分支；已增加测试 Fixture、离线 Node 测试、Vite+ 开发依赖**声明**以及 `files` / `sideEffects` 元数据，尚未安装依赖。以上内容在合并前均不能描述为 main 已存在；没有新增正式 Normalize CSS、运行时依赖或 CI。
 
 ## 2. 尚不存在的路径（不据此创建占位）
 

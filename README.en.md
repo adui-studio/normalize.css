@@ -28,9 +28,9 @@ The MVP default entry does not embed `@layer`, CSS feature admission uses fixed 
 
 ## Local W-03 harness
 
-Use Node.js `^22.18.0 || ^24.11.0 || >=26.0.0`, then install dependencies and run `npm exec -- vp dev` to open the `/fixtures/` pages. Use `npm exec -- vp test` for the Vite+ test suite, or `node --test tests/probe.node.test.mjs` for the built-in Node probe unit tests. The fixture-only CSS must never be treated as published normalization rules.
+Use Node.js `^22.18.0 || ^24.11.0 || >=26.0.0`, then install dependencies and run `npm exec -- vp dev` to open the `/fixtures/` pages. Use `npm exec -- vp test` for the Vite+ test suite, or `node --test tests/fixtures.node.test.mjs tests/package.node.test.mjs tests/probe.node.test.mjs` for all dependency-free Node tests. The fixture-only CSS must never be treated as published normalization rules.
 
-**Verified here**: Node probe tests 2/2 pass. **Not verified here**: Vite+ commands and browser results (offline registry, unsupported local Node 22.16.0; headless Chromium timed out). No CI or npm release.
+**Verified here**: all **8/8 dependency-free Node tests pass**. Offline `npm pack --dry-run --json --ignore-scripts --offline .` also runs; with `files: ["dist"]` and no `dist` present, the dry-run includes only `package.json`, **not a functional CSS package**. CSS side effects are explicitly preserved in staging metadata; `exports` is still absent and the package remains private. **Not verified here**: Vite+ commands, CSS-only packaging or browser results (offline registry, local Node 22.16.0 below requirement; headless Chromium timed out). No CI or npm release.
 
 ## Design constraints
 

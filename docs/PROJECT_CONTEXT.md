@@ -21,7 +21,7 @@
 | 八类工程资产 | 文档初始化 | [AGENTS](../AGENTS.md)、需求、SDD、架构、上下文、代码地图、Skills、Harness |
 | CSS 源码 | **未实现** | 仓库无 src/ 或发布 CSS 文件 |
 | package.json、依赖、构建脚本 | **部分实现** | W-03 已有 `package.json` 和 `vite.config.ts`；固定 Vite+ 1.4.0（开发依赖），但因离线环境未安装、未生成锁文件 |
-| 自动化测试、浏览器回归 | **部分实现** | Fixture 探针 Node 单测 2/2 通过；Vite+ 测试未运行，Chromium 无头超时，最低目标浏览器未测 |
+| 自动化测试、浏览器回归 | **部分实现** | 本地 Node 单测 **8/8 通过**，覆盖探针、Fixture 和包元数据；Vite+ 测试未运行，Chromium 无头超时，最低目标浏览器未测 |
 | CI | **明确不规划** | 项目约束：不增加任何 CI |
 | npm 包发布、版本号 | **未发布/未确定** | 不能将先前讨论的草案版本当成仓库发布事实 |
 | 架构方案 | **已接受／未实现** | ADR-0001～0005 均 Accepted；[MVP 实施计划](plans/MVP_IMPLEMENTATION_PLAN.md) 已建立，浏览器兼容承诺仍待验证 |
@@ -43,7 +43,7 @@
 
 1. **已完成决策和任务拆分**：ADR-0001～0004 Accepted；[W-01～W-07 MVP 计划](plans/MVP_IMPLEMENTATION_PLAN.md) 已建立；GitHub [Issue #2～#8](https://github.com/adui-studio/normalize.css/issues) 均为待执行任务。
 2. **研究任务（可继续文档工作）**：W-01 七项最低目标已批准、Apple 官方确认 Safari 17.2 平台范围；实际浏览器/OS/设备尚未验证。W-02 已有 R-003/004 的标准及源码证据，R-003 需在目标最低版本实测，R-004 不进入默认字号统一。
-3. **开发阶段（已授权启动）**：W-03 已实现最小 Fixture/单测并记录环境阻塞，见 [Harness 设计与进度](plans/VITEPLUS_LOCAL_HARNESS_DESIGN.md)；W-04 [CSS-only 包交付研究](plans/CSS_PACKAGE_DELIVERY_REVIEW.md) 已完成设计，但真实包导出与 CSS 兼容回归尚未实施。
+3. **开发阶段（已授权启动）**：W-03 已实现 Fixture/单测并记录环境阻塞，见 [Harness 设计与进度](plans/VITEPLUS_LOCAL_HARNESS_DESIGN.md)；W-04 已开始 [CSS-only 包元数据与打包白名单验证](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)，但真实包导出、Vite+/Webpack 消费验证与 CSS 兼容回归尚未实施。
 4. **发布阶段（另行授权）**：W-07 质量和许可证审核；npm 和 Release 单独批准；不增加 CI。
 
 ## 5. 当前风险与阻塞
@@ -76,6 +76,7 @@
 | 2026-11-03 | W-03 补充 Vite+ 本地 Harness 开发前设计 | 仅更新计划，不创建 package.json、Fixture、源码、依赖或 CI |
 | 2026-11-03 | W-04 完成纯 CSS 根入口、exports、sideEffects 与消费者验收方案研究 | 仅新增方案文档；未运行 vp pack、未建包配置与 CSS、未加 CI |
 | 2026-11-03 | 维护者授权开始开发，独立分支实现 W-03 初始本地 Fixture 与 Vite+ 工程配置 | Node 测试 2/2 通过；Vite+ 安装/浏览器运行受环境限制，未添加 Normalize CSS 或 CI |
+| 2026-11-03 | 继续 W-03 离线契约测试与 W-04 包元数据预检 | 本地 Node 8/8 通过，npm pack dry-run 退出码 0；真实 CSS/exports/浏览器测试未完成 |
 
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与下一阶段变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
