@@ -25,7 +25,9 @@ normalize.css/
 │   ├── fixtures.node.test.mjs
 │   ├── package.node.test.mjs
 │   ├── package-smoke.node.test.mjs
-│   └── probe.node.test.mjs
+│   ├── probe.node.test.mjs
+│   ├── r003-evidence.mjs             # R-003 JSON 比较 CLI
+│   └── r003-evidence.node.test.mjs   # 合成数据与 CLI 测试
 ├── .github/                  # 评审分支：Issue/PR 模板，无 CI
 │   ├── ISSUE_TEMPLATE/
 │   │   ├── bug-report.yml

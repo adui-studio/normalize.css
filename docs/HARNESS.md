@@ -1,6 +1,6 @@
 # HARNESS — 执行、验证与反馈环境
 
-**当前状态：W-03 已在独立开发分支实现首批本地 Harness 资产**：`package.json`、`vite.config.ts`、R-003/R-004 Fixture、`tests/fixtures.test.ts` 与 Node 探针测试。已在当前容器通过 **Node 测试 10/10**（含 Fixture/元数据契约）与 JS 语法检查；Vite+ 尚未安装/运行，Chromium 无头测试超时，历史目标浏览器未测。无 CSS 发布产物或 CI。
+**当前状态：W-03 已在独立开发分支实现首批本地 Harness 资产**：`package.json`、`vite.config.ts`、R-003/R-004 Fixture、`tests/fixtures.test.ts` 与 Node 探针测试。已在当前容器通过 **Node 测试 18/18**（含 Fixture/元数据契约）与 JS 语法检查；Vite+ 尚未安装/运行，Chromium 无头测试超时，历史目标浏览器未测。无 CSS 发布产物或 CI。
 
 ## 1. Harness 目标
 
@@ -47,10 +47,14 @@ vp pack
 
 另外已实际运行 `npm pack --dry-run --json --ignore-scripts --offline .` 并返回成功：当前 `files: ["dist"]` 且尚无 `dist`，因此文件清单只有 `package.json`。**该结果只能说明白名单生效，不表示真实 CSS 包、`exports`、Vite+/Webpack 消费端已通过。** 此外，`tests/package-smoke.node.test.mjs` 已在临时目录中实际 npm pack 并离线安装合成的单一 CSS 入口包，检查根路径、拒绝未公开子路径及无 JS/私有测试文件；该测试通过，但**不等于项目的正式 CSS 根入口已实现或经过消费端构建验证**。
 
+新增的 `tests/r003-evidence.mjs` 负责检查真实浏览器输出的 T0/T1 JSON：相同 UA、完整 b/strong × 400/600/700 记录、一致字体上下文及候选字重。新增 8 项合成数据/CLI 单测均通过，但**尚无任何最低目标浏览器实际计算样式**。CLI 状态码 0 表示结构有效且候选符合预期，1 表示候选不符，2 表示输入无效；CLI 本身不能验证 UA 样式来源或物理字体渲染。
+
 离线验证可直接运行：
 
 ```sh
 npm run test:offline
+# 采集真实 T0/T1 JSON 后才运行：
+node tests/r003-evidence.mjs r003-native.json r003-candidate.json
 npm pack --dry-run --json --ignore-scripts --offline .
 ```
 

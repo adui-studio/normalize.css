@@ -30,7 +30,7 @@
 | --- | --- | --- | --- | --- | --- |
 | W-01 | 第一阶段 | 冻结浏览器最低测试目标和验证边界 | 七项 [最低测试目标](../research/BASELINE_2023_MAPPING.md) 已批准，固定时间线核对通过；仍需 OS/设备/发行版证据 | 取得真实版本测试结果后才可在发行说明承诺支持，不自动覆盖 WebView | **版本目标已批准，实测待进行** |
 | W-02 | 第一阶段 | 最小规则证据卡与原生 Fixture 设计 | [R-003/R-004 证据卡](../research/RULE_EVIDENCE_R003_R004.md) 和 [本地验证执行指南](../research/R003_R004_LOCAL_VERIFICATION.md) 已包含旧版官方环境获取线索、T0/T1/T2 与记录模板 | 必测父级 400/600/700、Chrome/Edge 120、Firefox 121、Safari 17.2 与对应移动端；不以源码当实测 | **执行方案已形成；浏览器实测未做** |
-| W-03 | 第二阶段 | Vite+ 本地 Harness 与验证规范 | 已创建 `package.json`、`vite.config.ts`、R-003/004 T0/T1 HTML、计算样式探针和测试；[设计](VITEPLUS_LOCAL_HARNESS_DESIGN.md) 持续跟踪 | Node 离线测试 10/10 通过；Vite+ 命令、浏览器真实结果、锁文件仍待验证，无 CI | **开发进行中／部分验证** |
+| W-03 | 第二阶段 | Vite+ 本地 Harness 与验证规范 | 已创建 `package.json`、`vite.config.ts`、R-003/004 T0/T1 HTML、计算样式探针和测试；[设计](VITEPLUS_LOCAL_HARNESS_DESIGN.md) 持续跟踪 | Node 离线测试 18/18 通过（新增 8 项 R-003 合成证据与 CLI 校验）；Vite+ 命令、浏览器真实结果、锁文件仍待验证，无 CI | **开发进行中／部分验证** |
 | W-04 | 第二阶段 | Vite+ 下的单一 CSS 包导出与副作用验证 | 已落实 `files: ["dist"]`、`sideEffects: ["**/*.css"]`；离线 dry-run 验证白名单，另以 [独立临时合成 CSS 包测试](CSS_PACKAGE_DELIVERY_REVIEW.md) 真实打包、离线安装并验证 root exports / 非公开子路径封装；[验收研究](CSS_PACKAGE_DELIVERY_REVIEW.md) 提供 P-01～P-10 后续步骤 | **尚无 dist、exports、真实 CSS tarball 和消费端验证**；保持私有，不发布额外入口 | **合成包离线验证通过／真实包导出未完成** |
 | W-05 | 第三阶段 | 逐条最小 Normalize 修复 | 按证据准入的最小 CSS、R-ID → 来源 → 测试映射及变更说明 | 有证据才实现；不内建 `@layer`，不加默认 Reset/Forms/A11y；视觉回归无新增重大问题 | 未开始（需开发授权） |
 | W-06 | 第四阶段 | 跨浏览器、无障碍、生态与发布前验收 | Chromium/Firefox/真实 Safari/iOS、组件库/Reset 对照、npm tarball 与 LICENSE 记录 | 逐项列出通过/失败/未运行及可重现信息；阻塞项不得宣传为通过 | 未开始（需开发授权） |
