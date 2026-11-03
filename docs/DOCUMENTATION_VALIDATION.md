@@ -8,7 +8,7 @@
 
 核心八类资产：AGENTS、[REQUIREMENTS](REQUIREMENTS.md)、[SDD](SDD.md)、[ARCHITECTURE](ARCHITECTURE.md)、[PROJECT_CONTEXT](PROJECT_CONTEXT.md)、[CODEBASE_MAP](CODEBASE_MAP.md)、[SKILLS](SKILLS.md)、[HARNESS](HARNESS.md)。
 
-增强机制：[ADR-0001](adr/0001-css-base-strategy.md)、[ADR-0002](adr/0002-cascade-layers.md)、[ADR-0003](adr/0003-mvp-package-contract.md)、[ADR-0004](adr/0004-browser-support-policy.md) 均为 Accepted；[MVP 实施计划](plans/MVP_IMPLEMENTATION_PLAN.md) 已存在。评审分支有三个第三方 Skills 文件，但无自研 Skill、执行脚本、CI 工作流或 CSS 发布文件。
+增强机制：[ADR-0001](adr/0001-css-base-strategy.md)、[ADR-0002](adr/0002-cascade-layers.md)、[ADR-0003](adr/0003-mvp-package-contract.md)、[ADR-0004](adr/0004-browser-support-policy.md)、[ADR-0005](adr/0005-viteplus-toolchain.md) 均为 Accepted；[MVP 实施计划](plans/MVP_IMPLEMENTATION_PLAN.md) 已存在。评审分支有三个第三方 Skills 文件，但无自研 Skill、执行脚本、CI 工作流或 CSS 发布文件。
 
 ## 2. 核查规则
 

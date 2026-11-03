@@ -41,7 +41,7 @@
 ## 4. 冻结具体浏览器最低版本的步骤
 
 1. 固定年份方案已接受：Baseline 2023。
-2. 使用官方 [baseline-browser-mapping](https://github.com/web-platform-dx/baseline-browser-mapping) 的 `targetYear` 得到各核心浏览器版本，并固定数据快照。**本轮没有执行映射，也未批准具体最低版本值。**
+2. 已读取官方 [baseline-browser-mapping](https://github.com/web-platform-dx/baseline-browser-mapping) 的固定提交静态数据，提取 [Baseline 2023 核心候选版本](../research/BASELINE_2023_MAPPING.md)：Chrome/Edge 120、Firefox 121、Safari 17.2（含相应移动核心浏览器）；未实际执行模块函数 `getCompatibleVersions()`，**未批准或实测本库的最低浏览器支持声明**。
 3. 审核计划纳入的每项 CSS 特性；超出年份目标的特性必须提供回退或不采纳。
 4. 为候选规则记录没有本库 CSS 的原生 HTML Baseline、仅单规则变化、实际浏览器/OS/版本和是否仍有差异。
 5. 按 [浏览器测试矩阵](../research/BROWSER_REVIEW.md) 验证焦点、表单、dialog、hidden、系统偏好及组件生态。
@@ -52,7 +52,8 @@
 ## 5. 结果、风险和决定
 
 - **已批准**：固定 Baseline 2023 为特性准入参考、核心与条件支持环境分层方法。
-- **仍待确认**：具体核心浏览器/OS 最低版本、真实设备清单、测试工具和执行证据；上述事实未因策略接受而自动成立。
+- **已核对的数据**：[固定映射快照](../research/BASELINE_2023_MAPPING.md) 中的 Baseline 2023 特性兼容候选版本。
+- **仍待确认**：实际正式支持的最低浏览器与 OS 版本、真实设备清单、测试工具和执行证据；上述事实未因策略接受或数据映射而自动成立。
 - **已明确的长期原则**：不把历史 UA 规则原样复制为现代修复；不因语法支持就宣称整套 CSS 兼容。
 - **待明确**：微信内置 WebView 是否列为承诺平台、Firefox ESR 是否单独测试、旧 iOS 的最低系统版本、实际可获得的测试环境。
 - **不增加 CI**：未来验证只能在明确授权开发后进行本地运行。

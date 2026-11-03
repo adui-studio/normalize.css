@@ -39,6 +39,8 @@ normalize.css/
     │   ├── RULE_EVIDENCE_BATCH3.md
     │   ├── REVIEW_GATE.md
     │   ├── BROWSER_REVIEW.md
+    │   ├── BASELINE_2023_MAPPING.md
+    │   ├── VITEPLUS_TOOLCHAIN_REVIEW.md
     │   └── COMPETITOR_REVIEW.md
     ├── plans/
     │   └── MVP_IMPLEMENTATION_PLAN.md
@@ -46,10 +48,11 @@ normalize.css/
         ├── 0001-css-base-strategy.md # Accepted
         ├── 0002-cascade-layers.md # Accepted
         ├── 0003-mvp-package-contract.md # Accepted
-        └── 0004-browser-support-policy.md # Accepted
+        ├── 0004-browser-support-policy.md # Accepted
+        └── 0005-viteplus-toolchain.md # Accepted
 ```
 
-研究文档、ADR-0002～0004、实施计划、Issue/PR 模板及第三方 Skills 均为**评审分支内容**，合并前不能描述为 main 已存在；没有新增可执行脚本、CSS、npm 依赖或 CI。
+研究文档、ADR-0002～0005、实施计划、Issue/PR 模板及第三方 Skills 均为**评审分支内容**，合并前不能描述为 main 已存在；没有新增可执行脚本、CSS、npm 依赖或 CI。
 
 ## 2. 尚不存在的路径（不据此创建占位）
 

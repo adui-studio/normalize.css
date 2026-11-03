@@ -20,11 +20,11 @@
 | LICENSE | 已存在 | MIT，Copyright © 2026 ADui Studio |
 | 八类工程资产 | 文档初始化 | [AGENTS](../AGENTS.md)、需求、SDD、架构、上下文、代码地图、Skills、Harness |
 | CSS 源码 | **未实现** | 仓库无 src/ 或发布 CSS 文件 |
-| package.json、依赖、构建脚本 | **未实现** | 技术栈和具体工具尚未确认 |
+| package.json、依赖、构建脚本 | **未实现** | Vite+ 已选为开发工具链（ADR-0005 Accepted），但未安装、未运行、未生成配置 |
 | 自动化测试、浏览器回归 | **未实现/未运行** | 只规划本地运行，不得声称通过 |
 | CI | **明确不规划** | 项目约束：不增加任何 CI |
 | npm 包发布、版本号 | **未发布/未确定** | 不能将先前讨论的草案版本当成仓库发布事实 |
-| 架构方案 | **已接受／未实现** | ADR-0001～0004 均 Accepted；[MVP 实施计划](plans/MVP_IMPLEMENTATION_PLAN.md) 已建立，浏览器最低版本待核定 |
+| 架构方案 | **已接受／未实现** | ADR-0001～0005 均 Accepted；[MVP 实施计划](plans/MVP_IMPLEMENTATION_PLAN.md) 已建立，浏览器兼容承诺仍待验证 |
 | 自研 Skills | **未创建** | 目前没有项目自研技能 |
 | 第三方 Skills | **评审分支已纳入** | 3 个 awesome-copilot 原版 Skill，CLI 未执行，本机发现未验证；见 [索引](SKILLS.md) |
 | Harness | **未搭建** | 仅建立 [验证计划](HARNESS.md) |
@@ -34,13 +34,14 @@
 - **ADR-0001 Accepted**：默认 Normalize，长期可选 Reset/A11y/Forms，首版不交付可选模块。
 - **ADR-0002 Accepted**：首版默认不内置 `@layer`，按规则评估 `:where()`。
 - **ADR-0003 Accepted**：首版只规划 `@adui/normalize.css` 默认根入口；`all.css` 等路径延期。
-- **ADR-0004 Accepted**：固定 Baseline 2023 特性准入参考；最低浏览器/OS 版本与真实 WebView 仍未核定。
+- **ADR-0004 Accepted**：固定 Baseline 2023 作为特性准入参考；已核对 [固定数据候选映射](research/BASELINE_2023_MAPPING.md)，正式最低支持声明/OS/WebView 仍需实测。
+- **ADR-0005 Accepted**：开发工具链统一使用 Vite+，具体版本、纯 CSS 打包方式和本地运行结果尚未确定。
 - 仍需实测 Vue/React、Element Plus、Ant Design、TDesign、Tailwind/UnoCSS Reset 兼容性；所有候选规则均未获准实现。
 
 ## 4. 当前工作与后续顺序
 
 1. **已完成决策和任务拆分**：ADR-0001～0004 Accepted；[W-01～W-07 MVP 计划](plans/MVP_IMPLEMENTATION_PLAN.md) 已建立；GitHub [Issue #2～#8](https://github.com/adui-studio/normalize.css/issues) 均为待执行任务。
-2. **研究任务（可继续文档工作）**：W-01 浏览器最低版本与设备矩阵；W-02 R-003/R-004 等规则证据。
+2. **研究任务（可继续文档工作）**：W-01 固定 Baseline 2023 核心版本映射数据已部分完成，设备/OS 与实际 UA 差异仍待验证；W-02 R-003/R-004 证据卡待完成。
 3. **开发阶段（需新指令）**：W-03～W-06 本地测试 Harness、包导出、最小 CSS 和实际兼容性回归。
 4. **发布阶段（另行授权）**：W-07 质量和许可证审核；npm 和 Release 单独批准；不增加 CI。
 
@@ -67,6 +68,7 @@
 | 2026-11-03 | 增加浏览器支持 ADR-0004 与开发准入清单 | 历史记录：当时均未批准 |
 | 2026-11-03 | 维护者接受四项 ADR 并要求转化首版实施任务 | ADR-0001～0004 Accepted，W-01～W-07 未实施 |
 | 2026-11-03 | 在 GitHub 创建 W-01～W-07 对应 Issues #2～#8 | 任务待执行，未开始实现；不增加 CI |
+| 2026-11-03 | 维护者指定 Vite+ 开发工具链，并完成 Baseline 2023 固定映射数据核查 | ADR-0005 Accepted；工具链未安装，候选最低版本非实际浏览器兼容承诺 |
 
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与下一阶段变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 

@@ -30,7 +30,7 @@
 
 ## 4. npm 包导出与 tree shaking 的具体风险
 
-[Node.js Packages — exports](https://nodejs.org/api/packages.html) 提供精确公共子路径及封装机制，但不保证每个 CSS 构建器都以相同方式处理 CSS 入口。须在发布前分别验证 Vite/Vite+、Webpack、CSS `@import` 和产物中所有公开路径。
+[Node.js Packages — exports](https://nodejs.org/api/packages.html) 提供精确公共子路径及封装机制，但不保证每个 CSS 构建器都以相同方式处理 CSS 入口。开发工具链已按 [ADR-0005](0005-viteplus-toolchain.md) 选定 Vite+；须在发布前验证 Vite+、Webpack 消费端、CSS `@import` 与产物中所有公开路径。
 
 [Webpack tree shaking 文档](https://webpack.js.org/guides/tree-shaking/) 明确指出：仅为了副作用导入的 CSS，如果 `sideEffects:false` 被错误设置，可能在生产构建时被丢弃。因此建议**不要设 `sideEffects:false`**；若使用显式数组，应考虑 `"**/*.css"` 等模式，并在实际产物中验证。此处只是设计风险，不是已确定的 `package.json`。
 
@@ -50,7 +50,8 @@
 - ADR-0001/0002/0003 的冲突已处理、状态可追踪。
 
 **进入开发后才可能实际验证**：
-- 最小真实 CSS 文件、npm 打包与 Vite/Vite+/Webpack 或纯 CSS 导入对照；
+- 最小真实 CSS 文件、npm 打包与 Vite+、Webpack 消费端或纯 CSS 导入对照；
+- Vite+ 的 `vp pack` 对 CSS-only 无 JS 包产物的可行性（如不适用应选择最小可验证打包方案）；
 - 本地浏览器基线、组件库、移动端、系统偏好回归；
 - 真实 `sideEffects`、exports、gzip/raw 体积和用户覆盖测试。
 
