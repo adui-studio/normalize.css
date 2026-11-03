@@ -43,7 +43,7 @@
 
 1. **已完成决策和任务拆分**：ADR-0001～0004 Accepted；[W-01～W-07 MVP 计划](plans/MVP_IMPLEMENTATION_PLAN.md) 已建立；GitHub [Issue #2～#8](https://github.com/adui-studio/normalize.css/issues) 均为待执行任务。
 2. **研究任务（可继续文档工作）**：W-01 七项最低目标已批准、Apple 官方确认 Safari 17.2 平台范围；实际浏览器/OS/设备尚未验证。W-02 已有 R-003/004 的标准及源码证据，R-003 需在目标最低版本实测，R-004 不进入默认字号统一。
-3. **开发阶段（需新指令）**：W-03 已形成 [Vite+ 本地 Harness 设计](plans/VITEPLUS_LOCAL_HARNESS_DESIGN.md)；W-03～W-06 的真正安装、Fixture、包导出、CSS 和兼容性回归均未启动。
+3. **开发阶段（需新指令）**：W-03 已形成 [Vite+ 本地 Harness 设计](plans/VITEPLUS_LOCAL_HARNESS_DESIGN.md)，W-04 已形成 [CSS-only 包交付研究](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)；真实安装、Fixture、包导出、CSS 和兼容性回归均未启动。
 4. **发布阶段（另行授权）**：W-07 质量和许可证审核；npm 和 Release 单独批准；不增加 CI。
 
 ## 5. 当前风险与阻塞
@@ -74,6 +74,7 @@
 | 2026-11-03 | 维护者批准 Baseline 2023 七项最低测试目标，补充 WebKit 2023 UA 证据 | R-003 首版必测，R-004 维持默认不采纳；正式浏览器兼容声明仍未验证 |
 | 2026-11-03 | W-02 补充 Firefox 121 发行日期前的 Gecko 源码和官方旧版浏览器获取线索 | 本地验证执行指南已形成；未安装旧浏览器或运行 Fixture |
 | 2026-11-03 | W-03 补充 Vite+ 本地 Harness 开发前设计 | 仅更新计划，不创建 package.json、Fixture、源码、依赖或 CI |
+| 2026-11-03 | W-04 完成纯 CSS 根入口、exports、sideEffects 与消费者验收方案研究 | 仅新增方案文档；未运行 vp pack、未建包配置与 CSS、未加 CI |
 
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与下一阶段变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 

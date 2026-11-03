@@ -59,6 +59,7 @@
 | [开发准入清单](docs/research/REVIEW_GATE.md) | 四份已接受 ADR 与剩余验证门槛 |
 | [MVP 实施计划](docs/plans/MVP_IMPLEMENTATION_PLAN.md) | W-01～W-07 的任务分解、依赖、测试与发布前验收 |
 | [Vite+ 本地 Harness 设计](docs/plans/VITEPLUS_LOCAL_HARNESS_DESIGN.md) | 未来开发的最小目录、命令、对照与验收流程（未实施） |
+| [纯 CSS npm 包交付研究](docs/plans/CSS_PACKAGE_DELIVERY_REVIEW.md) | W-04 的根入口、CSS 副作用、纯 CSS 产物与消费端验收（未实施） |
 | [浏览器矩阵](docs/research/BROWSER_REVIEW.md) | 支持范围与测试策略草案 |
 | [竞品对照](docs/research/COMPETITOR_REVIEW.md) | 六类 Normalize/Reset 方案源码研究 |
 
