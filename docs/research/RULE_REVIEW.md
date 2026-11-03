@@ -2,7 +2,7 @@
 
 **状态**：全部待评审 / 未实现 / 未独立运行浏览器验证。  
 **日期**：2026-11-03。**关联**：FR-001、FR-007、NFR-001、NFR-002、NFR-007。  
-**研究来源**：[竞品对照](COMPETITOR_REVIEW.md) · [浏览器矩阵](BROWSER_REVIEW.md)。
+**研究来源**：[竞品对照](COMPETITOR_REVIEW.md) · [浏览器矩阵](BROWSER_REVIEW.md) · [首批规则证据审查](RULE_EVIDENCE_BATCH1.md)。
 
 ## 准入原则
 
@@ -21,11 +21,11 @@
 | R-004 | code/kbd/samp/pre 字号 | Normalize | 优先核验 |
 | R-005 | small 字号 | 待定 | 暂缓 |
 | R-006 | sub/sup 行高 | 待定 | 暂缓 |
-| R-007 | abbr 标记下划线 | Normalize | 优先核验 |
-| R-008 | table 默认边框颜色 | Normalize | 优先核验 |
-| R-009 | hr 高度与盒模型 | Normalize | 优先核验 |
-| R-010 | progress 垂直对齐 | Normalize | 优先核验 |
-| R-011 | summary 列表项显示 | Normalize | 优先核验 |
+| R-007 | abbr 标记下划线 | Normalize | 暂缓 |
+| R-008 | table 默认边框颜色 | Normalize | 暂缓 |
+| R-009 | hr 高度与盒模型 | Normalize | 暂缓 |
+| R-010 | progress 垂直对齐 | Normalize | 暂缓 |
+| R-011 | summary 列表项显示 | Normalize | 暂缓 |
 | R-012 | 表单控件 margin | 待定 | 暂缓 |
 | R-013 | search 输入框外观 | 待定 | 暂缓 |
 | R-014 | WebKit 搜索装饰 | 待定 | 暂缓 |
@@ -52,7 +52,7 @@
 | R-035 | 全局 accent-color | Forms 待定 | 暂缓 |
 | R-036 | 强制全局字体栈 | 默认外 | 排除默认 |
 
-**注意**：优先核验仅是调研排序，任何一条都没有获得进入默认 CSS 的批准。
+**注意**：优先核验仅是调研排序，任何一条都没有获得进入默认 CSS 的批准。经 [首批证据审查](RULE_EVIDENCE_BATCH1.md)，R-007/008/009/010/011 的优先级由“优先核验”降为“暂缓”；这是历史 Bug 与规范层面的研究结论，不是跨浏览器实测结果。
 
 ## 每条规则必须附带的证据
 

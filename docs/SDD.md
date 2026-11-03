@@ -92,7 +92,7 @@
 
 ## 8. 补充研究（均未批准）
 
-- [规则候选](research/RULE_REVIEW.md) 与 [竞品研究](research/COMPETITOR_REVIEW.md)：用于规则证据审查，不代表实现。
+- [规则候选](research/RULE_REVIEW.md)、[首批证据审查](research/RULE_EVIDENCE_BATCH1.md) 与 [竞品研究](research/COMPETITOR_REVIEW.md)：用于规则证据审查，不代表实现。
 - [浏览器支持矩阵](research/BROWSER_REVIEW.md)：未冻结最低版本，不代表完成测试。
 - [ADR-0002](adr/0002-cascade-layers.md)：CSS Layers 默认策略仍待决策。
 

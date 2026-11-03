@@ -21,6 +21,7 @@ normalize.css/
     ├── DOCUMENTATION_VALIDATION.md # 本轮文档：校验计划
     ├── research/                # 文档评审分支：研究资料
     │   ├── RULE_REVIEW.md
+    │   ├── RULE_EVIDENCE_BATCH1.md
     │   ├── BROWSER_REVIEW.md
     │   └── COMPETITOR_REVIEW.md
     └── adr/
