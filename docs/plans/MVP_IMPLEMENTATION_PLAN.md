@@ -93,4 +93,16 @@
 
 ## 7. GitHub Issue 跟踪
 
-对应 W-01～W-07 可使用仓库现有的 [github-issues Skill](../../.agents/skills/github-issues/SKILL.md) 与 [Issue Forms](../../.github/ISSUE_TEMPLATE/documentation.yml) 维护。Issue 仅作为待执行任务，不得标记为已完成；具体链接待创建后记录。 
+已基于仓库原版 [github-issues Skill](../../.agents/skills/github-issues/SKILL.md) 创建以下正式任务，全部为 Open / 未实施；Issue 在 GitHub 仓库可见，而本计划和 Issue/PR 模板仍位于 Draft PR #1 分支。
+
+| 实施工作包 | GitHub Issue | 阶段与启动条件 |
+| --- | --- | --- |
+| W-01 浏览器版本与设备范围 | [#2：Baseline 2023 最低版本](https://github.com/adui-studio/normalize.css/issues/2) | 研究可先开展；真实设备验证待条件具备 |
+| W-02 最小规则证据 | [#3：R-003/R-004 证据卡](https://github.com/adui-studio/normalize.css/issues/3) | 文献/Fixture 设计可先开展；实际浏览器复现须获授权 |
+| W-03 本地 Harness | [#4：本地测试 Harness](https://github.com/adui-studio/normalize.css/issues/4) | 需开发与测试工具授权，不增加 CI |
+| W-04 单一 CSS 包入口 | [#5：根入口与副作用验证](https://github.com/adui-studio/normalize.css/issues/5) | 需开发授权和真实打包环境 |
+| W-05 逐条 Normalize CSS | [#6：最小规则实现](https://github.com/adui-studio/normalize.css/issues/6) | 需开发授权以及可复现的浏览器差异 |
+| W-06 真实兼容性回归 | [#7：浏览器与生态回归](https://github.com/adui-studio/normalize.css/issues/7) | 依赖实际 CSS、浏览器与 UI 库环境 |
+| W-07 发行前质量审查 | [#8：文档与发布前审核](https://github.com/adui-studio/normalize.css/issues/8) | 依赖真实验证；不执行 npm 发布或 Release |
+
+Issue 的创建不代表任务已经开始，更不代表验收通过。
