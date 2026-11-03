@@ -1,10 +1,9 @@
-import { readFileSync } from 'node:fs';
+import { readEvidenceFile } from './evidence-file.mjs';
 import { pathToFileURL } from 'node:url';
 
 const WEIGHTS = [400, 600, 700];
 const TAGS = ['b', 'strong'];
 const EXPECTED_IDS = new Set(WEIGHTS.flatMap((weight) => TAGS.map((tag) => `${tag}-${weight}`)));
-const MAX_BYTES = 256 * 1024;
 
 function requireText(value, field) {
   if (typeof value !== 'string' || !value.trim()) {
@@ -113,9 +112,7 @@ export function compareR003Evidence(nativeJson, candidateJson) {
 }
 
 function readEvidence(path) {
-  const raw = readFileSync(path);
-  if (raw.byteLength > MAX_BYTES) throw new Error('Evidence file exceeds 256 KiB');
-  return JSON.parse(raw.toString('utf8'));
+  return readEvidenceFile(path);
 }
 
 function main() {
