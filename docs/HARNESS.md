@@ -1,6 +1,6 @@
 # HARNESS — 执行、验证与反馈环境
 
-**当前状态：只有规划文档，没有可执行 Harness。** 仓库中尚无 package.json、测试框架、构建脚本、CI、浏览器 Fixtures、发布产物。不得把本页命令示例称为已验证可运行。
+**当前状态：四项 ADR 已接受，实施计划已建立，但尚无可执行 Harness。** 仓库仍无 package.json、测试框架、构建脚本、CI、浏览器 Fixtures 或发布产物；不得称规划命令已运行。
 
 ## 1. Harness 目标
 
@@ -54,7 +54,7 @@ npm run check
 ## 6. 安全和发布门禁（规划）
 
 - 审核第三方规则的许可证及改写过程；不引入未经审批的远程字体、图片或跟踪请求。
-- 浏览器支持与测试范围见 [ADR-0004](adr/0004-browser-support-policy.md)，进入开发的决策门槛见 [REVIEW_GATE](research/REVIEW_GATE.md)。
+- 浏览器支持策略见 [ADR-0004](adr/0004-browser-support-policy.md)，验证门槛见 [REVIEW_GATE](research/REVIEW_GATE.md)，工作顺序见 [MVP 实施计划](plans/MVP_IMPLEMENTATION_PLAN.md)。
 - 所有公开入口必须能在实际发布包内解析，默认入口不得隐式导入可选增强。
 - 浏览器关键回归、许可证、发布文件清单和版本说明全部确认后，才可申请发布。
 - npm 权限、版本发布和 GitHub Release 需另行授权；不引入 CI Secrets 或发布工作流。

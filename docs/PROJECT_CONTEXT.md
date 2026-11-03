@@ -1,7 +1,7 @@
 # PROJECT_CONTEXT — 项目长期上下文
 
 **最近更新**：2026-11-03  
-**当前阶段**：文档已迁移到 ADui Studio / 未开发
+**当前阶段**：四项架构决策已接受／实施计划已建立／尚未开发
 
 ## 1. 项目概况
 
@@ -24,33 +24,31 @@
 | 自动化测试、浏览器回归 | **未实现/未运行** | 只规划本地运行，不得声称通过 |
 | CI | **明确不规划** | 项目约束：不增加任何 CI |
 | npm 包发布、版本号 | **未发布/未确定** | 不能将先前讨论的草案版本当成仓库发布事实 |
-| 实现方案 | **待评审** | 模块与接口见 [SDD](SDD.md)，ADR-0001～0004 均为 Proposed，详见 [开发准入清单](research/REVIEW_GATE.md) |
+| 架构方案 | **已接受／未实现** | ADR-0001～0004 均 Accepted；[MVP 实施计划](plans/MVP_IMPLEMENTATION_PLAN.md) 已建立，浏览器最低版本待核定 |
 | 自研 Skills | **未创建** | 目前没有项目自研技能 |
 | 第三方 Skills | **评审分支已纳入** | 3 个 awesome-copilot 原版 Skill，CLI 未执行，本机发现未验证；见 [索引](SKILLS.md) |
 | Harness | **未搭建** | 仅建立 [验证计划](HARNESS.md) |
 
-## 3. 已讨论但尚未批准的方向
+## 3. 已接受架构与仍待验证的事项
 
-- 默认 Normalize 仅纠正可验证浏览器差异。
-- 可选模块：Reset、A11y、Forms，以及待决策的组合入口。
-- 候选 CSS Layers、npm 导出和无运行时 JS 依赖方案。
-- 重点评估 Vue/React 与 Element Plus、Ant Design、TDesign 共存。
-- 不将浏览器主题、根字号、全局按钮和滚动条样式写成默认必需行为。
-
-上述描述属于**设计方向**，不是仓库内已经实现的功能。
+- **ADR-0001 Accepted**：默认 Normalize，长期可选 Reset/A11y/Forms，首版不交付可选模块。
+- **ADR-0002 Accepted**：首版默认不内置 `@layer`，按规则评估 `:where()`。
+- **ADR-0003 Accepted**：首版只规划 `@adui/normalize.css` 默认根入口；`all.css` 等路径延期。
+- **ADR-0004 Accepted**：固定 Baseline 2023 特性准入参考；最低浏览器/OS 版本与真实 WebView 仍未核定。
+- 仍需实测 Vue/React、Element Plus、Ant Design、TDesign、Tailwind/UnoCSS Reset 兼容性；所有候选规则均未获准实现。
 
 ## 4. 当前工作与后续顺序
 
-1. **本轮**：从原仓库迁移正式工程文档到 ADui Studio；更新仓库地址及许可证归属文字；不实施 CSS 或 CI。
-2. **下一阶段（待评审）**：三批规则资料核查已覆盖 36 条候选，需评审 [规则总表](research/RULE_REVIEW.md)、[第三批研究](research/RULE_EVIDENCE_BATCH3.md)、[浏览器矩阵](research/BROWSER_REVIEW.md) 与 [ADR-0002](adr/0002-cascade-layers.md)、[ADR-0003](adr/0003-mvp-package-contract.md)；这些资料不等于实测或正式批准。
-3. **开发阶段（需新指令）**：选择最小工具链、编写源码、Fixture、自动测试与打包配置。
-4. **发布阶段（需单独授权）**：npm 作用域/包名检查、版本冻结、发布审批、Release。
+1. **已完成决策**：ADR-0001～0004 Accepted；[W-01～W-07 MVP 计划](plans/MVP_IMPLEMENTATION_PLAN.md) 已建立。
+2. **研究任务（可继续文档工作）**：W-01 浏览器最低版本与设备矩阵；W-02 R-003/R-004 等规则证据。
+3. **开发阶段（需新指令）**：W-03～W-06 本地测试 Harness、包导出、最小 CSS 和实际兼容性回归。
+4. **发布阶段（另行授权）**：W-07 质量和许可证审核；npm 和 Release 单独批准；不增加 CI。
 
 ## 5. 当前风险与阻塞
 
 - 浏览器最低版本及老旧 WebView 是否支持尚未确定。
 - npm `@adui` 作用域的发布权限未验证。
-- CSS Layers 与 UI 组件库存在潜在层优先级冲突，需要实测。
+- 首版不内建 Layers 的策略已接受，实际选择器层叠、消费者覆盖和组件库兼容性仍需实测。
 - 第三方规则借鉴需独立审查许可证、差异证据和破坏性影响。
 - 本轮只能完成文档一致性检查，不能验证运行时与视觉兼容性。
 
@@ -66,7 +64,8 @@
 | 2026-11-03 | 核验首批 11 条候选的上游规范与修复记录 | R-007/008/009/010/011 调整为暂缓，未实测；见 [证据记录](research/RULE_EVIDENCE_BATCH1.md) |
 | 2026-11-03 | 纳入 3 个 awesome-copilot Skills、Issue/PR 模板和第二批表单规则审查 | 文档评审分支，未合并 main；不增加 CI、CSS 或 npm 依赖 |
 | 2026-11-03 | 第三批 17 条规则资料核查及 ADR-0003 初稿 | 36 条初始候选均已进行首轮资料研究；未实测、未接受 ADR、未合并 main |
-| 2026-11-03 | 增加浏览器支持 ADR-0004 与开发准入清单 | 固定 Baseline 2023 仅为候选；四份 ADR 均未批准 |
+| 2026-11-03 | 增加浏览器支持 ADR-0004 与开发准入清单 | 历史记录：当时均未批准 |
+| 2026-11-03 | 维护者接受四项 ADR 并要求转化首版实施任务 | ADR-0001～0004 Accepted，W-01～W-07 未实施 |
 
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与下一阶段变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 

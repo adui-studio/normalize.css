@@ -1,6 +1,6 @@
 # CODEBASE_MAP — 仓库结构与定位
 
-**状态**：文档初始化完成后的目录索引。严格区分**已经存在**和**仅规划**的路径。
+**状态**：评审分支已接受四项 ADR，代码尚未实现；区分评审分支、main 和规划路径。
 
 ## 1. 当前真实文件
 
@@ -37,17 +37,19 @@ normalize.css/
     │   ├── RULE_EVIDENCE_BATCH1.md
     │   ├── FORM_CONTROLS_REVIEW.md
     │   ├── RULE_EVIDENCE_BATCH3.md
-    │   └── REVIEW_GATE.md
+    │   ├── REVIEW_GATE.md
     │   ├── BROWSER_REVIEW.md
     │   └── COMPETITOR_REVIEW.md
+    ├── plans/
+    │   └── MVP_IMPLEMENTATION_PLAN.md
     └── adr/
-        ├── 0001-css-base-strategy.md # 原有：Proposed
-        ├── 0002-cascade-layers.md # 文档评审分支：Proposed
-        ├── 0003-mvp-package-contract.md # 文档评审分支：Proposed
-        └── 0004-browser-support-policy.md # 文档评审分支：Proposed
+        ├── 0001-css-base-strategy.md # Accepted
+        ├── 0002-cascade-layers.md # Accepted
+        ├── 0003-mvp-package-contract.md # Accepted
+        └── 0004-browser-support-policy.md # Accepted
 ```
 
-研究文档、ADR-0002、Issue/PR 模板及第三方 Skills 均属**文档评审分支内容**，合并前不能描述为 main 已存在；上游技能文件均为 Markdown，未增加脚本、CSS、npm 依赖或 CI。
+研究文档、ADR-0002～0004、实施计划、Issue/PR 模板及第三方 Skills 均为**评审分支内容**，合并前不能描述为 main 已存在；没有新增可执行脚本、CSS、npm 依赖或 CI。
 
 ## 2. 尚不存在的路径（不据此创建占位）
 
@@ -70,7 +72,7 @@ normalize.css/
 ```text
 消费者应用
   -> npm package CSS entry (待实现)
-     -> 默认 Normalize / 显式可选模块 (待实现)
+     -> 默认 Normalize（MVP 唯一入口，待实现）
         -> 目标浏览器渲染 (待测试)
 ```
 
@@ -80,7 +82,7 @@ normalize.css/
 | --- | --- | --- |
 | 确认新规则是否属于 Normalize | [REQUIREMENTS](REQUIREMENTS.md)、[SDD](SDD.md) | 需求、设计、测试计划 |
 | 讨论 CSS Layers 或模块导出 | [ARCHITECTURE](ARCHITECTURE.md)、[ADR-0001](adr/0001-css-base-strategy.md) | SDD、ADR |
-| 判断能否开始开发 | [PROJECT_CONTEXT](PROJECT_CONTEXT.md) | HARNESS 与状态 |
+| 判断能否开始开发 | [PROJECT_CONTEXT](PROJECT_CONTEXT.md)、[MVP 计划](plans/MVP_IMPLEMENTATION_PLAN.md) | HARNESS 与状态 |
 | 设计浏览器兼容性回归 | [HARNESS](HARNESS.md) | SDD、要求与产物 |
 | 新增 Skill | [SKILLS](SKILLS.md) | AGENTS、校验规则 |
 | 新增/重命名重要目录 | 本文 | README 导航 |

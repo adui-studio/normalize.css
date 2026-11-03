@@ -1,13 +1,13 @@
 # AGENTS.md — @adui/normalize.css
 
-> 本文件是项目 Agent 的简明规则入口。**当前阶段仅允许文档规划与维护，不进行 CSS/脚本实现、依赖安装、发布或部署**；用户后续明确变更范围时，以最新要求为准。
+> 本文件是项目 Agent 的简明规则入口。**ADR-0001～0004 已接受，首版实施计划已建立；当前仅授权文档与任务规划。未经新的开发指令，不编写 CSS/脚本、不安装依赖、不发布或部署。** 以用户最新要求为准。
 
 ## 1. 项目事实
 
 - 仓库：[adui-studio/normalize.css](https://github.com/adui-studio/normalize.css)，npm 包目标名：`@adui/normalize.css`。
-- 当前已确认：GitHub 仓库已建立；仓库包含 MIT LICENSE；本轮仅初始化文档。
+- 当前已确认：GitHub 仓库已建立并包含 MIT LICENSE；四项 ADR 已接受，首版只规划默认 Normalize 入口，参见 [MVP 计划](docs/plans/MVP_IMPLEMENTATION_PLAN.md)。
 - 目前没有实现源码、可运行包、已选定工具链或已执行的浏览器兼容测试。
-- 目标：低侵入 CSS 标准化基础库；Reset、A11y、Forms 为**拟议**可选增强。
+- 目标：低侵入 CSS 标准化基础库；Reset、A11y、Forms 是已接受的长期可选模块方向，**首版延期**；默认不内置 `@layer`，以固定 Baseline 2023 作为特性参考。
 
 ## 2. 单一事实来源
 
@@ -40,7 +40,7 @@
 - 默认 Normalize 只修复可说明的差异；不要复制整个竞品 CSS。
 - 不在默认模块中强制根字号、主题配色、滚动条、按钮清空样式、通用间距归零。
 - 不全局强制取消动画或抹除焦点标记；无障碍增强需要考虑系统偏好与回退。
-- 尽可能降低选择器特异性；使用 Cascade Layers 前需验证层优先级及消费者覆盖行为。
+- 首版默认不内置 `@layer`（ADR-0002 Accepted）；逐条审查 `:where()`，任何未来分层变体须独立决策和测试。
 - 兼容性、包体积、浏览器版本和 UI 库结论必须由实际测试支持。
 
 ## 6. Git、权限与安全

@@ -1,6 +1,6 @@
 # DOCUMENTATION_VALIDATION — 文档校验规范
 
-**当前状态**：人工校验规范已定义，自动校验工具及 CI 尚未实现；本阶段不新增脚本。
+**当前状态**：人工校验规范已定义，自动校验工具未实现；项目明确**不增加任何 CI**，本阶段不新增脚本。
 
 ## 1. 校验对象和真实状态
 
@@ -8,7 +8,7 @@
 
 核心八类资产：AGENTS、[REQUIREMENTS](REQUIREMENTS.md)、[SDD](SDD.md)、[ARCHITECTURE](ARCHITECTURE.md)、[PROJECT_CONTEXT](PROJECT_CONTEXT.md)、[CODEBASE_MAP](CODEBASE_MAP.md)、[SKILLS](SKILLS.md)、[HARNESS](HARNESS.md)。
 
-增强机制：[ADR-0001](adr/0001-css-base-strategy.md) 与本文。当前无实际 Skills、脚本、工作流或 CSS 发布文件。
+增强机制：[ADR-0001](adr/0001-css-base-strategy.md)、[ADR-0002](adr/0002-cascade-layers.md)、[ADR-0003](adr/0003-mvp-package-contract.md)、[ADR-0004](adr/0004-browser-support-policy.md) 均为 Accepted；[MVP 实施计划](plans/MVP_IMPLEMENTATION_PLAN.md) 已存在。评审分支有三个第三方 Skills 文件，但无自研 Skill、执行脚本、CI 工作流或 CSS 发布文件。
 
 ## 2. 核查规则
 
