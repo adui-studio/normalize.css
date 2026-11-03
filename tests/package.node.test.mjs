@@ -27,5 +27,5 @@ test('public CSS export remains blocked until there is a real product stylesheet
 
 test('offline validation command includes every local Node test, including tarball smoke', () => {
   const script = pkg.scripts['test:offline'];
-  assert.equal(script, 'node --test tests/fixtures.node.test.mjs tests/package.node.test.mjs tests/package-smoke.node.test.mjs tests/probe.node.test.mjs');
+  assert.equal(script, 'node --test tests/fixtures.node.test.mjs tests/package.node.test.mjs tests/package-smoke.node.test.mjs tests/probe.node.test.mjs tests/r003-evidence.node.test.mjs');
 });
