@@ -6,8 +6,9 @@
 
 - 仓库：[adui-studio/normalize.css](https://github.com/adui-studio/normalize.css)，npm 包目标名：`@adui/normalize.css`。
 - 当前已确认：GitHub 仓库已建立并包含 MIT LICENSE；四项 ADR 已接受，首版只规划默认 Normalize 入口，参见 [MVP 计划](docs/plans/MVP_IMPLEMENTATION_PLAN.md)。
-- 目前没有实现源码、可运行包、已选定工具链或已执行的浏览器兼容测试。
-- 目标：低侵入 CSS 标准化基础库；Reset、A11y、Forms 是已接受的长期可选模块方向，**首版延期**；默认不内置 `@layer`，以固定 Baseline 2023 作为特性参考。
+- 目前没有实现源码、可运行包、已安装项目工具链或已执行的浏览器兼容测试；**后续开发工具链已选 Vite+（ADR-0005 Accepted），但尚未安装或运行**。
+- 目标：低侵入 CSS 标准化基础库；Reset、A11y、Forms 是已接受的长期可选模块方向，**首版延期**；默认不内置 `@layer`，固定 Baseline 2023 作为特性参考。
+- **工具链决策**：后续开发统一 Vite+，参见 [ADR-0005](docs/adr/0005-viteplus-toolchain.md)。工具链已选定不构成开始编写 CSS 或安装依赖的授权。
 
 ## 2. 单一事实来源
 

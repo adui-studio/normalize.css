@@ -24,7 +24,7 @@ A planned, modern CSS normalization foundation emphasizing **minimal defaults, o
 | `@adui/normalize.css/forms.css` | Optional native forms | Deferred |
 | `@adui/normalize.css/all.css` | Combined styles | Deferred |
 
-The MVP default entry does not embed `@layer`, and CSS feature admission uses fixed **Baseline 2023** as a reference. Actual minimum browser versions remain unverified. No installation instructions are available before implementation and release.
+The MVP default entry does not embed `@layer`, CSS feature admission uses fixed **Baseline 2023** as a reference, and **Vite+** is the approved future development toolchain (not yet installed). Actual minimum browser versions remain unverified. No installation instructions are available before implementation and release.
 
 ## Design constraints
 
@@ -45,6 +45,8 @@ The default entry must not silently impose a root font-size, page theme, custom 
 - [Accepted ADR-0002: no default CSS Layers](docs/adr/0002-cascade-layers.md)
 - [Accepted ADR-0003: MVP only default Normalize](docs/adr/0003-mvp-package-contract.md)
 - [Accepted ADR-0004: Baseline 2023 feature reference](docs/adr/0004-browser-support-policy.md)
+- [Accepted ADR-0005: Vite+ development toolchain](docs/adr/0005-viteplus-toolchain.md)
+- [Baseline 2023 browser version mapping (research)](docs/research/BASELINE_2023_MAPPING.md)
 - [MVP implementation plan (Chinese)](docs/plans/MVP_IMPLEMENTATION_PLAN.md)
 
 Chinese documents are the source of truth for now; this README is an English orientation page, not a separately maintained specification.

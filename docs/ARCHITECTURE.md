@@ -51,7 +51,7 @@ flowchart TD
 ## 5. 浏览器、生态与部署边界
 
 - 依 [ADR-0004 Accepted](adr/0004-browser-support-policy.md) 将固定 Baseline 2023 作为 CSS 特性准入参考；核心桌面/移动浏览器的**最低版本仍未冻结**，系统 WebView 的支持须按实际设备另行确认。
-- 面向多种构建环境；不能因为支持 Vite 就假定无需验证 Webpack、SSR 构建或 CSS 导入路径。
+- 开发工具链已按 [ADR-0005](adr/0005-viteplus-toolchain.md) 选定 **Vite+**；CSS 仍应是无运行时 JS 依赖的独立文件。不能因为在 Vite+ 中构建通过就假定无需验证 Webpack、SSR 构建或原生 CSS 导入路径。
 - 原生 HTML、Vue、React 只是**使用场景**，不是本库的运行时框架依赖。
 - 预期发布介质是 npm 静态 CSS 包（尚未发布）；无需数据库、缓存、后端服务、环境变量、账号认证和外部 API。
 - 许可证已确认为 MIT，第三方来源授权仍须逐项核查。
@@ -70,7 +70,9 @@ flowchart TD
 | 纯 CSS、无运行时 JS | 候选方向 | 降低宿主框架耦合 |
 | npm 包名 `@adui/normalize.css` | 项目目标已明确 | 与仓库定位一致；发布权限待确认 |
 | CSS Cascade Layers | 首版默认不内置（Accepted） | ADR-0002；逐条评估 `:where()` 和覆盖风险 |
-| CSS 构建/压缩工具 | 未选型 | 先明确可执行验证需求，不提前锁版本 |
+| 开发工具链 | **Vite+（Accepted）** | [ADR-0005](adr/0005-viteplus-toolchain.md)；开发期统一 Vite+，无运行时 JS |
+| 纯 CSS 库打包方式 | 待实测 | 先验证 Vite+ `vp pack` 是否适合无 JS 包产物，再决定最小方案 |
+| 具体 Vite+ 版本与包管理器 | 未冻结 | 获开发授权后核对环境、锁文件与最小依赖 |
 | 本地浏览器自动化 | 未选型 | 定义浏览器与 Fixtures，再选本地执行工具；**不增加 CI** |
 | 首版包含哪些增强模块 | 已决定：只含 Normalize | ADR-0003；Reset/Forms/A11y/all.css 延后 |
 
@@ -79,7 +81,8 @@ flowchart TD
 - [ADR-0001：CSS 基础策略与模块边界](adr/0001-css-base-strategy.md) — **Accepted**。
 - [ADR-0002：默认不内置 Cascade Layers](adr/0002-cascade-layers.md) — **Accepted**。
 - [ADR-0003：首版只提供默认 Normalize 入口](adr/0003-mvp-package-contract.md) — **Accepted**。
-- [ADR-0004：固定 Baseline 2023 特性准入参考](adr/0004-browser-support-policy.md) — **Accepted**；实际最低浏览器版本仍未冻结。
+- [ADR-0004：固定 Baseline 2023 特性准入参考](adr/0004-browser-support-policy.md) — **Accepted**；[映射研究](research/BASELINE_2023_MAPPING.md) 已得到候选版本，实际最低支持声明仍未冻结。
+- [ADR-0005：开发工具链统一采用 Vite+](adr/0005-viteplus-toolchain.md) — **Accepted**；尚未安装或运行。
 - [MVP 实施计划](plans/MVP_IMPLEMENTATION_PLAN.md) — 可执行的任务与验收门槛；**尚未开发**。
 
 **更新约定**：模块职责、技术选型、对外依赖和浏览器支持矩阵变化时更新本文件与 ADR，并评估 SDD/需求影响。

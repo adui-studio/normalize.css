@@ -51,6 +51,9 @@
 | [第三批规则证据研究](docs/research/RULE_EVIDENCE_BATCH3.md) | 剩余 17 条排版、Reset 和系统偏好候选规则 |
 | [ADR-0003](docs/adr/0003-mvp-package-contract.md) | 首版 MVP 导出契约已批准方案（Accepted） |
 | [ADR-0004](docs/adr/0004-browser-support-policy.md) | 浏览器支持基线与范围策略（Accepted） |
+| [ADR-0005](docs/adr/0005-viteplus-toolchain.md) | 后续开发统一使用 Vite+（Accepted；尚未安装） |
+| [Baseline 2023 版本映射](docs/research/BASELINE_2023_MAPPING.md) | 特性兼容候选版本及尚待实测的支持边界 |
+| [Vite+ 工具链研究](docs/research/VITEPLUS_TOOLCHAIN_REVIEW.md) | 本地命令、纯 CSS 打包风险和验证要求 |
 | [开发准入清单](docs/research/REVIEW_GATE.md) | 四份已接受 ADR 与剩余验证门槛 |
 | [MVP 实施计划](docs/plans/MVP_IMPLEMENTATION_PLAN.md) | W-01～W-07 的任务分解、依赖、测试与发布前验收 |
 | [浏览器矩阵](docs/research/BROWSER_REVIEW.md) | 支持范围与测试策略草案 |
@@ -64,7 +67,7 @@
 
 ## 开发前门槛
 
-架构已批准，当前转入 **W-01～W-07 可执行任务规划**。CSS 实施、依赖/测试工具安装与 npm 发布仍须按项目指令另行授权；最低浏览器版本、规则必要性和生态兼容性必须通过真实验证，不增加任何 CI。
+架构已批准，**开发工具链固定为 Vite+（ADR-0005 Accepted，未安装/未运行）**，当前转入 **W-01～W-07 可执行任务规划**。CSS 实施、依赖/测试工具安装与 npm 发布仍须按项目指令另行授权；最低浏览器版本、规则必要性和生态兼容性必须通过真实验证，不增加任何 CI。
 
 ## 许可证
 

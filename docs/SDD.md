@@ -1,6 +1,6 @@
 # SDD — 详细设计草案
 
-**状态：首版契约已批准 / 未实现**。四项 ADR Accepted；尚无 CSS、包配置、可运行测试或产物。除默认入口外的文件路径仍为未来候选。
+**状态：首版契约已批准 / 未实现**。ADR-0001～0005 已 Accepted（含 Vite+ 工具链）；尚无 CSS、包配置、可运行测试或产物。除默认入口外的文件路径仍为未来候选。
 
 ## 1. 设计范围与需求映射
 
@@ -24,7 +24,7 @@
 | `@adui/normalize.css/forms.css` | Forms CSS | **首版延期**；未来版本单独决策 |
 | `@adui/normalize.css/all.css` | 经评审的组合 CSS | **首版延期**；未来版本单独决策 |
 
-首版只规划 `@adui/normalize.css` 根入口，**不发布四个候选子路径**；未来版本可重新评审。具体 `package.json` exports、文件名、CSS 编译方式和 `sideEffects` 标记须在实际开发后做构建验证，参阅 [ADR-0003](adr/0003-mvp-package-contract.md) 和 [实施计划](plans/MVP_IMPLEMENTATION_PLAN.md)。
+首版只规划 `@adui/normalize.css` 根入口，**不发布四个候选子路径**；未来版本可重新评审。开发工具链统一 Vite+（[ADR-0005](adr/0005-viteplus-toolchain.md)），但 CSS-only 的 `vp pack` 产物适配仍需在 W-04 实测，不能提前承诺 JS 入口或已编译 CSS。具体 `package.json` exports、文件名、CSS 编译方式和 `sideEffects` 标记须在实际开发后做构建验证，参阅 [ADR-0003](adr/0003-mvp-package-contract.md) 和 [实施计划](plans/MVP_IMPLEMENTATION_PLAN.md)。
 
 ## 3. CSS 规则准入流程（拟议）
 
@@ -91,18 +91,19 @@
 - 规则变更若可能影响消费者样式，应视为潜在破坏性变更，提供变更说明和回归证据。
 - 发布导出路径、版本策略和升级说明在真实打包与测试环境确定后再冻结。
 
-## 8. 补充研究（均未批准）
+## 8. 补充研究（规则证据尚未批准）
 
 - [规则候选](research/RULE_REVIEW.md)、[首批证据审查](research/RULE_EVIDENCE_BATCH1.md) 与 [竞品研究](research/COMPETITOR_REVIEW.md)：用于规则证据审查，不代表实现。
 - [浏览器支持矩阵](research/BROWSER_REVIEW.md) 和 [表单规则研究](research/FORM_CONTROLS_REVIEW.md)：未冻结最低版本，不代表完成测试。
 - [ADR-0002](adr/0002-cascade-layers.md)：**Accepted**，首版不内建 `@layer`。
 - [ADR-0003](adr/0003-mvp-package-contract.md)：**Accepted**，单一默认 CSS 入口；具体构建行为待验证。
-- [ADR-0004](adr/0004-browser-support-policy.md)：**Accepted**，Baseline 2023 为特性准入参考；浏览器最低版本尚待确认。
+- [ADR-0004](adr/0004-browser-support-policy.md)：**Accepted**，Baseline 2023 为特性准入参考；[候选版本映射](research/BASELINE_2023_MAPPING.md) 已核对，最低支持声明尚待实测。
+- [ADR-0005](adr/0005-viteplus-toolchain.md)：**Accepted**，开发工具链统一 Vite+；[工具链研究](research/VITEPLUS_TOOLCHAIN_REVIEW.md) 仅查阅官方文档，未运行。
 - [开发准入清单](research/REVIEW_GATE.md) 与 [实施计划](plans/MVP_IMPLEMENTATION_PLAN.md)：任务和实施门槛。
 - [第三批规则证据审查](research/RULE_EVIDENCE_BATCH3.md)：排版、Reset、系统偏好等剩余 17 条规则的来源与风险。
 
 ## 9. 未决事项
 
-浏览器最低版本；是否发布 `all.css`；是否采用 `@layer`；是否需要更细的模块拆分；首次发布支持范围；CSS 格式化和测试工具；组件库 Fixture 版本。
+Baseline 2023 映射候选版本能否在实际浏览器和 OS 上兑现；纯 CSS 在 Vite+ 内采用哪种打包方式；开发工具链实际版本、组件库 Fixture 版本与 npm 发行支持范围。**首版不发布 `all.css`，默认不内置 `@layer` 的架构选择已经 Accepted，不再视为未决选型。**
 
 **更新约定**：对外 CSS 导出、模块边界、单条关键规则、测试设计变化时维护本文件；高层变化同步 [ARCHITECTURE](ARCHITECTURE.md) 与 [ADR](adr/0001-css-base-strategy.md)。
