@@ -1,12 +1,12 @@
 # ARCHITECTURE — 总体架构
 
-**状态**：规划中，尚无源码与构建系统。本文描述拟议方向而非当前实现。  
+**状态**：首版设计决策已批准；尚无源码与构建系统。架构约束已经生效，代码和测试仍未开始。  
 **关联**：[需求](REQUIREMENTS.md) · [SDD](SDD.md) · [ADR-0001](adr/0001-css-base-strategy.md)
 
 ## 1. 架构目标和质量属性
 
 - **规范化与重置分离**：默认规则只纠正可复现的浏览器差异；高侵入性行为显式选择。
-- **可组合**：使用者可以选择 Normalize，或进一步选择 Reset、A11y、Forms 等独立能力。
+- **可组合（长期架构）**：首版仅默认 Normalize；Reset、A11y、Forms 独立入口延后至未来版本单独评审。
 - **可审计**：以规则证据、浏览器对照用例、兼容性回归和变更记录支撑发布。
 - **可覆盖**：降低选择器特异性；评估 CSS Cascade Layers 的顺序、未分层规则优先级。
 - **无运行时业务耦合**：候选产物为静态 CSS，不承担路由、API、认证、存储、运行时状态管理。
@@ -44,17 +44,13 @@ flowchart TD
 
 模块默认**逻辑上独立**；最终物理文件与产物由 SDD 评审确定。
 
-## 4. 层级与覆盖设计（候选）
+## 4. 已接受的默认 CSS 级联策略
 
-```css
-@layer adui.normalize, adui.reset, adui.a11y, adui.forms;
-```
-
-同一个 origin、importance 下，未分层的普通样式通常优先于分层普通样式，这有助于消费者覆盖。但必须明确处理层声明先后、可选入口的统一层顺序、第三方框架自身 layers、`!important` 反转等问题。**以上仅是设计提案，尚未在浏览器验证。** [ADR-0002](adr/0002-cascade-layers.md) 同时讨论首版不内建 Layers 的候选方案，仍未接受。
+依据 [ADR-0002 Accepted](adr/0002-cascade-layers.md)，首版默认 Normalize CSS **不内置 `@layer`**；只在有证据的规则上逐条考虑 `:where()`。不要在默认入口自动创建命名层，也不要为了增加覆盖性而使用 `!important`。未来如需对外提供分层变体必须另行决策和验证。**此处是架构约束，非已经通过浏览器测试的结论。**
 
 ## 5. 浏览器、生态与部署边界
 
-- 目标是现代 Chromium、Firefox、WebKit；最低支持版本、Android/iOS WebView 边界未决，支持分层策略见 [ADR-0004](adr/0004-browser-support-policy.md)。
+- 依 [ADR-0004 Accepted](adr/0004-browser-support-policy.md) 将固定 Baseline 2023 作为 CSS 特性准入参考；核心桌面/移动浏览器的**最低版本仍未冻结**，系统 WebView 的支持须按实际设备另行确认。
 - 面向多种构建环境；不能因为支持 Vite 就假定无需验证 Webpack、SSR 构建或 CSS 导入路径。
 - 原生 HTML、Vue、React 只是**使用场景**，不是本库的运行时框架依赖。
 - 预期发布介质是 npm 静态 CSS 包（尚未发布）；无需数据库、缓存、后端服务、环境变量、账号认证和外部 API。
@@ -73,16 +69,17 @@ flowchart TD
 | --- | --- | --- |
 | 纯 CSS、无运行时 JS | 候选方向 | 降低宿主框架耦合 |
 | npm 包名 `@adui/normalize.css` | 项目目标已明确 | 与仓库定位一致；发布权限待确认 |
-| CSS Cascade Layers | 候选 | 控制规则层级，但需多入口与跨库验证 |
+| CSS Cascade Layers | 首版默认不内置（Accepted） | ADR-0002；逐条评估 `:where()` 和覆盖风险 |
 | CSS 构建/压缩工具 | 未选型 | 先明确可执行验证需求，不提前锁版本 |
 | 本地浏览器自动化 | 未选型 | 定义浏览器与 Fixtures，再选本地执行工具；**不增加 CI** |
-| 首版包含哪些增强模块 | 待评审 | [ADR-0003](adr/0003-mvp-package-contract.md) 对比最小默认入口与可选模块同版发布的取舍 |
+| 首版包含哪些增强模块 | 已决定：只含 Normalize | ADR-0003；Reset/Forms/A11y/all.css 延后 |
 
 ## 8. ADR 索引
 
-- [ADR-0001：CSS 基础策略与模块边界](adr/0001-css-base-strategy.md) — **Proposed**；尚未接受。
-- [ADR-0002：默认是否使用 Cascade Layers](adr/0002-cascade-layers.md) — **Proposed**；尚未接受。
-- [ADR-0003：首版 MVP 模块与包导出边界](adr/0003-mvp-package-contract.md) — **Proposed**；建议最小公开入口，尚未接受。
-- [ADR-0004：浏览器特性基线与支持范围](adr/0004-browser-support-policy.md) — **Proposed**；最低浏览器版本尚未冻结。
+- [ADR-0001：CSS 基础策略与模块边界](adr/0001-css-base-strategy.md) — **Accepted**。
+- [ADR-0002：默认不内置 Cascade Layers](adr/0002-cascade-layers.md) — **Accepted**。
+- [ADR-0003：首版只提供默认 Normalize 入口](adr/0003-mvp-package-contract.md) — **Accepted**。
+- [ADR-0004：固定 Baseline 2023 特性准入参考](adr/0004-browser-support-policy.md) — **Accepted**；实际最低浏览器版本仍未冻结。
+- [MVP 实施计划](plans/MVP_IMPLEMENTATION_PLAN.md) — 可执行的任务与验收门槛；**尚未开发**。
 
 **更新约定**：模块职责、技术选型、对外依赖和浏览器支持矩阵变化时更新本文件与 ADR，并评估 SDD/需求影响。

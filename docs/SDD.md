@@ -1,6 +1,6 @@
 # SDD — 详细设计草案
 
-**状态：待评审 / 未实现**。所有文件路径、入口和 CSS 规则均为候选设计；本仓库目前没有对应代码。
+**状态：首版契约已批准 / 未实现**。四项 ADR Accepted；尚无 CSS、包配置、可运行测试或产物。除默认入口外的文件路径仍为未来候选。
 
 ## 1. 设计范围与需求映射
 
@@ -14,17 +14,17 @@
 | Exports | FR-006 | npm 导出映射 | 未实现 |
 | 规则追踪 | FR-007、NFR-002/003/007 | 兼容性证据与回归用例 | 未实现 |
 
-## 2. 对外契约草案（不代表已可使用）
+## 2. 首版正式设计契约（尚不可使用）
 
 | 导入路径（候选） | 返回内容 | 副作用边界 |
 | --- | --- | --- |
-| `@adui/normalize.css` | Normalize 基础 CSS | 不隐式附加 Reset/A11y/Forms |
-| `@adui/normalize.css/reset.css` | Reset CSS | 仅显式使用时生效 |
-| `@adui/normalize.css/a11y.css` | A11y CSS | 仅显式使用时生效 |
-| `@adui/normalize.css/forms.css` | Forms CSS | 仅显式使用时生效 |
-| `@adui/normalize.css/all.css` | 经评审的组合 CSS | 不应产生重复/互斥规则 |
+| `@adui/normalize.css` | **首版唯一已批准的 CSS 入口**（未实现） | 只包含有证据的 Normalize，且不内置 `@layer` |
+| `@adui/normalize.css/reset.css` | Reset CSS | **首版延期**；未来版本单独决策 |
+| `@adui/normalize.css/a11y.css` | A11y CSS | **首版延期**；未来版本单独决策 |
+| `@adui/normalize.css/forms.css` | Forms CSS | **首版延期**；未来版本单独决策 |
+| `@adui/normalize.css/all.css` | 经评审的组合 CSS | **首版延期**；未来版本单独决策 |
 
-具体 `package.json` exports、文件名、CSS 编译方式和 `sideEffects` 标记，均须在开始开发前审定。**这些候选路径不意味着首版必须全部发布**；参阅 [ADR-0003](adr/0003-mvp-package-contract.md)。
+首版只规划 `@adui/normalize.css` 根入口，**不发布四个候选子路径**；未来版本可重新评审。具体 `package.json` exports、文件名、CSS 编译方式和 `sideEffects` 标记须在实际开发后做构建验证，参阅 [ADR-0003](adr/0003-mvp-package-contract.md) 和 [实施计划](plans/MVP_IMPLEMENTATION_PLAN.md)。
 
 ## 3. CSS 规则准入流程（拟议）
 
@@ -61,10 +61,11 @@
 - 审视输入字体、尺寸、触摸交互、原生验证状态；避免影响组件库自定义按钮与输入框。
 - 不默认使用 `:user-invalid` 改写所有表单背景或边框。
 
-### Cascade Layers（候选）
+### Cascade Layers（首版已决定）
 
-- 层名提案：`adui.normalize`、`adui.reset`、`adui.a11y`、`adui.forms`。
-- 每个独立入口必须声明一致顺序；明确未分层样式、`!important`、Tailwind/UnoCSS 预设间交互；相关用例验证后再接受。
+- [ADR-0002](adr/0002-cascade-layers.md) 已接受：**首版默认 CSS 不内建 `@layer`**。
+- 仅逐条评估 `:where()` 的必要性和 CSS 优先级；不能承诺消费者不受导入顺序影响。
+- 命名层、组合入口与可选模块属于后续独立设计议题。
 
 ## 5. 数据模型、状态机、接口与并发
 
@@ -94,10 +95,10 @@
 
 - [规则候选](research/RULE_REVIEW.md)、[首批证据审查](research/RULE_EVIDENCE_BATCH1.md) 与 [竞品研究](research/COMPETITOR_REVIEW.md)：用于规则证据审查，不代表实现。
 - [浏览器支持矩阵](research/BROWSER_REVIEW.md) 和 [表单规则研究](research/FORM_CONTROLS_REVIEW.md)：未冻结最低版本，不代表完成测试。
-- [ADR-0002](adr/0002-cascade-layers.md)：CSS Layers 默认策略仍待决策。
-- [ADR-0003](adr/0003-mvp-package-contract.md)：MVP 公开入口与 sideEffects 风险的备选设计，仍为 Proposed。
-- [ADR-0004](adr/0004-browser-support-policy.md)：浏览器 Baseline 年份、核心浏览器与 WebView 边界的备选方案。
-- [开发准入清单](research/REVIEW_GATE.md)：四份 Proposed ADR、阻塞条件与状态。
+- [ADR-0002](adr/0002-cascade-layers.md)：**Accepted**，首版不内建 `@layer`。
+- [ADR-0003](adr/0003-mvp-package-contract.md)：**Accepted**，单一默认 CSS 入口；具体构建行为待验证。
+- [ADR-0004](adr/0004-browser-support-policy.md)：**Accepted**，Baseline 2023 为特性准入参考；浏览器最低版本尚待确认。
+- [开发准入清单](research/REVIEW_GATE.md) 与 [实施计划](plans/MVP_IMPLEMENTATION_PLAN.md)：任务和实施门槛。
 - [第三批规则证据审查](research/RULE_EVIDENCE_BATCH3.md)：排版、Reset、系统偏好等剩余 17 条规则的来源与风险。
 
 ## 9. 未决事项

@@ -1,27 +1,27 @@
 # 首版架构决策与开发准入评审清单
 
-**日期**：2026-11-03。**阶段**：文档与架构评审。  
-**总体判断**：有可审查的设计资料，但尚未满足真实开发与发布验证的全部前提；此清单不代表开发许可。
+**日期**：2026-11-03。**阶段**：架构决定已接受、实施与验证待启动。  
+**总体判断**：四项架构方向已经维护者批准；但真实代码、规则证据与最低浏览器版本仍未满足实施/发布验证。
 
 ## 四项决策
 
 | ADR | 决定什么 | 当前建议（未批准） | 状态 |
 | --- | --- | --- | --- |
-| [0001](../adr/0001-css-base-strategy.md) | 长期 Normalize / Reset / Forms / A11y 职责 | 低侵入默认、增强功能按需 | Proposed |
-| [0002](../adr/0002-cascade-layers.md) | 默认是否使用 `@layer` | 首版不内建 Layers，逐条评估 `:where()` | Proposed |
-| [0003](../adr/0003-mvp-package-contract.md) | 首版公开入口 | 仅默认 Normalize，`all.css` 与可选模块后续单独评审 | Proposed |
-| [0004](../adr/0004-browser-support-policy.md) | 浏览器特性基线与支持范围 | 固定 Baseline 2023 作为研究起点，最低版本另行计算 | Proposed |
+| [0001](../adr/0001-css-base-strategy.md) | 长期 Normalize / Reset / Forms / A11y 职责 | 低侵入默认、增强功能按需 | **Accepted** |
+| [0002](../adr/0002-cascade-layers.md) | 默认是否使用 `@layer` | 首版不内建 Layers，逐条评估 `:where()` | **Accepted** |
+| [0003](../adr/0003-mvp-package-contract.md) | 首版公开入口 | 仅默认 Normalize，`all.css` 与可选模块未来单独评审 | **Accepted** |
+| [0004](../adr/0004-browser-support-policy.md) | 浏览器特性基线与支持范围 | 固定 Baseline 2023 为特性准入参考，最低版本另行计算与验证 | **Accepted** |
 
-**不得把四项推荐方案直接视作已接受。**
+四项方案于 2026-11-03 维护者明确接受。**架构 Accepted ≠ 浏览器/包测试通过，也不等于已得到 CSS 代码实施授权**。
 
 ## 进入开发的待决策门槛
 
 | ID | 检查点 | 当前事实 | 需要完成 |
 | --- | --- | --- | --- |
-| G-01 | 范围与验收 | [REQUIREMENTS](../REQUIREMENTS.md) 中 FR/NFR 大部分待评审 | 明确首版 P0、P1 与增强模块节奏 |
-| G-02 | 默认样式与层策略 | ADR-0001/0002 均 Proposed | 决定默认边界、是否内建 Layers |
-| G-03 | 包导出契约 | ADR-0003 Proposed | 冻结 root CSS 与可选公开子路径，规划实际打包验证 |
-| G-04 | 浏览器矩阵 | ADR-0004 Proposed | 确认年份、最低浏览器/OS、WebView 验证要求 |
+| G-01 | 范围与验收 | FR-001/006/007 已批准为首版范围，其他可选模块延期 | 规则证据与实际验收仍需实施 |
+| G-02 | 默认样式与层策略 | ADR-0001/0002 已 Accepted | **决策完成**；验证逐条规则的覆盖和无障碍风险 |
+| G-03 | 包导出契约 | ADR-0003 已 Accepted：只做默认根 CSS 入口 | 开发后验证 exports / sideEffects / Vite 与 Webpack 的实际行为 |
+| G-04 | 浏览器矩阵 | ADR-0004 已 Accepted：固定 Baseline 2023 策略 | 未完成最低浏览器/OS 版本冻结及真实 WebView 验证 |
 | G-05 | 规则采纳 | [RULE_REVIEW](RULE_REVIEW.md) 及三批资料研究覆盖 36 条 | 每条真正入选的修复须有可复现原生差异与回退方案 |
 | G-06 | 生态与无障碍 | [HARNESS](../HARNESS.md) 仍是规划 | 确定焦点、原生控件、组件库及双 Reset 的 Fixture |
 | G-07 | 本地工具与检查 | 真实 CSS、npm、测试工具均不存在 | 开发授权后才选型/实施；实际运行结果单独记录 |
@@ -32,11 +32,12 @@
 
 - **已确认**：仓库及目标包名、MIT 许可证、低侵入原则、不增加 CI、文档评审阶段。
 - **已建立研究材料**：36 条候选的三批来源/风险审查、浏览器矩阵草案、ADR-0001～0004 和 GitHub 协作模板。
-- **未完成**：正式接受 ADR、冻结最低浏览器版本、证明任何一条现代 UA 修复必要、实际浏览器或组件库回归。
+- **已完成决策**：ADR-0001～0004 Accepted，首版范围和 Layers 原则已正式确定。
+- **未完成**：冻结最低浏览器版本、证明任何一条现代 UA 修复必要、实际浏览器或组件库回归。
 - **未实施**：CSS 源码、npm 包、发布入口、真实测试脚本、CI、Release。
 
-因此现在既不能声明产品已可安装，也不能据此宣布通过兼容性验证。维护者后续明确同意架构方案后，才可能按正式开发授权创建代码与本地验证资产。
+因此现在既不能声明产品已可安装，也不能据此宣布通过兼容性验证。后续可按 [MVP 实施计划](../plans/MVP_IMPLEMENTATION_PLAN.md) 组织 W-01～W-07；写 CSS、安装依赖或执行工具仍须独立开发授权。
 
 ## 下一次评审输入
 
-记录各 ADR 的接受/拒绝决定；确认 Safari/iOS、Android WebView 等最低系统边界；列出实际支持的测试设备；选择规则候选的证据卡。后续真实结果和状态更新须同步 [PROJECT_CONTEXT](../PROJECT_CONTEXT.md)、[SDD](../SDD.md) 与 [README](../../README.md)。
+四项 ADR 已接受；接下来确认 Safari/iOS、Android WebView 等最低系统边界、可取得的测试设备并完成规则候选证据卡。后续真实结果和状态更新须同步 [PROJECT_CONTEXT](../PROJECT_CONTEXT.md)、[SDD](../SDD.md) 与 [README](../../README.md)。

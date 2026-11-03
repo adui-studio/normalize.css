@@ -17,12 +17,12 @@
 
 ## 支持范围的提议
 
-固定年份与非核心 WebView 支持分层的候选方案见 [ADR-0004](../adr/0004-browser-support-policy.md)；当前仍为 Proposed。
+固定年份与非核心 WebView 支持分层策略见 [ADR-0004 Accepted](../adr/0004-browser-support-policy.md)；**策略已批准，版本映射和实际浏览器测试尚未开始**。
 
 - 计划面向仍受维护的 Chromium/Edge、Firefox 稳定版与 ESR、Safari macOS/iOS；发布前**冻结具体最低版本**和相关可复现测试记录。
 - 不先承诺 IE 或过时 WebView；是否纳入微信内置浏览器、Android System WebView 等环境需要根据用户场景决定。
 - 固定最低版本与测试时最新稳定版都应测试；“最新两个版本”等动态说法不足以复现历史结果。
-- **待评审建议**：固定 Baseline 2023 作为 CSS 特性准入研究起点；最低浏览器版本尚未计算、实测或批准，不能宣称支持。
+- **已批准策略**：固定 Baseline 2023 作为 CSS 特性准入参考；最低浏览器版本尚未计算、实测或冻结，不能宣称具体版本已支持。
 - [Web Platform Baseline](https://web.dev/baseline) 可以用于特性准入参考，但不会自动证明一整套 CSS 样式安全。
 
 ## 测试矩阵（未来仅本地执行）
