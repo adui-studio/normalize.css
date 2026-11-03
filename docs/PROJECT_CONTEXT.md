@@ -1,7 +1,7 @@
 # PROJECT_CONTEXT — 项目长期上下文
 
 **最近更新**：2026-11-03  
-**当前阶段**：五项 ADR 已接受／最低浏览器测试目标已批准／尚未开发
+**当前阶段**：五项 ADR 已接受／W-03 本地 Harness 开发中／CSS 发布产物尚不存在
 
 ## 1. 项目概况
 
@@ -20,14 +20,14 @@
 | LICENSE | 已存在 | MIT，Copyright © 2026 ADui Studio |
 | 八类工程资产 | 文档初始化 | [AGENTS](../AGENTS.md)、需求、SDD、架构、上下文、代码地图、Skills、Harness |
 | CSS 源码 | **未实现** | 仓库无 src/ 或发布 CSS 文件 |
-| package.json、依赖、构建脚本 | **未实现** | Vite+ 已选为开发工具链（ADR-0005 Accepted），但未安装、未运行、未生成配置 |
-| 自动化测试、浏览器回归 | **未实现/未运行** | 只规划本地运行，不得声称通过 |
+| package.json、依赖、构建脚本 | **部分实现** | W-03 已有 `package.json` 和 `vite.config.ts`；固定 Vite+ 1.4.0（开发依赖），但因离线环境未安装、未生成锁文件 |
+| 自动化测试、浏览器回归 | **部分实现** | Fixture 探针 Node 单测 2/2 通过；Vite+ 测试未运行，Chromium 无头超时，最低目标浏览器未测 |
 | CI | **明确不规划** | 项目约束：不增加任何 CI |
 | npm 包发布、版本号 | **未发布/未确定** | 不能将先前讨论的草案版本当成仓库发布事实 |
 | 架构方案 | **已接受／未实现** | ADR-0001～0005 均 Accepted；[MVP 实施计划](plans/MVP_IMPLEMENTATION_PLAN.md) 已建立，浏览器兼容承诺仍待验证 |
 | 自研 Skills | **未创建** | 目前没有项目自研技能 |
 | 第三方 Skills | **评审分支已纳入** | 3 个 awesome-copilot 原版 Skill，CLI 未执行，本机发现未验证；见 [索引](SKILLS.md) |
-| Harness | **未搭建** | 仅建立 [验证计划](HARNESS.md) |
+| Harness | **部分实现** | W-03 的纯 HTML 夹具和探针已存在，见 [HARNESS](HARNESS.md)；Vite+ 实际运行与浏览器结果尚未实现 |
 
 ## 3. 已接受架构与仍待验证的事项
 
@@ -43,7 +43,7 @@
 
 1. **已完成决策和任务拆分**：ADR-0001～0004 Accepted；[W-01～W-07 MVP 计划](plans/MVP_IMPLEMENTATION_PLAN.md) 已建立；GitHub [Issue #2～#8](https://github.com/adui-studio/normalize.css/issues) 均为待执行任务。
 2. **研究任务（可继续文档工作）**：W-01 七项最低目标已批准、Apple 官方确认 Safari 17.2 平台范围；实际浏览器/OS/设备尚未验证。W-02 已有 R-003/004 的标准及源码证据，R-003 需在目标最低版本实测，R-004 不进入默认字号统一。
-3. **开发阶段（需新指令）**：W-03 已形成 [Vite+ 本地 Harness 设计](plans/VITEPLUS_LOCAL_HARNESS_DESIGN.md)，W-04 已形成 [CSS-only 包交付研究](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)；真实安装、Fixture、包导出、CSS 和兼容性回归均未启动。
+3. **开发阶段（已授权启动）**：W-03 已实现最小 Fixture/单测并记录环境阻塞，见 [Harness 设计与进度](plans/VITEPLUS_LOCAL_HARNESS_DESIGN.md)；W-04 [CSS-only 包交付研究](plans/CSS_PACKAGE_DELIVERY_REVIEW.md) 已完成设计，但真实包导出与 CSS 兼容回归尚未实施。
 4. **发布阶段（另行授权）**：W-07 质量和许可证审核；npm 和 Release 单独批准；不增加 CI。
 
 ## 5. 当前风险与阻塞
@@ -75,6 +75,7 @@
 | 2026-11-03 | W-02 补充 Firefox 121 发行日期前的 Gecko 源码和官方旧版浏览器获取线索 | 本地验证执行指南已形成；未安装旧浏览器或运行 Fixture |
 | 2026-11-03 | W-03 补充 Vite+ 本地 Harness 开发前设计 | 仅更新计划，不创建 package.json、Fixture、源码、依赖或 CI |
 | 2026-11-03 | W-04 完成纯 CSS 根入口、exports、sideEffects 与消费者验收方案研究 | 仅新增方案文档；未运行 vp pack、未建包配置与 CSS、未加 CI |
+| 2026-11-03 | 维护者授权开始开发，独立分支实现 W-03 初始本地 Fixture 与 Vite+ 工程配置 | Node 测试 2/2 通过；Vite+ 安装/浏览器运行受环境限制，未添加 Normalize CSS 或 CI |
 
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与下一阶段变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 

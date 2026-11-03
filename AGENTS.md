@@ -1,12 +1,12 @@
 # AGENTS.md — @adui/normalize.css
 
-> 本文件是项目 Agent 的简明规则入口。**ADR-0001～0005 已接受，首版实施计划及最低浏览器测试目标已批准；当前仅授权文档与任务规划。未经新的开发指令，不编写 CSS/脚本、不安装依赖、不发布或部署。** 以用户最新要求为准。
+> 本文件是项目 Agent 的简明规则入口。**维护者已明确批准开始开发；当前在独立 W-03 开发分支实现 Vite+ 本地 Harness。CSS 规则仍坚持先有真实浏览器证据；未经明确许可不合并、发布或增加 CI。** 以用户最新要求为准。
 
 ## 1. 项目事实
 
 - 仓库：[adui-studio/normalize.css](https://github.com/adui-studio/normalize.css)，npm 包目标名：`@adui/normalize.css`。
 - 当前已确认：GitHub 仓库已建立并包含 MIT LICENSE；五项 ADR 已接受，首版只规划默认 Normalize 入口；Chrome/Edge 120、Firefox 121、Safari 17.2（及对应核心移动版本）已确定为**最低测试目标而非已验证兼容范围**，参见 [MVP 计划](docs/plans/MVP_IMPLEMENTATION_PLAN.md)。
-- 目前没有实现源码、可运行包、已安装项目工具链或已执行的浏览器兼容测试；**后续开发工具链已选 Vite+（ADR-0005 Accepted），但尚未安装或运行**。
+- W-03 开发分支已增加 `package.json`、`vite.config.ts`、`fixtures/` 与 `tests/`；**真正 Normalize CSS 源码、npm 导出、可安装发布包尚未实现**。Vite+ 已指定并在清单中固定到 1.4.0，但当前容器无法访问 npm Registry，尚未安装或运行 `vp`。
 - 目标：低侵入 CSS 标准化基础库；Reset、A11y、Forms 是已接受的长期可选模块方向，**首版延期**；默认不内置 `@layer`，固定 Baseline 2023 作为特性参考。
 - **工具链决策**：后续开发统一 Vite+，参见 [ADR-0005](docs/adr/0005-viteplus-toolchain.md)。工具链已选定不构成开始编写 CSS 或安装依赖的授权。
 
@@ -50,7 +50,7 @@
 - 本项目明确**不增加任何 CI**；Harness 只讨论本地人工触发的验证，不新增任何工作流。
 - 未经明确要求不创建发布/部署工作流、不推送发布版本、不运行不可信第三方脚本。
 - Git 提交建议遵循 Conventional Commits、中文主题、适当 emoji；以仓库未来正式规范为准。
-- 文档阶段不为形式创建空 Skill、空源码目录、虚构脚本或通过状态。
+- 不为形式创建空 Skill、空源码目录、虚构脚本或通过状态。W-03 Fixture 测试代码不属于发布 CSS 源码，不能把候选规则测试写作产品实现。
 - 第三方 Skills 固定上游 SHA、许可证和来源，见 [记录](.agents/skills/UPSTREAM.md)；工具调用必须匹配当前连接与权限。
 
 ## 7. 完成判定

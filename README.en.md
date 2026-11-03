@@ -4,7 +4,7 @@
 
 A planned, modern CSS normalization foundation emphasizing **minimal defaults, optional enhancements, predictable behavior, and verifiable compatibility**.
 
-> **Status: architecture approved; implementation not started.** ADR-0001 through ADR-0004 are Accepted. No CSS, published npm package, build output, or verified browser tests currently exist. The entries below are not usable imports yet.
+> **Status: W-03 development started on a separate branch.** ADR-0001 through ADR-0005 are Accepted. Vite+ configuration, standalone HTML fixtures and local tests now exist. No distributable Normalize stylesheet, npm export, or verified minimum-browser compatibility claim exists yet.
 
 ## Goals
 
@@ -24,7 +24,13 @@ A planned, modern CSS normalization foundation emphasizing **minimal defaults, o
 | `@adui/normalize.css/forms.css` | Optional native forms | Deferred |
 | `@adui/normalize.css/all.css` | Combined styles | Deferred |
 
-The MVP default entry does not embed `@layer`, CSS feature admission uses fixed **Baseline 2023** as a reference, and **Vite+** is the approved future development toolchain (not yet installed). Minimum **test targets** are approved: Chrome/Edge 120, Firefox 121, Safari 17.2 and corresponding core mobile browsers. **No actual compatibility tests have been run, and these are not published support claims.** No installation instructions are available before implementation and release.
+The MVP default entry does not embed `@layer`, CSS feature admission uses fixed **Baseline 2023** as a reference, and **Vite+ 1.4.0** is declared as a development dependency (not installed in this environment). Minimum **test targets** are approved: Chrome/Edge 120, Firefox 121, Safari 17.2 and corresponding core mobile browsers. **No actual compatibility tests have been run, and these are not published support claims.** No installation instructions are available before implementation and release.
+
+## Local W-03 harness
+
+Use Node.js `^22.18.0 || ^24.11.0 || >=26.0.0`, then install dependencies and run `npm exec -- vp dev` to open the `/fixtures/` pages. Use `npm exec -- vp test` for the Vite+ test suite, or `node --test tests/probe.node.test.mjs` for the built-in Node probe unit tests. The fixture-only CSS must never be treated as published normalization rules.
+
+**Verified here**: Node probe tests 2/2 pass. **Not verified here**: Vite+ commands and browser results (offline registry, unsupported local Node 22.16.0; headless Chromium timed out). No CI or npm release.
 
 ## Design constraints
 

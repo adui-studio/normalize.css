@@ -4,7 +4,7 @@
 
 面向现代 Web 应用的 CSS 标准化基础库，目标是**默认克制、按需增强、行为可预测、兼容可验证**。
 
-> **项目状态：架构决策已接受，首版实施尚未开始。** ADR-0001～0005 已正式通过；仓库仍无 CSS 源码、可安装 npm 包、构建产物或真实浏览器测试结果。首版只批准默认 Normalize 入口，不能将设计路径视为可用接口。
+> **项目状态：已开始 W-03 本地 Harness 开发。** ADR-0001～0005 已通过；本开发分支现有 Vite+ 配置、R-003/R-004 HTML 复现页面和本地单元测试，但**仍无可发布 Normalize CSS、npm 导出或经过最低目标版本实测的兼容性结果**。首版默认入口尚不能安装使用。
 
 ## 项目目标
 
@@ -25,6 +25,26 @@
 | `@adui/normalize.css/all.css` | 显式组合入口 | 首版延期；未来单独评审 |
 
 长期模块方向已经 [ADR-0001](docs/adr/0001-css-base-strategy.md) 批准，但首版只保留默认入口；默认**不内置 `@layer`**，固定 **Baseline 2023** 为特性准入参考。核心浏览器最低**测试目标**已批准：Chrome/Edge 120、Firefox 121、Safari 17.2（含对应移动浏览器），**尚未实测通过，不能视为已发布支持声明**。npm 导出仍未实现，目前不能执行安装或导入示例。
+
+## 本地开发与复现（W-03 初始实现）
+
+本分支已配置 Vite+ 1.4.0 作为**开发依赖**，目前没有锁文件（离线环境无法访问 npm Registry）。Node.js 需满足 `^22.18.0 || ^24.11.0 || >=26.0.0`；具体安装完成后请生成并提交所选包管理器的锁文件。
+
+```sh
+# 在有 npm 网络访问且 Node 版本满足要求时
+npm install
+npm exec -- vp check
+npm exec -- vp test
+npm exec -- vp dev
+```
+
+打开本地 Vite+ 服务器提示的地址下的 `/fixtures/`，选择 R-003 的 T0 原生与 T1 候选页面，或 R-004 的原生与字号风险页面。每页会展示可复制的计算样式 JSON。无需 Vite+ 安装也可以使用**内置 Node 测试**检验探针逻辑：
+
+```sh
+node --test tests/probe.node.test.mjs
+```
+
+**运行状态（2026-11-03）**：Node 内置测试 2/2 通过、探针语法检查通过；因执行环境为 Node 22.16.0 且 npm Registry 不可用，`vp check/test/dev` 尚未运行、没有生成锁文件。容器内 Chromium 144 无头执行超时，**没有获得浏览器计算样式结果**；最低目标 Chrome/Edge 120、Firefox 121、Safari 17.2 和对应移动端均为 NOT_RUN。Fixture 中的候选 CSS **只供测试，不会发布**。不增加 CI。
 
 ## 设计边界
 
@@ -58,7 +78,7 @@
 | [Vite+ 工具链研究](docs/research/VITEPLUS_TOOLCHAIN_REVIEW.md) | 本地命令、纯 CSS 打包风险和验证要求 |
 | [开发准入清单](docs/research/REVIEW_GATE.md) | 四份已接受 ADR 与剩余验证门槛 |
 | [MVP 实施计划](docs/plans/MVP_IMPLEMENTATION_PLAN.md) | W-01～W-07 的任务分解、依赖、测试与发布前验收 |
-| [Vite+ 本地 Harness 设计](docs/plans/VITEPLUS_LOCAL_HARNESS_DESIGN.md) | 未来开发的最小目录、命令、对照与验收流程（未实施） |
+| [Vite+ 本地 Harness 设计](docs/plans/VITEPLUS_LOCAL_HARNESS_DESIGN.md) | 开发分支已开始实施；本地 Fixture 与 Node 测试已存在，Vite+ 实际运行仍受阻 |
 | [纯 CSS npm 包交付研究](docs/plans/CSS_PACKAGE_DELIVERY_REVIEW.md) | W-04 的根入口、CSS 副作用、纯 CSS 产物与消费端验收（未实施） |
 | [浏览器矩阵](docs/research/BROWSER_REVIEW.md) | 支持范围与测试策略草案 |
 | [竞品对照](docs/research/COMPETITOR_REVIEW.md) | 六类 Normalize/Reset 方案源码研究 |
@@ -71,7 +91,7 @@
 
 ## 开发前门槛
 
-架构已批准，**开发工具链固定为 Vite+（ADR-0005 Accepted，未安装/未运行）**，当前转入 **W-01～W-07 可执行任务规划**。CSS 实施、依赖/测试工具安装与 npm 发布仍须按项目指令另行授权；最低浏览器版本、规则必要性和生态兼容性必须通过真实验证，不增加任何 CI。
+维护者已批准开始开发，**开发工具链固定为 Vite+**。目前仅已实现 W-03 的最小 Fixture/测试基础，依赖安装和旧浏览器验证仍被当前执行环境阻塞。W-04 的包导出、W-05 的 CSS 正式规则尚未实施；最低目标版本、规则必要性和生态兼容性必须有真实结果，不增加任何 CI，也不擅自发布。
 
 ## 许可证
 

@@ -1,6 +1,6 @@
 # Vite+ 本地 Harness：开发前设计与准入规范
 
-- **状态**：文档设计已形成；**没有执行安装、开发、浏览器测试或包构建**。
+- **状态**：已开始在独立开发分支实施 W-03；**文件和 Node 自测已有，Vite+ 未运行、浏览器实测未完成、包构建未进行**。
 - **日期**：2026-11-03
 - **任务**：[W-03 / Issue #4](https://github.com/adui-studio/normalize.css/issues/4)
 - **正式依据**：[ADR-0005](../adr/0005-viteplus-toolchain.md)、[MVP 计划](MVP_IMPLEMENTATION_PLAN.md)、[W-02 复现指南](../research/R003_R004_LOCAL_VERIFICATION.md)
@@ -61,4 +61,6 @@ tests/
 
 **W-03 退出门槛**：工具版本明确，真实本地命令可运行、T0/T1 流程可复现、结果可审查、环境缺口有记录、无 CI。仅有设计文档或 `vp check` 通过都不足以关闭 Issue #4。
 
-**当前结果**：以上全部是开发前设计；实际安装、源码、Fixture、CSS 修复、包构建、浏览器测试和运行结果均不存在。
+**当前实际结果（2026-11-03）**：已创建 `package.json`、`vite.config.ts`、`fixtures/index.html`、R-003/R-004 T0/T1 HTML、`fixtures/probe.js`、`tests/fixtures.test.ts` 和 `tests/probe.node.test.mjs`。已运行 Node 原生单测 2/2 通过和 JS 语法检查；当前容器 Node 22.16.0 低于 Vite+ 所需版本且 npm Registry DNS 不通，**未运行 vp check/test/dev，亦未生成锁文件**。Chromium 144 `--dump-dom` 超时，未获得 UA 计算值。R-003 仍只有候选规则 Fixture、没有发布 CSS，W-03 保持未完成。
+
+后续在具备 Node ≥22.18.0 和可用 npm 网络的环境，执行安装、提交锁文件并运行 `vp check` / `vp test` / `vp dev`，再逐项补录最低浏览器版本结果。

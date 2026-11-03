@@ -1,6 +1,6 @@
 # HARNESS — 执行、验证与反馈环境
 
-**当前状态：五项 ADR 已接受（包括 Vite+ 工具链），实施计划已建立，但尚无可执行 Harness。** 仓库仍无 package.json、测试框架、构建脚本、CI、浏览器 Fixtures 或发布产物；不得称规划命令已运行。
+**当前状态：W-03 已在独立开发分支实现首批本地 Harness 资产**：`package.json`、`vite.config.ts`、R-003/R-004 Fixture、`tests/fixtures.test.ts` 与 Node 探针测试。已在当前容器通过 Node 测试 2/2 与 JS 语法检查；Vite+ 尚未安装/运行，Chromium 无头测试超时，历史目标浏览器未测。无 CSS 发布产物或 CI。
 
 ## 1. Harness 目标
 
@@ -29,7 +29,7 @@
 
 ## 4. Vite+ 规划命令与真实运行的界线
 
-Vite+ 已根据 [ADR-0005](adr/0005-viteplus-toolchain.md) 选定为后续统一工具链；`vp` 命令均依据 [官方文档](https://viteplus.dev/guide/) 研究，**尚未在本仓库安装或运行**。
+Vite+ 已根据 [ADR-0005](adr/0005-viteplus-toolchain.md) 选定为统一工具链；已在 `package.json` 固定开发依赖 1.4.0，`vite.config.ts` 配置测试。**当前环境未安装/运行 `vp`，以下命令仍未验证通过**。
 
 ```sh
 vp fmt --check
