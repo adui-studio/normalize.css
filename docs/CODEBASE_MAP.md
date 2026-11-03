@@ -35,6 +35,7 @@ normalize.css/
     ├── research/                # 文档评审分支：研究资料
     │   ├── RULE_REVIEW.md
     │   ├── RULE_EVIDENCE_BATCH1.md
+    │   ├── RULE_EVIDENCE_R003_R004.md
     │   ├── FORM_CONTROLS_REVIEW.md
     │   ├── RULE_EVIDENCE_BATCH3.md
     │   ├── REVIEW_GATE.md

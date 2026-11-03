@@ -17,8 +17,8 @@
 | --- | --- | --- | --- |
 | R-001 | HTML 行高统一 | 待定 | 暂缓 |
 | R-002 | iOS 方向变化文字调整 | 待定 | 暂缓 |
-| R-003 | b/strong 字重 | Normalize | 优先核验 |
-| R-004 | code/kbd/samp/pre 字号 | Normalize | 优先核验 |
+| R-003 | b/strong 字重 | Normalize（取决于正式最低浏览器版本） | 条件性优先核验；Chromium/WebKit 历史差异已有修复时间线 |
+| R-004 | code/kbd/samp/pre 等宽字体与字号 | 默认不采纳；可选排版另评 | 暂缓；统一字号可能覆盖用户 monospace 字号偏好 |
 | R-005 | small 字号 | 待定 | 暂缓 |
 | R-006 | sub/sup 行高 | 待定 | 暂缓 |
 | R-007 | abbr 标记下划线 | Normalize | 暂缓 |
@@ -72,6 +72,6 @@
 
 F-001：标题、文字、abbr、代码字体、缩放；F-002：hr/table/progress；F-003：details/summary/键盘焦点；F-004：search/file/button/select/textarea/fieldset；F-005：dialog/popover/暗色偏好；F-006：hidden/until-found；F-007：减少动画/高对比度；F-008：媒体/列表/表格；F-009：Element Plus、Ant Design、TDesign；F-010：独立和叠加 Tailwind Preflight / UnoCSS Reset。
 
-**规则资料研究覆盖**：36 条初始候选均在三批证据审查中得到首轮分类和风险记录；**仍没有**浏览器实测或规则准入决议。详见 [第三批审查](RULE_EVIDENCE_BATCH3.md)。
+**规则资料研究覆盖**：36 条初始候选均有首轮来源/风险分类；R-003/R-004 的专项证据见 [R003/R004 证据卡](RULE_EVIDENCE_R003_R004.md)。本轮仍没有本项目浏览器实测或 CSS 准入决议。
 
 **验收状态**：未运行；不得把本研究表视为 CSS 实现任务清单。
