@@ -96,6 +96,8 @@
 - [浏览器支持矩阵](research/BROWSER_REVIEW.md) 和 [表单规则研究](research/FORM_CONTROLS_REVIEW.md)：未冻结最低版本，不代表完成测试。
 - [ADR-0002](adr/0002-cascade-layers.md)：CSS Layers 默认策略仍待决策。
 - [ADR-0003](adr/0003-mvp-package-contract.md)：MVP 公开入口与 sideEffects 风险的备选设计，仍为 Proposed。
+- [ADR-0004](adr/0004-browser-support-policy.md)：浏览器 Baseline 年份、核心浏览器与 WebView 边界的备选方案。
+- [开发准入清单](research/REVIEW_GATE.md)：四份 Proposed ADR、阻塞条件与状态。
 - [第三批规则证据审查](research/RULE_EVIDENCE_BATCH3.md)：排版、Reset、系统偏好等剩余 17 条规则的来源与风险。
 
 ## 9. 未决事项

@@ -50,6 +50,8 @@
 | [第二批表单规则研究](docs/research/FORM_CONTROLS_REVIEW.md) | 原生表单、文件按钮与占位符的证据审查 |
 | [第三批规则证据研究](docs/research/RULE_EVIDENCE_BATCH3.md) | 剩余 17 条排版、Reset 和系统偏好候选规则 |
 | [ADR-0003](docs/adr/0003-mvp-package-contract.md) | 首版 MVP 导出契约候选方案（Proposed） |
+| [ADR-0004](docs/adr/0004-browser-support-policy.md) | 浏览器支持基线与范围候选（Proposed） |
+| [开发准入清单](docs/research/REVIEW_GATE.md) | 四份 ADR、未决事项与验收门槛 |
 | [浏览器矩阵](docs/research/BROWSER_REVIEW.md) | 支持范围与测试策略草案 |
 | [竞品对照](docs/research/COMPETITOR_REVIEW.md) | 六类 Normalize/Reset 方案源码研究 |
 

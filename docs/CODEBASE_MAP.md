@@ -37,12 +37,14 @@ normalize.css/
     │   ├── RULE_EVIDENCE_BATCH1.md
     │   ├── FORM_CONTROLS_REVIEW.md
     │   ├── RULE_EVIDENCE_BATCH3.md
+    │   └── REVIEW_GATE.md
     │   ├── BROWSER_REVIEW.md
     │   └── COMPETITOR_REVIEW.md
     └── adr/
         ├── 0001-css-base-strategy.md # 原有：Proposed
         ├── 0002-cascade-layers.md # 文档评审分支：Proposed
-        └── 0003-mvp-package-contract.md # 文档评审分支：Proposed
+        ├── 0003-mvp-package-contract.md # 文档评审分支：Proposed
+        └── 0004-browser-support-policy.md # 文档评审分支：Proposed
 ```
 
 研究文档、ADR-0002、Issue/PR 模板及第三方 Skills 均属**文档评审分支内容**，合并前不能描述为 main 已存在；上游技能文件均为 Markdown，未增加脚本、CSS、npm 依赖或 CI。

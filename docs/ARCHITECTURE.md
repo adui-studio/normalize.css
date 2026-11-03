@@ -54,7 +54,7 @@ flowchart TD
 
 ## 5. 浏览器、生态与部署边界
 
-- 目标是现代 Chromium、Firefox、WebKit；最低支持版本、Android/iOS WebView 边界未决。
+- 目标是现代 Chromium、Firefox、WebKit；最低支持版本、Android/iOS WebView 边界未决，支持分层策略见 [ADR-0004](adr/0004-browser-support-policy.md)。
 - 面向多种构建环境；不能因为支持 Vite 就假定无需验证 Webpack、SSR 构建或 CSS 导入路径。
 - 原生 HTML、Vue、React 只是**使用场景**，不是本库的运行时框架依赖。
 - 预期发布介质是 npm 静态 CSS 包（尚未发布）；无需数据库、缓存、后端服务、环境变量、账号认证和外部 API。
@@ -83,5 +83,6 @@ flowchart TD
 - [ADR-0001：CSS 基础策略与模块边界](adr/0001-css-base-strategy.md) — **Proposed**；尚未接受。
 - [ADR-0002：默认是否使用 Cascade Layers](adr/0002-cascade-layers.md) — **Proposed**；尚未接受。
 - [ADR-0003：首版 MVP 模块与包导出边界](adr/0003-mvp-package-contract.md) — **Proposed**；建议最小公开入口，尚未接受。
+- [ADR-0004：浏览器特性基线与支持范围](adr/0004-browser-support-policy.md) — **Proposed**；最低浏览器版本尚未冻结。
 
 **更新约定**：模块职责、技术选型、对外依赖和浏览器支持矩阵变化时更新本文件与 ADR，并评估 SDD/需求影响。
