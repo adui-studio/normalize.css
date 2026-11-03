@@ -19,11 +19,16 @@ normalize.css/
     ├── SKILLS.md            # 本轮文档：Skill 索引
     ├── HARNESS.md           # 本轮文档：验证机制规划
     ├── DOCUMENTATION_VALIDATION.md # 本轮文档：校验计划
+    ├── research/                # 文档评审分支：研究资料
+    │   ├── RULE_REVIEW.md
+    │   ├── BROWSER_REVIEW.md
+    │   └── COMPETITOR_REVIEW.md
     └── adr/
-        └── 0001-css-base-strategy.md # 本轮文档：Proposed
+        ├── 0001-css-base-strategy.md # 原有：Proposed
+        └── 0002-cascade-layers.md # 文档评审分支：Proposed
 ```
 
-本轮创建文件均为 Markdown，不包含任何实现源码。此目录图要与**本轮实际成功提交**同步；若提交未完成，必须标记为待提交而非已存在。
+新增的 research/ 和 ADR-0002 为**文档评审分支内容**，合并前不能描述为 main 已存在；所有新增文件均为 Markdown，不包含实现代码。
 
 ## 2. 尚不存在的路径（不据此创建占位）
 
@@ -34,7 +39,7 @@ normalize.css/
 | `package.json` | 包导出、开发命令、依赖 | 规划中，**不存在** |
 | `tests/` | Fixtures、静态与浏览器测试 | 规划中，**不存在** |
 | `scripts/` | 文档校验、构建与质量脚本 | 规划中，**不存在** |
-| `.github/workflows/` | CI/发布工作流 | 规划中，**不存在** |
+| `.github/workflows/` | CI/发布工作流 | **明确不规划**，项目禁止增加 CI；当前不存在 |
 | `.agents/skills/` | 经审核、确有价值的项目技能 | 尚无已安装 Skill |
 
 ## 3. 程序入口与依赖调用链

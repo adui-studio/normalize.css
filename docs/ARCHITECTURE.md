@@ -50,7 +50,7 @@ flowchart TD
 @layer adui.normalize, adui.reset, adui.a11y, adui.forms;
 ```
 
-同一个 origin、importance 下，未分层的普通样式通常优先于分层普通样式，这有助于消费者覆盖。但必须明确处理层声明先后、可选入口的统一层顺序、第三方框架自身 layers、`!important` 反转等问题。**以上仅是设计提案，尚未在浏览器验证。**
+同一个 origin、importance 下，未分层的普通样式通常优先于分层普通样式，这有助于消费者覆盖。但必须明确处理层声明先后、可选入口的统一层顺序、第三方框架自身 layers、`!important` 反转等问题。**以上仅是设计提案，尚未在浏览器验证。** [ADR-0002](adr/0002-cascade-layers.md) 同时讨论首版不内建 Layers 的候选方案，仍未接受。
 
 ## 5. 浏览器、生态与部署边界
 
@@ -75,11 +75,12 @@ flowchart TD
 | npm 包名 `@adui/normalize.css` | 项目目标已明确 | 与仓库定位一致；发布权限待确认 |
 | CSS Cascade Layers | 候选 | 控制规则层级，但需多入口与跨库验证 |
 | CSS 构建/压缩工具 | 未选型 | 先明确可执行验证需求，不提前锁版本 |
-| 浏览器自动化/CI | 未选型 | 先定义浏览器与 Fixtures，再选 Playwright 等工具 |
+| 本地浏览器自动化 | 未选型 | 定义浏览器与 Fixtures，再选本地执行工具；**不增加 CI** |
 | 首版包含哪些增强模块 | 待评审 | 以可验证性和低侵入为准 |
 
 ## 8. ADR 索引
 
 - [ADR-0001：CSS 基础策略与模块边界](adr/0001-css-base-strategy.md) — **Proposed**；尚未接受。
+- [ADR-0002：默认是否使用 Cascade Layers](adr/0002-cascade-layers.md) — **Proposed**；尚未接受。
 
 **更新约定**：模块职责、技术选型、对外依赖和浏览器支持矩阵变化时更新本文件与 ADR，并评估 SDD/需求影响。

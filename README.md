@@ -44,6 +44,10 @@
 | [Harness](docs/HARNESS.md) | 计划中的执行与验证闭环 |
 | [文档校验](docs/DOCUMENTATION_VALIDATION.md) | 文档一致性审查策略 |
 | [ADR-0001](docs/adr/0001-css-base-strategy.md) | 初始 CSS 基础策略（Proposed） |
+| [ADR-0002](docs/adr/0002-cascade-layers.md) | CSS Cascade Layers 待评审方案 |
+| [规则候选研究](docs/research/RULE_REVIEW.md) | 36 条待评审候选，不代表已实现 |
+| [浏览器矩阵](docs/research/BROWSER_REVIEW.md) | 支持范围与测试策略草案 |
+| [竞品对照](docs/research/COMPETITOR_REVIEW.md) | 六类 Normalize/Reset 方案源码研究 |
 
 ## 开发前门槛
 
