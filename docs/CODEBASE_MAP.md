@@ -10,6 +10,19 @@ normalize.css/
 ├── README.md                 # 本轮文档：中文项目入口
 ├── README.en.md              # 本轮文档：英文概览
 ├── AGENTS.md                 # 本轮文档：Agent 规则入口
+├── .github/                  # 评审分支：Issue/PR 模板，无 CI
+│   ├── ISSUE_TEMPLATE/
+│   │   ├── bug-report.yml
+│   │   ├── rule-proposal.yml
+│   │   ├── documentation.yml
+│   │   └── config.yml
+│   └── pull_request_template.md
+├── .agents/skills/           # 评审分支：上游原版第三方 Skills
+│   ├── github-issues/        # SKILL.md 与 10 个 references
+│   ├── conventional-commit/  # SKILL.md
+│   ├── bug-reproduction-brief/ # SKILL.md
+│   ├── UPSTREAM.md
+│   └── UPSTREAM_LICENSE.txt
 └── docs/
     ├── REQUIREMENTS.md      # 本轮文档：需求与验收
     ├── ARCHITECTURE.md      # 本轮文档：总体架构草案
@@ -22,6 +35,7 @@ normalize.css/
     ├── research/                # 文档评审分支：研究资料
     │   ├── RULE_REVIEW.md
     │   ├── RULE_EVIDENCE_BATCH1.md
+    │   ├── FORM_CONTROLS_REVIEW.md
     │   ├── BROWSER_REVIEW.md
     │   └── COMPETITOR_REVIEW.md
     └── adr/
@@ -29,7 +43,7 @@ normalize.css/
         └── 0002-cascade-layers.md # 文档评审分支：Proposed
 ```
 
-新增的 research/ 和 ADR-0002 为**文档评审分支内容**，合并前不能描述为 main 已存在；所有新增文件均为 Markdown，不包含实现代码。
+研究文档、ADR-0002、Issue/PR 模板及第三方 Skills 均属**文档评审分支内容**，合并前不能描述为 main 已存在；上游技能文件均为 Markdown，未增加脚本、CSS、npm 依赖或 CI。
 
 ## 2. 尚不存在的路径（不据此创建占位）
 
@@ -41,7 +55,7 @@ normalize.css/
 | `tests/` | Fixtures、静态与浏览器测试 | 规划中，**不存在** |
 | `scripts/` | 文档校验、构建与质量脚本 | 规划中，**不存在** |
 | `.github/workflows/` | CI/发布工作流 | **明确不规划**，项目禁止增加 CI；当前不存在 |
-| `.agents/skills/` | 经审核、确有价值的项目技能 | 尚无已安装 Skill |
+| `.agents/skills/` | 第三方原版 Skills | 评审分支已纳入，main 尚无；来源见 [SKILLS](SKILLS.md) |
 
 ## 3. 程序入口与依赖调用链
 

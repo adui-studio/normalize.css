@@ -25,7 +25,8 @@
 | CI | **明确不规划** | 项目约束：不增加任何 CI |
 | npm 包发布、版本号 | **未发布/未确定** | 不能将先前讨论的草案版本当成仓库发布事实 |
 | 实现方案 | **待评审** | 模块与接口见 [SDD](SDD.md)，ADR-0001 为 Proposed |
-| Skills | **未创建** | 仅建立 [索引](SKILLS.md) |
+| 自研 Skills | **未创建** | 目前没有项目自研技能 |
+| 第三方 Skills | **评审分支已纳入** | 3 个 awesome-copilot 原版 Skill，CLI 未执行，本机发现未验证；见 [索引](SKILLS.md) |
 | Harness | **未搭建** | 仅建立 [验证计划](HARNESS.md) |
 
 ## 3. 已讨论但尚未批准的方向
@@ -41,7 +42,7 @@
 ## 4. 当前工作与后续顺序
 
 1. **本轮**：从原仓库迁移正式工程文档到 ADui Studio；更新仓库地址及许可证归属文字；不实施 CSS 或 CI。
-2. **下一阶段（待评审）**：审核 [规则候选](research/RULE_REVIEW.md) 与 [首批证据审查](research/RULE_EVIDENCE_BATCH1.md)、[浏览器矩阵](research/BROWSER_REVIEW.md)、[竞品对照](research/COMPETITOR_REVIEW.md) 和 [ADR-0002](adr/0002-cascade-layers.md)；规则未做浏览器实测，所有研究均未被批准为实现契约。
+2. **下一阶段（待评审）**：审核 [规则候选](research/RULE_REVIEW.md)、[首批证据](research/RULE_EVIDENCE_BATCH1.md)、[表单研究](research/FORM_CONTROLS_REVIEW.md)、[浏览器矩阵](research/BROWSER_REVIEW.md) 与 [ADR-0002](adr/0002-cascade-layers.md)；协作模板与 Skills 仅在 Draft PR 分支，规则未做真实浏览器测试。
 3. **开发阶段（需新指令）**：选择最小工具链、编写源码、Fixture、自动测试与打包配置。
 4. **发布阶段（需单独授权）**：npm 作用域/包名检查、版本冻结、发布审批、Release。
 
@@ -63,6 +64,7 @@
 | 2026-11-03 | 迁移文档到 adui-studio/normalize.css | 保留目标仓库原有 LICENSE；原仓库未删除，Git 历史独立 |
 | 2026-11-03 | 文档评审分支增加规则、浏览器、Layers 研究 | 未合并 main；全部为研究/Proposed，明确不增加 CI |
 | 2026-11-03 | 核验首批 11 条候选的上游规范与修复记录 | R-007/008/009/010/011 调整为暂缓，未实测；见 [证据记录](research/RULE_EVIDENCE_BATCH1.md) |
+| 2026-11-03 | 纳入 3 个 awesome-copilot Skills、Issue/PR 模板和第二批表单规则审查 | 文档评审分支，未合并 main；不增加 CI、CSS 或 npm 依赖 |
 
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与下一阶段变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
