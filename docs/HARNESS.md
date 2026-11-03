@@ -45,7 +45,7 @@ vp pack
 - `vp pack`：官方支持 CSS bundling，但是否适合**无 JS 入口、无 JS 产物**的 CSS-only 库需实测。
 - `vp build` 面向应用，不应直接假定它就是静态 CSS npm 包的构建方式；运行自定义 scripts 应使用 `vp run <name>`。
 
-任何未实际运行的命令只能记录“未执行”，不准声称通过。更多见 [Vite+ 研究](research/VITEPLUS_TOOLCHAIN_REVIEW.md)。项目**不增加任何 CI**。
+任何未实际运行的命令只能记录“未执行”，不准声称通过。更多见 [Vite+ 研究](research/VITEPLUS_TOOLCHAIN_REVIEW.md) 以及 [W-03 本地 Harness 设计](plans/VITEPLUS_LOCAL_HARNESS_DESIGN.md)。项目**不增加任何 CI**。
 
 ## 5. Fixture 最小范围（规划）
 

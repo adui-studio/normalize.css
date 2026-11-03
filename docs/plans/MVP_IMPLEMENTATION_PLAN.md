@@ -30,7 +30,7 @@
 | --- | --- | --- | --- | --- | --- |
 | W-01 | 第一阶段 | 冻结浏览器最低测试目标和验证边界 | 七项 [最低测试目标](../research/BASELINE_2023_MAPPING.md) 已批准，固定时间线核对通过；仍需 OS/设备/发行版证据 | 取得真实版本测试结果后才可在发行说明承诺支持，不自动覆盖 WebView | **版本目标已批准，实测待进行** |
 | W-02 | 第一阶段 | 最小规则证据卡与原生 Fixture 设计 | [R-003/R-004 证据卡](../research/RULE_EVIDENCE_R003_R004.md) 和 [本地验证执行指南](../research/R003_R004_LOCAL_VERIFICATION.md) 已包含旧版官方环境获取线索、T0/T1/T2 与记录模板 | 必测父级 400/600/700、Chrome/Edge 120、Firefox 121、Safari 17.2 与对应移动端；不以源码当实测 | **执行方案已形成；浏览器实测未做** |
-| W-03 | 第二阶段 | Vite+ 本地 Harness 与验证规范 | `vp check`、`vp test`、`vp dev` 及必要的浏览器 Fixture、结果记录 | Vite+ 实际运行与浏览器证据分别验证；无 CI | 未开始（需开发授权） |
+| W-03 | 第二阶段 | Vite+ 本地 Harness 与验证规范 | [开发前设计](VITEPLUS_LOCAL_HARNESS_DESIGN.md) 已形成最小目录和 T0/T1/T2 计划 | 实际工具运行与浏览器证据分别验证；无 CI | 设计完成，未实施（需开发授权） |
 | W-04 | 第二阶段 | Vite+ 下的单一 CSS 包导出与副作用验证 | `vp pack` 纯 CSS 适配实测及必要的最小替代方案 | Vite+ 与 Webpack 消费构建保留 CSS、无运行时 JS，只有默认入口 | 未开始（需开发授权） |
 | W-05 | 第三阶段 | 逐条最小 Normalize 修复 | 按证据准入的最小 CSS、R-ID → 来源 → 测试映射及变更说明 | 有证据才实现；不内建 `@layer`，不加默认 Reset/Forms/A11y；视觉回归无新增重大问题 | 未开始（需开发授权） |
 | W-06 | 第四阶段 | 跨浏览器、无障碍、生态与发布前验收 | Chromium/Firefox/真实 Safari/iOS、组件库/Reset 对照、npm tarball 与 LICENSE 记录 | 逐项列出通过/失败/未运行及可重现信息；阻塞项不得宣传为通过 | 未开始（需开发授权） |

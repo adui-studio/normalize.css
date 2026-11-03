@@ -45,7 +45,8 @@ normalize.css/
     │   ├── VITEPLUS_TOOLCHAIN_REVIEW.md
     │   └── COMPETITOR_REVIEW.md
     ├── plans/
-    │   └── MVP_IMPLEMENTATION_PLAN.md
+    │   ├── MVP_IMPLEMENTATION_PLAN.md
+    │   └── VITEPLUS_LOCAL_HARNESS_DESIGN.md
     └── adr/
         ├── 0001-css-base-strategy.md # Accepted
         ├── 0002-cascade-layers.md # Accepted
