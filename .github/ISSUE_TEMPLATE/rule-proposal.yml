@@ -1,0 +1,74 @@
+name: "🧪 CSS 规则提案"
+description: "提出新增、调整或废弃规则，提交浏览器依据、影响与验收方案。"
+title: "[规则提案] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        规则提案不意味着已经批准实现。默认 Normalize 仅处理有证据的浏览器差异。
+        可先参考 docs/research/RULE_REVIEW.md；文档阶段无需提交 CSS 源码。
+  - type: input
+    id: rule
+    attributes:
+      label: "规则 ID / 需求编号"
+      description: "现有 R-XXX，新增可写待分配；请尽量关联 FR/NFR。"
+      placeholder: "R-015 / FR-001 / NFR-002"
+    validations:
+      required: true
+  - type: dropdown
+    id: module
+    attributes:
+      label: "建议归属"
+      options:
+        - "默认 Normalize（有可复现浏览器差异）"
+        - "可选 Reset"
+        - "可选 Forms"
+        - "可选 A11y"
+        - "暂缓或删除已有候选"
+        - "待评审"
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: "问题与浏览器差异"
+      description: "说明用户可见问题、影响版本及不处理的后果。"
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: "标准、浏览器 Bug 和代码来源"
+      description: "优先 WHATWG、CSS 规范、浏览器缺陷记录及固定上游 SHA。"
+    validations:
+      required: true
+  - type: textarea
+    id: proposed
+    attributes:
+      label: "最小修复思路与备选方案"
+      description: "可以用文字描述，但当前阶段不要提前实现源码。"
+    validations:
+      required: true
+  - type: textarea
+    id: risks
+    attributes:
+      label: "无障碍、原生行为及生态风险"
+      description: "检查焦点、键盘、移动 WebView、UI 组件库、Tailwind/UnoCSS 的兼容性。"
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: "Fixture 与验收条件"
+      description: "指定基线、浏览器版本、单规则对照、集成回归和未覆盖范围。"
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: "项目约束"
+      options:
+        - label: "我没有把未实测的历史问题当作当前浏览器已证实的缺陷。"
+          required: true
+        - label: "此提案不要求增加 CI，也不代表已获准开始 CSS 开发。"
+          required: true

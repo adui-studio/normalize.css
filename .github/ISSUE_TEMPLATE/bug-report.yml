@@ -1,0 +1,83 @@
+name: "🐛 浏览器兼容性问题"
+description: "反馈可复现的原生样式差异、交互异常或组件库冲突。"
+title: "[兼容性] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        请区分实际观察到的事实、推测与尚未验证的信息。不要提交令牌或敏感数据。
+        当前项目仍处于文档评审阶段，暂时没有可安装的 CSS 包。
+  - type: dropdown
+    id: module
+    attributes:
+      label: "受影响模块"
+      options:
+        - "默认 Normalize"
+        - "可选 Reset"
+        - "可选 Forms"
+        - "可选 A11y"
+        - "与 UI 库或其他 Reset 叠加"
+        - "待确认"
+    validations:
+      required: true
+  - type: input
+    id: rule
+    attributes:
+      label: "关联规则 / 需求编号"
+      description: "如 R-015、NFR-007，不清楚可以留空。"
+      placeholder: "R-015 / NFR-007"
+  - type: input
+    id: browser
+    attributes:
+      label: "浏览器与版本"
+      placeholder: "Firefox 132.0 / Safari 18.0"
+    validations:
+      required: true
+  - type: input
+    id: system
+    attributes:
+      label: "系统 / WebView / 运行环境"
+      placeholder: "Windows 11 / iOS Safari / Android WebView"
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: "最小复现步骤"
+      description: "从无作者 CSS 的原生 HTML 开始，注明导入顺序和复现次数。"
+      placeholder: "1. 打开最小 HTML 页面\n2. 触发问题\n3. 观察实际行为"
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: "预期行为"
+      description: "请描述可观察结果，不要先假设原因。"
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: "实际行为"
+      description: "说明具体现象与复现频率。"
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: "最小 HTML / CSS Fixture、截图与日志"
+      description: "可直接上传截图或粘贴最小示例；不要包含隐私数据。"
+  - type: textarea
+    id: regression
+    attributes:
+      label: "原生语义与生态影响"
+      description: "键盘焦点、dialog、hidden、Element Plus、Ant Design、TDesign、Tailwind、UnoCSS 等。"
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: "提交前确认"
+      options:
+        - label: "我已明确区分亲自复现的现象与尚待验证的推测。"
+          required: true
+        - label: "我已移除密钥、令牌和个人数据。"
+          required: true
