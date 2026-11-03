@@ -2,7 +2,7 @@
 
 **状态**：全部待评审 / 未实现 / 未独立运行浏览器验证。  
 **日期**：2026-11-03。**关联**：FR-001、FR-007、NFR-001、NFR-002、NFR-007。  
-**研究来源**：[竞品对照](COMPETITOR_REVIEW.md) · [浏览器矩阵](BROWSER_REVIEW.md) · [首批规则证据审查](RULE_EVIDENCE_BATCH1.md) · [表单规则研究](FORM_CONTROLS_REVIEW.md)。
+**研究来源**：[竞品对照](COMPETITOR_REVIEW.md) · [浏览器矩阵](BROWSER_REVIEW.md) · [首批规则证据审查](RULE_EVIDENCE_BATCH1.md) · [表单规则研究](FORM_CONTROLS_REVIEW.md) · [排版、Reset 与系统偏好规则审查](RULE_EVIDENCE_BATCH3.md)。
 
 ## 准入原则
 
@@ -71,5 +71,7 @@
 ## 规划 Fixture（尚不存在）
 
 F-001：标题、文字、abbr、代码字体、缩放；F-002：hr/table/progress；F-003：details/summary/键盘焦点；F-004：search/file/button/select/textarea/fieldset；F-005：dialog/popover/暗色偏好；F-006：hidden/until-found；F-007：减少动画/高对比度；F-008：媒体/列表/表格；F-009：Element Plus、Ant Design、TDesign；F-010：独立和叠加 Tailwind Preflight / UnoCSS Reset。
+
+**规则资料研究覆盖**：36 条初始候选均在三批证据审查中得到首轮分类和风险记录；**仍没有**浏览器实测或规则准入决议。详见 [第三批审查](RULE_EVIDENCE_BATCH3.md)。
 
 **验收状态**：未运行；不得把本研究表视为 CSS 实现任务清单。

@@ -42,7 +42,7 @@
 ## 4. 当前工作与后续顺序
 
 1. **本轮**：从原仓库迁移正式工程文档到 ADui Studio；更新仓库地址及许可证归属文字；不实施 CSS 或 CI。
-2. **下一阶段（待评审）**：审核 [规则候选](research/RULE_REVIEW.md)、[首批证据](research/RULE_EVIDENCE_BATCH1.md)、[表单研究](research/FORM_CONTROLS_REVIEW.md)、[浏览器矩阵](research/BROWSER_REVIEW.md) 与 [ADR-0002](adr/0002-cascade-layers.md)；协作模板与 Skills 仅在 Draft PR 分支，规则未做真实浏览器测试。
+2. **下一阶段（待评审）**：三批规则资料核查已覆盖 36 条候选，需评审 [规则总表](research/RULE_REVIEW.md)、[第三批研究](research/RULE_EVIDENCE_BATCH3.md)、[浏览器矩阵](research/BROWSER_REVIEW.md) 与 [ADR-0002](adr/0002-cascade-layers.md)、[ADR-0003](adr/0003-mvp-package-contract.md)；这些资料不等于实测或正式批准。
 3. **开发阶段（需新指令）**：选择最小工具链、编写源码、Fixture、自动测试与打包配置。
 4. **发布阶段（需单独授权）**：npm 作用域/包名检查、版本冻结、发布审批、Release。
 
@@ -65,6 +65,7 @@
 | 2026-11-03 | 文档评审分支增加规则、浏览器、Layers 研究 | 未合并 main；全部为研究/Proposed，明确不增加 CI |
 | 2026-11-03 | 核验首批 11 条候选的上游规范与修复记录 | R-007/008/009/010/011 调整为暂缓，未实测；见 [证据记录](research/RULE_EVIDENCE_BATCH1.md) |
 | 2026-11-03 | 纳入 3 个 awesome-copilot Skills、Issue/PR 模板和第二批表单规则审查 | 文档评审分支，未合并 main；不增加 CI、CSS 或 npm 依赖 |
+| 2026-11-03 | 第三批 17 条规则资料核查及 ADR-0003 初稿 | 36 条初始候选均已进行首轮资料研究；未实测、未接受 ADR、未合并 main |
 
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与下一阶段变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 

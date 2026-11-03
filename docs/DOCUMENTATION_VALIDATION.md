@@ -47,4 +47,10 @@
 
 未来进入开发阶段后，仅评估可由维护者本地触发的少依赖文档检查命令，不引入任何 CI。**本文件不表示自动校验已经存在。**
 
+## GitHub 协作模板检查（文档阶段）
+
+目前评审分支已有三个 Issue Forms、`config.yml` 与 PR 模板。对照 [GitHub issue form schema](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-githubs-form-schema) 的字段类型及 ID 规范完成**结构性检查**：各表单字段 ID 不重复，所用类型均在官方枚举内，存在 name、description、body；这不是 YAML 全量 schema 校验，也不是 GitHub UI 实际渲染。
+
+[GitHub 官方模板文档](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/about-issue-and-pull-request-templates) 指出默认分支规则：模板只有进入 `main` 才可供新建 Issue/PR 的普通流程使用；**Draft PR 分支中的文件不能被当成已经上线的模板**。合并前检查链接与文档说明一致；如需验证 UI，需要在维护者批准合并后实际使用 GitHub 页面确认。
+
 **更新约定**：文档目录、需求/ADR 格式、Skills 结构、命令或验证机制变化时维护；失败不得通过删除检查来掩盖。

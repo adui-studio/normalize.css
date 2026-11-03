@@ -76,11 +76,12 @@ flowchart TD
 | CSS Cascade Layers | 候选 | 控制规则层级，但需多入口与跨库验证 |
 | CSS 构建/压缩工具 | 未选型 | 先明确可执行验证需求，不提前锁版本 |
 | 本地浏览器自动化 | 未选型 | 定义浏览器与 Fixtures，再选本地执行工具；**不增加 CI** |
-| 首版包含哪些增强模块 | 待评审 | 以可验证性和低侵入为准 |
+| 首版包含哪些增强模块 | 待评审 | [ADR-0003](adr/0003-mvp-package-contract.md) 对比最小默认入口与可选模块同版发布的取舍 |
 
 ## 8. ADR 索引
 
 - [ADR-0001：CSS 基础策略与模块边界](adr/0001-css-base-strategy.md) — **Proposed**；尚未接受。
 - [ADR-0002：默认是否使用 Cascade Layers](adr/0002-cascade-layers.md) — **Proposed**；尚未接受。
+- [ADR-0003：首版 MVP 模块与包导出边界](adr/0003-mvp-package-contract.md) — **Proposed**；建议最小公开入口，尚未接受。
 
 **更新约定**：模块职责、技术选型、对外依赖和浏览器支持矩阵变化时更新本文件与 ADR，并评估 SDD/需求影响。

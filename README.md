@@ -48,6 +48,8 @@
 | [规则候选研究](docs/research/RULE_REVIEW.md) | 36 条待评审候选，不代表已实现 |
 | [首批规则证据审查](docs/research/RULE_EVIDENCE_BATCH1.md) | 11 条候选的规范依据、历史修复及复现门槛 |
 | [第二批表单规则研究](docs/research/FORM_CONTROLS_REVIEW.md) | 原生表单、文件按钮与占位符的证据审查 |
+| [第三批规则证据研究](docs/research/RULE_EVIDENCE_BATCH3.md) | 剩余 17 条排版、Reset 和系统偏好候选规则 |
+| [ADR-0003](docs/adr/0003-mvp-package-contract.md) | 首版 MVP 导出契约候选方案（Proposed） |
 | [浏览器矩阵](docs/research/BROWSER_REVIEW.md) | 支持范围与测试策略草案 |
 | [竞品对照](docs/research/COMPETITOR_REVIEW.md) | 六类 Normalize/Reset 方案源码研究 |
 

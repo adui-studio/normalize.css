@@ -24,7 +24,7 @@
 | `@adui/normalize.css/forms.css` | Forms CSS | 仅显式使用时生效 |
 | `@adui/normalize.css/all.css` | 经评审的组合 CSS | 不应产生重复/互斥规则 |
 
-具体 `package.json` exports、文件名、CSS 编译方式和 `sideEffects` 标记，均须在开始开发前审定。
+具体 `package.json` exports、文件名、CSS 编译方式和 `sideEffects` 标记，均须在开始开发前审定。**这些候选路径不意味着首版必须全部发布**；参阅 [ADR-0003](adr/0003-mvp-package-contract.md)。
 
 ## 3. CSS 规则准入流程（拟议）
 
@@ -95,6 +95,8 @@
 - [规则候选](research/RULE_REVIEW.md)、[首批证据审查](research/RULE_EVIDENCE_BATCH1.md) 与 [竞品研究](research/COMPETITOR_REVIEW.md)：用于规则证据审查，不代表实现。
 - [浏览器支持矩阵](research/BROWSER_REVIEW.md) 和 [表单规则研究](research/FORM_CONTROLS_REVIEW.md)：未冻结最低版本，不代表完成测试。
 - [ADR-0002](adr/0002-cascade-layers.md)：CSS Layers 默认策略仍待决策。
+- [ADR-0003](adr/0003-mvp-package-contract.md)：MVP 公开入口与 sideEffects 风险的备选设计，仍为 Proposed。
+- [第三批规则证据审查](research/RULE_EVIDENCE_BATCH3.md)：排版、Reset、系统偏好等剩余 17 条规则的来源与风险。
 
 ## 9. 未决事项
 
