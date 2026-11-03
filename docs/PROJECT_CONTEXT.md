@@ -36,7 +36,7 @@
 - **ADR-0003 Accepted**：首版只规划 `@adui/normalize.css` 默认根入口；`all.css` 等路径延期。
 - **ADR-0004 Accepted**：固定 Baseline 2023 作为特性准入参考，七项 [最低浏览器测试目标](research/BASELINE_2023_MAPPING.md) 已批准并依据时间线核对；实际兼容性声明、OS/设备/WebView 仍未实测。
 - **ADR-0005 Accepted**：开发工具链统一使用 Vite+，具体版本、纯 CSS 打包方式和本地运行结果尚未确定。
-- **W-02 部分研究**：已批准最低测试目标包含旧 Blink/WebKit，因此 R-003 成为首版必测条件性候选；R-004 不宜在默认 Normalize 中覆盖用户等宽字号偏好。专项证据见 [R003/R004](research/RULE_EVIDENCE_R003_R004.md)，真实浏览器复现未执行。
+- **W-02 部分研究**：已批准最低测试目标包含旧 Blink/WebKit，因此 R-003 成为首版必测条件性候选；R-004 不宜在默认 Normalize 中覆盖用户等宽字号偏好。[专项证据](research/RULE_EVIDENCE_R003_R004.md) 与 [本地执行指南](research/R003_R004_LOCAL_VERIFICATION.md) 已建立，真实浏览器复现未执行。
 - 仍需实测 Vue/React、Element Plus、Ant Design、TDesign、Tailwind/UnoCSS Reset 兼容性；所有候选规则均未获准实现。
 
 ## 4. 当前工作与后续顺序
@@ -72,6 +72,7 @@
 | 2026-11-03 | 维护者指定 Vite+ 开发工具链，并完成 Baseline 2023 固定映射数据核查 | ADR-0005 Accepted；工具链未安装，候选最低版本非实际浏览器兼容承诺 |
 | 2026-11-03 | W-02 完成 R-003/R-004 第一轮 UA 源码与用户偏好研究 | R-003 条件性候选，R-004 默认不采纳；未执行本项目真实浏览器测试 |
 | 2026-11-03 | 维护者批准 Baseline 2023 七项最低测试目标，补充 WebKit 2023 UA 证据 | R-003 首版必测，R-004 维持默认不采纳；正式浏览器兼容声明仍未验证 |
+| 2026-11-03 | W-02 补充 Firefox 121 发行日期前的 Gecko 源码和官方旧版浏览器获取线索 | 本地验证执行指南已形成；未安装旧浏览器或运行 Fixture |
 
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与下一阶段变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 

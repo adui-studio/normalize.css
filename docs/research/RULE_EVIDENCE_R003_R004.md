@@ -2,7 +2,7 @@
 
 - **日期**：2026-11-03
 - **状态**：上游标准与 UA 源码研究完成第一轮；**未执行本项目真实浏览器测试、未批准 CSS 实现**。
-- **关联**：FR-001、FR-007、NFR-001/002/007 · [规则总表](RULE_REVIEW.md) · [Baseline 2023 映射](BASELINE_2023_MAPPING.md) · [MVP 实施计划](../plans/MVP_IMPLEMENTATION_PLAN.md) · [Issue #3](https://github.com/adui-studio/normalize.css/issues/3)。
+- **关联**：FR-001、FR-007、NFR-001/002/007 · [规则总表](RULE_REVIEW.md) · [Baseline 2023 映射](BASELINE_2023_MAPPING.md) · [本地复现执行指南](R003_R004_LOCAL_VERIFICATION.md) · [MVP 实施计划](../plans/MVP_IMPLEMENTATION_PLAN.md) · [Issue #3](https://github.com/adui-studio/normalize.css/issues/3)。
 
 ## 1. 证据状态
 
@@ -36,7 +36,7 @@ b, strong { font-weight: bolder; }
 | --- | --- | --- |
 | Chromium 120.0.6099.109 | [固定版本 html.css](https://github.com/chromium/chromium/blob/120.0.6099.109/third_party/blink/renderer/core/html/resources/html.css#L1158-L1160) | `strong, b { font-weight: bold }` |
 | Chromium M135 | [StrongBolder 功能记录](https://chromium.googlesource.com/chromium/src/%2B/cf5d8a7575e96c938296a9ca04291c00b4bf601c/third_party/blink/renderer/platform/runtime_enabled_features.json5) 说明 M135 默认启用；[M135 html.css](https://github.com/chromium/chromium/blob/135.0.7049.41/third_party/blink/renderer/core/html/resources/html.css#L1222-L1228) 含特性开关 | 新行为为 `bolder`；保留关闭功能时的 `bold` 回退 |
-| Gecko 2023-12-22 源码提交 | [固定提交 html.css](https://github.com/mozilla/gecko-dev/blob/ba41dea33f6c9315cebece2f7a9d64a95b054897/layout/style/res/html.css#L507-L509) | 已写为 `b, strong { font-weight: bolder }`；该 SHA 不是 Firefox 121 精确发行标签 |
+| Gecko 2023-10-19 源码提交（早于 Firefox 121 发布） | [固定提交 html.css](https://github.com/mozilla/gecko-dev/blob/325bc7b486ea4df80f4029af6ec2001a339c234e/layout/style/res/html.css) | 已写为 `b, strong { font-weight: bolder }`；**该 SHA 仍不是 Firefox 121 精确发行标签** |
 | WebKit 2025-03-08 | [WebKit commit 2f7d04c](https://github.com/WebKit/WebKit/commit/2f7d04cbae67d35d6c3f2830cb134313c9b0dde1) / [Bug 289297](https://bugs.webkit.org/show_bug.cgi?id=289297) | WebKit 同步到规范 `bolder`；Bug 描述修复前 Safari 18.4 Technology Preview 的嵌套粗体结果为 700 |
 | WebKit 2023-12-10（支持目标时期的源码快照） | [固定提交 html.css](https://github.com/WebKit/WebKit/blob/e9d3bfd635935ca09fd161b9bccba90c413a1602/Source/WebCore/css/html.css) | `strong, b { font-weight: bold; }`；**不是 Safari 17.2 正式发行源码/实机结果** |
 | WebKit 当前源码（2026-10-28） | [固定提交 html.css](https://github.com/WebKit/WebKit/blob/5d3798558c9272ebe643e05fa67e0e68107c287a/Source/WebCore/css/html.css#L1426-L1428) | 已写为 `strong, b { font-weight: bolder }` |
@@ -48,7 +48,7 @@ b, strong { font-weight: bolder; }
 维护者已经批准 Baseline 2023 映射的 Chrome/Edge 120、Firefox 121、Safari 17.2（含相应移动核心家族）作为**首版最低测试目标**，详见 [BASELINE_2023_MAPPING](BASELINE_2023_MAPPING.md)。本项目**仍没有**上述版本的真实浏览器验证或正式兼容性声明。
 
 - Chromium 120 的 UA 源码确实使用固定 `bold`，与 HTML 标准的 `bolder` 有差别。
-- Firefox 121 对应的 Gecko 2023-12-22 源码快照使用 `bolder`，但不是精确 release tag。
+- [Firefox 121 官方发布日为 2023-12-19](https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/121)。原先引用 2023-12-22 的 Gecko 快照晚于发行日；已改用**更早的 2023-10-19 源码**（使用 `bolder`）作为历史依据。**两者都不能替代 Firefox 121 精确发行版的实测**。
 - [WebKit 2023-12-10 固定提交](https://github.com/WebKit/WebKit/blob/e9d3bfd635935ca09fd161b9bccba90c413a1602/Source/WebCore/css/html.css) 也明确写为 `font-weight: bold`，这增强了 Safari 17.2 时期旧行为的源码证据；**它不是 Safari 17.2 精确发行标签或实机运行结果**。2025 年 WebKit Bug 又提供了该历史行为的修复时间线。
 - W-01 已把七项版本定为**最低测试目标**，因此 R-003 不能仅因 2025 年浏览器已修复就排除，必须在最低目标版本中优先验证；是否进入默认 CSS 仍以真实复现、低侵入与组件库回归为门槛。
 
@@ -93,7 +93,7 @@ b, strong { font-weight: bolder; }
 
 ### 2.6 暂定准入结论
 
-<badge>条件性候选，未批准</badge>
+**准入状态：首版必测的条件性候选，未批准 CSS 实现。**
 
 候选最小声明为 `b, strong { font-weight: bolder; }`，但不立即写入 CSS。
 
@@ -109,7 +109,7 @@ b, strong { font-weight: bolder; }
 
 固定 UA 源码快照也显示：
 - [Chromium 120](https://github.com/chromium/chromium/blob/120.0.6099.109/third_party/blink/renderer/core/html/resources/html.css#L1166-L1174)：`code/kbd/samp` 与 `pre` 使用 `monospace`；没有为这些目标元素设置 `font-size: 1em`。
-- [Gecko 2023-12-22](https://github.com/mozilla/gecko-dev/blob/ba41dea33f6c9315cebece2f7a9d64a95b054897/layout/style/res/html.css#L512-L516)：`code/kbd/samp` 使用 `-moz-fixed`，即 Firefox 的固定宽度字体映射；没有统一 `font-size:1em`。
+- [Gecko 2023-10-19](https://github.com/mozilla/gecko-dev/blob/325bc7b486ea4df80f4029af6ec2001a339c234e/layout/style/res/html.css)：`code/kbd/samp` 使用 `-moz-fixed`，属于 Gecko 的固定宽度字体映射；没有统一 `font-size:1em`。该提交不是精确 Firefox 121 release tag。
 - [WebKit 2026-10-28](https://github.com/WebKit/WebKit/blob/5d3798558c9272ebe643e05fa67e0e68107c287a/Source/WebCore/css/html.css#L1434-L1443)：使用 `monospace`，`pre` 具有 `white-space: pre`；没有设置目标元素的 `font-size:1em`。
 
 ### 3.2 关键发现：等宽字体字号偏好是用户设置，不应自动抹平
@@ -158,7 +158,7 @@ console.log(value);</pre>
 
 ### 3.5 暂定准入结论
 
-<badge>默认不采纳，待实际验证</badge>
+**准入状态：默认不采纳统一字号；如需改变须另行评审。**
 
 - 默认 Normalize 暂不声明 `font-size:1em`。
 - 默认 Normalize 不指定跨平台代码字体栈，也不使用 `monospace, monospace` 绕过用户偏好。

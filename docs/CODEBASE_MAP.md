@@ -36,6 +36,7 @@ normalize.css/
     │   ├── RULE_REVIEW.md
     │   ├── RULE_EVIDENCE_BATCH1.md
     │   ├── RULE_EVIDENCE_R003_R004.md
+    │   ├── R003_R004_LOCAL_VERIFICATION.md
     │   ├── FORM_CONTROLS_REVIEW.md
     │   ├── RULE_EVIDENCE_BATCH3.md
     │   ├── REVIEW_GATE.md

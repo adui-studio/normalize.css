@@ -38,6 +38,8 @@
 
 每次测试记录浏览器名称/版本、OS、CSS 导入顺序、具体选择器和计算属性、键盘与触摸交互、截图、预期和实际结果。
 
+旧版浏览器的实际获取线索、T0/T1/T2 对照和留证字段见 [R-003/R-004 本地验证执行指南](R003_R004_LOCAL_VERIFICATION.md)。官方归档的存在不等于本项目已安装/运行；已停止维护的旧版浏览器应只用于隔离的本地复现。
+
 **Playwright WebKit 不是品牌 Safari。** [Playwright 官方说明](https://playwright.dev/docs/browsers)指出其 WebKit 由源码衍生并做自动化补丁；不能把 Playwright WebKit 通过等同为 iOS Safari 通过。
 
 ## 表单与文件按钮（研究扩展）

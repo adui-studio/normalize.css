@@ -31,7 +31,9 @@
 
 [Safari 17.2 官方发行说明](https://developer.apple.com/documentation/safari-release-notes/safari-17_2-release-notes) 明确发布日 2023-12-11，适用于 iOS 17.2、iPadOS 17.2、macOS Sonoma、macOS Monterey 与 macOS Ventura。Apple 的 [Safari 17.2 安全公告](https://support.apple.com/en-us/120300) 也明确独立浏览器更新适用于 Monterey 与 Ventura。
 
-这只确认平台**可用性**；不能据此宣称本项目在这些 OS / 设备上通过了任何测试。真实 Safari、WKWebView 与 iOS 版本仍需区分，并记录实际构建号。
+Apple 还在同一 [Safari 17.2 发行说明](https://developer.apple.com/documentation/safari-release-notes/safari-17_2-release-notes) 标明桌面 Safari 17.2 版本标识为 **19617.1.17**。这只确认官方发布信息和平台**可用性**；不能据此宣称本项目在这些 OS / 设备上通过了测试。真实 Safari、WKWebView 与 iOS 版本仍需区分，**不能将桌面 Safari 版本标识直接当成 iOS 的完整构建号**。
+
+Chrome 120 和 Firefox 121 的官方历史版本获取线索及测试边界另见 [本地验证执行指南](R003_R004_LOCAL_VERIFICATION.md)；本轮未下载或执行浏览器。
 
 ## 4. 为什么不能直接宣布已经支持这些版本
 
