@@ -38,18 +38,19 @@ b, strong { font-weight: bolder; }
 | Chromium M135 | [StrongBolder 功能记录](https://chromium.googlesource.com/chromium/src/%2B/cf5d8a7575e96c938296a9ca04291c00b4bf601c/third_party/blink/renderer/platform/runtime_enabled_features.json5) 说明 M135 默认启用；[M135 html.css](https://github.com/chromium/chromium/blob/135.0.7049.41/third_party/blink/renderer/core/html/resources/html.css#L1222-L1228) 含特性开关 | 新行为为 `bolder`；保留关闭功能时的 `bold` 回退 |
 | Gecko 2023-12-22 源码提交 | [固定提交 html.css](https://github.com/mozilla/gecko-dev/blob/ba41dea33f6c9315cebece2f7a9d64a95b054897/layout/style/res/html.css#L507-L509) | 已写为 `b, strong { font-weight: bolder }`；该 SHA 不是 Firefox 121 精确发行标签 |
 | WebKit 2025-03-08 | [WebKit commit 2f7d04c](https://github.com/WebKit/WebKit/commit/2f7d04cbae67d35d6c3f2830cb134313c9b0dde1) / [Bug 289297](https://bugs.webkit.org/show_bug.cgi?id=289297) | WebKit 同步到规范 `bolder`；Bug 描述修复前 Safari 18.4 Technology Preview 的嵌套粗体结果为 700 |
+| WebKit 2023-12-10（支持目标时期的源码快照） | [固定提交 html.css](https://github.com/WebKit/WebKit/blob/e9d3bfd635935ca09fd161b9bccba90c413a1602/Source/WebCore/css/html.css) | `strong, b { font-weight: bold; }`；**不是 Safari 17.2 正式发行源码/实机结果** |
 | WebKit 当前源码（2026-10-28） | [固定提交 html.css](https://github.com/WebKit/WebKit/blob/5d3798558c9272ebe643e05fa67e0e68107c287a/Source/WebCore/css/html.css#L1426-L1428) | 已写为 `strong, b { font-weight: bolder }` |
 
 [Chrome 135 官方稳定版发布说明](https://developer.chrome.com/release-notes/135) 的发布日期为 2025-04-01；[Safari 18.4 官方发行说明](https://developer.apple.com/documentation/safari-release-notes/safari-18_4-release-notes) 的发布日期为 2025-03-31。WebKit 补丁早于 Safari 18.4 正式发行，但 Apple 发行说明未单独列出该 Bug，因此**不能只凭日期就把 Safari 18.4 首次包含版本标为已实证**。
 
 ### 2.3 与本项目 Baseline 2023 的关系
 
-本项目固定快照给出的 Baseline 2023 特性兼容候选版本是 Chrome 120、Edge 120、Firefox 121、Safari 17.2（含相应移动核心家族），详见 [BASELINE_2023_MAPPING](BASELINE_2023_MAPPING.md)。
+维护者已经批准 Baseline 2023 映射的 Chrome/Edge 120、Firefox 121、Safari 17.2（含相应移动核心家族）作为**首版最低测试目标**，详见 [BASELINE_2023_MAPPING](BASELINE_2023_MAPPING.md)。本项目**仍没有**上述版本的真实浏览器验证或正式兼容性声明。
 
 - Chromium 120 的 UA 源码确实使用固定 `bold`，与 HTML 标准的 `bolder` 有差别。
 - Firefox 121 对应的 Gecko 2023-12-22 源码快照使用 `bolder`，但不是精确 release tag。
-- WebKit 2025 年 Bug 证明 Safari 18.4 Technology Preview 修复前仍有旧行为；Safari 17.2 更早，具有相同历史行为的可能性很高，但**本次没有 Safari 17.2 的精确 UA 源码/实机结果**。
-- 固定 Baseline 2023 是 CSS 特性准入参考，**不自动等于本库最低浏览器支持承诺**。只有 W-01 最终把这些旧版本纳入支持范围，才需要按它们继续完成该规则的发行版本复现。
+- [WebKit 2023-12-10 固定提交](https://github.com/WebKit/WebKit/blob/e9d3bfd635935ca09fd161b9bccba90c413a1602/Source/WebCore/css/html.css) 也明确写为 `font-weight: bold`，这增强了 Safari 17.2 时期旧行为的源码证据；**它不是 Safari 17.2 精确发行标签或实机运行结果**。2025 年 WebKit Bug 又提供了该历史行为的修复时间线。
+- W-01 已把七项版本定为**最低测试目标**，因此 R-003 不能仅因 2025 年浏览器已修复就排除，必须在最低目标版本中优先验证；是否进入默认 CSS 仍以真实复现、低侵入与组件库回归为门槛。
 
 ### 2.4 最小复现 Fixture（设计稿，尚未运行）
 
@@ -78,15 +79,27 @@ b, strong { font-weight: bolder; }
 4. 同时记录无库 Baseline、仅单条候选声明、实际包入口三种状态。
 5. 真实 Safari/iOS 与 Playwright WebKit 分开记录。
 
-### 2.5 暂定准入结论
+### 2.5 首版最低目标下的复现验收矩阵（尚未执行）
+
+| 测试环境 | UA 源码预期（不是实测） | parent=400 | parent=600 | parent=700 | 阻塞条件 |
+| --- | --- | --- | --- | --- | --- |
+| Chrome 120 / Edge 120 / Chrome Android 120 | Blink 120 预计 `bold` | 700 | **700（对比规范应为 900）** | **700（对比规范应为 900）** | 分别确认各真实发行版本和 Android 平台 |
+| Firefox 121 / Firefox Android 121 | Gecko 2023 年源码预计 `bolder` | 700 | 900 | 900 | 必须核对实际发行版本，不能以 main/某日源码冒充 release |
+| Safari 17.2 / Safari iOS 17.2 | WebKit 2023-12-10 源码预计 `bold` | 700 | **700（对比规范应为 900）** | **700（对比规范应为 900）** | 需要真实 Safari 17.2 / iOS 17.2 或明示不可得、不能用 Playwright WebKit 冒充 |
+
+父级 600/700 是关键分叉，而父级 400 下多数引擎可能同为 700。CSS `bolder` 对父级 600/700 的计算目标为 900，参阅 [MDN font-weight relative weights](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/font-weight)。
+
+若旧版本 UA 实测确认为 `bold` 而添加候选声明，须在同版继续验证 Candidate 与 Integration，不可只测试 `getComputedStyle` 的数值而忽略原生字重/选择器冲突及真实字体可用性。
+
+### 2.6 暂定准入结论
 
 <badge>条件性候选，未批准</badge>
 
 候选最小声明为 `b, strong { font-weight: bolder; }`，但不立即写入 CSS。
 
-- 如果 W-01 最终支持范围包含 Chromium M135 之前、WebKit 修复之前的稳定版本，且精确版本的真实 Fixture 复现差异，则这条规则具有明确 Normalize 价值。
-- 如果正式最低支持版本均晚于相应修复版本，且目标环境实测一致，则不应继续保留这条历史修复。
-- 在最低支持范围和实际复现确定前，R-003 保留为条件性优先核验项，不算通过、不算已实现。
+- 当前首版目标已包含 Chromium M135 之前和 WebKit 修复之前的版本；**上游源码证据支持必须优先验证这一条**。若精确目标版本真实 Fixture 复现差异，再经 a11y/组件库回归，可以提交最小修复的实现评审。
+- 如果未来维护者正式变更最低支持目标，或目标旧版本的真实行为与源码预期不一致，则重新评审；不得以现代版本行为替代旧版测试。
+- R-003 当前升级为**首版最低目标必测的条件性候选**，但没有获得 CSS 准入、测试通过或实现授权。
 
 ## 3. R-004 — `code` / `kbd` / `samp` / `pre` 等宽字体与字号
 
@@ -154,9 +167,9 @@ console.log(value);</pre>
 
 ## 4. 当前决策对 W-01 / W-02 的影响
 
-1. W-01 必须明确正式最低浏览器版本是否覆盖旧 UA 字重行为；Baseline 2023 的特性映射不能单独作出这个决定。
+1. W-01 已将 Baseline 2023 的七项映射版本确认为**首版最低测试目标**；旧 UA 字重行为仍需真实发行版本的运行结果证明。
 2. W-02 的 R-003 需要真实旧版最低支持浏览器和现代浏览器对照；R-004 需要测试用户 monospace 字号偏好是否保留。
 3. 在真实浏览器验证前，两个候选均不得进入 CSS。
 4. 本卡没有执行 Playwright、Safari、Firefox、Chrome、字体加载或计算样式测试。
 
-**结论**：R-003 是依最低支持版本而定的条件性 Normalize 候选；R-004 的字号统一会覆盖用户偏好，当前不应进入默认 Normalize。两项都未实现、未实测、未关闭 Issue #3。
+**结论**：R-003 是首版已批准最低版本目标下的**必测条件性 Normalize 候选**；R-004 的字号统一会覆盖用户偏好，当前不应进入默认 Normalize。两项都未实现、未实测、未关闭 Issue #3。

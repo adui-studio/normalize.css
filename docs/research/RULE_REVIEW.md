@@ -17,7 +17,7 @@
 | --- | --- | --- | --- |
 | R-001 | HTML 行高统一 | 待定 | 暂缓 |
 | R-002 | iOS 方向变化文字调整 | 待定 | 暂缓 |
-| R-003 | b/strong 字重 | Normalize（取决于正式最低浏览器版本） | 条件性优先核验；Chromium/WebKit 历史差异已有修复时间线 |
+| R-003 | b/strong 字重 | Normalize（若最低目标旧版实测有差异） | **首版必测／未批准实现**：Chrome/Edge 120、Safari 17.2 上游 UA 有旧行为证据 |
 | R-004 | code/kbd/samp/pre 等宽字体与字号 | 默认不采纳；可选排版另评 | 暂缓；统一字号可能覆盖用户 monospace 字号偏好 |
 | R-005 | small 字号 | 待定 | 暂缓 |
 | R-006 | sub/sup 行高 | 待定 | 暂缓 |

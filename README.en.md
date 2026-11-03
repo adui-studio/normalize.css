@@ -24,7 +24,7 @@ A planned, modern CSS normalization foundation emphasizing **minimal defaults, o
 | `@adui/normalize.css/forms.css` | Optional native forms | Deferred |
 | `@adui/normalize.css/all.css` | Combined styles | Deferred |
 
-The MVP default entry does not embed `@layer`, CSS feature admission uses fixed **Baseline 2023** as a reference, and **Vite+** is the approved future development toolchain (not yet installed). Actual minimum browser versions remain unverified. No installation instructions are available before implementation and release.
+The MVP default entry does not embed `@layer`, CSS feature admission uses fixed **Baseline 2023** as a reference, and **Vite+** is the approved future development toolchain (not yet installed). Minimum **test targets** are approved: Chrome/Edge 120, Firefox 121, Safari 17.2 and corresponding core mobile browsers. **No actual compatibility tests have been run, and these are not published support claims.** No installation instructions are available before implementation and release.
 
 ## Design constraints
 

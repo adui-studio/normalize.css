@@ -24,7 +24,7 @@
 | `@adui/normalize.css/forms.css` | 原生表单交互增强 | 首版延期；未来单独评审 |
 | `@adui/normalize.css/all.css` | 显式组合入口 | 首版延期；未来单独评审 |
 
-长期模块方向已经 [ADR-0001](docs/adr/0001-css-base-strategy.md) 批准，但首版只保留默认入口；默认**不内置 `@layer`**，固定 **Baseline 2023** 为特性准入参考。npm 导出实现与具体浏览器最低版本仍待验证，**目前不能执行 npm 安装或导入示例**。
+长期模块方向已经 [ADR-0001](docs/adr/0001-css-base-strategy.md) 批准，但首版只保留默认入口；默认**不内置 `@layer`**，固定 **Baseline 2023** 为特性准入参考。核心浏览器最低**测试目标**已批准：Chrome/Edge 120、Firefox 121、Safari 17.2（含对应移动浏览器），**尚未实测通过，不能视为已发布支持声明**。npm 导出仍未实现，目前不能执行安装或导入示例。
 
 ## 设计边界
 

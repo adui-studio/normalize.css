@@ -13,7 +13,7 @@
 | [ADR-0001](../adr/0001-css-base-strategy.md) | 长期采用默认 Normalize + 可选 Reset / Forms / A11y 的模块化边界 | 首版会交付全部模块 |
 | [ADR-0002](../adr/0002-cascade-layers.md) | 默认 CSS 不内置 `@layer`，必要时逐条评估 `:where()` | 所有用户 CSS 必然可覆盖，或旧浏览器已经实测 |
 | [ADR-0003](../adr/0003-mvp-package-contract.md) | MVP 只公开 `@adui/normalize.css` 默认 CSS 入口 | 现在已有 npm 导出；`/reset.css`、`/forms.css`、`/a11y.css`、`/all.css` 均首版延期 |
-| [ADR-0004](../adr/0004-browser-support-policy.md) | 以固定 Baseline 2023 作为 CSS 特性准入参考；核心/条件性浏览器分层 | 已冻结具体 Chrome / Firefox / Safari / 移动 WebView 版本或通过 UA 兼容性测试 |
+| [ADR-0004](../adr/0004-browser-support-policy.md) | 固定 Baseline 2023 特性准入；Chrome/Edge 120、Firefox 121、Safari 17.2（含相应移动核心家族）已批准为最低测试目标 | **只是最低测试目标批准**；未实测，不包括未确认 WebView |
 
 ## 1. 实施原则和验收标准
 
@@ -28,8 +28,8 @@
 
 | ID | 顺序 | 任务 | 交付物（未来） | 验收口径 | 状态 |
 | --- | --- | --- | --- | --- | --- |
-| W-01 | 第一阶段 | 冻结浏览器最低版本和测试边界 | [固定快照候选版本](../research/BASELINE_2023_MAPPING.md) 已核对，仍需 OS/设备/真实 UA 证据 | 候选版本不是正式支持声明；待验证 OS/WebView 和真实规则差异 | **数据核查部分完成** |
-| W-02 | 第一阶段 | 基础规则证据卡与原生 Fixture 设计 | 已形成 [R-003/R-004 专项证据卡](../research/RULE_EVIDENCE_R003_R004.md) 与最小 Fixture 设计 | 源码研究完成部分；真实浏览器/用户偏好复现未完成，不得准入 CSS | **资料研究部分完成** |
+| W-01 | 第一阶段 | 冻结浏览器最低测试目标和验证边界 | 七项 [最低测试目标](../research/BASELINE_2023_MAPPING.md) 已批准，固定时间线核对通过；仍需 OS/设备/发行版证据 | 取得真实版本测试结果后才可在发行说明承诺支持，不自动覆盖 WebView | **版本目标已批准，实测待进行** |
+| W-02 | 第一阶段 | 最小规则证据卡与原生 Fixture 设计 | [R-003/R-004 证据卡](../research/RULE_EVIDENCE_R003_R004.md) 已有 Blink 120 / WebKit 2023 旧行为源码；R-003 最低目标必测 | 必须覆盖父级 400/600/700、Chrome/Edge 120、Firefox 121、Safari 17.2（含适用移动端）和用户字体偏好；仍不准入 CSS | **源码研究完成部分；浏览器实测未做** |
 | W-03 | 第二阶段 | Vite+ 本地 Harness 与验证规范 | `vp check`、`vp test`、`vp dev` 及必要的浏览器 Fixture、结果记录 | Vite+ 实际运行与浏览器证据分别验证；无 CI | 未开始（需开发授权） |
 | W-04 | 第二阶段 | Vite+ 下的单一 CSS 包导出与副作用验证 | `vp pack` 纯 CSS 适配实测及必要的最小替代方案 | Vite+ 与 Webpack 消费构建保留 CSS、无运行时 JS，只有默认入口 | 未开始（需开发授权） |
 | W-05 | 第三阶段 | 逐条最小 Normalize 修复 | 按证据准入的最小 CSS、R-ID → 来源 → 测试映射及变更说明 | 有证据才实现；不内建 `@layer`，不加默认 Reset/Forms/A11y；视觉回归无新增重大问题 | 未开始（需开发授权） |
@@ -53,7 +53,7 @@
                          通过 -> 才能纳入默认 Normalize
 ```
 
-优先调查 [R-003、R-004](../research/RULE_REVIEW.md) 只是调查顺序，不表示代码一定包含这些规则。其他历史 Bug（如 R-007/008）必须先证实现代目标浏览器仍有问题。
+R-003 已因首版最低目标包含旧版 Blink/WebKit 而列为**优先必测候选**；R-004 默认保留等宽字体字号偏好，不采纳统一字号。两项仍没有完成现代目标版本的实际复现，不表示代码必然包含规则。其他历史 Bug（如 R-007/008）必须先证实现代目标浏览器仍有问题。
 
 ## 4. 最小 Fixture 验收矩阵（规划，不是测试结果）
 
@@ -87,9 +87,9 @@
 
 **已完成（本次文档阶段）**：四项 ADR 已接受；36 条候选已做文献与来源研究；原版 Skills 和 Issue/PR 模板在现有 Draft PR 分支中。
 
-**已有部分研究结果**：W-01 的 [Baseline 2023 候选浏览器映射](../research/BASELINE_2023_MAPPING.md) 已核对；W-02 已形成 [R-003/R-004 专项证据卡](../research/RULE_EVIDENCE_R003_R004.md)；Vite+ 工具链已按 ADR-0005 选定。
+**已有部分研究结果**：W-01 的 [Baseline 2023 最低目标](../research/BASELINE_2023_MAPPING.md) 已批准且源数据/时间线一致；W-02 的 [R-003/R-004 专项证据卡](../research/RULE_EVIDENCE_R003_R004.md) 已补充 Blink 120/WebKit 2023 快照，R-003 最低目标必测；Vite+ 工具链已按 ADR-0005 选定。
 
-**未完成**：正式最低浏览器/OS 版本支持声明、真实 WebView/Safari 测试、W-02 现代 UA 复现、Vite+ 实际安装与版本锁定、CSS 导出/npm 打包以及所有正式测试；W-03～W-07 未启动。
+**未完成**：最低目标浏览器实际 UA/OS/设备测试、正式发行兼容性声明、WebView/Safari/组件库回归、Vite+ 安装与版本锁定、CSS 导出/npm 打包和所有正式测试；W-03～W-07 未启动。
 
 **授权区分**：用户当前批准的是“四项架构方案和转化成执行计划”。**不据此推定授权安装依赖、写 CSS 源码、合并 Draft PR、发布 npm 或创建 Release**。后续明确的开发指令将触发最小实施。
 
