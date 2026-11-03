@@ -27,7 +27,9 @@ normalize.css/
 │   ├── package-smoke.node.test.mjs
 │   ├── probe.node.test.mjs
 │   ├── r003-evidence.mjs             # R-003 JSON 比较 CLI
-│   └── r003-evidence.node.test.mjs   # 合成数据与 CLI 测试
+│   ├── r003-evidence.node.test.mjs   # 合成数据与 CLI 测试
+│   ├── evidence-file.mjs             # R-003 JSON 限长与普通文件安全读取
+│   └── evidence-file.node.test.mjs   # 证据文件格式与资源边界测试
 ├── .github/                  # 评审分支：Issue/PR 模板，无 CI
 │   ├── ISSUE_TEMPLATE/
 │   │   ├── bug-report.yml
