@@ -1,6 +1,6 @@
 # HARNESS — 执行、验证与反馈环境
 
-**当前状态：四项 ADR 已接受，实施计划已建立，但尚无可执行 Harness。** 仓库仍无 package.json、测试框架、构建脚本、CI、浏览器 Fixtures 或发布产物；不得称规划命令已运行。
+**当前状态：五项 ADR 已接受（包括 Vite+ 工具链），实施计划已建立，但尚无可执行 Harness。** 仓库仍无 package.json、测试框架、构建脚本、CI、浏览器 Fixtures 或发布产物；不得称规划命令已运行。
 
 ## 1. Harness 目标
 
@@ -27,19 +27,25 @@
 | 打包发布 | CSS 公开导出、包文件清单、许可证、大小 | npm tarball 验证报告 | 未实现 |
 | CI | 项目明确不增加任何 CI | 不适用 | 不规划 |
 
-## 4. 规划命令与真实命令的界线
+## 4. Vite+ 规划命令与真实运行的界线
 
-未来**可以考虑**使用以下命令名称，但仓库目前**不存在对应 npm scripts，不能执行或宣称通过**：
+Vite+ 已根据 [ADR-0005](adr/0005-viteplus-toolchain.md) 选定为后续统一工具链；`vp` 命令均依据 [官方文档](https://viteplus.dev/guide/) 研究，**尚未在本仓库安装或运行**。
 
 ```sh
-npm run lint
-npm run test
-npm run test:browser
-npm run build
-npm run check
+vp fmt --check
+vp check
+vp test
+vp dev
+vp pack
 ```
 
-工具链要在 [SDD](SDD.md)、[需求](REQUIREMENTS.md) 的最低验证能力确认后再选，避免为了命令名称反向引入依赖。
+- `vp check` / `vp fmt`：静态检查与格式化的候选；对 CSS 的实际覆盖仍需验证。
+- `vp test`：使用 Vitest 进行规则元数据或文件导出等单元检查，**不等于真实浏览器回归**。
+- `vp dev`：用于后续原生 HTML 与 UI 组件 Fixture 的本地预览。
+- `vp pack`：官方支持 CSS bundling，但是否适合**无 JS 入口、无 JS 产物**的 CSS-only 库需实测。
+- `vp build` 面向应用，不应直接假定它就是静态 CSS npm 包的构建方式；运行自定义 scripts 应使用 `vp run <name>`。
+
+任何未实际运行的命令只能记录“未执行”，不准声称通过。更多见 [Vite+ 研究](research/VITEPLUS_TOOLCHAIN_REVIEW.md)。项目**不增加任何 CI**。
 
 ## 5. Fixture 最小范围（规划）
 
