@@ -37,6 +37,10 @@
 
 **Playwright WebKit 不是品牌 Safari。** [Playwright 官方说明](https://playwright.dev/docs/browsers)指出其 WebKit 由源码衍生并做自动化补丁；不能把 Playwright WebKit 通过等同为 iOS Safari 通过。
 
+## 表单与文件按钮（研究扩展）
+
+`::file-selector-button`、`::placeholder` 和 `appearance` 的支持起点及复现计划见 [表单规则研究](FORM_CONTROLS_REVIEW.md)。这些是特性数据而非整包已通过测试的证明。
+
 ## 通过门槛（未启用）
 
 必须复现目标问题、提供修复前后证据、说明对语义/辅助技术/组件库的影响，并记录未覆盖的环境。需要发布时由维护者明确接受版本矩阵，不能由本草案擅自冻结版本。

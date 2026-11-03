@@ -47,8 +47,15 @@
 | [ADR-0002](docs/adr/0002-cascade-layers.md) | CSS Cascade Layers 待评审方案 |
 | [规则候选研究](docs/research/RULE_REVIEW.md) | 36 条待评审候选，不代表已实现 |
 | [首批规则证据审查](docs/research/RULE_EVIDENCE_BATCH1.md) | 11 条候选的规范依据、历史修复及复现门槛 |
+| [第二批表单规则研究](docs/research/FORM_CONTROLS_REVIEW.md) | 原生表单、文件按钮与占位符的证据审查 |
 | [浏览器矩阵](docs/research/BROWSER_REVIEW.md) | 支持范围与测试策略草案 |
 | [竞品对照](docs/research/COMPETITOR_REVIEW.md) | 六类 Normalize/Reset 方案源码研究 |
+
+## 参与讨论与贡献
+
+- [Issue 表单](https://github.com/adui-studio/normalize.css/issues/new/choose)：浏览器兼容性、规则提案、文档与架构讨论，需标记事实状态。
+- [PR 模板](.github/pull_request_template.md)：说明规则证据、影响范围、实际本地验证和文档同步。
+- [项目 Skills](docs/SKILLS.md)：直接纳入上游 `github/awesome-copilot` Skills 文件，供 Codex 与 OpenCode 使用；来源和安装限制见记录。
 
 ## 开发前门槛
 

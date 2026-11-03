@@ -2,7 +2,7 @@
 
 **状态**：全部待评审 / 未实现 / 未独立运行浏览器验证。  
 **日期**：2026-11-03。**关联**：FR-001、FR-007、NFR-001、NFR-002、NFR-007。  
-**研究来源**：[竞品对照](COMPETITOR_REVIEW.md) · [浏览器矩阵](BROWSER_REVIEW.md) · [首批规则证据审查](RULE_EVIDENCE_BATCH1.md)。
+**研究来源**：[竞品对照](COMPETITOR_REVIEW.md) · [浏览器矩阵](BROWSER_REVIEW.md) · [首批规则证据审查](RULE_EVIDENCE_BATCH1.md) · [表单规则研究](FORM_CONTROLS_REVIEW.md)。
 
 ## 准入原则
 
