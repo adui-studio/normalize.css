@@ -1,6 +1,6 @@
 # W-04 — 纯 CSS npm 包导出与副作用验收方案
 
-- **状态**：**W-04 已开始部分实施**，开发用 `package.json` 已存在并完成白名单/`sideEffects` 元数据配置；执行过离线 `npm pack --dry-run`。**仍无正式 CSS、exports、真实包产物或消费端测试**。
+- **状态**：**W-04 已开始部分实施**，开发用 `package.json` 已存在并完成白名单/`sideEffects` 元数据配置；执行过离线 `npm pack --dry-run`。**仍无正式 Normalize CSS、真实项目 exports、发布包产物或 Vite+/Webpack 消费端测试**；合成临时 CSS 包的 npm pack/离线安装/根路径与封装测试已通过。
 - **日期**：2026-11-03
 - **关联**：[Issue #5](https://github.com/adui-studio/normalize.css/issues/5) · [ADR-0003](../adr/0003-mvp-package-contract.md) · [ADR-0005](../adr/0005-viteplus-toolchain.md) · [W-03 Harness 设计](VITEPLUS_LOCAL_HARNESS_DESIGN.md) · [MVP 计划](MVP_IMPLEMENTATION_PLAN.md)
 - **范围**：只验证已接受的 `@adui/normalize.css` **根 CSS 入口**，无运行时 JavaScript 依赖，不发布任何可选 CSS 子路径。
@@ -75,7 +75,21 @@
 - **本次只证明文件白名单与元数据契约的本地行为**。P-01（CSS 实际存在）、P-02/03（生产构建保留 CSS）、P-06（子路径拒绝）、P-07（真实 CSS tarball）、P-09（独立安装）全部仍为 `NOT_RUN`，不得关闭 W-04。
 - 当前环境 Node 22.16.0 不满足 Vite+ 要求，npm Registry DNS 不可用；`vp pack` **未运行**，不能宣布方案 A 已通过或已被否决。
 
-## 7. 研究与事实边界
+## 7. W-04 合成 CSS 包的离线安装验证（2026-11-03）
+
+新增 `tests/package-smoke.node.test.mjs`，只使用 **Node.js 标准库与本机 npm**，在系统临时目录构建**一次性合成测试包**，不写入项目的 `dist/`、不新增正式 Normalize 规则或 `exports`：
+
+1. 合成包固定为 `@adui/normalize.css@0.0.0-smoke.0`，仅有 `exports: {".":"./dist/normalize.css"}`，CSS 内容只是独立命名的测试标记。
+2. 本地执行 `npm pack --json --ignore-scripts --offline`，得到实际 `.tgz`；**校验** tarball 清单恰为 `package.json`、`dist/normalize.css`、测试用 README 和 LICENSE，不包含 `tests/`。
+3. 在另一个临时消费项目执行 `npm install --offline --ignore-scripts --no-save` 安装 tarball，使用 Node `require.resolve` 验证根路径指向正确 CSS 文件且字节内容一致。
+4. 验证 `/reset.css` 和 `/package.json` 返回 `ERR_PACKAGE_PATH_NOT_EXPORTED`；没有 `index.js` 或测试目录进入安装后的包。
+5. 所有临时文件均在测试退出后清理；该合成包**不会进入仓库，也不允许发布**。
+
+**真实结果**：与现有探针、Fixture、元数据契约测试合计，`npm run test:offline` 在本地执行 **10/10 PASS**，包括上述一次实际 npm pack + install。运行时 Node `22.16.0`、npm `10.9.2`；此测试不要求安装 Vite+，并不意味着已验证 Vite+ 1.4.0 打包能力。
+
+**严格限制**：这些是临时合成包的 npm 行为证据，**不将 P-01 / P-02 / P-03 / P-06 / P-07 / P-09 正式包测试改为 PASS**。它们仍为 `NOT_RUN`，直到真正的 Normalize CSS 产物、`exports`、Vite+ / Webpack 生产消费端及实际项目 tarball 均有可复现证据。尤其 `require.resolve` 的路径可解析不表示 Node 能执行 CSS，也不表示打包器会保留 CSS 副作用。
+
+## 8. 研究与事实边界
 
 - **已核对**：Vite+ CSS bundling 能力、Node `exports` 的路径与封装规则、Webpack CSS 副作用/打包行为、npm tarball 过滤机制。
 - **尚未确认**：纯 CSS `vp pack` 的实际输出、根入口对 CSS / JS 导入的兼容性、`style` 元数据的消费者支持、真实 tarball 与副作用测试。

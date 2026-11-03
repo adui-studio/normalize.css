@@ -1,6 +1,6 @@
 # HARNESS — 执行、验证与反馈环境
 
-**当前状态：W-03 已在独立开发分支实现首批本地 Harness 资产**：`package.json`、`vite.config.ts`、R-003/R-004 Fixture、`tests/fixtures.test.ts` 与 Node 探针测试。已在当前容器通过 **Node 测试 8/8**（含 Fixture/元数据契约）与 JS 语法检查；Vite+ 尚未安装/运行，Chromium 无头测试超时，历史目标浏览器未测。无 CSS 发布产物或 CI。
+**当前状态：W-03 已在独立开发分支实现首批本地 Harness 资产**：`package.json`、`vite.config.ts`、R-003/R-004 Fixture、`tests/fixtures.test.ts` 与 Node 探针测试。已在当前容器通过 **Node 测试 10/10**（含 Fixture/元数据契约）与 JS 语法检查；Vite+ 尚未安装/运行，Chromium 无头测试超时，历史目标浏览器未测。无 CSS 发布产物或 CI。
 
 ## 1. Harness 目标
 
@@ -45,12 +45,12 @@ vp pack
 - `vp pack`：官方支持 CSS bundling，但是否适合**无 JS 入口、无 JS 产物**的 CSS-only 库需实测。
 - `vp build` 面向应用，不应直接假定它就是静态 CSS npm 包的构建方式；运行自定义 scripts 应使用 `vp run <name>`。
 
-另外已实际运行 `npm pack --dry-run --json --ignore-scripts --offline .` 并返回成功：当前 `files: ["dist"]` 且尚无 `dist`，因此文件清单只有 `package.json`。**该结果只能说明白名单生效，不表示真实 CSS 包、`exports`、Vite+/Webpack 消费端已通过。**
+另外已实际运行 `npm pack --dry-run --json --ignore-scripts --offline .` 并返回成功：当前 `files: ["dist"]` 且尚无 `dist`，因此文件清单只有 `package.json`。**该结果只能说明白名单生效，不表示真实 CSS 包、`exports`、Vite+/Webpack 消费端已通过。** 此外，`tests/package-smoke.node.test.mjs` 已在临时目录中实际 npm pack 并离线安装合成的单一 CSS 入口包，检查根路径、拒绝未公开子路径及无 JS/私有测试文件；该测试通过，但**不等于项目的正式 CSS 根入口已实现或经过消费端构建验证**。
 
 离线验证可直接运行：
 
 ```sh
-node --test tests/fixtures.node.test.mjs tests/package.node.test.mjs tests/probe.node.test.mjs
+npm run test:offline
 npm pack --dry-run --json --ignore-scripts --offline .
 ```
 

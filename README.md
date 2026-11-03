@@ -41,10 +41,10 @@ npm exec -- vp dev
 打开本地 Vite+ 服务器提示的地址下的 `/fixtures/`，选择 R-003 的 T0 原生与 T1 候选页面，或 R-004 的原生与字号风险页面。每页会展示可复制的计算样式 JSON。无需 Vite+ 安装也可以使用**内置 Node 测试**检验探针逻辑：
 
 ```sh
-node --test tests/fixtures.node.test.mjs tests/package.node.test.mjs tests/probe.node.test.mjs
+npm run test:offline
 ```
 
-**运行状态（2026-11-03）**：Node 内置测试 **8/8 通过**（探针 2、Fixture 4、包契约 2），探针与测试文件语法检查通过；因执行环境为 Node 22.16.0 且 npm Registry 不可用，`vp check/test/dev` 尚未运行、没有生成锁文件。容器内 Chromium 144 无头执行超时，**没有获得浏览器计算样式结果**；最低目标 Chrome/Edge 120、Firefox 121、Safari 17.2 和对应移动端均为 NOT_RUN。Fixture 中的候选 CSS **只供测试，不会发布**。已在开发用 `package.json` 设置 `files: ["dist"]` 与 `sideEffects: ["**/*.css"]`，并真实运行 `npm pack --dry-run --json --ignore-scripts --offline .`：当前缺少 `dist`，仅列出 `package.json`，**这不是 CSS 包打包成功**；未添加 `exports`，保持 `private: true`。不增加 CI。
+**运行状态（2026-11-03）**：Node 内置测试 **10/10 通过**（探针 2、Fixture 4、包契约 3、离线合成包 1），探针与测试文件语法检查通过；因执行环境为 Node 22.16.0 且 npm Registry 不可用，`vp check/test/dev` 尚未运行、没有生成锁文件。容器内 Chromium 144 无头执行超时，**没有获得浏览器计算样式结果**；最低目标 Chrome/Edge 120、Firefox 121、Safari 17.2 和对应移动端均为 NOT_RUN。Fixture 中的候选 CSS **只供测试，不会发布**。已在开发用 `package.json` 设置 `files: ["dist"]` 与 `sideEffects: ["**/*.css"]`，并真实运行 `npm pack --dry-run --json --ignore-scripts --offline .`：当前缺少 `dist`，仅列出 `package.json`，**这不是 CSS 包打包成功**。进一步用 `tests/package-smoke.node.test.mjs` 临时生成合成 CSS 包，在**隔离临时目录**实际执行 npm pack、离线安装、根 CSS 路径解析、未导出子路径拒绝和文件过滤，全部通过；**此测试不使用正式 Normalize CSS，也不能证明 Vite+/Webpack 消费端通过**。真实项目仍未添加 `exports`，保持 `private: true`。不增加 CI。
 
 ## 设计边界
 

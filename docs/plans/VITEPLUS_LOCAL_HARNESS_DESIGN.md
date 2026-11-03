@@ -61,6 +61,6 @@ tests/
 
 **W-03 退出门槛**：工具版本明确，真实本地命令可运行、T0/T1 流程可复现、结果可审查、环境缺口有记录、无 CI。仅有设计文档或 `vp check` 通过都不足以关闭 Issue #4。
 
-**当前实际结果（2026-11-03）**：已创建 `package.json`、`vite.config.ts`、`fixtures/index.html`、R-003/R-004 T0/T1 HTML、`fixtures/probe.js`、`tests/fixtures.test.ts`、`tests/fixtures.node.test.mjs`、`tests/package.node.test.mjs` 和 `tests/probe.node.test.mjs`。已运行 Node 原生测试 **8/8 通过**（Fixture 4、元数据 2、探针 2）和 JS 语法检查；当前容器 Node 22.16.0 低于 Vite+ 所需版本且 npm Registry DNS 不通，**未运行 vp check/test/dev，亦未生成锁文件**。Chromium 144 `--dump-dom` 超时，未获得 UA 计算值。R-003 仍只有候选规则 Fixture、没有发布 CSS，W-03 保持未完成。
+**当前实际结果（2026-11-03）**：已创建 `package.json`、`vite.config.ts`、`fixtures/index.html`、R-003/R-004 T0/T1 HTML、`fixtures/probe.js`、`tests/fixtures.test.ts`、`tests/fixtures.node.test.mjs`、`tests/package.node.test.mjs`、`tests/package-smoke.node.test.mjs` 和 `tests/probe.node.test.mjs`。已运行 Node 原生测试 **10/10 通过**（Fixture 4、元数据 3、探针 2、合成 CSS 包离线安装 1）和 JS 语法检查；当前容器 Node 22.16.0 低于 Vite+ 所需版本且 npm Registry DNS 不通，**未运行 vp check/test/dev，亦未生成锁文件**。Chromium 144 `--dump-dom` 超时，未获得 UA 计算值。R-003 仍只有候选规则 Fixture、没有发布 CSS，W-03 保持未完成。
 
 后续在具备 Node ≥22.18.0 和可用 npm 网络的环境，执行安装、提交锁文件并运行 `vp check` / `vp test` / `vp dev`，再逐项补录最低浏览器版本结果。
