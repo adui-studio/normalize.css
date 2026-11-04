@@ -83,7 +83,7 @@ node tests/r003-evidence.mjs r003-native.json r003-candidate.json
 
 **W-04 最新真实验证（2026-11-04）**：维护者在 Windows Vite+ 1.4.0 执行 `vp pack`，生成唯一 `dist/normalize.css`（约 200 字节）；`npm run test:package` **1/1 PASS**（真实 tarball、离线安装、根导出/私有子路径和文件白名单）；`npm run test:consumer` **1/1 PASS**（真实 tarball 安装至独立 Vite+ 生产消费者，CSS 副作用导入保留）。已有本地 `vp build` 六张 Fixture HTML、`vp test` 6/6 和 `npm run test:offline` 26/26 的实际输出。Webpack 5、Vite+ 开发态以及真实浏览器页面/组件库验收仍待完成；项目不发布 npm、不新增 CI。
 
-**W-04 Webpack 5 验证（待执行）**：已提供独立 `npm run test:webpack`，在 `vp pack` 后从真实 tarball 临时安装 CSS 包和**固定 `webpack@5.112.2`**，以 Webpack 原生 `experiments.css: true` 执行生产构建，检查打包后保留 R-003 字重声明。无需 `webpack-cli` / CSS loader，也**不修改项目根依赖和锁文件**；但此命令首次执行可能访问 npm registry 安装 Webpack，且**还未在 Windows 实跑**。它只检验原生 CSS 生产打包，不代表所有 Webpack loader 链或浏览器效果均已验证。[完整方案](docs/plans/CSS_PACKAGE_DELIVERY_REVIEW.md#77-p-03独立-webpack-5-生产-css-消费测试2026-11-04)。
+**W-04 Webpack 5 验证（待执行）**：已提供独立 `npm run test:webpack`，在 `vp pack` 后从真实 tarball 临时安装 CSS 包和**固定 `webpack@5.112.2`**，以 Webpack 原生 `experiments.css: true` 执行生产构建，检查打包后保留 R-003 字重声明。无需 `webpack-cli` / CSS loader，也**不修改项目根依赖和锁文件**；但此命令首次执行可能访问 npm registry 安装 Webpack，且**还未在 Windows 实跑**。它只检验原生 CSS 生产打包，不代表所有 Webpack loader 链或浏览器效果均已验证。[完整方案](docs/plans/CSS_PACKAGE_DELIVERY_REVIEW.md)。
 
 ## Windows 换行符统一（LF）
 
