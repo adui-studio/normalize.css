@@ -1,13 +1,13 @@
 # W-06 · Vue / React 实际生态消费对照
 
-**状态（2026-11-04）**：维护者 Windows 实测 Vue+Element Plus、React+Ant Design **Vite+ 生产构建均 PASS**；随后提供 Chrome 156 的 Vue+Element Plus T0/T2 截图，确认组件已挂载且 5 个样式探针一致，记为**此环境静态 UI 对照 PASS（截图）**。React 浏览器、Vue 键盘交互及其他浏览器仍待测。新增离线契约 2/2 PASS，旧清单断言导致全套 29/30；该断言已修复，**修复后完整测试尚待本机重跑**。
+**状态（2026-11-04）**：维护者 Windows 实测 Vue+Element Plus、React+Ant Design **Vite+ 生产构建均 PASS**；随后提供 Chrome 156 的 Vue+Element Plus T0/T2 截图，确认组件已挂载且 5 个样式探针一致，记为**此环境静态 UI 对照 PASS（截图）**。React+Ant Design 也已提供 Chrome 156 的 T0/T2 截图：Button/Input 挂载正常、五项计算样式完全一致，故两组组件库的 **Chrome 156 静态 UI 对照均 PASS（截图）**。Vue/React 键盘与实际输入交互、其他浏览器及 TDesign/Reset 生态仍待测。新增离线契约 2/2 PASS，旧清单断言导致全套 29/30；该断言已修复，**修复后完整测试尚待本机重跑**。
 
 ## 验证范围
 
 | 组合               | 固定版本                                 | 页面元素                              | 实际结果                                     |
 | ------------------ | ---------------------------------------- | ------------------------------------- | -------------------------------------------- |
 | Vue + Element Plus | Vue 3.5.44、Element Plus 2.14.7          | 原生 b/strong/code、ElButton、ElInput | 构建 PASS；Chrome 156 静态 UI PASS；交互未测 |
-| React + Ant Design | React/React DOM 19.3.1、Ant Design 6.6.8 | 原生 b/strong/code、Button、Input     | 构建 PASS；UI NOT_RUN                        |
+| React + Ant Design | React/React DOM 19.3.1、Ant Design 6.6.8 | 原生 b/strong/code、Button、Input     | 构建 PASS；Chrome 156 静态 UI PASS；交互未测                        |
 
 版本仅用于**测试复现**，不是对用户项目的最低或最高兼容承诺。分别从官方 npm 公开包的稳定发布记录选取；不依赖 CDN，不使用未固定的 `latest`。TDesign / Tailwind Preflight / UnoCSS Reset 属 W-06 后续批次，不在本次宣布通过。
 
@@ -66,6 +66,17 @@ D:\Workspace\adui-studio\normalize.css\node_modules\.cache\adui-ecosystem-tLDzuZ
 - 两页均存在 Vue esm-bundler feature flags 未显式注入的警告，以及本地 `favicon.ico` 404。它们是共同出现的测试环境提示，不构成 Normalize 样式冲突证据；本次不增加产品 CSS、依赖或构建配置来清理这些非阻塞提示。
 
 **判定**：结合已通过的真实 tarball 生产构建，可将 **Vue 3.5.44 + Element Plus 2.14.7 在 Chrome 156 的 T0/T2 静态渲染和五项计算样式对照**记为 **PASS（截图）**。**未验证** Vue 键盘焦点、实际输入交互，React+Ant Design 的浏览器对照，以及 Edge、Firefox、Safari 和移动端的完整生态回归。W-06 F-009 继续部分完成，Issue #7 保持 Open。修复后的 `npm run test:offline` 完整重跑仍待维护者结果。
+
+## 2026-11-04 · React + Ant Design / Chrome 156 截图对照
+
+维护者在 Vue + Element Plus 对照后，继续提交 React + Ant Design 的两张真实页面与 DevTools Console 截图，按既定测试顺序分别为 T0 原生消费组和 T2 实际 `@adui/normalize.css` 消费组。两张截图均显示 Chrome UA `Chrome/156.0.0.0` 及 Windows NT 平台标识。网页地址没有完整出现在截图中，因此不能单凭截图独立确认端口；依据本轮此前的 T0/T2 构建与启动约定判读。
+
+- 两页均渲染 Ant Design 的主按钮和输入框，截图显示 `ui.buttonMounted: true`、`ui.inputMounted: true`，两页可见静态外观一致。
+- 两页的五行探针值完全一致：`b-600`、`strong-600`、`b-700`、`strong-700` 的计算 `fontWeight: "900"`、`fontSize: "16px"`、`fontFamily: "Noto Sans SC"`；`code` 的 `fontWeight: "400"`、`fontSize: "13px"`、`fontFamily: "monospace"`。
+- 两页均出现 React DevTools 的开发环境推荐信息，未观察到能归因于 Normalize 的独有 CSS 控制台错误。截图没有提供运行时 CSS-in-JS 样式表逐条审计或全部视觉像素差异报告。
+- 此前维护者已实测该组合真实 tarball 的 Vite+ 双生产构建 PASS（原生组静态 CSS 0 字节、T2 静态 CSS 192 字节）；本次截图补上**浏览器静态渲染证据**。Ant Design 的其他组件、按钮点击、输入操作与键盘焦点未实际记录。
+
+**判定**：**React 19.3.1 + React DOM 19.3.1 + Ant Design 6.6.8 在 Chrome 156 的 T0/T2 静态 UI 和五项计算样式对照 PASS（维护者截图）**。Vue + Element Plus 同一浏览器的静态对照也已 PASS。**F-009 整体验收仍未完成**：组件交互、TDesign、Tailwind Preflight / UnoCSS Reset、其他浏览器均不得据此标为已通过。修复后的 `npm run test:offline` 仍无本机完整重跑日志。
 
 ## 二、真实浏览器 T0/T2 对照
 
