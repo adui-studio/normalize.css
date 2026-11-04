@@ -1,13 +1,13 @@
 # W-06 · Vue / React 实际生态消费对照
 
-**状态（2026-11-04）**：本地测试脚本、隔离 T0/T2 生成逻辑和离线契约已实现；**尚未执行真实 Vue/React 生产构建或浏览器交互测试**。不得用“脚本存在”推断 UI 组件库兼容性 PASS。
+**状态（2026-11-04）**：维护者 Windows 实测两种真实 npm 包生态消费者的 **Vite+ 生产构建均 PASS**；浏览器 UI、CSS 计算值与键盘交互尚未验证。新增离线契约 2/2 PASS，但原有 `tests/package.node.test.mjs` 因精确匹配旧六项脚本而失败，本轮已同步断言，**修改后的全套离线测试仍待本机重跑**。不能将构建 PASS 直接扩大为 UI 兼容 PASS。
 
 ## 验证范围
 
 | 组合               | 固定版本                                 | 页面元素                              | 实际结果 |
 | ------------------ | ---------------------------------------- | ------------------------------------- | -------- |
-| Vue + Element Plus | Vue 3.5.44、Element Plus 2.14.7          | 原生 b/strong/code、ElButton、ElInput | NOT_RUN  |
-| React + Ant Design | React/React DOM 19.3.1、Ant Design 6.6.8 | 原生 b/strong/code、Button、Input     | NOT_RUN  |
+| Vue + Element Plus | Vue 3.5.44、Element Plus 2.14.7          | 原生 b/strong/code、ElButton、ElInput | 构建 PASS；UI NOT_RUN |
+| React + Ant Design | React/React DOM 19.3.1、Ant Design 6.6.8 | 原生 b/strong/code、Button、Input     | 构建 PASS；UI NOT_RUN |
 
 版本仅用于**测试复现**，不是对用户项目的最低或最高兼容承诺。分别从官方 npm 公开包的稳定发布记录选取；不依赖 CDN，不使用未固定的 `latest`。TDesign / Tailwind Preflight / UnoCSS Reset 属 W-06 后续批次，不在本次宣布通过。
 
@@ -34,6 +34,27 @@ npm run test:ecosystem -- react-antd
 5. 默认测试结束清理临时目录；失败请保留终端日志。**这只验证构建/导入，不验证最终组件渲染或键盘交互**。
 
 如果 npm registry 不可用或 Vite+ 实际构建失败，记录完整报错并将案例标记 FAIL / BLOCKED，不将其视为浏览器兼容性失败。
+
+## 2026-11-04 · Windows 实际命令记录
+
+维护者提供真实 PowerShell 输出，已确认：
+
+| 命令 / 场景 | 结果 | 说明 |
+| --- | --- | --- |
+| `npm run test:offline`（修复前） | **29/30 PASS，1 FAIL** | 新增 `ecosystem-contract.node.test.mjs` 后，旧测试 `tests/package.node.test.mjs:95` 对 `scripts["test:offline"]` 做旧清单**严格全等**比较；实际七项文件清单已正确运行，新契约测试 2/2 PASS |
+| `npm run test:ecosystem -- vue-element` | **PASS** | T0 CSS **360171** 字节；T2 CSS **360362** 字节；真实包成功导入 Vite+ 生产构建 |
+| `npm run test:ecosystem -- react-antd` | **PASS** | T0 静态 CSS **0** 字节；T2 静态 CSS **192** 字节；真实包成功导入 Vite+ 生产构建。Ant Design CSS-in-JS 可能在浏览器运行时注入样式，0 字节不等于无组件样式 |
+| `npm run test:ecosystem -- vue-element --keep` | **PASS** | 两份生产构建再次成功；隔离消费者目录保留用于后续真实浏览器对照 |
+
+**已实施的最小修复**：仅将 `tests/package.node.test.mjs` 中的 `test:offline` 预期字符串更新为与 `package.json` 一致的七项清单；不改变运行命令、产品 CSS、依赖或生态构建逻辑。**修复后 30/30 尚未在维护者环境执行**，不得推断通过。
+
+保留的临时目录（仅本次运行，清理前可直接使用）：
+
+```text
+D:\Workspace\adui-studio\normalize.css\node_modules\.cache\adui-ecosystem-tLDzuZ
+```
+
+以上路径来自维护者终端，不作为永久路径或重新运行的固定名称。后续浏览器 T0/T2 仍应检查组件是否挂载、外观、焦点与 R-003 计算字重；`F-009` 生态完整回归保持部分完成，Issue #7 Open。
 
 ## 二、真实浏览器 T0/T2 对照
 
