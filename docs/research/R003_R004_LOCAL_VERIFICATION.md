@@ -110,7 +110,7 @@ T1 使用同一个 Chrome 120 窗口手工访问 `http://localhost:5173/fixtures
 
 ### 1.3 Firefox 121.0：Browser Workshop 已验证（2026-11-04）
 
-维护者在 Windows 上以 Firefox 121.0 完成 R-003 T0/T1 采集，运行 `node tests/r003-evidence.mjs` 得到 `NO_COMPUTED_DIFFERENCE`、`differences: 0`、`candidateFailures: 0`。六组 T0/T1 计算值一致：父级 400 对应 700，父级 600/700 对应 900；字号均为 16px，字体族为 `sans-serif`。详见[本机验证记录 §2.4](LOCAL_BROWSER_RUN_20261104.md)。UA 样式声明来源、完整构建号和实际字形尚未验证。
+维护者在 Windows 上以 Firefox 121.0 完成 R-003 T0/T1 采集，运行 `node tests/r003-evidence.mjs` 得到 `NO_COMPUTED_DIFFERENCE`、`differences: 0`、`candidateFailures: 0`。六组 T0/T1 计算值一致：父级 400 对应 700，父级 600/700 对应 900；字号均为 16px，字体族为 `sans-serif`。详见[本机验证记录 §2.4](LOCAL_BROWSER_RUN_20261104.md)。维护者另外提供的 `about:support` JSON 确认 `buildID: 20231211174248`（release）；UA 样式声明来源和实际字形尚未验证。
 
 官方来源：[Mozilla Firefox 121.0 Windows 64-bit 发行归档](https://ftp.mozilla.org/pub/firefox/releases/121.0/win64/en-US/) 与 [SHA256SUMS](https://ftp.mozilla.org/pub/firefox/releases/121.0/SHA256SUMS)。其他 Windows 电脑需要复测时，先尝试 Browser Workshop v1.0.0 官方 Firefox 源：
 
@@ -193,7 +193,7 @@ node tests/r003-evidence.mjs $native $candidate
 | `r004-risk-review.html`（T1）    | `font-size: 1em`                                                            | 原有单声明风险对照   |
 | `r004-family-review.html`（T1b） | 与 T1 相同的 `font-size: 1em`，**额外** `font-family: monospace, monospace` | 隔离重复字体族的影响 |
 
-T1b **不属于已批准的发布规则、不改变 R-004 默认排除决定**。维护者已在 **Chrome 156** 实测并提供截图：T0/T1 中四个元素均为 **13px**，T1b 均为 **16px**，T1b 的 `fontFamily` 均为 `monospace, monospace`；当前值与探针记录一致。详见 [运行记录 §3.2](LOCAL_BROWSER_RUN_20261104.md)。这只证明本次环境的计算样式差异；用户独立等宽字号配置、其他目标浏览器和 CJK 字形回归仍未验证。
+T1b **不属于已批准的发布规则、不改变 R-004 默认排除决定**。维护者已在 **Chrome 156** 实测并提供截图：T0/T1 中四个元素均为 **13px**，T1b 均为 **16px**，`fontFamily` 为 `monospace, monospace`。**Firefox 121** 的 PowerShell JSON 表格进一步显示 T0/T1/T1b 四元素均为 **16px**，T1b 仅字体族发生变化；三个 Firefox 原始 JSON 尚未上传。见[运行记录 §3.2 与 §3.2.1](LOCAL_BROWSER_RUN_20261104.md)。这些结果只证明各自环境的计算样式；用户独立等宽字号配置、Chrome 120、Safari、移动端及 CJK 字形回归仍未验证。
 
 ## 4. 逐次执行记录模板（开发后使用）
 
