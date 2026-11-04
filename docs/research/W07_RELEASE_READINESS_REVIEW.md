@@ -35,12 +35,12 @@ git status --short
 
 维护者提供新一批 Windows PowerShell **实际命令输出**，完成上一批质量回归剩余四项：
 
-| 检查项目 | 维护者提供的实际结果 | 当前判定 |
-| --- | --- | --- |
-| `pnpm install --frozen-lockfile` | `Lockfile passes supply-chain policies (verified 13h ago)`；`Lockfile is up to date, resolution step is skipped`；`Done in 83ms using pnpm v12.15.0` | **PASS：冻结安装成功，版本匹配锁文件**；供应链策略的时效以 pnpm 输出为准 |
-| `git status --short` | 仅显示 `?? .idea/` | **已跟踪文件无待提交修改**；IDE 本地目录未跟踪，应忽略，不将其误写为“Git 工作区完全干净” |
-| `git diff --check` | 命令无任何输出 | **PASS：当前已跟踪工作树差异未报告空白错误**；不检查未跟踪文件 |
-| `npm pack --dry-run --json --ignore-scripts` | 返回有效 JSON；`@adui/normalize.css@0.0.0`；`entryCount:5`；`bundled:[]`；`size:13562` bytes；`unpackedSize:32922` bytes | **PASS：正式包文件白名单匹配，未执行 npm publish** |
+| 检查项目                                     | 维护者提供的实际结果                                                                                                                                 | 当前判定                                                                                 |
+| -------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `pnpm install --frozen-lockfile`             | `Lockfile passes supply-chain policies (verified 13h ago)`；`Lockfile is up to date, resolution step is skipped`；`Done in 83ms using pnpm v12.15.0` | **PASS：冻结安装成功，版本匹配锁文件**；供应链策略的时效以 pnpm 输出为准                 |
+| `git status --short`                         | 仅显示 `?? .idea/`                                                                                                                                   | **已跟踪文件无待提交修改**；IDE 本地目录未跟踪，应忽略，不将其误写为“Git 工作区完全干净” |
+| `git diff --check`                           | 命令无任何输出                                                                                                                                       | **PASS：当前已跟踪工作树差异未报告空白错误**；不检查未跟踪文件                           |
+| `npm pack --dry-run --json --ignore-scripts` | 返回有效 JSON；`@adui/normalize.css@0.0.0`；`entryCount:5`；`bundled:[]`；`size:13562` bytes；`unpackedSize:32922` bytes                             | **PASS：正式包文件白名单匹配，未执行 npm publish**                                       |
 
 **npm 预打包五文件清单（从用户实际输出逐项核对）**：`LICENSE`（1089 B）、`README.en.md`（9595 B）、`README.md`（21096 B）、`dist/normalize.css`（200 B）、`package.json`（942 B）。没有 `src`、`tests`、`fixtures`、`.agents`、`.idea` 或开发依赖；`CHANGELOG.md` 未在当前包白名单中，符合前述文件契约。整个预打包体积约 **13.56 kB**（并非 CSS 文件大小）。`npm pack --dry-run` 是文件清单/打包模拟，不等于真实发布，也不是新一次 tarball 离线安装；真实 tarball 测试已在上一批日志中 **1/1 PASS**。
 
@@ -52,14 +52,14 @@ git status --short
 
 维护者提供 Windows PowerShell 真实终端输出，项目目录 `D:\Workspace\adui-studio\normalize.css`。本条证据来自**用户实际运行的日志**，本助手未远程执行命令，也没有独立获取终端状态或 `git diff`。
 
-| 执行命令 | 维护者提供的可核实结果 | 本次判定 |
-| --- | --- | --- |
-| `vp check --fix` | Formatting completed（7.8 秒）；19 个文件无 Lint warnings/errors（2.0 秒，16 threads） | **PASS**，但 `--fix` 可能写入本地文件，需查看工作区 diff |
-| `vp test` | Vitest 5.0.5：1 个测试文件通过，**7/7** tests，历时约 54.05 秒 | **PASS** |
-| `pnpm run test:offline` | Node 内置测试：**33/33 PASS，0 FAIL，0 skipped**，历时约 1.02 秒 | **PASS** |
-| `vp pack` | 入口 `src/normalize.css`；输出唯一 `dist/normalize.css`，**0.20 kB、gzip 0.18 kB**，Build complete | **PASS** |
-| `pnpm run test:package` | 真实 npm tarball 离线安装与 CSS 入口回归，**1/1 PASS** | **PASS** |
-| `pnpm run test:consumer` | 真实 tarball 的独立 Vite+ 生产消费 CSS 保留，**1/1 PASS** | **PASS** |
+| 执行命令                 | 维护者提供的可核实结果                                                                             | 本次判定                                                 |
+| ------------------------ | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| `vp check --fix`         | Formatting completed（7.8 秒）；19 个文件无 Lint warnings/errors（2.0 秒，16 threads）             | **PASS**，但 `--fix` 可能写入本地文件，需查看工作区 diff |
+| `vp test`                | Vitest 5.0.5：1 个测试文件通过，**7/7** tests，历时约 54.05 秒                                     | **PASS**                                                 |
+| `pnpm run test:offline`  | Node 内置测试：**33/33 PASS，0 FAIL，0 skipped**，历时约 1.02 秒                                   | **PASS**                                                 |
+| `vp pack`                | 入口 `src/normalize.css`；输出唯一 `dist/normalize.css`，**0.20 kB、gzip 0.18 kB**，Build complete | **PASS**                                                 |
+| `pnpm run test:package`  | 真实 npm tarball 离线安装与 CSS 入口回归，**1/1 PASS**                                             | **PASS**                                                 |
+| `pnpm run test:consumer` | 真实 tarball 的独立 Vite+ 生产消费 CSS 保留，**1/1 PASS**                                          | **PASS**                                                 |
 
 **阶段结论**：W-07 P-06 的上述 6 个当前本地质量门槛，在维护者提供日志的范围内**全部 PASS**；这比历史 W-04/W-06 阶段的旧数字更新。产品 CSS 是唯一 R-003，`vp pack` 只产生一个 CSS 文件；并未据此宣称未运行的浏览器矩阵、发布流程或网络服务正常。
 
@@ -161,15 +161,15 @@ git push origin feat/viteplus-local-harness
 
 ## 3. 发布前尚未完成的事项
 
-| 编号 | 事项                     | 当前证据                                                                                                                                       | 风险/决定                                                                                                                                                       |
-| ---- | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| P-01 | **锁文件与包管理器策略** | pnpm 12.15.0、唯一 `pnpm-lock.yaml` 已入库；维护者 Windows `pnpm install --frozen-lockfile` 83ms 成功且依赖解析跳过 | **PASS（真实冻结安装 + GitHub 静态核对）** |
-| P-02 | **版本和 npm 发布开关**  | `version:"0.0.0"`、`private:true`                                                                                                              | **预期发布阻断**：保持现状直到维护者正式指定首个语义化版本并授权公开发布；**不提前清除 `private`**                                                              |
-| P-03 | **公开 npm 元数据** | 已补充 `description`、`license:MIT`、`repository`、`homepage`、`bugs`；GitHub JSON/字段/原有配置静态核对 PASS | **元数据实施完成／新版 manifest 真实 tarball 与消费端复验 NOT_RUN**；不得将此前旧包测试冒充新版本 PASS |
-| P-04 | **npm 组织/作用域权限**  | 无已验证的 `@adui` npm scope 发布授权、包名可用性或维护者身份资料                                                                              | **NOT_VERIFIED**：发布前由维护者自行核验；不读取令牌、不登录、不尝试发布                                                                                        |
-| P-05 | **公开兼容性范围**       | [W-06](W06_ACCEPTANCE_INDEX.md) 已获维护者管理验收；缺少本次逐目标 UA/OS/设备原始附件                                                          | **文案门槛**：不得把目标最低版本清单直接写成已经可复核 PASS 的公开支持承诺                                                                                      |
-| P-06 | **最终本机复核** | 维护者 Windows 实际日志：19 文件格式/Lint 正常，Vitest 7/7、Node 33/33、唯一 CSS 打包、真实 tarball 1/1、Vite+ 消费 1/1、冻结安装成功、`git diff --check` 无输出、npm 预打包五文件白名单完全匹配 | **PASS（真实执行日志；`.idea/` 已在后续仓库规则中忽略，生效待下一次拉取确认）** |
-| P-07 | **最终发行准许**         | W-07 当前只获授权执行质量审核，**未授权发布、Release、合并或改生产配置**                                                                       | **BLOCKER**：发布需维护者新的明确指令                                                                                                                           |
+| 编号 | 事项                     | 当前证据                                                                                                                                                                                         | 风险/决定                                                                                              |
+| ---- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ |
+| P-01 | **锁文件与包管理器策略** | pnpm 12.15.0、唯一 `pnpm-lock.yaml` 已入库；维护者 Windows `pnpm install --frozen-lockfile` 83ms 成功且依赖解析跳过                                                                              | **PASS（真实冻结安装 + GitHub 静态核对）**                                                             |
+| P-02 | **版本和 npm 发布开关**  | `version:"0.0.0"`、`private:true`                                                                                                                                                                | **预期发布阻断**：保持现状直到维护者正式指定首个语义化版本并授权公开发布；**不提前清除 `private`**     |
+| P-03 | **公开 npm 元数据**      | 已补充 `description`、`license:MIT`、`repository`、`homepage`、`bugs`；GitHub JSON/字段/原有配置静态核对 PASS                                                                                    | **元数据实施完成／新版 manifest 真实 tarball 与消费端复验 NOT_RUN**；不得将此前旧包测试冒充新版本 PASS |
+| P-04 | **npm 组织/作用域权限**  | 无已验证的 `@adui` npm scope 发布授权、包名可用性或维护者身份资料                                                                                                                                | **NOT_VERIFIED**：发布前由维护者自行核验；不读取令牌、不登录、不尝试发布                               |
+| P-05 | **公开兼容性范围**       | [W-06](W06_ACCEPTANCE_INDEX.md) 已获维护者管理验收；缺少本次逐目标 UA/OS/设备原始附件                                                                                                            | **文案门槛**：不得把目标最低版本清单直接写成已经可复核 PASS 的公开支持承诺                             |
+| P-06 | **最终本机复核**         | 维护者 Windows 实际日志：19 文件格式/Lint 正常，Vitest 7/7、Node 33/33、唯一 CSS 打包、真实 tarball 1/1、Vite+ 消费 1/1、冻结安装成功、`git diff --check` 无输出、npm 预打包五文件白名单完全匹配 | **PASS（真实执行日志；`.idea/` 已在后续仓库规则中忽略，生效待下一次拉取确认）**                        |
+| P-07 | **最终发行准许**         | W-07 当前只获授权执行质量审核，**未授权发布、Release、合并或改生产配置**                                                                                                                         | **BLOCKER**：发布需维护者新的明确指令                                                                  |
 
 **许可证细节（最新）**：`LICENSE` 本来就是 MIT，`package.json` 现已显式补充 `license:"MIT"`；两者静态一致。该元数据变化不影响 R-003 CSS 或运行时依赖。
 
