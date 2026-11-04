@@ -139,6 +139,8 @@
 
 **2026-11-04 · W-06 UnoCSS Chrome 156 静态结果**：维护者提供三份 `window.__aduiResetEvidence` JSON，均为 Chrome 156 / Windows NT UA，12 个相同元素各采集 14 项计算样式，三份逐项一致（本次审阅未发现差异）。暂按此前顺序归为 `unocss-tailwind-v4` 的 `baseline → normalize-first → normalize-last`；由于数据未含页面 URL、模式 ID 或 CSS 来源，该归类仍需由页面地址或资源证据确认。只记录 **静态计算样式零差异**，不得记为完整浏览器/交互 PASS；兼容组、Tailwind 与规则胜出来源待测。详见 [W-06 Reset 记录](research/W06_RESET_LOCAL_VERIFICATION.md)。产品 CSS 未改。
 
+**2026-11-04 · W-06 UnoCSS v4 页面来源复核**：维护者随后在 Chrome 156 的 `http://localhost:5180/`、`:5181/`、`:5182/` 提供 `document.styleSheets` 记录，首个样式表的 `data-vite-dev-id` 分别指向同一已保留的 `adui-reset-UQvmww` 消费者中的 `baseline/style.css`、`normalize-first/style.css`、`normalize-last/style.css`。三组页面来源已核实，与之前按顺序采集的三份 12×14 项静态计算结果一致形成更完整的证据链；但原 JSON 本身未携带 URL，且第二个无来源样式表及最终胜出规则、交互尚未审查。只将 **PAGE_SOURCE_CONFIRMED + 静态采样零差异**作为阶段结论，F-010 仍未整体 PASS。见 [Reset 实验记录](research/W06_RESET_LOCAL_VERIFICATION.md)；下一步分别核对 compat 与 Tailwind，不修改产品 CSS。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与待决策变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源
