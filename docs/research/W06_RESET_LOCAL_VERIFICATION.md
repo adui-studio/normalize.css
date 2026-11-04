@@ -1,7 +1,7 @@
 # W-06 · Tailwind Preflight 与 UnoCSS Reset 独立回归
 
 **更新日期**：2026-11-04  
-**状态（最新）**：三个互相隔离的 Reset 场景（Tailwind v4 Preflight、UnoCSS tailwind-v4、UnoCSS tailwind-compat）已取得 **9/9 真实 tarball + Vite+ 生产构建 PASS**，各自的 Chrome 156 三模式 12 元素 × 14 属性静态采样均零差异；Tailwind 另有两种加载顺序下的 CSS Layer 胜出截图、完整原生交互事件日志及 beforematch 证据。**维护者本轮确认剩余 UnoCSS 两套 Reset 的交互验证也全部通过**，记录为「维护者人工反馈 PASS（具体逐页原始交互日志尚未提供）」；不将该反馈伪装为工具独立复验或原始日志。F-010 的 Chrome 156 本轮三个 Reset 场景可记为已完成所约定的本地对照；Firefox/WebKit、最低目标浏览器、系统偏好和更完整的表单无障碍场景仍待验证，**W-06 不能整体结项**。
+**状态（最新）**：三个互相隔离的 Reset 场景（Tailwind v4 Preflight、UnoCSS tailwind-v4、UnoCSS tailwind-compat）已取得 **9/9 真实 tarball + Vite+ 生产构建 PASS**，各自的 Chrome 156 三模式 12 元素 × 14 属性静态采样均零差异；Tailwind 另有两种加载顺序下的 CSS Layer 胜出截图、完整原生交互事件日志及 beforematch 证据。**维护者本轮确认剩余 UnoCSS 两套 Reset 的交互验证也全部通过**，记录为「维护者人工反馈 PASS（具体逐页原始交互日志尚未提供）」；不将该反馈伪装为工具独立复验或原始日志。F-010 的 Chrome 156 本轮三个 Reset 场景可记为已完成所约定的本地对照；Firefox/WebKit、最低目标浏览器、系统偏好和更完整表单无障碍场景的逐项原始证据仍未随本批记录提供。**维护者随后确认 W-06 已正式验收归档**；工作项结项与逐环境技术证据为不同层级，见 [W-06 验收归档索引](W06_ACCEPTANCE_INDEX.md)。
 
 **前置**：维护者在本轮对话中确认 TDesign 对照已完成；其具体浏览器、日志、截图、结果尚未同步到 W-06 记录。以下任务直接推进 F-010，**不要求重复 TDesign**。
 
