@@ -129,6 +129,8 @@
 
 **W-06 Vue + Element Plus 浏览器截图结果（2026-11-04）**：维护者提供两张 Chrome 156 的真实页面+控制台截图，T0 `localhost:5174` 和 T2 `localhost:5175` 的 Element Plus Button/Input 均挂载（`true/true`），页面静态外观一致；计算样式的五行完全一致，父级 600/700 的 b/strong 均为 `900`，`code` 均为 `13px`、`monospace`。综合此前 Vue 真实 tarball Vite+ 构建 PASS，**Vue 3.5.44 + Element Plus 2.14.7 在 Chrome 156 的静态 UI 与 R-003/R-004 代表性计算样式对照 PASS（截图证据）**；未运行 Vue 组件实际输入/键盘回归，React+Ant Design 仅生产构建 PASS，其他浏览器未测。两页面有相同 Vue feature flags 警告及本地 favicon 404，均不视作由 Normalize 引起的样式失败。W-06 #7 保持 Open；修复后的 Node 30/30 仍待本机回归。[详情](research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)。
 
+**W-06 React + Ant Design 浏览器截图结果（2026-11-04）**：维护者提供 React 19.3.1 + React DOM 19.3.1 + Ant Design 6.6.8 的 Chrome 156 T0/T2 页面与 Console 截图，两页 Button/Input 均已挂载（`true/true`）、静态外观一致；b/strong 四组计算字重皆 `900`，`code` 为 `13px`/`monospace`，两页五项数据一致。结合该组合真实 npm tarball 的 Vite+ 生产构建 PASS，**React+Ant Design 的 Chrome 156 静态 UI/计算样式对照 PASS（截图）**；Vue+Element Plus 在该浏览器的同类对照此前亦已 PASS。未执行 UI 输入/焦点交互、其他目标浏览器、TDesign、Tailwind/UnoCSS 回归；修复后的离线 Node 30/30 仍待本机验证。F-009、W-06 Issue #7 保持部分完成/Open。详见[生态验证说明](research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)，未改产品 CSS、依赖或 CI。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与待决策变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源
