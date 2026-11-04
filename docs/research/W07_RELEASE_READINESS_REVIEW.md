@@ -3,9 +3,42 @@
 - **首次审查日期**：2026-11-04
 - **分支**：`feat/viteplus-local-harness`
 - **工作项**：[W-07 / Issue #8](https://github.com/adui-studio/normalize.css/issues/8)
-- **审查形式**：读取 GitHub 开发分支当前文件、遍历仓库提交树、比对已有人工/终端证据；**不是在维护者 Windows 环境重新运行 Vite+ / npm 命令**。
+- **审查形式**：读取 GitHub 开发分支当前文件及提交树，并核对维护者提供的 Windows PowerShell 原始命令输出；**本助手没有直接在维护者 Windows 环境运行命令**。
 - **审核判断**：**部分通过，发布准备尚未就绪；Issue #8 保持 Open**。
 - **红线**：不修改产品 CSS 或既定包根入口；不新增依赖/CI、GitHub Actions、自动发布；不执行 npm publish、GitHub Release、`main` 合并。
+
+## 2026-11-05 · P-06 本地质量回归（最新）
+
+维护者提供 Windows PowerShell 真实终端输出，项目目录 `D:\Workspace\adui-studio\normalize.css`。本条证据来自**用户实际运行的日志**，本助手未远程执行命令，也没有独立获取终端状态或 `git diff`。
+
+| 执行命令 | 维护者提供的可核实结果 | 本次判定 |
+| --- | --- | --- |
+| `vp check --fix` | Formatting completed（7.8 秒）；19 个文件无 Lint warnings/errors（2.0 秒，16 threads） | **PASS**，但 `--fix` 可能写入本地文件，需查看工作区 diff |
+| `vp test` | Vitest 5.0.5：1 个测试文件通过，**7/7** tests，历时约 54.05 秒 | **PASS** |
+| `pnpm run test:offline` | Node 内置测试：**33/33 PASS，0 FAIL，0 skipped**，历时约 1.02 秒 | **PASS** |
+| `vp pack` | 入口 `src/normalize.css`；输出唯一 `dist/normalize.css`，**0.20 kB、gzip 0.18 kB**，Build complete | **PASS** |
+| `pnpm run test:package` | 真实 npm tarball 离线安装与 CSS 入口回归，**1/1 PASS** | **PASS** |
+| `pnpm run test:consumer` | 真实 tarball 的独立 Vite+ 生产消费 CSS 保留，**1/1 PASS** | **PASS** |
+
+**阶段结论**：W-07 P-06 的上述 6 个当前本地质量门槛，在维护者提供日志的范围内**全部 PASS**；这比历史 W-04/W-06 阶段的旧数字更新。产品 CSS 是唯一 R-003，`vp pack` 只产生一个 CSS 文件；并未据此宣称未运行的浏览器矩阵、发布流程或网络服务正常。
+
+**仍待确认**：
+
+1. 用户日志**未包含** `pnpm install --frozen-lockfile` 输出，不能把锁文件存在和 6 组测试成功等同于**冻结安装已验证**。
+2. `vp check --fix` 是可能修改文件的操作；尚未提供 `git status --short` / `git diff --check` 和实际变更清单，不能认定格式修复已同步到 GitHub 分支。
+3. `npm pack --dry-run --json --ignore-scripts` 的本轮输出未提供；真实 tarball 测试已通过，但未来如修改 `package.json` 的元数据，必须再次复核。
+4. 目前 `package.json` 仍是 `private:true`、`version:"0.0.0"`，公开元数据和 npm scope 权限待审核；**不发布、不合并、不增加 CI**。
+
+**最小补充检查**（无需重复已经 PASS 的测试）：
+
+```powershell
+pnpm install --frozen-lockfile
+git status --short
+git diff --check
+npm pack --dry-run --json --ignore-scripts
+```
+
+以上命令是**后续待执行/待提供日志**，并非本次已运行结果。
 
 ## 2026-11-04 · P-01 锁文件提交与静态核对（最新）
 
@@ -94,7 +127,7 @@ git push origin feat/viteplus-local-harness
 | P-03 | **包元数据**             | 当前 `package.json` 没有 `license`、`description`、`repository`、`homepage`、`bugs` 等字段；仓库 `LICENSE` 文件真实存在                        | **待补充审核**：优先 `license: "MIT"` 与明确的仓库 URL；其它字段按必要性补齐；修改 manifest 需另行批准并复测包契约                                              |
 | P-04 | **npm 组织/作用域权限**  | 无已验证的 `@adui` npm scope 发布授权、包名可用性或维护者身份资料                                                                              | **NOT_VERIFIED**：发布前由维护者自行核验；不读取令牌、不登录、不尝试发布                                                                                        |
 | P-05 | **公开兼容性范围**       | [W-06](W06_ACCEPTANCE_INDEX.md) 已获维护者管理验收；缺少本次逐目标 UA/OS/设备原始附件                                                          | **文案门槛**：不得把目标最低版本清单直接写成已经可复核 PASS 的公开支持承诺                                                                                      |
-| P-06 | **最终本机复核**         | 已存在旧阶段 `vp check` / `vp test` / `test:offline` / `test:package` / `test:consumer` PASS 记录                                              | **NOT_RUN（本次）**：最新文档/包设置定稿后按本地命令重跑；不得当作本轮已执行                                                                                    |
+| P-06 | **最终本机复核** | **维护者 2026-11-05 Windows 原始输出**：`vp check --fix` 格式化完成、19 文件零 Lint 警告/错误；Vitest 7/7；离线 Node 33/33；`vp pack` 仅输出 `dist/normalize.css` 0.20 kB；真实 npm 包安装 1/1；Vite+ 生产消费 1/1 | **本轮上述 6 项 PASS（基于维护者实际终端日志）**；冻结安装输出、`git status`/格式修订是否已提交、`npm pack --dry-run` 和后续 manifest 改动后的回归尚待核实 |
 | P-07 | **最终发行准许**         | W-07 当前只获授权执行质量审核，**未授权发布、Release、合并或改生产配置**                                                                       | **BLOCKER**：发布需维护者新的明确指令                                                                                                                           |
 
 **许可证细节**：`LICENSE` 文件已经存在并在历史 tarball 测试的允许清单中，但 `package.json` 尚未显式声明 `license:"MIT"`。这不是“缺少许可证文件”，而是 npm 元数据与仓库许可证描述尚未同步。
