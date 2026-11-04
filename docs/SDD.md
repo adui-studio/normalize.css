@@ -139,6 +139,14 @@ W-03 的 T0/T1 只验证浏览器原生值与孤立候选规则；W-04 已证明
 
 维护者完成 React+Ant Design 真实 tarball 的隔离 Vite+ 生产构建后，又提供 Chrome 156 的 T0/T2 页面与 Console 截图。Ant Design Button/Input 在两组均挂载，四项 b/strong 计算字重均 900，code 为 13px/monospace，五个样式测量点、组件静态外观一致。记录 **React 19.3.1 + Ant Design 6.6.8 的 Chrome 156 静态 UI PASS（截图）**，不等于 CSS-in-JS 全组件或键盘/输入行为通过。当前 Vue+Element Plus、React+Ant Design 的 Chrome 156 静态对照均已 PASS，但完整 F-009 还缺其他生态、浏览器与实际交互，且修复后的离线测试尚未复验。见[生态证据](research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)。
 
+### 2.15 W-06 第四批：Vue + TDesign 独立生态对照（2026-11-04）
+
+前一轮 Vue + Element Plus、React + Ant Design 的真实 npm tarball Vite+ 生产构建与 Chrome 156 T0/T2 静态样式均已有 PASS 证据。维护者最新 Windows `npm run test:offline` **30/30 PASS**，确认此前测试脚本清单断言已修复；不需要重做这些既有通过项。
+
+下一批只在已有 `tests/ecosystem-fixtures.mjs` 的 `ecosystemCases` 新增 **`vue-tdesign`**：固定 `vue@3.5.44` 和 `tdesign-vue-next@1.20.10`，引用 TDesign Vue Next 官方 CSS 入口 `tdesign-vue-next/es/style/index.css`，用 Vue `createApp` / `h()` 生成 TDesign Button/Input，继续避免引入 `.vue`、JSX、额外 Vite 插件或新的根依赖。按照现有隔离消费者测试脚本，从真实 `vp pack` CSS tarball 安装并生成 native/T2 两组独立 Vite+ 生产构建；T2 只增加 `import "@adui/normalize.css"`。安装和临时清理逻辑复用现有实现，不扩大 CSS 包出口或修改产品规则。
+
+自动构建门槛是两组 Vite+ 构建与真实 CSS 保留；浏览器门槛是相同 Chrome/系统环境的 T0/T2 Button/Input 成功挂载、R-003/R-004 五个计算样式点以及实际焦点/输入表现单独核验。测试场景以官方包的实际导出为准，错误不得解释成 Normalize 兼容失败。此测试脚本在开发分支提交后状态为 **NOT_RUN**，直到维护者 Windows 实际执行。未来 Tailwind Preflight 与 UnoCSS Reset 仍按各自引入顺序独立研究，不与 UI 库混合测试。
+
 ## 3. CSS 规则准入流程（拟议）
 
 1. **问题**：列出浏览器/版本、HTML Fixture、原生样式偏差及用户可见问题。
