@@ -85,15 +85,15 @@ W-03/W-04/W-05 开发分支基于尚未合并的文档评审分支；已增加�
 
 ## 2. 尚不存在的路径（不据此创建占位）
 
-| 候选路径                         | 拟承担职责                          | 状态                                                  |
-| -------------------------------- | ----------------------------------- | ----------------------------------------------------- |
-| `src/normalize.css`              | 默认 Normalize 唯一源码             | **开发分支已实现：仅 R-003**                          |
-| `dist/`                          | CSS 发布产物                        | 规划中，**不存在**                                    |
-| `package.json` 的 CSS `exports`  | 唯一根 CSS 入口                     | **开发分支已实现**；仍 `private: true`                |
+| 候选路径                         | 拟承担职责                          | 状态                                                        |
+| -------------------------------- | ----------------------------------- | ----------------------------------------------------------- |
+| `src/normalize.css`              | 默认 Normalize 唯一源码             | **开发分支已实现：仅 R-003**                                |
+| `dist/`                          | CSS 发布产物                        | 规划中，**不存在**                                          |
+| `package.json` 的 CSS `exports`  | 唯一根 CSS 入口                     | **开发分支已实现**；仍 `private: true`                      |
 | `tests/`                         | Fixture 契约、离线 Node 测试        | **已存在**；增加真实 tarball `test:package`，消费端尚待验证 |
-| `vite.config.ts` 的 `build/pack` | Vite+ Fixture 预览构建与单 CSS 打包 | **已配置；vp pack 原方案已实测，调整后待测**          |
-| `.github/workflows/`             | CI/发布工作流                       | **明确不规划**，项目禁止增加 CI；当前不存在           |
-| `.agents/skills/`                | 第三方原版 Skills                   | 评审分支已纳入，main 尚无；来源见 [SKILLS](SKILLS.md) |
+| `vite.config.ts` 的 `build/pack` | Vite+ Fixture 预览构建与单 CSS 打包 | **已配置；vp pack 原方案已实测，调整后待测**                |
+| `.github/workflows/`             | CI/发布工作流                       | **明确不规划**，项目禁止增加 CI；当前不存在                 |
+| `.agents/skills/`                | 第三方原版 Skills                   | 评审分支已纳入，main 尚无；来源见 [SKILLS](SKILLS.md)       |
 
 ## 3. 程序入口与依赖调用链
 
