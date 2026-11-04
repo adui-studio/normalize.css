@@ -1,14 +1,15 @@
 # CODEBASE_MAP — 仓库结构与定位
 
-**状态（2026-11-04）**：开发分支的 R-003 是唯一正式默认 Normalize CSS；**W-05 36 条规则评审与 W-06 管理验收均已结项**。现已启动 W-07 发布前质量审核，新增未发布更新日志与审查矩阵；锁文件、正式版本/包元数据与公开兼容版本仍待决策。尚未发布或合并 main。
+**状态（2026-11-04）**：开发分支的 R-003 是唯一正式默认 Normalize CSS；**W-05 36 条规则评审与 W-06 管理验收均已结项**。现已启动 W-07 发布前质量审核，新增未发布更新日志与审查矩阵；锁文件已提交；正式版本/包元数据与公开兼容版本仍待决策。尚未发布或合并 main。
 
-**W-07 包管理器约定（2026-11-04）**：根 `package.json` 已固定 `packageManager: "pnpm@12.15.0"`；**尚无** `pnpm-lock.yaml` 入库，因此下方目录树不应把锁文件写成已存在。锁文件应在维护者本机生成并验证后再更新代码地图。见 [W-07 审核记录](research/W07_RELEASE_READINESS_REVIEW.md)。
+**W-07 包管理器与锁文件核验（2026-11-04，最新）**：根 `package.json` 已固定 `packageManager: "pnpm@12.15.0"`；**`pnpm-lock.yaml` 已提交**，GitHub 静态核对确认环境文档锁定 pnpm 12.15.0、项目文档锁定 `vite-plus@1.4.0`。冻结安装输出仍待核验。见 [W-07 审核记录](research/W07_RELEASE_READINESS_REVIEW.md)。
 
 ## 1. 当前真实文件
 
 ```text
 normalize.css/
 ├── LICENSE                   # 已存在：MIT
+├── pnpm-lock.yaml            # W-07：真实 pnpm 12 锁文件，冻结安装待验
 ├── CHANGELOG.md             # W-07：仅记录 Unreleased，未发布任何正式版本
 ├── README.md                 # 本轮文档：中文项目入口
 ├── README.en.md              # 本轮文档：英文概览
