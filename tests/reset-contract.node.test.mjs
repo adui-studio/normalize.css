@@ -36,7 +36,9 @@ test("W-06 Reset cases are isolated, pinned, and do not include two competing re
       assert.doesNotMatch(baseline, /@unocss\/reset/);
       assert.match(baseline, /@import "tailwindcss\/preflight\.css" layer\(base\)/);
       assert.match(resetViteConfig(name), /@tailwindcss\/vite/);
-      assert.ok(before.indexOf("@adui/normalize.css") < before.indexOf("tailwindcss/preflight.css"));
+      assert.ok(
+        before.indexOf("@adui/normalize.css") < before.indexOf("tailwindcss/preflight.css"),
+      );
       assert.ok(after.indexOf("@adui/normalize.css") > after.indexOf("tailwindcss/preflight.css"));
     } else {
       assert.doesNotMatch(baseline, /tailwindcss\/preflight\.css/);

@@ -143,10 +143,7 @@ function main() {
       writeFileSync(join(directory, "index.html"), resetHtml());
       writeFileSync(join(directory, "style.css"), resetCss(caseName, mode));
       writeFileSync(join(directory, "probe.js"), resetProbe());
-      writeFileSync(
-        join(directory, "entry.js"),
-        'import "./style.css";\nimport "./probe.js";\n',
-      );
+      writeFileSync(join(directory, "entry.js"), 'import "./style.css";\nimport "./probe.js";\n');
       writeFileSync(join(directory, "vite.config.mjs"), resetViteConfig(caseName));
 
       run(process.execPath, [viteCli, "build"], directory, 120_000);

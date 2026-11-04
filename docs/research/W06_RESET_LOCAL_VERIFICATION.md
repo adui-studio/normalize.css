@@ -7,11 +7,11 @@
 
 ## 1. 测试边界与版本
 
-| 独立场景 | 仅安装在临时消费者中的固定直接依赖 | 实际加载的唯一第三方 Reset |
-| --- | --- | --- |
-| `tailwind-preflight` | `tailwindcss@4.3.4`、`@tailwindcss/vite@4.3.4` | `tailwindcss/theme.css`（主题变量，并非另一套 Reset）与 `tailwindcss/preflight.css`，后者属于 `base` 层 |
-| `unocss-tailwind-v4` | `@unocss/reset@66.12.0` | `@unocss/reset/tailwind-v4.css` |
-| `unocss-tailwind-compat` | `@unocss/reset@66.12.0` | `@unocss/reset/tailwind-compat.css` |
+| 独立场景                 | 仅安装在临时消费者中的固定直接依赖             | 实际加载的唯一第三方 Reset                                                                              |
+| ------------------------ | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `tailwind-preflight`     | `tailwindcss@4.3.4`、`@tailwindcss/vite@4.3.4` | `tailwindcss/theme.css`（主题变量，并非另一套 Reset）与 `tailwindcss/preflight.css`，后者属于 `base` 层 |
+| `unocss-tailwind-v4`     | `@unocss/reset@66.12.0`                        | `@unocss/reset/tailwind-v4.css`                                                                         |
+| `unocss-tailwind-compat` | `@unocss/reset@66.12.0`                        | `@unocss/reset/tailwind-compat.css`                                                                     |
 
 版本为**拟执行的精确直接依赖版本**，并非本轮已完成 npm 安装；间接依赖由实际安装记录为准。UnoCSS 组**不安装 `unocss`、不启动 presetWind4、不引入 Tailwind Preflight**。Tailwind 组不引入 `@unocss/reset`。Vite+ 继续使用当前仓库已固定的 `vite-plus@1.4.0`，无新增根项目开发/运行时依赖。
 
@@ -69,13 +69,13 @@ vp dev --port 5180
 
 ## 4. 结果判定与故障定位
 
-| 分类 | 判定条件 |
-| --- | --- |
-| `BUILD_PASS` | 三套隔离 Vite+ 生产构建成功、真实 CSS tarball 已解析，且 Reset 样式进入产物 |
-| `BROWSER_PASS` | 同一浏览器下预期/实际交互与布局对照完备，所有变化有来源和理由，无非预期回归 |
+| 分类                 | 判定条件                                                                                                      |
+| -------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `BUILD_PASS`         | 三套隔离 Vite+ 生产构建成功、真实 CSS tarball 已解析，且 Reset 样式进入产物                                   |
+| `BROWSER_PASS`       | 同一浏览器下预期/实际交互与布局对照完备，所有变化有来源和理由，无非预期回归                                   |
 | `EXPECTED_DUPLICATE` | `b, strong { font-weight: bolder }` 同时来自已安装的 Normalize 和本场景 Preflight/Reset，效果相同且不损害行为 |
-| `CONFLICT` | 存在非预期变化，并有胜出声明、顺序、特异性/层级和最小复现证据 |
-| `NOT_RUN / BLOCKED` | 缺真实安装、实际产物或浏览器交互证据；工具链失败另登记环境阻塞 |
+| `CONFLICT`           | 存在非预期变化，并有胜出声明、顺序、特异性/层级和最小复现证据                                                 |
+| `NOT_RUN / BLOCKED`  | 缺真实安装、实际产物或浏览器交互证据；工具链失败另登记环境阻塞                                                |
 
 特别注意：**本库当前只有 R-003 的 `b/strong` 规则**，在待测三种 Reset 中均已存在类似声明。预期很可能只是重复而非互相冲突，但需要看浏览器实际计算样式、T0/T2 来源以及打包结果。不要把源代码重复直接当成 FAIL，也不要把 CSS 构建成功当成 F-010 整体 PASS。
 
