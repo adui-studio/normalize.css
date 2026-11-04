@@ -43,7 +43,9 @@ function npm(args, cwd) {
   }
   const fromRunner = process.env.npm_execpath;
   const cli =
-    fromRunner && basename(fromRunner).toLowerCase() === "npm-cli.js" && existsSync(fromRunner)
+    fromRunner &&
+    basename(fromRunner).toLowerCase() === "npm-cli.js" &&
+    existsSync(fromRunner)
       ? fromRunner
       : join(dirname(process.execPath), "node_modules", "npm", "bin", "npm-cli.js");
   assert.ok(existsSync(cli), "npm CLI not found: " + cli);
@@ -98,9 +100,12 @@ function main() {
 
     writeFileSync(
       join(temp, "package.json"),
-      JSON.stringify({ name: "adui-ecosystem-consumer", private: true, type: "module" }) + "\n",
+      JSON.stringify({ name: "adui-ecosystem-consumer", private: true, type: "module" }) +
+        "\n",
     );
-    console.info("Installing isolated " + config.title + " dependencies (npm network/cache may be needed)");
+    console.info(
+      "Installing isolated " + config.title + " dependencies (npm network/cache may be needed)",
+    );
     npm(
       [
         "install",
@@ -139,7 +144,11 @@ function main() {
       writeFileSync(join(directory, "entry.js"), entry);
       writeFileSync(
         join(directory, "vite.config.mjs"),
-        'import { defineConfig } from "vite-plus";\nexport default defineConfig({ build: { outDir: "dist", copyPublicDir: false } });\n',
+        [
+          'import { defineConfig } from "vite-plus";',
+          'export default defineConfig({ build: { outDir: "dist", copyPublicDir: false } });',
+          "",
+        ].join("\n"),
       );
       const log = run(process.execPath, [viteCli, "build"], directory, 120_000);
       const css = generatedCss(directory);
@@ -151,7 +160,9 @@ function main() {
         );
       }
       output[mode] = { directory, cssBytes: Buffer.byteLength(css) };
-      console.info(mode + " production build passed (" + output[mode].cssBytes + " CSS bytes)");
+      console.info(
+        mode + " production build passed (" + output[mode].cssBytes + " CSS bytes)",
+      );
       if (process.env.ADUI_DEBUG_ECOSYSTEM === "1") console.info(log);
     }
 
