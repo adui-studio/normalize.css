@@ -7,6 +7,28 @@
 - **审核判断**：**部分通过，发布准备尚未就绪；Issue #8 保持 Open**。
 - **红线**：不修改产品 CSS 或既定包根入口；不新增依赖/CI、GitHub Actions、自动发布；不执行 npm publish、GitHub Release、`main` 合并。
 
+## 2026-11-04 · P-01 包管理器决策（最新）
+
+维护者确认采用 **pnpm 作为唯一根项目包管理器**。参考维护者此前 Windows PowerShell 中有实测的 pnpm `12.15.0`，在开发分支 `package.json` 最小新增 `"packageManager": "pnpm@12.15.0"`；不改变 `vite-plus@1.4.0`、Node engines、单一 CSS 根导出、根脚本、`private:true` 或版本 `0.0.0`。
+
+**实际执行边界**：此轮执行环境 `pnpm` 未安装，且访问 `registry.npmjs.org` 返回 DNS `EAI_AGAIN`；**没有**实际运行 pnpm 12.15.0、依赖解析、生成 lockfile、冻结安装或测试。不得手工臆造锁文件、声明 P-01 已完全通过。由于当前构建机 Node 为 `22.16.0`，亦低于本项目 `engines.node` 所需 `^22.18.0 || ^24.11.0 || >=26.0.0`，不能将其当作目标环境上的工具兼容性验证。
+
+维护者在 Windows PowerShell 从开发分支最新代码执行：
+
+```powershell
+git pull --ff-only origin feat/viteplus-local-harness
+node --version
+pnpm --version                # 预期 12.15.0；版本不符则先调整本机
+pnpm install --lockfile-only  # 生成真实 pnpm-lock.yaml，不手工编辑
+pnpm install --frozen-lockfile
+git status --short
+git add pnpm-lock.yaml
+git commit -m "🔒 chore(w07): 提交 pnpm 锁文件"
+git push origin feat/viteplus-local-harness
+```
+
+成功的证据是 `pnpm --version` 与 `packageManager` 一致、根目录只存在 `pnpm-lock.yaml`、冻结安装返回零退出码、提交 SHA 可追溯。此后才可继续执行其他本地质量门槛。`npm pack` 与相关 Node 脚本内部调用的 npm CLI 是**测试 tarball 格式的工具**，不改变本项目只用 pnpm 管理根依赖的决定。
+
 ## 1. 包契约与产物
 
 | 核对项 | 当前仓库事实 | 审核判定 |
@@ -39,7 +61,7 @@
 
 | 编号 | 事项 | 当前证据 | 风险/决定 |
 | --- | --- | --- | --- |
-| P-01 | **锁文件与包管理器策略** | 当前 GitHub 完整提交树**无** `pnpm-lock.yaml`、`package-lock.json`、`yarn.lock` 或 `bun.lock*`；`package.json` 无 `packageManager` | **BLOCKER**：选定包管理器与版本后提交对应 lockfile 并验证可复现安装；不得假定 `pnpm install` 自动产生文件已入库 |
+| P-01 | **锁文件与包管理器策略** | **已确定 pnpm 为唯一包管理器，并固定 `packageManager: "pnpm@12.15.0"`**；当前仓库提交树仍未发现 `pnpm-lock.yaml` 或其它根锁文件 | **部分完成 / 仍阻塞发布**：维护者 Windows 本机须实际使用 pnpm 12.15.0 生成并提交 `pnpm-lock.yaml`，再执行冻结安装；本轮无法访问 npm Registry，未生成锁文件，不能标 PASS |
 | P-02 | **版本和 npm 发布开关** | `version:"0.0.0"`、`private:true` | **预期发布阻断**：保持现状直到维护者正式指定首个语义化版本并授权公开发布；**不提前清除 `private`** |
 | P-03 | **包元数据** | 当前 `package.json` 没有 `license`、`description`、`repository`、`homepage`、`bugs` 等字段；仓库 `LICENSE` 文件真实存在 | **待补充审核**：优先 `license: "MIT"` 与明确的仓库 URL；其它字段按必要性补齐；修改 manifest 需另行批准并复测包契约 |
 | P-04 | **npm 组织/作用域权限** | 无已验证的 `@adui` npm scope 发布授权、包名可用性或维护者身份资料 | **NOT_VERIFIED**：发布前由维护者自行核验；不读取令牌、不登录、不尝试发布 |
@@ -76,12 +98,12 @@ npm run test:consumer
 npm pack --dry-run --json --ignore-scripts
 ```
 
-如维护者选定 pnpm，应明确选用的 pnpm 版本、生成并提交 `pnpm-lock.yaml`，然后使用相应版本的冻结锁文件安装流程复核；如决定使用 npm，则提交 `package-lock.json` 并复核 `npm ci`。**暂不并存多套锁文件或无依据地固定本地工具版本**。
+**已确定仅采用 pnpm 12.15.0**，不使用 npm/yarn/bun 维护根依赖或生成额外锁文件。开发分支已固定 `package.json#packageManager`；本轮网络环境无法连接 npm Registry，不能凭空创建一个可信的 `pnpm-lock.yaml`。维护者须在 Windows 本机运行后提交真实锁文件，并重新检查安装输出。项目内现有 `npm run ...` 脚本调用仍可由 `pnpm run ...` 执行；测试内部为了验证 npm tarball 使用 npm CLI，并不代表根仓库同时维护 npm lockfile。
 
 ## 5. 本轮结论与后续决策
 
 **当前判断：W-07 审核已启动，基础包契约/许可证/证据索引符合已有设计；发布前门槛未全部满足，Issue #8 继续 Open。**
 
-优先级建议：**先确认单一包管理器与 lockfile 策略（P-01），再处理包元数据与正式版本（P-02/03），随后复核真实包内容和检查输出（P-06），最后由维护者决定是否授权发布（P-07）**。
+优先级建议：**pnpm 已定版，先由维护者生成并提交真实 `pnpm-lock.yaml`、冻结安装复核（P-01），再处理包元数据与正式版本（P-02/03），随后复核真实包内容和检查输出（P-06），最后由维护者决定是否授权发布（P-07）**。
 
 本轮已补建 `CHANGELOG.md`、更新中英文 README 的当前状态，并同步文档/Issue。未修订生产 CSS、未运行新的本地测试、未执行 CI、未变更包导出、未发布软件包、未创建 Release、未合并主分支。
