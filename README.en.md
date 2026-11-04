@@ -50,7 +50,7 @@ import "@adui/normalize.css";
 
 First run `vp pack` to generate `dist/normalize.css`, then `vp build` or `vp dev`. Compare `/fixtures/t2-native.html` (native) with `/fixtures/t2-package.html` (the identical content with a link to the actual packed CSS). The probe reports `packageStylesheet.loaded`; a failed stylesheet load cannot count as a browser compatibility pass.
 
-The new fixtures cover R-003 emphasis weights, unchanged R-004 monospace values, and basic native control observation points. **No actual T2 browser results have been verified yet.** See the [Chinese local verification guide](docs/research/W06_T2_LOCAL_VERIFICATION.md). No new library rules, runtime dependencies, CI, or public exports were added.
+The new fixtures cover R-003 emphasis weights, unchanged R-004 monospace values, and native form/dialog/focus observation points. **The maintainer reports that the initial T2 local verification passed**, but no per-browser JSON or exact browser versions were provided. The new native form, dialog, focus, and hidden-state interactions are still NOT_RUN. See the [Chinese local verification guide](docs/research/W06_T2_LOCAL_VERIFICATION.md). No new library rules, runtime dependencies, CI, or public exports were added.
 
 ## Windows line endings
 
