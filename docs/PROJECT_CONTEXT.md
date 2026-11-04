@@ -173,6 +173,8 @@
 
 **2026-11-05 · W-07 P-06 最新 Windows 本地质量回归**：维护者提供完整 PowerShell 输出：`vp check --fix` 格式化完成、19 个文件 Lint 无警告错误；`vp test` **7/7 PASS**；`pnpm run test:offline` **33/33 PASS**；`vp pack` 输出唯一 `dist/normalize.css`（0.20 kB，gzip 0.18 kB）；`pnpm run test:package` **1/1 PASS**；`pnpm run test:consumer` **1/1 PASS**。这些均是维护者实际日志，不是助手独立运行，已纳入 [W-07 最新审核记录](research/W07_RELEASE_READINESS_REVIEW.md)。**尚无本轮 `pnpm install --frozen-lockfile` 输出、`git status`（`vp check --fix` 可能修改文件）和 `npm pack --dry-run` 日志**；W-07 Issue #8 不关闭。包元数据、正式版本、npm scope 及对外兼容性声明仍待单独核实；未修改产品 CSS、CI、发布开关或合并 main。
 
+**2026-11-05 · W-07 P-01/P-06 剩余本机验收补齐（最新）**：维护者补充完整 Windows PowerShell 结果：`pnpm install --frozen-lockfile` 显示锁文件符合供应链策略、无须重新解析、**83ms 使用 pnpm 12.15.0 成功**；`git status --short` **只有 `?? .idea/`**，无已跟踪文件改动；`git diff --check` 无输出；`npm pack --dry-run --json --ignore-scripts` 返回 **5 文件**（LICENSE、中文和英文 README、`dist/normalize.css` 200 B、package.json），包体积 13562 B，无 bundled 依赖，符合真实包测试白名单。结合前一批 7/7 Vitest、33/33 Node、CSS-only 打包、真实包/消费端各 1/1 PASS，**W-07 P-01 冻结安装和 P-06 当前本地质量回归完成 PASS**。为处理 JetBrains 本机目录误提交风险，已在开发分支 `.gitignore` 最小新增 `.idea/`；不删除本地目录，生效需维护者更新工作树后确认。详见 [W-07 最新审核](research/W07_RELEASE_READINESS_REVIEW.md)；**P-02 版本/private 开关、P-03 包公开元数据、P-04 npm scope 权限、P-05 兼容性声明和 P-07 独立发布授权仍未通过**，Issue #8 Open，不修改产品 CSS、增加 CI、合并或发布。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与待决策变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源
