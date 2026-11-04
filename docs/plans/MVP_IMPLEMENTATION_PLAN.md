@@ -1,6 +1,6 @@
 # @adui/normalize.css — MVP v0 实施计划
 
-- **状态**：五项 ADR Accepted；W-03 本机 Harness 已建立，W-04 已实现开发期 CSS 根导出与静态构建，W-05 已实现首条 R-003 规则；正式发布、浏览器矩阵与消费端回归未验收。
+- **最新状态（2026-11-04）**：五项 ADR Accepted；W-03/W-04 已结项，W-06 已由维护者正式验收归档；**W-05 的 36 条规则评审结论全部通过，首版唯一默认准入 R-003 已实现**，其余 35 条不加入首版默认 CSS。正式 npm 发布仍未授权；浏览器公开支持范围仍须按已存证据审核。见 [W-05 结项索引](../research/W05_RULE_ACCEPTANCE.md)。
 - **日期**：2026-11-03
 - **范围**：只为首版默认 Normalize 入口建立真实、可测试、可审计的交付能力。已接受 [ADR-0005](../adr/0005-viteplus-toolchain.md)：开发时统一使用 Vite+，维护者 Windows 本机已完成静态检查、单测和部分 Chrome 156 Fixture 运行。
 - **关联**：[需求](../REQUIREMENTS.md) · [架构](../ARCHITECTURE.md) · [SDD](../SDD.md) · [规则总表](../research/RULE_REVIEW.md) · [浏览器矩阵](../research/BROWSER_REVIEW.md) · [准入审查](../research/REVIEW_GATE.md)
@@ -32,7 +32,7 @@
 | W-02 | 第一阶段 | 最小规则证据卡与原生 Fixture 设计     | [R-003/R-004 证据卡](../research/RULE_EVIDENCE_R003_R004.md) 和 [本地验证执行指南](../research/R003_R004_LOCAL_VERIFICATION.md) 已包含旧版官方环境获取线索、T0/T1/T2 与记录模板 | 必测父级 400/600/700、Chrome/Edge 120、Firefox 121、Safari 17.2 与对应移动端；不以源码当实测                                                                   | **Chrome 120 差异4组、Firefox 121 无差异；其他目标待测** |
 | W-03 | 第二阶段 | Vite+ 本地 Harness 与验证规范         | 已创建 `package.json`、`vite.config.ts`、R-003/004 T0/T1 HTML、计算样式探针和测试；[设计](VITEPLUS_LOCAL_HARNESS_DESIGN.md) 持续跟踪                                            | 已实测 `vp check`（55 格式/11 Lint）、`vp test` 6/6、离线 Node 26/26、`vp dev`、`vp build` 6 页 Fixture、`vp pack` 单一 CSS；T2、组件库及完整浏览器回归转 W-06 | **W-03 已验收结项（Issue #4 Closed）**                   |
 | W-04 | 第二阶段 | Vite+ 下的单一 CSS 包导出与副作用验证 | 已实现 CSS-only 根导出，真实 tarball 安装与 Vite+ 生产消费均 PASS；见 [W-04 验收](CSS_PACKAGE_DELIVERY_REVIEW.md)                                                               | 真实包 P-01/06/07/09 与 Vite+ 生产 CSS 保留已 PASS；Webpack 不要求；开发态/浏览器回归转 W-06                                                                   | **W-04 包交付已验收（Issue #5 Closed）**                 |
-| W-05 | 第三阶段 | 逐条最小 Normalize 修复               | 按证据准入的最小 CSS、R-ID → 来源 → 测试映射及变更说明                                                                                                                          | 有证据才实现；不内建 `@layer`，不加默认 Reset/Forms/A11y；视觉回归无新增重大问题                                                                               | **首批仅 R-003 已开发；发布前仍待审查**                  |
+| W-05 | 第三阶段 | 逐条最小 Normalize 修复               | 按证据准入的最小 CSS、R-ID → 来源 → 测试映射及变更说明                                                                                                                          | 有证据才实现；不内建 `@layer`，不加默认 Reset/Forms/A11y；视觉回归无新增重大问题                                                                               | **36 条规则去留已审定，唯一准入 R-003 已实现；W-05 结项**                  |
 | W-06 | 第四阶段 | 跨浏览器、无障碍、生态与发布前验收    | T0/T2 Chrome 156 静态对照 PASS；dialog/Esc、焦点、until-found 人工 PASS；其他浏览器待测                                                                                         | F-005/006/007 具体子项已由维护者操作通过；系统偏好、完整交互与生态回归仍待测                                                                                   | **Chrome 156 部分 PASS；W-06 尚未完成**                  |
 | W-07 | 第五阶段 | 文档、许可证与版本发布评审            | README 中文/英文、兼容矩阵、迁移/风险说明、发布前检查表                                                                                                                         | 包入口、实际功能、浏览器声明与证据一致；Release 与 npm 发布仍须单独授权                                                                                        | 未开始                                                   |
 
@@ -116,6 +116,8 @@ R-003 已因首版最低目标包含旧版 Blink/WebKit 而列为**优先必测�
 **W-06 React + Ant Design Chrome 156 浏览器静态回归（2026-11-04）**：维护者已提供 React+Ant Design T0/T2 页面与 DevTools 截图，两组 Ant Design Button/Input 均成功挂载、静态外观相同，四组 b/strong 的计算字重皆为 900、code 字号 13px，五个探针值一致。继实际 npm tarball 的生产构建 PASS 后，**React+Ant Design 在 Chrome 156 的静态样式对照 PASS（截图）**。至此 Vue+Element Plus 与 React+Ant Design 两个样本均取得 Chrome 156 静态证据；完整组件交互、TDesign、Tailwind Preflight、UnoCSS Reset、其他目标浏览器及 `test:offline` 修复后重跑结果仍未完成，F-009 仅部分通过，W-06 #7 不关闭。见[验证记录](../research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)。
 
 **W-06 最新复验与 TDesign 第一批（2026-11-04）**：维护者新增实际命令输出：`npm run test:offline` **30/30 PASS、0 FAIL**，确认测试清单断言已修复，消除之前的 29/30 阻塞。随后新增 **Vue 3.5.44 + TDesign Vue Next 1.20.10** 的独立 `vue-tdesign` 测试场景，沿用真实 tarball、Vite+ 1.4.0、T0/T2 隔离页面及 Button/Input 样式探针。已静态核对生成器与三组入口均可解析，且仅 T2 多 Normalize CSS 导入；新场景的**完整离线测试、真实生产构建与浏览器 UI 尚未执行**，F-009 仍部分完成，Issue #7 继续 Open。Tailwind Preflight、UnoCSS Reset 留在后续独立研究；不增加 CI、运行时依赖或 npm 发布。[详情](../research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)。
+
+**2026-11-04 · W-05 / W-06 最新结果**：维护者已正式确认 W-05 的全部 36 条规则评审结论，最终只有 R-003 准入开发版默认 CSS；R-004 保持浏览器默认等宽字体与字号，其他研究候选按既有分类不新增 CSS。W-06 也已正式验收归档（Issue #7 Closed）。历史阶段“未执行”“待验收”的段落仅描述当时状态，不覆盖[W-05 正式评审归档](../research/W05_RULE_ACCEPTANCE.md)和[W-06 验收索引](../research/W06_ACCEPTANCE_INDEX.md)的最新结论。W-07 发行前质量审核仍独立 Open；本轮不发布或合并。
 
 ## 7. GitHub Issue 跟踪
 
