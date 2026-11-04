@@ -121,6 +121,8 @@
 
 **W-06 Chrome 156 T0/T2 截图结果（2026-11-04）**：维护者提交两张相同 Chrome 156 环境下的 T0 原生与 T2 实际 CSS 页面截图，并确认验证通过。T2 探针显示 `packageStylesheet.href = "../dist/normalize.css"`、`loaded = true`，两页 10 个计算样式探针行一致：六组 `b/strong` 字重及四组原生等宽元素（截图显示 `13px`、`monospace`）未发生额外变化；原生表单、details 等在两页可见。该结论仅是 **Chrome 156 本地 CSS 加载与静态样式对照 PASS（用户截图及反馈）**，不是 T2 Chrome 120 的新证据，也不代表 dialog/Esc、键盘焦点、hidden/until-found 查找、系统偏好、Safari/移动端、组件库或 F-001～F-010 全矩阵通过。验证细节已更新至 [W-06 T2 记录](research/W06_T2_LOCAL_VERIFICATION.md)。W-06 Issue #7 仍 Open；不修改产品 CSS、不加 CI、不发布。
 
+**W-06 原生交互实际操作补充（2026-11-04）**：维护者进一步明确“`dialog` 打开、Esc 关闭、键盘焦点或 `hidden="until-found"` 的实际操作过了，验证通过”。据此将 Chrome 156 的 **dialog 打开/Esc 关闭（F-005 子项）、until-found 查找揭示（F-006 子项）、键盘焦点（F-007 子项）**登记为维护者人工操作 PASS，与此前同浏览器 T0/T2 静态计算样式截图证据分别记录。无逐事件日志/录屏，不能推断 dialog 的关闭按钮、完整表单键盘流程、`details/summary` 实际展开、系统偏好切换、其他浏览器及组件库均通过；这些继续 NOT_RUN 或部分完成。W-06 Issue #7 保持 Open；本轮只更新证据文档/Issue，不修改 CSS 产品或 CI。[详细记录](research/W06_T2_LOCAL_VERIFICATION.md)。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与待决策变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源
