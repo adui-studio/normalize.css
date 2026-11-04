@@ -6,6 +6,8 @@
 
 **2026-11-05 · W-07 忽略规则与验收同步**：维护者当前 Git 工作区只有未跟踪的 JetBrains `.idea/`。已按最小范围在 `.gitignore` 增加 `.idea/`，供开发分支后续检出时阻止误提交本机 IDE 配置；不会删除或修改本地 `.idea` 内容。最新冻结安装、静态检查、Vitest、离线 Node、CSS 打包、真实包消费及 `npm pack --dry-run` 有实际通过日志，见 [W-07 审核记录](research/W07_RELEASE_READINESS_REVIEW.md)。
 
+**2026-11-05 · W-07 npm 元数据同步**：`package.json` 已获维护者批准并补充 `description`、`license:"MIT"`、正式 `repository/homepage/bugs`；它们是现有包文件的元数据变更，没有新增源码、公开入口、依赖或目录。版本、private 和 pnpm 锁文件不变；修改后打包测试待维护者本机复核。见 [W-07 审核记录](research/W07_RELEASE_READINESS_REVIEW.md)。
+
 ## 1. 当前真实文件
 
 ```text

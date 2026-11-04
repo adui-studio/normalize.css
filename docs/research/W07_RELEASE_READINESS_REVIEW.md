@@ -7,6 +7,30 @@
 - **审核判断**：**部分通过，发布准备尚未就绪；Issue #8 保持 Open**。
 - **红线**：不修改产品 CSS 或既定包根入口；不新增依赖/CI、GitHub Actions、自动发布；不执行 npm publish、GitHub Release、`main` 合并。
 
+## 2026-11-05 · P-03 npm 公开元数据已获批准并实施（最新）
+
+维护者明确批准最小修改，已向 `feat/viteplus-local-harness` 的 `package.json` 提交 [元数据变更](https://github.com/adui-studio/normalize.css/commit/cdace17a290afb6a752537f29fbefaa37132617f)（commit `cdace17a290afb6a752537f29fbefaa37132617f`）。
+
+**唯一新增字段**：英文 `description`、`license:"MIT"`、`repository:{type:"git",url:"git+https://github.com/adui-studio/normalize.css.git"}`、`homepage:"https://github.com/adui-studio/normalize.css#readme"`、`bugs:{url:"https://github.com/adui-studio/normalize.css/issues"}`。许可与仓库根 `LICENSE` 的 MIT 文本一致。GitHub 实时回读 `package.json` JSON 可解析，全部新字段存在且 URL 指向唯一正式仓库。当前 `pnpm-lock.yaml` blob SHA 仍为 `b2a572124b5434bc10fdf91c4f2c4aefcf426520`。
+
+**已静态确认没有变化**：`name`、`private:true`、`version:"0.0.0"`、`packageManager:"pnpm@12.15.0"`、`devDependencies.vite-plus:"1.4.0"`、单一 CSS 根 `exports`、`files`、`sideEffects`、`scripts`、Node engines、产品 CSS、许可证文件、CI。没有调用 npm 发布、GitHub Release 或 main 合并。维护者上轮新提供的 `git status --short` **无输出**，确认**修改元数据之前**工作区干净；最新提交后用户本地需要更新分支才能检查新版本。
+
+**P-03 阶段判定：元数据配置已实施且 GitHub 静态 PASS；针对新 manifest 的本机质量复验尚未执行（NOT_RUN）**。以前 P-01/P-06 的真实 PASS 结果是旧元数据文件的测试基线，不能冒充已经验证本次修改。维护者更新代码后建议执行：
+
+```powershell
+git pull --ff-only origin feat/viteplus-local-harness
+pnpm install --frozen-lockfile
+vp check
+pnpm run test:offline
+vp pack
+pnpm run test:package
+pnpm run test:consumer
+npm pack --dry-run --json --ignore-scripts
+git status --short
+```
+
+验收重点：`npm pack --dry-run` 仍只有 LICENSE、两个 README、`dist/normalize.css`、`package.json` 五文件；版本仍 0.0.0，大小与 SHA 预计因 metadata 变动而不同，**不可用此前 13562 字节作为新包的相等断言**。
+
 ## 2026-11-05 · P-01 / P-06 补充验收完成（最新）
 
 维护者提供新一批 Windows PowerShell **实际命令输出**，完成上一批质量回归剩余四项：
@@ -141,13 +165,13 @@ git push origin feat/viteplus-local-harness
 | ---- | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | P-01 | **锁文件与包管理器策略** | pnpm 12.15.0、唯一 `pnpm-lock.yaml` 已入库；维护者 Windows `pnpm install --frozen-lockfile` 83ms 成功且依赖解析跳过 | **PASS（真实冻结安装 + GitHub 静态核对）** |
 | P-02 | **版本和 npm 发布开关**  | `version:"0.0.0"`、`private:true`                                                                                                              | **预期发布阻断**：保持现状直到维护者正式指定首个语义化版本并授权公开发布；**不提前清除 `private`**                                                              |
-| P-03 | **包元数据**             | 当前 `package.json` 没有 `license`、`description`、`repository`、`homepage`、`bugs` 等字段；仓库 `LICENSE` 文件真实存在                        | **待补充审核**：优先 `license: "MIT"` 与明确的仓库 URL；其它字段按必要性补齐；修改 manifest 需另行批准并复测包契约                                              |
+| P-03 | **公开 npm 元数据** | 已补充 `description`、`license:MIT`、`repository`、`homepage`、`bugs`；GitHub JSON/字段/原有配置静态核对 PASS | **元数据实施完成／新版 manifest 真实 tarball 与消费端复验 NOT_RUN**；不得将此前旧包测试冒充新版本 PASS |
 | P-04 | **npm 组织/作用域权限**  | 无已验证的 `@adui` npm scope 发布授权、包名可用性或维护者身份资料                                                                              | **NOT_VERIFIED**：发布前由维护者自行核验；不读取令牌、不登录、不尝试发布                                                                                        |
 | P-05 | **公开兼容性范围**       | [W-06](W06_ACCEPTANCE_INDEX.md) 已获维护者管理验收；缺少本次逐目标 UA/OS/设备原始附件                                                          | **文案门槛**：不得把目标最低版本清单直接写成已经可复核 PASS 的公开支持承诺                                                                                      |
 | P-06 | **最终本机复核** | 维护者 Windows 实际日志：19 文件格式/Lint 正常，Vitest 7/7、Node 33/33、唯一 CSS 打包、真实 tarball 1/1、Vite+ 消费 1/1、冻结安装成功、`git diff --check` 无输出、npm 预打包五文件白名单完全匹配 | **PASS（真实执行日志；`.idea/` 已在后续仓库规则中忽略，生效待下一次拉取确认）** |
 | P-07 | **最终发行准许**         | W-07 当前只获授权执行质量审核，**未授权发布、Release、合并或改生产配置**                                                                       | **BLOCKER**：发布需维护者新的明确指令                                                                                                                           |
 
-**许可证细节**：`LICENSE` 文件已经存在并在历史 tarball 测试的允许清单中，但 `package.json` 尚未显式声明 `license:"MIT"`。这不是“缺少许可证文件”，而是 npm 元数据与仓库许可证描述尚未同步。
+**许可证细节（最新）**：`LICENSE` 本来就是 MIT，`package.json` 现已显式补充 `license:"MIT"`；两者静态一致。该元数据变化不影响 R-003 CSS 或运行时依赖。
 
 **GitHub Actions**：检查 `.github/` 目录，当前仅 `ISSUE_TEMPLATE/` 与 `pull_request_template.md`，**未发现 workflows**。本项目长期禁止增加任何 CI；W-07 不新增自动检查机制。
 
@@ -180,8 +204,8 @@ npm pack --dry-run --json --ignore-scripts
 
 ## 5. 本轮结论与后续决策
 
-**当前判断（2026-11-05）**：P-01 和 P-06 已由维护者真实本机日志通过，包契约、锁文件、文档及开发工具测试基础就绪；但 P-02～P-05 的公开发行决策与 P-07 发布授权仍未完成。**Issue #8 继续 Open，禁止在此阶段 npm 发布、合并 main 或新增 CI。**
+**当前判断（2026-11-05）**：P-01 冻结安装和旧 manifest 的 P-06 本机质量回归均有真实 PASS 日志；**P-03 新元数据已写入并通过 GitHub 静态检查，但修改后的本机打包与消费测试尚未复验**。P-02 版本和 private 开关、P-04 npm scope 权限、P-05 公开浏览器支持范围及 P-07 发布授权均未完成。**Issue #8 继续 Open，不发布、不合并、不新增 CI。**
 
-优先级建议：**P-01/P-06 已完成，下一项进入 P-03 公开包元数据的最小修改与针对性复验；P-02 首版版本、P-04 npm scope、P-05 兼容性声明及 P-07 发布授权仍需独立决策。**
+优先级建议：**先针对新 `package.json` 复验真实包文件清单与 Vite+ 生产消费，确认 P-03 完全满足发行前要求；随后独立评估 P-02 首版版本、P-04 npm scope、P-05 兼容性声明及 P-07 发布授权。**
 
 本轮已补建 `CHANGELOG.md`、更新中英文 README 的当前状态，并同步文档/Issue。未修订生产 CSS、未运行新的本地测试、未执行 CI、未变更包导出、未发布软件包、未创建 Release、未合并主分支。
