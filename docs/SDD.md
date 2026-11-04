@@ -135,6 +135,10 @@ W-03 的 T0/T1 只验证浏览器原生值与孤立候选规则；W-04 已证明
 
 维护者在完成 Vue 3.5.44 + Element Plus 2.14.7 的真实 npm tarball Vite+ 双生产构建之后，提供 T0（`localhost:5174`）与 T2（`localhost:5175`）的 Chrome 156 页面/DevTools 截图。两边 `ui.buttonMounted`、`ui.inputMounted` 均为 `true`，Element Plus Button/Input 外观一致；`b-600`、`strong-600`、`b-700`、`strong-700` 均计算为 `fontWeight: 900`、`fontSize: 16px`、`fontFamily: Noto Sans SC`，`code` 均为 `fontWeight: 400`、`fontSize: 13px`、`fontFamily: monospace`。**本环境静态 UI 与五项计算样式对照 PASS（截图）**；此结论不等于组件输入/焦点交互 PASS，也不代表 React/Ant Design 或其他浏览器支持已确认。两组共有 Vue esm-bundler feature flag 警告、favicon 404，不视为 Normalize 引起的样式失败。详情见[生态记录](research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)，Issue #7 保持 Open。
 
+### 2.14 W-06 React + Ant Design Chrome 156 静态 UI 对照（2026-11-04）
+
+维护者完成 React+Ant Design 真实 tarball 的隔离 Vite+ 生产构建后，又提供 Chrome 156 的 T0/T2 页面与 Console 截图。Ant Design Button/Input 在两组均挂载，四项 b/strong 计算字重均 900，code 为 13px/monospace，五个样式测量点、组件静态外观一致。记录 **React 19.3.1 + Ant Design 6.6.8 的 Chrome 156 静态 UI PASS（截图）**，不等于 CSS-in-JS 全组件或键盘/输入行为通过。当前 Vue+Element Plus、React+Ant Design 的 Chrome 156 静态对照均已 PASS，但完整 F-009 还缺其他生态、浏览器与实际交互，且修复后的离线测试尚未复验。见[生态证据](research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)。
+
 ## 3. CSS 规则准入流程（拟议）
 
 1. **问题**：列出浏览器/版本、HTML Fixture、原生样式偏差及用户可见问题。
