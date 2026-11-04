@@ -114,6 +114,17 @@ W-03 的 T0/T1 只验证浏览器原生值与孤立候选规则；W-04 已证明
 
 仍需保留 NOT_RUN / 部分完成状态：`details/summary` 键盘展开、完整表单交互、dialog `method="dialog"` 关闭按钮、系统 `prefers-reduced-motion` / `forced-colors` 切换，以及最低目标浏览器与 Vue/React/UI 组件库回归。对同一操作不再重复要求维护者执行；完整支持声明仍须分别取得环境和结果证据。[W-06 记录](research/W06_T2_LOCAL_VERIFICATION.md)。
 
+### 2.11 W-06 第三批：Vue/React 真实组件库消费对照（2026-11-04）
+
+在 W-06 已取得 Chrome 156 的 T0/T2 静态对照、dialog/Esc、键盘焦点及 until-found 实操反馈之后，生态测试先实现两个可复现的**隔离消费者**：Vue 3 + Element Plus、React + Ant Design。TDesign、Tailwind Preflight 与 UnoCSS Reset 留到后续批次，避免一次扩大变量和安装范围。
+
+- **Vite+ 唯一工具链**：调用仓库现有 `vite-plus@1.4.0` 的 `vp build`，不新增 Webpack、React/Vue 插件或项目根依赖。消费者使用纯 JavaScript 的 Vue `h()` / React `createElement()`，无需 SFC/JSX 转换。
+- **真实包而非源码捷径**：先 `vp pack`，消费者通过当前项目 `npm pack --offline` 制作的临时 tarball 安装 `@adui/normalize.css`；核对产物来自唯一 CSS 根导出。组件库与框架只安装在 Git 忽略的临时消费目录，`--ignore-scripts`、`--no-save`、`--package-lock=false`，不改动本库 `package.json` 或锁文件。
+- **两组对照**：同一个消费者生成 `native`（只使用框架与组件库样式）和 `package`（在库样式之前引入真实 `@adui/normalize.css`）两份独立 Vite+ 生产构建，避免 CSS 提取后在多页面共享 chunk 中相互污染。两页相同原生元素与 UI Button/Input，组件库主题与版本一致。
+- **自动化检查只针对构建**：两组生产构建均可完成、T2 输出包含 R-003 CSS、根导出与已安装依赖版本正确、T0/T2 页面源码隔离；**不把构建成功冒充浏览器渲染或 UI 组件库交互兼容 PASS**。
+- **手工复测**：提供可选的 `--keep` 保留 Git 忽略的临时工程，通过两个本地 `vp dev` 端口在同一浏览器中观察按钮、输入框、字重、焦点和 UI 样式，并记录精确版本与 T0/T2 对比。临时产物不进入 `files: ["dist"]`，普通 `npm run test:offline` 不触发网络安装。
+- **阶段门槛**：先实现可单独执行的 `npm run test:ecosystem -- vue-element` / `react-antd`，实际运行结果由维护者 Windows 本地决定。需要 npm registry 时如实提示网络依赖，不将 NOT_RUN 说成 PASS。所有新测试均无 CI、无发布行为。
+
 ## 3. CSS 规则准入流程（拟议）
 
 1. **问题**：列出浏览器/版本、HTML Fixture、原生样式偏差及用户可见问题。
