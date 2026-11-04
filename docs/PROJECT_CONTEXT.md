@@ -167,6 +167,8 @@
 
 **2026-11-04 · W-07 发布前质量审核第一轮（最新）**：已读取当前开发分支的 `package.json`、唯一 R-003 CSS、Vite+ 配置、真实 tarball 测试、双语 README、MIT 与上游 Skills 许可证，以及完整提交树。**确认**根入口单一、`files:["dist"]`、`sideEffects:["**/*.css"]`、无运行时 dependencies、`private:true` 和 `version:0.0.0`；GitHub 根目录没有锁文件或 CHANGELOG（后者已于本轮补建），`.github/` 下无 workflows。使用 11 份核心与规则/验收文档的 **252 个 Markdown 本地文件链接**做提交树路径静态核对，未发现目标缺失，外链/锚点未测。已更新中英文 README 当前阶段说明，并建立 [W-07 审核报告](research/W07_RELEASE_READINESS_REVIEW.md) 与根 [CHANGELOG](../CHANGELOG.md)（仅 Unreleased）。**未解决**：包管理器/lockfile、npm manifest 中缺少 `license` 等公开元数据、首发正式版本与 scope 权限、最新本机检查和对外浏览器版本承诺；Issue #8 保持 Open。前序 W-03～W-06 工作项的完成决定不因此撤销。未修改 CSS/根依赖/CI，不合并、不发布。
 
+**2026-11-04 · W-07 P-01 单一包管理器策略已确认（最新）**：维护者同意统一采用 pnpm。根据此前 Windows PowerShell 的实际 pnpm 12.15.0 使用记录，在开发分支 `package.json` **仅新增** `"packageManager":"pnpm@12.15.0"`，保留既有 `vite-plus@1.4.0`、Node engines、`private:true` 与 `version:0.0.0`；中英文 README 及 [W-07 审核记录](research/W07_RELEASE_READINESS_REVIEW.md) 已同步。本执行环境 pnpm 未安装，npm Registry 请求返回 `EAI_AGAIN`，且 Node 22.16 不满足项目最低 Node 22.18 要求，**未生成任何 pnpm-lock.yaml 或完成冻结安装**。P-01 状态为「版本与包管理器决策已实现、锁文件和本机验证仍阻塞」，W-07 #8 保持 Open；维护者应使用 pnpm 12.15.0 在 Windows 生成真实锁文件并提交，不手工伪造。无产品 CSS / CI / 发布 / main 合并变更。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与待决策变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源
