@@ -18,6 +18,8 @@
 
 **R-004 Firefox 121 本机观测（2026-11-04）**：维护者使用 PowerShell 读取三个已下载 Fixture JSON，报告 T0/T1/T1b 的四个等宽元素字号均为 16px；T0/T1 的计算字体族为 `monospace`，T1b 为 `monospace, monospace`。这是维护者终端输出，三份原始 R-004 JSON 尚未由助手独立解析。Firefox `about:support` 另提供 release Build ID `20231211174248`，文件包含环境敏感信息，公开文档只记录最小版本字段。R-004 默认不准入 CSS，详见[本机记录 §3.2.1](research/LOCAL_BROWSER_RUN_20261104.md)。
 
+**R-004 Chrome 120 本机观测（2026-11-04）**：维护者以 PowerShell 读取三个已下载 Fixture JSON，四个等宽元素的 T0/T1 计算字号均为 13px、T1b 均为 16px；T0/T1 的 `fontFamily` 是 `monospace`，T1b 为 `monospace, monospace`。结果与先前 Chrome 156 一致，而 Firefox 121 的三页均为 16px。此项为维护者终端实际输出，三份 Chrome 120 原始 JSON 本轮未上传；没有独立解析或字体用户设置回归。R-004 默认不准入 CSS；见[本机记录 §3.2.2](research/LOCAL_BROWSER_RUN_20261104.md)。
+
 ## 1. Harness 目标
 
 形成可重复的闭环：理解需求 → 影响分析 → 制定验证矩阵 → 最小修改 → 检查 → 定位失败 → 修复重验 → 记录结果。未来仅考虑维护者本地运行可复现检查并记录结果；项目明确**不增加任何 CI**，避免仅凭经验声称跨浏览器兼容。
