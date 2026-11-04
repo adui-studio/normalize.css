@@ -56,6 +56,8 @@
 
 **W-06 React + Ant Design / Chrome 156 静态 UI 对照（2026-11-04）**：维护者新增 React T0/T2 两张浏览器及 Console 截图。两页 Ant Design Button/Input 正常挂载（`buttonMounted: true`、`inputMounted: true`），外观一致，`b-600/strong-600/b-700/strong-700` 均为 `fontWeight: 900`、`fontSize: 16px`、`fontFamily: Noto Sans SC`，`code` 为 `fontWeight: 400`、`fontSize: 13px`、`fontFamily: monospace`。结合之前真实 tarball 的 Vite+ 生产构建 PASS，记录 **React 19.3.1 + Ant Design 6.6.8 在 Chrome 156 的静态 UI/五项计算样式对照 PASS（截图）**。React DevTools 信息提示非异常；实际点击/输入/焦点未测，不外推其他浏览器或组件。Vue + Element Plus 的 Chrome 156 静态对照此前已 PASS。`test:offline` 修复后 30/30 尚未获本机日志，W-06 #7 保持 Open。见[生态验证记录](research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)。
 
+**W-06 离线 30/30 完成复验、TDesign 场景开始（2026-11-04）**：维护者 Windows 最新 `npm run test:offline` 显示 **30 tests / 30 pass / 0 fail / 0 skip**，修复了旧测试清单断言失败；这条 PASS 属于增加 TDesign 场景前的代码版本。现有生态生成器新增固定 `vue@3.5.44` + `tdesign-vue-next@1.20.10` 的 `vue-tdesign`，复用 Vite+ 1.4.0 和真实 CSS tarball，新增的离线断言验证官方样式入口及组件导入。已用 JS 解析及源生成器比较三组案例的 T0/T2，仅差一个 Normalize CSS import；**新代码的真实 Windows `npm run test:offline`、`vp check`、TDesign 安装/生产构建和浏览器 UI 回归尚未运行**。见 [生态验证指南](research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)；无运行时依赖、产品 CSS 或 CI 增量。
+
 ## 1. Harness 目标
 
 形成可重复的闭环：理解需求 → 影响分析 → 制定验证矩阵 → 最小修改 → 检查 → 定位失败 → 修复重验 → 记录结果。未来仅考虑维护者本地运行可复现检查并记录结果；项目明确**不增加任何 CI**，避免仅凭经验声称跨浏览器兼容。
