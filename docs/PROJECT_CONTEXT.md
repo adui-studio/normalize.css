@@ -149,6 +149,8 @@
 
 **2026-11-04 · Tailwind Preflight Chrome 156 静态对照完成**：维护者提供 `http://localhost:5180/`、`:5181/`、`:5182/` 三页的完整计算样式 JSON 与 Vite CSS 来源，分别对应 `adui-reset-JQcSHX/baseline/style.css`、`normalize-first/style.css`、`normalize-last/style.css`。三页每页均为 12 元素 × 14 项属性，与 baseline 比较正反顺序均 **0 项静态计算值差异**；此前真实 tarball + Vite+ 三模式构建已 3/3 PASS。至此 **Tailwind Preflight、UnoCSS tailwind-v4、UnoCSS tailwind-compat** 三种互相隔离的 Reset 测试共 **9/9 生产构建通过**，各自 Chrome 156 三模式静态采样均一致；仍未验证 CSS 最终胜出声明、焦点/交互和完整浏览器矩阵，**F-010/W-06 不整体标记 PASS**。详见 [W-06 Reset 记录](research/W06_RESET_LOCAL_VERIFICATION.md)，暂无产品 CSS 修改依据，不新增 CI 或发布。
 
+**2026-11-04 · Tailwind Preflight Chrome 156 CSS Layer 胜出声明核实**：维护者提供 `localhost:5181`（Normalize First）与 `localhost:5182`（Normalize Last）的 DevTools Elements → Styles 截图；两页选中的 `b#bold` 均显示未分层 `b,strong { font-weight: bolder }` **有效**，而标记“级联层 base”的同名声明**被划线覆盖**。结合 `src/normalize.css` 现有唯一 R-003 及已核实的隔离导入，可将此场景记为 **CASCADE_WINNER_CONFIRMED（Chrome 156，b#bold，两种顺序）**；此前三模式 `fontWeight:900` 计算值一致。该结论符合普通作者声明中未分层样式优先于具名层样式的规则，不推广到 `!important`、其他选择器/浏览器。此前三个独立 Reset 方案 9/9 构建和各自 Chrome 156 静态采样零差异仍成立；F-010 仅部分完成，交互、`:focus-visible` 和其他引擎仍待验。详见 [Reset 实测记录](research/W06_RESET_LOCAL_VERIFICATION.md)。截图源于维护者对话附件，未作为仓库二进制资产提交；无产品 CSS、CI 或发布改动。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与待决策变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源
