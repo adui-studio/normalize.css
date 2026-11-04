@@ -28,7 +28,7 @@
 
 ## 本地开发与复现（W-03 初始实现）
 
-本分支已配置 Vite+ 1.4.0 作为**开发依赖**，目前没有锁文件（离线环境无法访问 npm Registry）。Node.js 需满足 `^22.18.0 || ^24.11.0 || >=26.0.0`；具体安装完成后请生成并提交所选包管理器的锁文件。
+本分支已配置 Vite+ 1.4.0 作为**开发依赖**；维护者本机已成功执行 `pnpm install`，但**尚未核对提交到 Git 的锁文件**。Node.js 需满足 `^22.18.0 || ^24.11.0 || >=26.0.0`；具体安装完成后请生成并提交所选包管理器的锁文件。
 
 ```sh
 # 在有 npm 网络访问且 Node 版本满足要求时
@@ -78,15 +78,16 @@ node tests/r003-evidence.mjs r003-native.json r003-candidate.json
 | [第二批表单规则研究](docs/research/FORM_CONTROLS_REVIEW.md) | 原生表单、文件按钮与占位符的证据审查 |
 | [第三批规则证据研究](docs/research/RULE_EVIDENCE_BATCH3.md) | 剩余 17 条排版、Reset 和系统偏好候选规则 |
 | [R-003/R-004 专项证据卡](docs/research/RULE_EVIDENCE_R003_R004.md) | b/strong 字重修复时间线与等宽字号用户偏好 |
-| [R-003/R-004 本地验证指南](docs/research/R003_R004_LOCAL_VERIFICATION.md) | 历史浏览器获取线索、测试矩阵、留证和安全要求（未运行） |
+| [R-003/R-004 本地验证指南](docs/research/R003_R004_LOCAL_VERIFICATION.md) | 版本目标、测试矩阵与留证要求 |
+| [首次本地运行记录（2026-11-04）](docs/research/LOCAL_BROWSER_RUN_20261104.md) | 本机 Vite+ / 22+5 项测试、Chrome 156 的 R-003 无差异、R-004 待查与格式失败 |
 | [ADR-0003](docs/adr/0003-mvp-package-contract.md) | 首版 MVP 导出契约已批准方案（Accepted） |
 | [ADR-0004](docs/adr/0004-browser-support-policy.md) | 浏览器支持基线与范围策略（Accepted） |
-| [ADR-0005](docs/adr/0005-viteplus-toolchain.md) | 后续开发统一使用 Vite+（Accepted；尚未安装） |
+| [ADR-0005](docs/adr/0005-viteplus-toolchain.md) | 后续开发统一使用 Vite+（Accepted；维护者本机已验证可运行） |
 | [Baseline 2023 版本映射](docs/research/BASELINE_2023_MAPPING.md) | 特性兼容候选版本及尚待实测的支持边界 |
 | [Vite+ 工具链研究](docs/research/VITEPLUS_TOOLCHAIN_REVIEW.md) | 本地命令、纯 CSS 打包风险和验证要求 |
 | [开发准入清单](docs/research/REVIEW_GATE.md) | 四份已接受 ADR 与剩余验证门槛 |
 | [MVP 实施计划](docs/plans/MVP_IMPLEMENTATION_PLAN.md) | W-01～W-07 的任务分解、依赖、测试与发布前验收 |
-| [Vite+ 本地 Harness 设计](docs/plans/VITEPLUS_LOCAL_HARNESS_DESIGN.md) | 开发分支已开始实施；本地 Fixture 与 Node 测试已存在，Vite+ 实际运行仍受阻 |
+| [Vite+ 本地 Harness 设计](docs/plans/VITEPLUS_LOCAL_HARNESS_DESIGN.md) | 本机 `vp test` / `vp dev` 已运行；`vp check` 格式失败，旧版实测未完成 |
 | [纯 CSS npm 包交付研究](docs/plans/CSS_PACKAGE_DELIVERY_REVIEW.md) | W-04 已部分落实文件白名单与 CSS 副作用元数据；根入口和消费端测试仍未实施 |
 | [浏览器矩阵](docs/research/BROWSER_REVIEW.md) | 支持范围与测试策略草案 |
 | [竞品对照](docs/research/COMPETITOR_REVIEW.md) | 六类 Normalize/Reset 方案源码研究 |
@@ -99,7 +100,7 @@ node tests/r003-evidence.mjs r003-native.json r003-candidate.json
 
 ## 开发前门槛
 
-维护者已批准开始开发，**开发工具链固定为 Vite+**。目前已实现 W-03 的 Fixture/离线测试，并启动 W-04 的预发行元数据约束；依赖安装和旧浏览器验证仍被当前执行环境阻塞。W-04 的真实 CSS 包导出、W-05 的正式规则尚未实施；最低目标版本、规则必要性和生态兼容性必须有真实结果，不增加任何 CI，也不擅自发布。
+维护者已批准开始开发，**开发工具链固定为 Vite+**。W-03 Fixture/离线测试与 Vite+ 在维护者本机已运行，W-04 已启动预发行元数据约束；旧版浏览器及 W-03 的格式问题仍待完成。W-04 的真实 CSS 包导出、W-05 的正式规则尚未实施；最低目标版本、规则必要性和生态兼容性必须有真实结果，不增加任何 CI，也不擅自发布。
 
 ## 许可证
 

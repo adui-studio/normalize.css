@@ -2,6 +2,8 @@
 
 **当前状态：W-03 已在独立开发分支实现首批本地 Harness 资产**：`package.json`、`vite.config.ts`、R-003/R-004 Fixture、`tests/fixtures.test.ts` 与 Node 探针测试。已在当前容器通过 **Node 测试 18/18**（含 Fixture/元数据契约）与 JS 语法检查；Vite+ 尚未安装/运行，Chromium 无头测试超时，历史目标浏览器未测。无 CSS 发布产物或 CI。
 
+**本机实测更新（2026-11-04）**：维护者在 Windows 上用 pnpm 11.24.0 安装了 Vite+ 1.4.0，`npm run test:offline` **22/22 PASS**，`npm exec -- vp test` **5/5 PASS**，`npm exec -- vp dev` 启动成功并访问四个 Fixture；`npm exec -- vp check` **FAIL**（66 个文件格式问题）。Chrome 156 的 R-003 T0/T1 字重无差异；R-004 T1 声明效果不符合预期，待诊断。完整记录见 [首次本地运行](research/LOCAL_BROWSER_RUN_20261104.md)。上述结果**来自维护者提供的本地截图/终端日志**，不是本执行容器独立重跑。
+
 ## 1. Harness 目标
 
 形成可重复的闭环：理解需求 → 影响分析 → 制定验证矩阵 → 最小修改 → 检查 → 定位失败 → 修复重验 → 记录结果。未来仅考虑维护者本地运行可复现检查并记录结果；项目明确**不增加任何 CI**，避免仅凭经验声称跨浏览器兼容。
@@ -27,9 +29,9 @@
 | 打包发布 | CSS 公开导出、包文件清单、许可证、大小 | npm tarball 验证报告 | 未实现 |
 | CI | 项目明确不增加任何 CI | 不适用 | 不规划 |
 
-## 4. Vite+ 规划命令与真实运行的界线
+## 4. Vite+ 本机执行与下一步验证
 
-Vite+ 已根据 [ADR-0005](adr/0005-viteplus-toolchain.md) 选定为统一工具链；已在 `package.json` 固定开发依赖 1.4.0，`vite.config.ts` 配置测试。**当前环境未安装/运行 `vp`，以下命令仍未验证通过**。
+Vite+ 已根据 [ADR-0005](adr/0005-viteplus-toolchain.md) 选定为统一工具链；已在 `package.json` 固定开发依赖 1.4.0，`vite.config.ts` 配置测试。**本机 `vp test`、`vp dev` 已验证可执行，`vp check` 因格式问题失败；本执行容器尚未安装 Vite+，`vp pack` 仍未验证**。
 
 ```sh
 vp fmt --check
@@ -49,7 +51,7 @@ vp pack
 
 新增的 `tests/r003-evidence.mjs` 负责检查真实浏览器输出的 T0/T1 JSON：相同 UA、完整 b/strong × 400/600/700 记录、一致字体上下文及候选字重。新增 8 项合成数据/CLI 单测均通过，但**尚无任何最低目标浏览器实际计算样式**。CLI 状态码 0 表示结构有效且候选符合预期，1 表示候选不符，2 表示输入无效；CLI 本身不能验证 UA 样式来源或物理字体渲染。
 
-R-003 JSON 读取器已改为先验证普通文件与 256 KiB 大小、再读取并解析；`tests/evidence-file.node.test.mjs` 的 **4/4 本地测试通过**。原有 **18/18** 测试在变更前于本轮重新运行通过；更新后的完整 `npm run test:offline` **尚未整体执行，不能登记 22/22 PASS**。目标浏览器环境仍未验证。
+R-003 JSON 读取器已改为先验证普通文件与 256 KiB 大小、再读取并解析；`tests/evidence-file.node.test.mjs` 的 **4/4 本地测试通过**。原有 **18/18** 测试在变更前于本轮重新运行通过；原先完整 22 项未在本执行容器中运行；**维护者已在本机执行更新后的 22 项，全部 PASS**（2026-11-04）。目标浏览器环境仍未验证。
 
 离线验证可直接运行：
 

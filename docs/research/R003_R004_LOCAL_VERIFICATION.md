@@ -1,9 +1,9 @@
 # R-003 / R-004 最低版本本地验证执行指南
 
-- **状态**：执行方案已整理；**没有安装旧浏览器、没有运行任何 Fixture 或 CSS 测试**。
+- **状态**：维护者已在 Chrome 156 执行首轮 T0/T1 Fixture，并在 Windows 本机运行 Vite+；详见 [运行记录](LOCAL_BROWSER_RUN_20261104.md)。**最低目标旧版浏览器及移动端仍未测试**。
 - **日期**：2026-11-03
 - **关联**：[R-003 / R-004 证据卡](RULE_EVIDENCE_R003_R004.md) · [Baseline 2023 最低测试目标](BASELINE_2023_MAPPING.md) · [浏览器矩阵](BROWSER_REVIEW.md) · [Issue #2](https://github.com/adui-studio/normalize.css/issues/2) · [Issue #3](https://github.com/adui-studio/normalize.css/issues/3)
-- **约束**：Vite+ 是后续开发期指定工具链（[ADR-0005](../adr/0005-viteplus-toolchain.md)）；当前未获 CSS/脚本实施及依赖安装授权；所有检查将来均仅在**本地手动运行，不增加 CI**。
+- **约束**：维护者已授权开发；Vite+ 是开发工具链（[ADR-0005](../adr/0005-viteplus-toolchain.md)）；检查仅在**本地手动运行，不增加 CI**。
 
 ## 1. 目标版本的官方获取线索（并不代表环境已经具备）
 
@@ -88,7 +88,11 @@ node tests/r003-evidence.mjs r003-native.json r003-candidate.json
 
 CLI 退出状态码：`0` 为输入有效且 T1 满足预期，`1` 为候选不符，`2` 为输入不合法。已用**合成证据**增加 8 项 Node 单测，当前本地测试总计 18/18 通过；**没有任何真实 Chrome/Edge 120、Firefox 121、Safari 17.2 的运行证据**。UA 字符串存在版本简化风险，实际完整版本/OS/DevTools UA 声明来源及字形渲染仍需独立记录。
 
-## 6. 执行与规则准入门槛
+## 6. 2026-11-04 首轮实际观察
+
+[首次 Vite+ / Chrome 156 本地运行记录](LOCAL_BROWSER_RUN_20261104.md) 已转录 R-003 六组计算字重无差异与 R-004 13px/16px 的异常对照；Chrome 156 不属于 Chrome 120 最低测试目标，不能代替历史浏览器。R-004 T1 是否实际应用了作者声明**尚待诊断**，不可据此采纳或排除候选的运行效果。
+
+## 7. 执行与规则准入门槛
 
 - 证据来源的固定 SHA 和确切发行版本是两种不同证据；不能直接从源码推定所有 OS/设备表现。
 - 先跑 T0，证明真实问题；再在相同条件跑 T1；最后才进行 T2 和 UI 生态回归。

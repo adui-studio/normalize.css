@@ -30,7 +30,7 @@
 | --- | --- | --- | --- | --- | --- |
 | W-01 | 第一阶段 | 冻结浏览器最低测试目标和验证边界 | 七项 [最低测试目标](../research/BASELINE_2023_MAPPING.md) 已批准，固定时间线核对通过；仍需 OS/设备/发行版证据 | 取得真实版本测试结果后才可在发行说明承诺支持，不自动覆盖 WebView | **版本目标已批准，实测待进行** |
 | W-02 | 第一阶段 | 最小规则证据卡与原生 Fixture 设计 | [R-003/R-004 证据卡](../research/RULE_EVIDENCE_R003_R004.md) 和 [本地验证执行指南](../research/R003_R004_LOCAL_VERIFICATION.md) 已包含旧版官方环境获取线索、T0/T1/T2 与记录模板 | 必测父级 400/600/700、Chrome/Edge 120、Firefox 121、Safari 17.2 与对应移动端；不以源码当实测 | **执行方案已形成；浏览器实测未做** |
-| W-03 | 第二阶段 | Vite+ 本地 Harness 与验证规范 | 已创建 `package.json`、`vite.config.ts`、R-003/004 T0/T1 HTML、计算样式探针和测试；[设计](VITEPLUS_LOCAL_HARNESS_DESIGN.md) 持续跟踪 | 原离线测试本轮 18/18 通过，新增证据文件读取边界测试单独 4/4 通过；**更新后 22 项尚未合并执行**；Vite+ 命令、浏览器真实结果、锁文件仍待验证，无 CI | **开发进行中／部分验证** |
+| W-03 | 第二阶段 | Vite+ 本地 Harness 与验证规范 | 已创建 `package.json`、`vite.config.ts`、R-003/004 T0/T1 HTML、计算样式探针和测试；[设计](VITEPLUS_LOCAL_HARNESS_DESIGN.md) 持续跟踪 | 维护者本机 Node **22/22 PASS**，Vite+ Vitest **5/5 PASS**，`vp dev` 成功；`vp check` **格式 FAIL（66 文件）**；Chrome 156 R-003 无差异、R-004 T1 待查；旧版最低目标/锁文件未核实，无 CI | **开发进行中／部分验证** |
 | W-04 | 第二阶段 | Vite+ 下的单一 CSS 包导出与副作用验证 | 已落实 `files: ["dist"]`、`sideEffects: ["**/*.css"]`；离线 dry-run 验证白名单，另以 [独立临时合成 CSS 包测试](CSS_PACKAGE_DELIVERY_REVIEW.md) 真实打包、离线安装并验证 root exports / 非公开子路径封装；[验收研究](CSS_PACKAGE_DELIVERY_REVIEW.md) 提供 P-01～P-10 后续步骤 | **尚无 dist、exports、真实 CSS tarball 和消费端验证**；保持私有，不发布额外入口 | **合成包离线验证通过／真实包导出未完成** |
 | W-05 | 第三阶段 | 逐条最小 Normalize 修复 | 按证据准入的最小 CSS、R-ID → 来源 → 测试映射及变更说明 | 有证据才实现；不内建 `@layer`，不加默认 Reset/Forms/A11y；视觉回归无新增重大问题 | 未开始（需开发授权） |
 | W-06 | 第四阶段 | 跨浏览器、无障碍、生态与发布前验收 | Chromium/Firefox/真实 Safari/iOS、组件库/Reset 对照、npm tarball 与 LICENSE 记录 | 逐项列出通过/失败/未运行及可重现信息；阻塞项不得宣传为通过 | 未开始（需开发授权） |
@@ -89,7 +89,7 @@ R-003 已因首版最低目标包含旧版 Blink/WebKit 而列为**优先必测�
 
 **已有部分研究结果**：W-01 的 [Baseline 2023 最低目标](../research/BASELINE_2023_MAPPING.md) 已批准且源数据/时间线一致；W-02 的 [R-003/R-004 专项证据卡](../research/RULE_EVIDENCE_R003_R004.md) 已补充 Blink 120/WebKit 2023 快照，R-003 最低目标必测；Vite+ 工具链已按 ADR-0005 选定。
 
-**未完成**：最低目标浏览器实际 UA/OS/设备测试、正式发行兼容性声明、WebView/Safari/组件库回归、Vite+ 实际安装及锁文件、CSS 导出/npm 打包与真实浏览器/组件库测试；W-03 已启动但未完成，W-04～W-07 尚未实施。
+**未完成**：最低目标浏览器实际 UA/OS/设备测试、正式发行兼容性声明、WebView/Safari/组件库回归、Vite+ 的完整格式检查通过及锁文件提交确认、CSS 导出/npm 打包与真实浏览器/组件库测试；W-03 已启动但未完成，W-04～W-07 尚未实施。
 
 **授权区分**：维护者已明确允许开始开发，当前优先实施 W-03 本地 Harness。**仍不推定**已授权合并 PR、发布 npm、创建 Release 或新增任何 CI。真正 CSS 规则须先完成证据准入。
 

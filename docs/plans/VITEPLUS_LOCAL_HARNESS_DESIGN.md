@@ -1,6 +1,6 @@
 # Vite+ 本地 Harness：开发前设计与准入规范
 
-- **状态**：已开始在独立开发分支实施 W-03；**文件和 Node 自测已有，Vite+ 未运行、浏览器实测未完成、包构建未进行**。
+- **状态**：W-03 正在开发；维护者本机已安装并执行 Vite+ 与 Chrome 156 Fixture，**格式检查未通过、最低目标浏览器未测、包构建未进行**；详见 [首轮运行](../research/LOCAL_BROWSER_RUN_20261104.md)。
 - **日期**：2026-11-03
 - **任务**：[W-03 / Issue #4](https://github.com/adui-studio/normalize.css/issues/4)
 - **正式依据**：[ADR-0005](../adr/0005-viteplus-toolchain.md)、[MVP 计划](MVP_IMPLEMENTATION_PLAN.md)、[W-02 复现指南](../research/R003_R004_LOCAL_VERIFICATION.md)
@@ -47,6 +47,8 @@ tests/
 6. 由 W-04 独立验证 `vp pack` 的纯 CSS 产物、`exports`、`sideEffects` 和实际 Vite+/Webpack 消费者；不能使用 `vp build` 成功代替包构建验证。
 
 旧版浏览器只建议使用隔离的本地离线环境；不要登录真实账号或将其替换为日常默认浏览器。真实 Safari/iOS 与 Playwright WebKit 不可混为一谈。
+
+**2026-11-04 本机结果补充**：`pnpm install` 成功（peer warning 待核查），`npm run test:offline` 22/22、`npm exec -- vp test` 5/5、`npm exec -- vp dev` 正常；`npm exec -- vp check` 有 66 个格式失败，旧 Chrome/Firefox/Safari 版本仍未实测，锁文件未提供。不要将原执行容器的历史阻塞描述覆盖为本机结果。
 
 ## 4. 执行结果的记录格式（规划）
 

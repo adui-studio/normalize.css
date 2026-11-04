@@ -1,6 +1,6 @@
 # PROJECT_CONTEXT — 项目长期上下文
 
-**最近更新**：2026-11-03  
+**最近更新**：2026-11-04  
 **当前阶段**：五项 ADR 已接受／W-03 本地 Harness 开发中／CSS 发布产物尚不存在
 
 ## 1. 项目概况
@@ -20,14 +20,14 @@
 | LICENSE | 已存在 | MIT，Copyright © 2026 ADui Studio |
 | 八类工程资产 | 文档初始化 | [AGENTS](../AGENTS.md)、需求、SDD、架构、上下文、代码地图、Skills、Harness |
 | CSS 源码 | **未实现** | 仓库无 src/ 或发布 CSS 文件 |
-| package.json、依赖、构建脚本 | **部分实现** | W-03 已有 `package.json` 和 `vite.config.ts`；固定 Vite+ 1.4.0（开发依赖），但因离线环境未安装、未生成锁文件 |
-| 自动化测试、浏览器回归 | **部分实现** | 本地 Node 单测 **18/18 通过**，覆盖探针、Fixture 和包元数据；Vite+ 测试未运行，Chromium 无头超时，最低目标浏览器未测 |
+| package.json、依赖、构建脚本 | **部分实现** | W-03 已有 `package.json` 和 `vite.config.ts`；固定 Vite+ 1.4.0（开发依赖），维护者本机已成功安装并运行 Vite+；锁文件是否提交尚未核实 |
+| 自动化测试、浏览器回归 | **部分实现** | 维护者本机 Node **22/22 PASS**、Vite+ Vitest **5/5 PASS**、`vp dev` 成功；`vp check` 格式 FAIL（66 文件）；Chrome 156 已做 Fixture 观察，最低目标版本仍未测 |
 | CI | **明确不规划** | 项目约束：不增加任何 CI |
 | npm 包发布、版本号 | **未发布/未确定** | 不能将先前讨论的草案版本当成仓库发布事实 |
 | 架构方案 | **已接受／未实现** | ADR-0001～0005 均 Accepted；[MVP 实施计划](plans/MVP_IMPLEMENTATION_PLAN.md) 已建立，浏览器兼容承诺仍待验证 |
 | 自研 Skills | **未创建** | 目前没有项目自研技能 |
 | 第三方 Skills | **评审分支已纳入** | 3 个 awesome-copilot 原版 Skill，CLI 未执行，本机发现未验证；见 [索引](SKILLS.md) |
-| Harness | **部分实现** | W-03 的纯 HTML 夹具和探针已存在，见 [HARNESS](HARNESS.md)；Vite+ 实际运行与浏览器结果尚未实现 |
+| Harness | **部分实现** | W-03 的纯 HTML 夹具和探针已存在，见 [HARNESS](HARNESS.md)；维护者本机 Vite+ 已运行、Chrome 156 已观察；最低目标旧版与完整回归仍未完成 |
 
 ## 3. 已接受架构与仍待验证的事项
 
@@ -35,7 +35,7 @@
 - **ADR-0002 Accepted**：首版默认不内置 `@layer`，按规则评估 `:where()`。
 - **ADR-0003 Accepted**：首版只规划 `@adui/normalize.css` 默认根入口；`all.css` 等路径延期。
 - **ADR-0004 Accepted**：固定 Baseline 2023 作为特性准入参考，七项 [最低浏览器测试目标](research/BASELINE_2023_MAPPING.md) 已批准并依据时间线核对；实际兼容性声明、OS/设备/WebView 仍未实测。
-- **ADR-0005 Accepted**：开发工具链统一使用 Vite+，具体版本、纯 CSS 打包方式和本地运行结果尚未确定。
+- **ADR-0005 Accepted**：开发工具链统一使用 Vite+，Vite+ 1.4.0 已在维护者本机运行；纯 CSS 打包方式和完整格式检查通过状态仍未确定。
 - **W-02 部分研究**：已批准最低测试目标包含旧 Blink/WebKit，因此 R-003 成为首版必测条件性候选；R-004 不宜在默认 Normalize 中覆盖用户等宽字号偏好。[专项证据](research/RULE_EVIDENCE_R003_R004.md) 与 [本地执行指南](research/R003_R004_LOCAL_VERIFICATION.md) 已建立，真实浏览器复现未执行。
 - 仍需实测 Vue/React、Element Plus、Ant Design、TDesign、Tailwind/UnoCSS Reset 兼容性；所有候选规则均未获准实现。
 
@@ -80,6 +80,7 @@
 | 2026-11-03 | W-04 增加真实 npm 离线合成 CSS 包打包、安装和根路径封装测试 | 本地 Node 总计 10/10 通过；只验证临时合成包，真实 Normalize CSS/Vite+/Webpack 尚未验证 |
 | 2026-11-03 | W-02/W-03 增加 R-003 的 T0/T1 JSON 比较器、CLI 与合成数据回归 | 当前离线 Node 测试 18/18 通过；仅测试比较器逻辑，实际旧浏览器证据仍无 |
 | 2026-11-03 | 修复 R-003 输入文件先读取后限长的问题 | 原 18 项复测通过，新增 4 项边界测试单独通过；完整 22 项未同批运行，未执行真实浏览器验证 |
+| 2026-11-04 | 维护者本机完成 Vite+ 和 Chrome 156 第一轮执行 | Node 22/22、Vitest 5/5、dev 启动；check 因 66 个格式问题失败；R-003 无差异，R-004 T1 未如预期生效，旧版目标待测。见 [运行记录](research/LOCAL_BROWSER_RUN_20261104.md) |
 
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与下一阶段变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
