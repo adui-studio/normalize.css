@@ -9,10 +9,9 @@ import {
   rmSync,
   writeFileSync,
 } from "node:fs";
-import { createRequire } from "node:module";
 import { basename, dirname, join, resolve } from "node:path";
 import { test } from "node:test";
-import { fileURLToPath, pathToFileURL } from "node:url";
+import { fileURLToPath } from "node:url";
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -49,8 +48,7 @@ function npm(args, cwd, cache) {
 
 test("W-04: real tarball CSS import survives a Vite+ production build", { timeout: 150_000 }, (t) => {
   assert.ok(existsSync(join(projectRoot, "dist", "normalize.css")), "Run 'vp pack' first");
-  const fromRoot = createRequire(pathToFileURL(join(projectRoot, "package.json")));
-  const viteCli = fromRoot.resolve("vite-plus/bin");
+  const viteCli = fileURLToPath(import.meta.resolve("vite-plus/bin"));
   assert.ok(existsSync(viteCli), "Install the pinned vite-plus@1.4.0 first");
 
   // Keep the separate consumer underneath ignored node_modules so it can resolve
