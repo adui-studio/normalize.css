@@ -28,6 +28,7 @@ normalize.css/
 │   ├── package.node.test.mjs
 │   ├── package-smoke.node.test.mjs  # 合成包烟测（普通 test:offline）
 │   ├── package-real.node.test.mjs   # W-04 真实包打包/安装（先 vp pack，再 test:package）
+│   ├── package-vite-consumer.node.test.mjs # W-04 Vite+ 生产 CSS 副作用消费检查（test:consumer）
 │   ├── probe.node.test.mjs
 │   ├── r003-evidence.mjs             # R-003 JSON 比较 CLI
 │   ├── r003-evidence.node.test.mjs   # 合成数据与 CLI 测试
