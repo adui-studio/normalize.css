@@ -32,6 +32,8 @@
 
 **W-04 独立 Vite+ 生产消费脚本（2026-11-04）**：新增 `npm run test:consumer`，使用**真实 `vp pack` 产物和临时 npm tarball**安装到独立消费者，通过 `import "@adui/normalize.css"` 构建生产应用，检查 Vite+ 1.4.0 的 CSS 产物未被 tree shaking 丢弃。不额外安装 Vite+，消费端位于 Git 忽略的 `node_modules/.cache/` 中，结束后清理；该脚本**仅做过 Node 语法检查，尚未实际运行 Vite+ 构建**。P-02 待 Windows 实测，P-03 Webpack 5 仍待测。详见[W-04 §7.5](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)。
 
+**W-04 真实 Windows 测试与 LF 行尾规范（2026-11-04）**：维护者已执行 `vp pack`，生成唯一 `dist/normalize.css`（约 200 字节）；`npm run test:package` **1/1 PASS**（真实 tarball、封装、独立离线安装），`npm run test:consumer` **1/1 PASS**（真实 tarball、独立 Vite+ 生产构建、R-003 CSS 保留）。P-01/P-06/P-07/P-09 已有真实包验证，P-02 **生产构建子项**通过；P-02 开发态与页面实际计算样式、P-03 Webpack 5 仍待测，不能关闭 W-04 Issue #5。维护者指出重复执行 `vp check --fix` 是 CRLF→LF 行尾转换，本轮新增 `.gitattributes`（`* text=auto eol=lf`）与 `.editorconfig`（UTF-8、LF、末尾换行），**新配置尚待 Windows 本机 `vp check` 与 Git 工作区验证**。不重写上游固定 Skills，不新增 CI。[完整结果](plans/CSS_PACKAGE_DELIVERY_REVIEW.md#76-windows-真实包与-vite-生产消费验收2026-11-04)。
+
 ## 1. Harness 目标
 
 形成可重复的闭环：理解需求 → 影响分析 → 制定验证矩阵 → 最小修改 → 检查 → 定位失败 → 修复重验 → 记录结果。未来仅考虑维护者本地运行可复现检查并记录结果；项目明确**不增加任何 CI**，避免仅凭经验声称跨浏览器兼容。
