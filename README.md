@@ -4,7 +4,9 @@
 
 面向现代 Web 应用的 CSS 标准化基础库，目标是**默认克制、按需增强、行为可预测、兼容可验证**。
 
-> **项目状态：首批 CSS 源码和根导出已在开发分支实现，尚未发布。** ADR-0001～0005 已通过。当前 `src/normalize.css` 只包含有 Chrome 120 实测支持的 R-003（`b/strong` 相对字重）；R-004 等宽字号保留浏览器默认值。单一 npm CSS 根导出已配置，但包仍为 `private: true`、版本 `0.0.0`，真实生态兼容与完整最低浏览器矩阵尚未验收。
+> **最新状态（2026-11-04）：开发版未发布，W-03/W-04/W-05/W-06 已结项，W-07 发布前质量审核进行中。** ADR-0001～0005 已批准；36 条候选的首版评审结论全部通过，但 `src/normalize.css` 仍只有 R-003（`b/strong` 相对字重）。R-004 保留浏览器默认等宽字号，其他候选不进入首版默认 CSS。唯一 npm CSS 根导出已配置，包继续保持 `private: true`、`0.0.0`。W-06 已由维护者正式验收归档；具体最低浏览器版本的公开支持声明仍须以可复核的环境证据为准。
+
+**最新审查入口**：[W-05 规则评审归档](docs/research/W05_RULE_ACCEPTANCE.md) · [W-06 正式验收索引](docs/research/W06_ACCEPTANCE_INDEX.md) · [W-07 发布前审核](docs/research/W07_RELEASE_READINESS_REVIEW.md) · [未发布更新日志](CHANGELOG.md)。以下 W-03/W-04/W-06 的部分段落保留各阶段执行时的原始状态与历史结果，不代表今天仍未验收；当前判断以上述最新归档为准。
 
 ## 项目目标
 
@@ -163,7 +165,7 @@ pnpm exec vp check --no-fmt  # 仅隔离格式问题排查 lint，不等于完�
 | [文档校验](docs/DOCUMENTATION_VALIDATION.md)                                  | 文档一致性审查策略                                                                                |
 | [ADR-0001](docs/adr/0001-css-base-strategy.md)                                | 初始 CSS 基础策略（Accepted）                                                                     |
 | [ADR-0002](docs/adr/0002-cascade-layers.md)                                   | CSS Cascade Layers 已批准策略                                                                     |
-| [规则候选研究](docs/research/RULE_REVIEW.md)                                  | 36 条待评审候选，不代表已实现                                                                     |
+| [规则候选研究](docs/research/RULE_REVIEW.md)                                  | 36 条首版去留已审定，唯一准入 R-003 已实现；其余未加入默认入口                                      |
 | [首批规则证据审查](docs/research/RULE_EVIDENCE_BATCH1.md)                     | 11 条候选的规范依据、历史修复及复现门槛                                                           |
 | [第二批表单规则研究](docs/research/FORM_CONTROLS_REVIEW.md)                   | 原生表单、文件按钮与占位符的证据审查                                                              |
 | [第三批规则证据研究](docs/research/RULE_EVIDENCE_BATCH3.md)                   | 剩余 17 条排版、Reset 和系统偏好候选规则                                                          |
@@ -190,7 +192,7 @@ pnpm exec vp check --no-fmt  # 仅隔离格式问题排查 lint，不等于完�
 
 ## 开发前门槛
 
-维护者已批准开始开发，**开发工具链固定为 Vite+**。W-03 Fixture/离线测试与 Vite+ 在维护者本机已运行，W-04 已启动预发行元数据约束；旧版浏览器及 W-03 的格式问题仍待完成。W-04 的真实 CSS 包导出、W-05 的正式规则尚未实施；最低目标版本、规则必要性和生态兼容性必须有真实结果，不增加任何 CI，也不擅自发布。
+维护者已批准首批最小实现，开发工具链统一使用 **Vite+**。W-03 本地 Harness、W-04 真实 CSS 包交付、W-05 首版 36 条规则去留评审、W-06 回归工作项均已按正式记录结项；W-02 的来源证据维护与 W-07 发布前审核为独立事项。**尚未作出 npm 首发版本决定**：当前缺少已提交的包管理器锁文件，`package.json` 也仍为 `private: true`、`0.0.0`，未授权发布/合并。参见[W-07 审核矩阵](docs/research/W07_RELEASE_READINESS_REVIEW.md)。项目明确不增加任何 CI。
 
 ## 许可证
 
