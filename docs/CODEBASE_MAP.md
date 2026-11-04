@@ -16,14 +16,16 @@ normalize.css/
 ├── package.json              # W-03/W-04：private、vite-plus 1.4.0、CSS 文件白名单/副作用元数据、离线测试脚本
 ├── vite.config.ts            # W-03：Vite+ 单元测试与上游 Skills 格式检查排除
 ├── src/normalize.css         # W-05 首批：仅 R-003 的 b/strong 相对字重修正
-├── fixtures/                 # W-03 已存在：R-003/R-004 T0/T1 页面与探针
+├── fixtures/                 # W-03/W-06：R-003/R-004 T0/T1 与实际 CSS T2 对照
 │   ├── index.html
 │   ├── probe.js
 │   ├── r003-native.html
 │   ├── r003-candidate.html
 │   ├── r004-native.html
 │   ├── r004-risk-review.html
-│   └── r004-family-review.html  # T1b：仅增加重复 monospace 字体族的风险对照
+│   ├── r004-family-review.html  # T1b：仅增加重复 monospace 字体族的风险对照
+│   ├── t2-native.html       # W-06：T0 原生内容，R003/R004 及基础语义观察点
+│   └── t2-package.html      # W-06：T2 仅增加真实 dist/normalize.css link
 ├── tests/                    # W-03 已存在：契约和 Node 内置单测
 │   ├── fixtures.test.ts
 │   ├── fixtures.node.test.mjs
@@ -64,6 +66,7 @@ normalize.css/
     │   ├── RULE_EVIDENCE_R003_R004.md
     │   ├── R003_R004_LOCAL_VERIFICATION.md
     │   ├── LOCAL_BROWSER_RUN_20261104.md
+    │   ├── W06_T2_LOCAL_VERIFICATION.md # T2 真实 CSS 页面验证说明
     │   ├── FORM_CONTROLS_REVIEW.md
     │   ├── RULE_EVIDENCE_BATCH3.md
     │   ├── REVIEW_GATE.md
