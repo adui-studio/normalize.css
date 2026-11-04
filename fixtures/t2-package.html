@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>W-06 / T2 实际 CSS / 页面回归</title>
+    <style>
+      .weight-400 {
+        font-weight: 400;
+      }
+      .weight-600 {
+        font-weight: 600;
+      }
+      .weight-700 {
+        font-weight: 700;
+      }
+    </style>
+    <link id="package-css" rel="stylesheet" href="../dist/normalize.css" />
+    <script type="module" src="./probe.js"></script>
+  </head>
+  <body>
+    <h1>W-06 · T0/T2 · 实际 CSS 页面回归</h1>
+    <p>两页的测试内容相同；仅 T2 额外加载 vp pack 输出的 CSS。</p>
+    <section class="weight-400">
+      <h2>父级字重 400</h2>
+      <b id="b-400" data-probe>b 标签</b>
+      <strong id="strong-400" data-probe>strong 标签</strong>
+    </section>
+    <section class="weight-600">
+      <h2>父级字重 600</h2>
+      <b id="b-600" data-probe>b 标签</b>
+      <strong id="strong-600" data-probe>strong 标签</strong>
+    </section>
+    <section class="weight-700">
+      <h2>父级字重 700</h2>
+      <b id="b-700" data-probe>b 标签</b>
+      <strong id="strong-700" data-probe>strong 标签</strong>
+    </section>
+    <section aria-label="原生等宽字体">
+      <h2>代码和等宽元素</h2>
+      <p><code id="code" data-probe>const value = 1;</code></p>
+      <p><kbd id="kbd" data-probe>Ctrl + K</kbd></p>
+      <p><samp id="samp" data-probe>OK</samp></p>
+      <pre id="pre" data-probe>console.log(value);</pre>
+    </section>
+    <section aria-label="原生交互观察点">
+      <h2>原生语义和交互</h2>
+      <button id="t2-button" type="button">键盘聚焦按钮</button>
+      <label for="t2-search">搜索</label>
+      <input id="t2-search" type="search" />
+      <details>
+        <summary id="t2-summary">展开原生 details</summary>
+        <p>这是原生 details 内容。</p>
+      </details>
+      <p id="t2-hidden" hidden>hidden 的内容应隐藏。</p>
+      <p id="t2-until-found" hidden="until-found">until-found 的内容用于后续交互验证。</p>
+    </section>
+    <h2>计算样式证据</h2>
+    <pre id="probe-output" aria-live="polite">读取中</pre>
+  </body>
+</html>
