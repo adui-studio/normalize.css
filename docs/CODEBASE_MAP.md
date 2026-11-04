@@ -1,12 +1,13 @@
 # CODEBASE_MAP — 仓库结构与定位
 
-**状态（2026-11-04）**：开发分支的 R-003 是唯一正式默认 Normalize CSS；**W-05 已通过 36 条规则首版评审**，W-06 已由维护者正式验收归档。开发分支含 Fixture、Vite+ CSS-only 打包和唯一根 exports；W-07 发布前质量审核和具体公开兼容版本仍未冻结，未发布/未合并 main。
+**状态（2026-11-04）**：开发分支的 R-003 是唯一正式默认 Normalize CSS；**W-05 36 条规则评审与 W-06 管理验收均已结项**。现已启动 W-07 发布前质量审核，新增未发布更新日志与审查矩阵；锁文件、正式版本/包元数据与公开兼容版本仍待决策。尚未发布或合并 main。
 
 ## 1. 当前真实文件
 
 ```text
 normalize.css/
 ├── LICENSE                   # 已存在：MIT
+├── CHANGELOG.md             # W-07：仅记录 Unreleased，未发布任何正式版本
 ├── README.md                 # 本轮文档：中文项目入口
 ├── README.en.md              # 本轮文档：英文概览
 ├── AGENTS.md                 # Agent 规则入口
@@ -66,6 +67,7 @@ normalize.css/
     ├── research/W06_RESET_LOCAL_VERIFICATION.md # W-06 F-010 三组 Reset 分离验证执行说明
     ├── research/W06_ACCEPTANCE_INDEX.md # W-06 正式验收归档索引与证据边界
     ├── research/W05_RULE_ACCEPTANCE.md # W-05 36 条规则首版评审归档索引
+    ├── research/W07_RELEASE_READINESS_REVIEW.md # W-07 发布前审核清单与发行阻塞项
     ├── CODEBASE_MAP.md      # 本轮文档：代码地图
     ├── SKILLS.md            # 本轮文档：Skill 索引
     ├── HARNESS.md           # 本轮文档：验证机制规划
