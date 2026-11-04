@@ -1,14 +1,14 @@
 # DOCUMENTATION_VALIDATION — 文档校验规范
 
-**当前状态**：人工校验规范已定义，自动校验工具未实现；项目明确**不增加任何 CI**，本阶段不新增脚本。
+**当前状态（2026-11-04）**：人工校验规范仍然有效，自动文档校验脚本未实现；W-07 第一轮使用 GitHub 开发分支提交树核对 11 份核心及规则/验收文档的 **252 个 Markdown 本地文件链接**，目标路径均存在（未验证外链或锚点）。记录见 [W-07 审核](research/W07_RELEASE_READINESS_REVIEW.md)。本项目明确**不增加任何 CI**。
 
 ## 1. 校验对象和真实状态
 
-根目录：[README](../README.md)、[README.en](../README.en.md)、[AGENTS](../AGENTS.md)、[LICENSE](../LICENSE)。
+根目录：[README](../README.md)、[README.en](../README.en.md)、[CHANGELOG](../CHANGELOG.md)、[AGENTS](../AGENTS.md)、[LICENSE](../LICENSE)。
 
 核心八类资产：AGENTS、[REQUIREMENTS](REQUIREMENTS.md)、[SDD](SDD.md)、[ARCHITECTURE](ARCHITECTURE.md)、[PROJECT_CONTEXT](PROJECT_CONTEXT.md)、[CODEBASE_MAP](CODEBASE_MAP.md)、[SKILLS](SKILLS.md)、[HARNESS](HARNESS.md)。
 
-增强机制：[ADR-0001](adr/0001-css-base-strategy.md)、[ADR-0002](adr/0002-cascade-layers.md)、[ADR-0003](adr/0003-mvp-package-contract.md)、[ADR-0004](adr/0004-browser-support-policy.md)、[ADR-0005](adr/0005-viteplus-toolchain.md) 均为 Accepted；[MVP 实施计划](plans/MVP_IMPLEMENTATION_PLAN.md) 已存在。评审分支有三个第三方 Skills 文件，但无自研 Skill、执行脚本、CI 工作流或 CSS 发布文件。
+增强机制：[ADR-0001](adr/0001-css-base-strategy.md)、[ADR-0002](adr/0002-cascade-layers.md)、[ADR-0003](adr/0003-mvp-package-contract.md)、[ADR-0004](adr/0004-browser-support-policy.md)、[ADR-0005](adr/0005-viteplus-toolchain.md) 均为 Accepted；[MVP 实施计划](plans/MVP_IMPLEMENTATION_PLAN.md) 已存在。开发分支已有一个正式 CSS 源文件、Vite+ 及本地测试脚本，并包含三个固定上游版本的第三方 Skills；**没有 CI 工作流或已公开发布的 CSS 包**。
 
 ## 2. 核查规则
 
