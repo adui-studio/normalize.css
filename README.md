@@ -84,6 +84,22 @@ node tests/r003-evidence.mjs r003-native.json r003-candidate.json
 
 **W-04 包交付验收（开发分支范围）**：维护者确认只需 Vite+ 工具链。`vp pack` 唯一 CSS、`test:package` 真实包安装、`test:consumer` Vite+ 生产构建均已有实测 PASS；Webpack 专项测试已删除，不再作为阻塞。浏览器直接加载、开发态效果和组件库风险仍归 W-06；公开 npm 包仍须 W-07 单独批准。详见[W-04 当前验收口径](docs/plans/CSS_PACKAGE_DELIVERY_REVIEW.md)。
 
+## W-06：真实 CSS T2 本地对照（开发中）
+
+先构建 CSS 包，再启动 Vite+：
+
+```powershell
+vp pack
+vp build
+npm run test:offline
+vp test
+vp dev
+```
+
+访问 [T0 原生](http://localhost:5173/fixtures/t2-native.html) 和 [T2 实际 CSS](http://localhost:5173/fixtures/t2-package.html)。两页具有相同的被测内容，T2 **只多一个** `../dist/normalize.css` 样式链接，探针会报告 `packageStylesheet.loaded`；若为 `false` 则不能据此判定规则无差异。新增页面保留 R-003 字重、R-004 等宽字体及少量原生控件观察点，**暂未取得真实 T2 浏览器测试结果**；后续开发态、组件库和无障碍回归继续归 W-06 #7。
+
+详细步骤见 [W-06 T2 验证说明](docs/research/W06_T2_LOCAL_VERIFICATION.md)。`dist-fixtures/` 仅供本地测试，绝不会进入只包含 `dist/` 的 npm 包。本轮不修改产品 CSS、不新增依赖或 CI。
+
 ## Windows 换行符统一（LF）
 
 仓库新增 `.gitattributes` 的 `* text=auto eol=lf`，用于统一 Git 文本文件的换行；`.editorconfig` 要求 UTF-8、LF、文件末尾换行。JetBrains 编辑器应遵循项目 EditorConfig，防止 Windows 的 CRLF 在后续保存中反复触发 `vp check --fix`。**不要**为了此项配置执行 `git reset --hard`、批量 `git add --renormalize .` 或覆盖未提交的本地修改。
