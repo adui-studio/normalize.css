@@ -109,6 +109,8 @@
 
 **W-04 Windows 验收与 LF 规范（2026-11-04）**：维护者提供真实终端日志：`vp pack` 仅生成单个 `dist/normalize.css`（约 200 字节）；`npm run test:package` **1/1 PASS**，验证真实 tarball 清单、离线安装与根入口/私有子路径；`npm run test:consumer` **1/1 PASS**，验证独立 Vite+ 1.4.0 生产构建保留 CSS。P-01/P-06/P-07/P-09 已通过，P-02 生产打包子项通过（开发态及页面渲染待测），P-03 Webpack 5 尚未执行，W-04 [Issue #5](https://github.com/adui-studio/normalize.css/issues/5) 保持 Open。用户说明反复运行 `vp check --fix` 是为解决 Windows CRLF → LF；开发分支新增 `.gitattributes`（`* text=auto eol=lf`）与 `.editorconfig`（UTF-8、LF、末尾换行），配置需在维护者 Windows 本机复核，未批量重写追踪文件、不改变产品 CSS。没有新增依赖/CI、未发布 npm。见[W-04 §7.6](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)。
 
+**W-04 Webpack 5 消费端脚本与格式诊断（2026-11-04）**：维护者 `git check-attr text eol` 已确认样本为 `text: auto`、`eol: lf`。最新 `vp check` 报告仅三个 Markdown 格式问题，随后 `vp check --fix` 格式修复成功、13 文件 Lint PASS；GitHub 新提交的实际补丁显示是表格宽度与空格对齐变化，未显示 CRLF 归一化。因此 LF 策略生效与 Markdown 格式问题须区分，修复后再次 `vp check` 的完整结果尚未提供。针对 W-04 P-03 已增加显式独立 `npm run test:webpack`，在临时目录中从真实 tarball 安装 CSS 包和固定 Webpack 5.112.2，利用原生 `experiments.css` 做生产构建和 CSS 副作用保留检查。不添加根项目依赖、CI，不发布；新测试文件已通过 Node `--check` 和 Git blob 指纹核对，但当前容器不能访问 npm registry，**未实际安装 Webpack 或运行其构建**。W-04 Issue #5 仍 Open，详见[W-04 §7.7](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与下一阶段变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源
