@@ -105,7 +105,7 @@ vp dev
 
 ## W-06：Vue / React / TDesign 组件库独立消费
 
-继 Chrome 156 原生页面静态对照与部分交互人工验证通过后，已新增隔离的 Vue 3 + Element Plus、React + Ant Design 测试。使用本仓库 `vp pack` 的**真实 tarball**，由 Vite+ 1.4.0 分别构建 T0（不加载本库）与 T2（加载 `@adui/normalize.css`）；只在显式运行时向 Git 忽略的临时目录安装固定版本组件库，**不会增加正式项目依赖或发布文件**。
+继 Chrome 156 原生页面静态对照与部分交互人工验证通过后，已新增隔离的 Vue 3 + Element Plus、React + Ant Design、Vue 3 + TDesign Vue Next 三个测试场景。使用本仓库 `vp pack` 的**真实 tarball**，由 Vite+ 1.4.0 分别构建 T0（不加载本库）与 T2（加载 `@adui/normalize.css`）；只在显式运行时向 Git 忽略的临时目录安装固定版本组件库，**不会增加正式项目依赖或发布文件**。
 
 ```powershell
 vp pack
