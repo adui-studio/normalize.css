@@ -48,6 +48,24 @@ describe("规则复现 Fixture 契约", () => {
     }
   });
 
+  it("W-06 T0/T2 仅差实际 CSS link，页面内容与被测对象一致", () => {
+    const native = readFixture("t2-native.html");
+    const integrated = readFixture("t2-package.html");
+    const body = (source: string) =>
+      source.slice(source.indexOf("<body>"), source.indexOf("</body>") + "</body>".length);
+
+    expect(body(native)).toBe(body(integrated));
+    expect(native).not.toContain('id="package-css"');
+    expect(integrated).toContain(
+      '<link id="package-css" rel="stylesheet" href="../dist/normalize.css" />',
+    );
+    for (const id of ["b-600", "strong-700", "code", "kbd", "samp", "pre"]) {
+      expect(native).toContain(`id="${id}" data-probe`);
+      expect(integrated).toContain(`id="${id}" data-probe`);
+    }
+    expect(integrated).not.toContain('id="candidate-rule"');
+  });
+
   it("所有 Fixture 只读取数据，不依赖远程资源", () => {
     const files = [
       "r003-native.html",
@@ -55,6 +73,8 @@ describe("规则复现 Fixture 契约", () => {
       "r004-native.html",
       "r004-risk-review.html",
       "r004-family-review.html",
+      "t2-native.html",
+      "t2-package.html",
     ];
     for (const name of files) {
       const source = readFixture(name);
