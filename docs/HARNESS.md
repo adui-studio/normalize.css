@@ -22,6 +22,8 @@
 
 **首批产品 CSS 构建与定向测试（2026-11-04）**：`src/normalize.css` 当前只包含 R-003；`scripts/build.mjs` 直接复制静态 CSS，`package.json` 只导出 CSS 根入口并保持 private。独立 Linux Node 22.16.0 复刻目录新增定向 Node **5/5 PASS**；CSS 字节一致、离线 tarball 安装、根路径解析与私有子路径封装通过。复刻文件的 Git blob SHA 与远程提交完全一致，但 **Node 低于项目 engine 下限**，不是维护者 Windows 上 Vite+ 全量测试通过。见[W-04 交付记录](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)。
 
+**Vite+ 三命令迁移（2026-11-04）**：维护者要求统一使用 `vp dev`、`vp build`、`vp pack`，不再通过 `npm run build` 调用 `scripts/build.mjs`（已删除）。`vite.config.ts` 的 `build.lib.entry` 为 `src/normalize.css`、`cssFileName` 为 `normalize`，目标是仅生成 `dist/normalize.css`；`pack` 把试验性 CSS-only 入口输出到独立 `dist-pack/`，不会覆盖根包导出。离线 Node 测试对新配置及现有 CSS 契约 **5/5 PASS**，运行环境 Node 22.16.0；**未执行真正 Vite+ 1.4.0 的 `vp build` / `vp pack`**，且目前尚不清楚 tsdown 能否把 CSS 直接用作唯一入口。维护者迁移前的 `npm run test:offline` 实测为 **25/25 PASS**；迁移后需重跑完整测试、`vp check`、`vp test` 和两个构建命令。详见[W-04 包研究](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)。
+
 ## 1. Harness 目标
 
 形成可重复的闭环：理解需求 → 影响分析 → 制定验证矩阵 → 最小修改 → 检查 → 定位失败 → 修复重验 → 记录结果。未来仅考虑维护者本地运行可复现检查并记录结果；项目明确**不增加任何 CI**，避免仅凭经验声称跨浏览器兼容。
@@ -67,14 +69,16 @@ vp fmt --check
 vp check
 vp test
 vp dev
+vp build
 vp pack
 ```
 
 - `vp check` / `vp fmt`：静态检查与格式化的候选；对 CSS 的实际覆盖仍需验证。
 - `vp test`：使用 Vitest 进行规则元数据或文件导出等单元检查，**不等于真实浏览器回归**。
 - `vp dev`：用于后续原生 HTML 与 UI 组件 Fixture 的本地预览。
-- `vp pack`：官方支持 CSS bundling，但是否适合**无 JS 入口、无 JS 产物**的 CSS-only 库需实测。
-- `vp build` 面向应用，不应直接假定它就是静态 CSS npm 包的构建方式；运行自定义 scripts 应使用 `vp run <name>`。
+- `vp build`：现在已配置 Vite CSS-only 库入口；是否只生成单一 CSS 文件必须在维护者本机验证。
+- `vp pack`：官方支持从库入口提取 CSS，但本项目 CSS 直接作为唯一入口仍属独立的试验；使用 `dist-pack/` 避免覆盖根包的 `dist/`，不作为发布产物。
+- `vp pack` 不等于 `npm pack`，实际 tarball 检验仍使用 `npm pack --dry-run`。
 
 另外已实际运行 `npm pack --dry-run --json --ignore-scripts --offline .` 并返回成功：当前 `files: ["dist"]` 且尚无 `dist`，因此文件清单只有 `package.json`。**该结果只能说明白名单生效，不表示真实 CSS 包、`exports`、Vite+/Webpack 消费端已通过。** 此外，`tests/package-smoke.node.test.mjs` 已在临时目录中实际 npm pack 并离线安装合成的单一 CSS 入口包，检查根路径、拒绝未公开子路径及无 JS/私有测试文件；该测试通过，但**不等于项目的正式 CSS 根入口已实现或经过消费端构建验证**。
 
