@@ -61,13 +61,12 @@ npm run test:ecosystem -- vue-tdesign # 可选：隔离 Vue + TDesign 真实消�
 
 ## 本地开发与复现（W-03）
 
-本分支已配置 Vite+ 1.4.0 作为**开发依赖**，并根据 W-07 决议统一使用 **pnpm 12.15.0**（`package.json#packageManager`）。Node.js 需满足 `^22.18.0 || ^24.11.0 || >=26.0.0`。**`pnpm-lock.yaml` 尚未在 GitHub 开发分支中生成或提交**，需由维护者在可访问 npm Registry 的 Windows 本机使用对应 pnpm 版本生成并验证，不得凭空填写依赖校验值。
+本分支已配置 Vite+ 1.4.0 作为**开发依赖**，并根据 W-07 决议统一使用 **pnpm 12.15.0**（`package.json#packageManager`）。Node.js 需满足 `^22.18.0 || ^24.11.0 || >=26.0.0`。**维护者已提交 `pnpm-lock.yaml`**；GitHub 静态审核确认 pnpm 12.15.0 与 `vite-plus@1.4.0` 的依赖锁定一致，仍需保留 Windows `pnpm install --frozen-lockfile` 的实际输出作为安装通过证据。
 
 ```sh
 # 在有 npm 网络访问、Node 满足要求且 pnpm 版本为 12.15.0 时
 pnpm --version
-pnpm install --lockfile-only  # 首次生成 pnpm-lock.yaml，提交到 Git
-pnpm install --frozen-lockfile
+pnpm install --frozen-lockfile  # 使用已经提交的 pnpm-lock.yaml
 pnpm exec vp check
 pnpm exec vp test
 pnpm exec vp dev
