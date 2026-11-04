@@ -47,6 +47,27 @@
 
 **局部结论**：当前 Chrome 156 运行环境中，`b, strong { font-weight: bolder; }` 没有改变上述六组计算值；这不说明所有浏览器均不需要修复。UA 只给出简化的 `Chrome/156.0.0.0`，完整构建号、DevTools 获胜 UA 声明、真实字形渲染、Chrome/Edge 120、Firefox 121、Safari 17.2 与移动版本仍需独立验证。R-003 保持**条件性候选／未准入默认 CSS**。
 
+## 2.2 Chrome for Testing 120.0.6099.109：R-003 真实差异已复现（2026-11-04）
+
+**来源与环境**：维护者使用 Browser Workshop v1.0.0 启动官方 Chrome for Testing `120.0.6099.109`（64 位）。`chrome://version` 截图显示 Windows 11 Version 25H2（Build 26200.9711）。UA 对 T0/T1 均为 `Chrome/120.0.0.0`，这是简化 UA，**准确构建号以版本页截图为准**。维护者上传了两份浏览器探针生成的 JSON，助手已独立解析并逐条对照，但**没有在此执行者环境启动该旧版 Chrome 或运行现有 CLI**。
+
+| 测量对象 | 父级计算字重 | T0 原生计算值 | T1 单规则候选计算值 | 是否变化 |
+| --- | --- | --- | --- | --- |
+| `b`、`strong` | 400 | 700 | 700 | 否（2 组） |
+| `b`、`strong` | 600 | 700 | 900 | **是（2 组）** |
+| `b`、`strong` | 700 | 700 | 900 | **是（2 组）** |
+
+两份数据均有六个唯一测量 ID；父级字号、元素字号都为 `16px`；字体族一致为 `"Microsoft YaHei"`。逐行核对确认 **4/6 组计算字重发生变化，0/6 组候选规则结果不符合预期**。按 `tests/r003-evidence.mjs` 的比较算法，此数据**应返回** `COMPUTED_DIFFERENCE_OBSERVED`、`differences: 4`、`candidateFailures: 0`；**维护者尚未提供该命令在 Chrome 120 两份文件上的实际运行输出**，不可将独立 JSON 分析写成 CLI 已执行通过。
+
+证据文件保留在本次对话附件，不直接提交公开仓库。SHA-256：
+
+- `r003-native (1).json`：`d5fcc85606dc0d71f2f18df62b3457b073baf05bc4ddf8a6044add26fde86342`
+- `r003-candidate (1).json`：`40928f30a2e01acd930662ec1210231f8ac081490b24233fceb8f26f643c4ee0`
+
+**版本对照**：Chrome 156 的真实对照为零差异（§2.1）；Chrome 120 的这组数据为 4 个计算值差异。这支持旧版 Blink 的候选补丁必要性研究，**不是** Edge 120、Android Chrome 120、Firefox 121、Safari 17.2 或正式 Normalize 的通过证明。
+
+**环境风险与后续**：版本页启动命令及浏览器标签栏截图显示 `--disable-extensions`、`--disable-background-networking`、`--proxy-server=...` 被当作网页地址打开，**无法据此确认这些附加限制曾生效**；独立 BWS Profile 不是操作系统隔离，是否实际断开外网未获确认。后续在真实受控隔离条件下复测时，不应将这次命令行附加参数视为安全保证。尚未从 DevTools Styles 核对胜出 UA 声明、嵌套字重、实际字体字形及组件库覆盖风险。R-003 进入**有旧版真实差异证据的条件性候选评审**，仍不准入正式产品 CSS，Issue #3 保持 Open。
+
 ## 3. R-004：T1 有候选声明，但截图计算值没有变化（待诊断）
 
 | 节点   | T0 父级字号 | T0 自身字号 | T1 父级字号 | T1 自身字号 |
