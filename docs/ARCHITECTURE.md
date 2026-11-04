@@ -1,6 +1,6 @@
 # ARCHITECTURE — 总体架构
 
-**状态**：首版设计决策已批准；W-03 测试基础设施在独立开发分支初步实现，尚无正式 Normalize CSS 或发行构建产物。  
+**状态**：首版设计决策已批准；开发分支已有 W-03 测试基础设施、首条 R-003 正式 CSS 源码、静态 CSS 构建脚本及单一根 exports；尚未完成正式发布验收或 npm 发布。  
 **关联**：[需求](REQUIREMENTS.md) · [SDD](SDD.md) · [ADR-0001](adr/0001-css-base-strategy.md)
 
 ## 1. 架构目标和质量属性
@@ -50,7 +50,7 @@ flowchart TD
 
 ## 5. 浏览器、生态与部署边界
 
-- 依 [ADR-0004 Accepted](adr/0004-browser-support-policy.md) 将固定 Baseline 2023 作为 CSS 特性准入参考；核心桌面/移动浏览器的**最低版本仍未冻结**，系统 WebView 的支持须按实际设备另行确认。
+- 依 [ADR-0004 Accepted](adr/0004-browser-support-policy.md) 固定 Baseline 2023 为 CSS 特性准入参考；Chrome/Edge 120、Firefox 121、Safari 17.2 等为已批准的最低**测试目标**，非已发布支持范围；系统 WebView 按实际设备另行确认。
 - 开发工具链已按 [ADR-0005](adr/0005-viteplus-toolchain.md) 选定 **Vite+**；CSS 仍应是无运行时 JS 依赖的独立文件。不能因为在 Vite+ 中构建通过就假定无需验证 Webpack、SSR 构建或原生 CSS 导入路径。
 - 原生 HTML、Vue、React 只是**使用场景**，不是本库的运行时框架依赖。
 - 预期发布介质是 npm 静态 CSS 包（尚未发布）；无需数据库、缓存、后端服务、环境变量、账号认证和外部 API。
@@ -71,7 +71,7 @@ flowchart TD
 | npm 包名 `@adui/normalize.css` | 项目目标已明确             | 与仓库定位一致；发布权限待确认                                            |
 | CSS Cascade Layers             | 首版默认不内置（Accepted） | ADR-0002；逐条评估 `:where()` 和覆盖风险                                  |
 | 开发工具链                     | **Vite+（Accepted）**      | [ADR-0005](adr/0005-viteplus-toolchain.md)；开发期统一 Vite+，无运行时 JS |
-| 纯 CSS 库打包方式              | 待实测                     | 先验证 Vite+ `vp pack` 是否适合无 JS 包产物，再决定最小方案               |
+| 纯 CSS 库打包方式              | **暂用静态复制（开发期）**   | 无 JS 入口，不增依赖；已验证产物字节一致，Vite+ pack/消费端另评          |
 | 具体 Vite+ 版本与包管理器      | 未冻结                     | 获开发授权后核对环境、锁文件与最小依赖                                    |
 | 本地浏览器自动化               | 未选型                     | 定义浏览器与 Fixtures，再选本地执行工具；**不增加 CI**                    |
 | 首版包含哪些增强模块           | 已决定：只含 Normalize     | ADR-0003；Reset/Forms/A11y/all.css 延后                                   |
@@ -84,5 +84,7 @@ flowchart TD
 - [ADR-0004：固定 Baseline 2023 特性准入参考](adr/0004-browser-support-policy.md) — **Accepted**；[映射研究](research/BASELINE_2023_MAPPING.md) 已得到候选版本，实际最低支持声明仍未冻结。
 - [ADR-0005：开发工具链统一采用 Vite+](adr/0005-viteplus-toolchain.md) — **Accepted**；尚未安装或运行。
 - [MVP 实施计划](plans/MVP_IMPLEMENTATION_PLAN.md) — 可执行的任务与验收门槛；**尚未开发**。
+
+**2026-11-04 实施说明**：默认 CSS 的首条可追踪规则为 R-003（`b, strong { font-weight: bolder; }`），R-004 不加入；`src/normalize.css` 经仅使用 Node 标准库的 `scripts/build.mjs` 原样复制到 `dist/normalize.css`，对外仅 `exports["."]`。Vite+ 仍负责开发检查和 Fixture，静态复制不是新增运行时框架。当前保留 `private: true`，WebKit、组件库和生产消费者未做完整验收。
 
 **更新约定**：模块职责、技术选型、对外依赖和浏览器支持矩阵变化时更新本文件与 ADR，并评估 SDD/需求影响。
