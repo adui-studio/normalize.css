@@ -93,9 +93,33 @@ test("W-06 T0/T2 pages share probe targets and only T2 loads the real packed CSS
   );
   assert.deepEqual(packageJson.exports, { ".": "./dist/normalize.css" });
 
-  for (const id of ["t2-button", "t2-search", "t2-summary", "t2-hidden", "t2-until-found"]) {
+  for (const id of [
+    "t2-button",
+    "t2-search",
+    "t2-fieldset",
+    "t2-select",
+    "t2-textarea",
+    "t2-checkbox",
+    "t2-summary",
+    "t2-hidden",
+    "t2-until-found",
+    "t2-dialog",
+    "t2-dialog-title",
+    "t2-dialog-close",
+  ]) {
     assert.ok(ids(baseline).includes(id), `Missing native observation point: ${id}`);
   }
+  for (const element of [
+    '<fieldset id="t2-fieldset">',
+    '<select id="t2-select">',
+    '<textarea id="t2-textarea" rows="2">',
+    '<input id="t2-checkbox" type="checkbox" />',
+    '<dialog id="t2-dialog" aria-labelledby="t2-dialog-title">',
+    '<form method="dialog">',
+  ]) {
+    assert.ok(baseline.includes(element), `Missing native semantic element: ${element}`);
+  }
+  assert.doesNotMatch(baseline, /<script[^>]+src="https?:\\/\\//i);
 });
 
 test("fixture landing page links to every existing local test page", () => {
