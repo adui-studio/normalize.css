@@ -1,12 +1,14 @@
 # HARNESS — 执行、验证与反馈环境
 
-**当前状态：W-03 已在独立开发分支实现首批本地 Harness 资产**：`package.json`、`vite.config.ts`、R-003/R-004 Fixture、`tests/fixtures.test.ts` 与 Node 探针测试。已在当前容器通过 **Node 测试 18/18**（含 Fixture/元数据契约）与 JS 语法检查；Vite+ 尚未安装/运行，Chromium 无头测试超时，历史目标浏览器未测。无 CSS 发布产物或 CI。
+**当前状态：W-03 已在独立开发分支实现首批本地 Harness 资产**：`package.json`、`vite.config.ts`、R-003/R-004 Fixture、`tests/fixtures.test.ts` 与 Node 探针测试。维护者本机最新 `vp check`、Vitest 6/6、离线 Node 23/23 均通过（代码修复前）；当前容器未安装 Vite+，历史目标浏览器未测。无 CSS 发布产物或 CI。
 
 **本机首次实测（2026-11-04）**：维护者在 Windows 上用 pnpm 11.24.0 安装了 Vite+ 1.4.0，`npm run test:offline` **22/22 PASS**，`npm exec -- vp test` **5/5 PASS**，`npm exec -- vp dev` 启动成功并访问四个 Fixture；`npm exec -- vp check` **FAIL**（当时报告 66 个文件格式问题）。Chrome 156 的 R-003 T0/T1 字重无差异；R-004 T1 声明效果不符合预期，待诊断。完整记录见 [首次本地运行](research/LOCAL_BROWSER_RUN_20261104.md)。上述结果**来自维护者提供的本地截图/终端日志**，不是本执行容器独立重跑。
 
-**R-004 补充测试**：维护者的 DevTools Console 已验证 T1 中作者 CSS 规则存在于 CSSOM，当前与探针记录均为 13px；依据 [字体族字号偏好研究](research/R003_R004_LOCAL_VERIFICATION.md)，新增独立 T1b 页面 `/fixtures/r004-family-review.html`，仅相对于 T1 增加 `font-family: monospace, monospace`；**T1b 浏览器结果已由维护者提供**：Chrome 156 四个等宽元素的自身计算字号均由 T1 的 13px 变为 T1b 的 16px，字体族显示 `monospace, monospace`；**新增 Node/Vitest 契约回归仍未收到实际运行结果**。单环境实测不等于最低浏览器矩阵通过。
+**R-004 补充测试**：维护者的 DevTools Console 已验证 T1 中作者 CSS 规则存在于 CSSOM，当前与探针记录均为 13px；依据 [字体族字号偏好研究](research/R003_R004_LOCAL_VERIFICATION.md)，新增独立 T1b 页面 `/fixtures/r004-family-review.html`，仅相对于 T1 增加 `font-family: monospace, monospace`；**T1b 浏览器结果已由维护者提供**：Chrome 156 四个等宽元素的自身计算字号均由 T1 的 13px 变为 T1b 的 16px，字体族显示 `monospace, monospace`；**后续已收到新增契约的完整本机回归：Node 23/23、Vitest 6/6 通过**。单环境实测不等于最低浏览器矩阵通过。
 
 **本机第二轮实测（2026-11-04）**：维护者使用 `vp fmt --check` 和 `vp check` 重新检查，均因格式问题 **FAIL**（本轮输出列出 54 个第一方文件）；`npm run test:offline` **23/23 PASS**，`vp test` **6/6 PASS**。不能将 `vp test:offline` 视为存在的子命令；离线脚本使用 `npm run test:offline`。Windows 上 `DEP0190` 警告仍存在，已定位到 `tests/package-smoke.node.test.mjs` 的 `spawnSync` 配置，尚未修复。格式化后完整重验仍待执行；见 [最新本机执行记录](research/LOCAL_BROWSER_RUN_20261104.md)。
+
+**本机第三轮实测（2026-11-04，维护者提供）**：`vp check` **PASS**（54 个文件格式正确、11 个文件无 Lint 警告或错误）；`vp test` **6/6 PASS**；`npm run test:offline` **23/23 PASS**，但原测试代码在 Windows 仍发出 `DEP0190`。已在 `tests/package-smoke.node.test.mjs` 将 Windows npm 启动从 `npm.cmd` + `shell: true` 改为 `node.exe` 直接执行 npm JavaScript CLI，保留独立参数数组；**提交后的 Windows 回归尚未执行，不得声称警告消失**。独立 Linux Node 22 环境已验证同类无 shell npm CLI 调用可完成离线打包与安装，但不能替代真实 Windows 验证。
 
 ## 1. Harness 目标
 
@@ -35,7 +37,7 @@
 
 ## 4. Vite+ 本机执行与下一步验证
 
-**格式检查范围的最小修复（2026-11-04，待本机重验）**：根目录 `vite.config.ts` 新增 `fmt.ignorePatterns: ['.agents/skills/**']`。参照 [Vite+ 官方 Format Config](https://viteplus.dev/config/fmt)，`vp check` 会读取根配置，因此固定上游原版 Skills（含其 references、来源记录）不应由项目格式化器修改；**其余第一方 Markdown、HTML、JS、TS、package.json 与 GitHub 模板继续接受完整格式检查**。不能为了通过而设置 `check.fmt: false` 或忽略 `docs/**`、`tests/**`、`fixtures/**`。
+**格式检查范围的最小修复（2026-11-04，已在本机重验）**：根目录 `vite.config.ts` 新增 `fmt.ignorePatterns: ['.agents/skills/**']`。参照 [Vite+ 官方 Format Config](https://viteplus.dev/config/fmt)，`vp check` 会读取根配置，因此固定上游原版 Skills（含其 references、来源记录）不应由项目格式化器修改；**其余第一方 Markdown、HTML、JS、TS、package.json 与 GitHub 模板继续接受完整格式检查**。不能为了通过而设置 `check.fmt: false` 或忽略 `docs/**`、`tests/**`、`fixtures/**`。
 
 ```sh
 pnpm exec vp fmt --check
@@ -44,9 +46,9 @@ pnpm exec vp check
 pnpm exec vp check --no-fmt
 ```
 
-**当前验证边界**：排除第三方 Skills 的配置已被维护者用于第二轮本机检查，仍报告第一方格式问题（54 个文件）；`vp fmt --check` 和完整 `vp check` 均未通过。需先执行 `vp fmt`，人工审查 diff，再重验；不应扩大忽略范围。
+**当前验证边界**：维护者已修复第一方格式问题并提交，第三轮 `vp check` 完整通过（54 个格式文件、11 个 Lint 文件）；此结果来自修复 npm 子进程代码**之前**，代码修改仍须运行相同检查。第三方 Skills 继续保留原文，不扩大忽略范围。
 
-Vite+ 已根据 [ADR-0005](adr/0005-viteplus-toolchain.md) 选定为统一工具链；已在 `package.json` 固定开发依赖 1.4.0，`vite.config.ts` 配置测试。**本机 `vp test`、`vp dev` 已验证可执行，`vp check` 因格式问题失败；本执行容器尚未安装 Vite+，`vp pack` 仍未验证**。
+Vite+ 已根据 [ADR-0005](adr/0005-viteplus-toolchain.md) 选定为统一工具链；已在 `package.json` 固定开发依赖 1.4.0，`vite.config.ts` 配置测试。**本机 `vp check`（代码修改前）、`vp test`、`vp dev` 已验证可执行；本执行容器尚未安装 Vite+，`vp pack` 仍未验证**。
 
 ```sh
 vp fmt --check
