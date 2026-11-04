@@ -123,6 +123,8 @@
 
 **W-06 原生交互实际操作补充（2026-11-04）**：维护者进一步明确“`dialog` 打开、Esc 关闭、键盘焦点或 `hidden="until-found"` 的实际操作过了，验证通过”。据此将 Chrome 156 的 **dialog 打开/Esc 关闭（F-005 子项）、until-found 查找揭示（F-006 子项）、键盘焦点（F-007 子项）**登记为维护者人工操作 PASS，与此前同浏览器 T0/T2 静态计算样式截图证据分别记录。无逐事件日志/录屏，不能推断 dialog 的关闭按钮、完整表单键盘流程、`details/summary` 实际展开、系统偏好切换、其他浏览器及组件库均通过；这些继续 NOT_RUN 或部分完成。W-06 Issue #7 保持 Open；本轮只更新证据文档/Issue，不修改 CSS 产品或 CI。[详细记录](research/W06_T2_LOCAL_VERIFICATION.md)。
 
+**W-06 Vue/React 生态消费第一批（2026-11-04）**：依据当前 Issue #7 的生态回归要求，新增两个**隔离、可选执行**的测试消费者：Vue 3.5.44 + Element Plus 2.14.7、React 19.3.1 + Ant Design 6.6.8。实际源码生成器与测试脚本位于 `tests/ecosystem-*.mjs`，先 `vp pack` 再用真实 npm tarball 安装，Vite+ 1.4.0 分别构建 native/T2，T2 独有 CSS 根导入。框架与组件库仅在用户显式运行命令时安装到被 Git 忽略的临时目录，根 `package.json` 只增加无依赖的 `test:ecosystem` 脚本，并将两项离线契约加入 `test:offline`；未修改产品 CSS、根运行时依赖、CI 或 npm 发布。已用 Code Mode 检查生成器语法、T0/T2 仅差一个 CSS import，**尚无真实依赖安装/Vite+ 生产消费者构建或浏览器 UI 比对结果**，状态 NOT_RUN。TDesign、Tailwind Preflight、UnoCSS Reset 留到后续范围；详见[W-06 生态本地验证说明](research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与待决策变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源
