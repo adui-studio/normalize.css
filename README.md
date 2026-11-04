@@ -48,6 +48,8 @@ vp test            # Vitest 单元测试
 npm run test:offline
 npm run test:package  # vp pack 后，验证真实 npm tarball 与离线安装
 npm run test:consumer # vp pack 后，验证 Vite+ 生产消费者保留 CSS
+npm run test:ecosystem -- vue-element # 可选：隔离 Vue + Element Plus 真实消费
+npm run test:ecosystem -- react-antd   # 可选：隔离 React + Ant Design 真实消费
 ```
 
 本机已验证 Vite+ 1.4.0 的 `vp pack` 能直接以 CSS 作为唯一入口、输出一个样式文件（测试时约 200 字节、无 JS）。因此现在由 **`vp pack` 生成 npm 根导出的 `dist/normalize.css`**。原先把 CSS 作为 `vp build` 库入口会触发 `cssCodeSplit: false` 与 CSS input 冲突，已改成 **`vp build` 负责构建现有六张 Fixture HTML**，结果隔离在 `dist-fixtures/`，不进入 npm 包。修订后的两项命令均已在维护者 Windows Vite+ 1.4.0 环境实测通过。如需在本地 HTML 试用，可直接用 `<link rel="stylesheet" href="/dist/normalize.css">`（前提是你的静态服务器确实提供该 URL）。若从本地构建的 npm tarball 安装到支持 CSS 导入的构建工具，可测试 `import "@adui/normalize.css";`，其中 Vite+ 生产构建已经验证 CSS 保留，Webpack 5 以及浏览器页面实际生效仍未验收。**不执行 npm publish**。
@@ -99,6 +101,19 @@ vp dev
 访问 [T0 原生](http://localhost:5173/fixtures/t2-native.html) 和 [T2 实际 CSS](http://localhost:5173/fixtures/t2-package.html)。两页具有相同的被测内容，T2 **只多一个** `../dist/normalize.css` 样式链接，探针会报告 `packageStylesheet.loaded`；若为 `false` 则不能据此判定规则无差异。新增页面保留 R-003 字重、R-004 等宽字体以及原生表单、details、dialog、hidden 等观察点，**维护者已反馈首批 T2 本地验证通过**，但未提供逐浏览器 JSON/版本记录；新增加的原生表单、dialog、键盘焦点和隐藏元素交互检查仍待执行，不能因此推定组件库或无障碍兼容性通过。后续回归继续归 W-06 #7。
 
 详细步骤见 [W-06 T2 验证说明](docs/research/W06_T2_LOCAL_VERIFICATION.md)。`dist-fixtures/` 仅供本地测试，绝不会进入只包含 `dist/` 的 npm 包。本轮不修改产品 CSS、不新增依赖或 CI。
+
+## W-06：Vue / React 组件库独立消费（脚本已实现，尚未实测）
+
+继 Chrome 156 原生页面静态对照与部分交互人工验证通过后，已新增隔离的 Vue 3 + Element Plus、React + Ant Design 测试。使用本仓库 `vp pack` 的**真实 tarball**，由 Vite+ 1.4.0 分别构建 T0（不加载本库）与 T2（加载 `@adui/normalize.css`）；只在显式运行时向 Git 忽略的临时目录安装固定版本组件库，**不会增加正式项目依赖或发布文件**。
+
+```powershell
+vp pack
+npm run test:offline
+npm run test:ecosystem -- vue-element
+npm run test:ecosystem -- react-antd
+```
+
+两项生态构建首次运行可能需要 npm 网络。构建成功**不等于 UI 实际渲染兼容通过**；如需保留临时对照项目供浏览器人工测试，添加 `--keep`。详细步骤见 [W-06 生态对照指南](docs/research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)。TDesign、UnoCSS Reset 与 Tailwind Preflight 仍待后续独立测试。
 
 ## Windows 换行符统一（LF）
 
