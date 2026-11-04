@@ -145,6 +145,8 @@
 
 **2026-11-04 · UnoCSS tailwind-compat 三模式静态对照已补齐**：维护者提供 Chrome 156 中 `http://localhost:5181/`、`:5182/` 的完整 `window.__aduiResetEvidence`，与此前 `:5180` baseline 三份数据逐项一致，均为 12 元素 × 14 属性，正反引入顺序均相对 baseline **0 静态计算值差异**。三页 `adui-reset-8TXDC6` 的 Vite CSS 来源此前已核实，真实 tarball + Vite+ 三模式构建 3/3 PASS。至此 UnoCSS `tailwind-v4` 与 `tailwind-compat` 两套**独立场景**均完成 Chrome 156 的三模式静态采样且无差异，但交互、`:focus-visible`、CSS 胜出声明及其他引擎未验收，Tailwind Preflight 仍未提供运行日志，**F-010 仅部分完成**。本轮未修改产品 CSS；详见 [W-06 Reset 记录](research/W06_RESET_LOCAL_VERIFICATION.md)。
 
+**2026-11-04 · Tailwind v4 Preflight 生产构建回填**：维护者 Windows 实际运行 `npm run test:reset -- tailwind-preflight --keep`，在独立 `adui-reset-JQcSHX` 消费者目录完成 `baseline`、`normalize-first`、`normalize-last` 三组真实 Normalize tarball + Vite+ 构建，均 **BUILD_PASS（3/3）**。CSS 字节数为 4586/4786/4786，三份 SHA-256 不同，均有 `hasLayer:true`；脚本针对 Tailwind 还验证了产物存在 `@layer base`。详见 [W-06 Reset 记录](research/W06_RESET_LOCAL_VERIFICATION.md)。**本轮没有浏览器计算样式、交互或 CSS 最终胜出声明证据**，不能将 F-010 标为完整 PASS；UnoCSS 两套独立静态采样的既有结果仍有效。无产品 CSS、根依赖、CI 或发布变更。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与待决策变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源
