@@ -1,6 +1,6 @@
 # R-003 / R-004 最低版本本地验证执行指南
 
-- **状态**：维护者已在 Chrome 156 实测 T0/T1 Fixture，且 R-003 原始 JSON 自动比较得到 `NO_COMPUTED_DIFFERENCE`；详见[运行记录](LOCAL_BROWSER_RUN_20261104.md)。**最低目标旧版浏览器及移动端仍未测试**。
+- **状态**：维护者已在 Chrome 156 实测 T0/T1（`NO_COMPUTED_DIFFERENCE`），并用 Browser Workshop 启动 Chrome for Testing 120.0.6099.109，上传的两份原始 JSON 已独立核对出 **4 组计算字重差异**；详见[运行记录](LOCAL_BROWSER_RUN_20261104.md)。**其他最低目标浏览器和移动端仍未测试**。
 - **日期**：2026-11-03
 - **关联**：[R-003 / R-004 证据卡](RULE_EVIDENCE_R003_R004.md) · [Baseline 2023 最低测试目标](BASELINE_2023_MAPPING.md) · [浏览器矩阵](BROWSER_REVIEW.md) · [Issue #2](https://github.com/adui-studio/normalize.css/issues/2) · [Issue #3](https://github.com/adui-studio/normalize.css/issues/3)
 - **约束**：维护者已授权开发；Vite+ 是开发工具链（[ADR-0005](../adr/0005-viteplus-toolchain.md)）；检查仅在**本地手动运行，不增加 CI**。
@@ -93,7 +93,20 @@ $candidate = Join-Path $HOME "Downloads\r003-candidate-120.json"
 node tests/r003-evidence.mjs $native $candidate
 ```
 
-**验收与限制**：记录 `chrome://version` 的完整版本、操作系统、原生与候选的六组计算字重、比较器输出及浏览器 UA 样式来源。根据已核对的 Blink 120 UA 源码，父级 600/700 时**预期** T0=700、T1=900，但没有实际数据前必须记为 `NOT_RUN`，不能把预期当实测。Edge 120、Firefox 121、Safari 17.2 和移动端均需要各自独立验证。
+**验收与限制**：记录 `chrome://version` 的完整版本、操作系统、原生与候选的六组计算字重、比较器输出及浏览器 UA 样式来源。**本次维护者已经在 Chrome 120 实测 T0/T1**：父级 600/700 时 T0=700、T1=900，共四个计算值差异；但自动比较 CLI 的实际终端输出、UA 来源、字体真实渲染仍待补充。Edge 120、Firefox 121、Safari 17.2 和移动端均需要各自独立验证。
+
+### 1.2 Browser Workshop v1.0.0 实测注意事项
+
+维护者在 Windows 上使用 `E:\bws\bws.exe` 导入并启动 Chrome for Testing 120.0.6099.109，版本页截图确认独立 BWS Profile；R-003 T0/T1 已成功访问，原始 JSON 已交付（[结果与指纹](LOCAL_BROWSER_RUN_20261104.md#22-chrome-for-testing-12006099109r-003-真实差异已复现2026-11-04)）。
+
+**命令行问题**：本次截图顶部出现 `--disable-extensions`、`--disable-background-networking`、`--proxy-server=...` 三个浏览器标签；版本页的命令行也有 URL 后跟 `--` 的痕迹。它们似乎被 BWS 作为**网页地址**传递，不能据此认为这些开关已生效。后续优先使用最简单、可复现的 BWS 启动命令，不传原生开关：
+
+```powershell
+cd E:\bws
+.\bws.exe r chrome@120 "http://localhost:5173/fixtures/r003-native.html" --profile r003
+```
+
+T1 使用同一个 Chrome 120 窗口手工访问 `http://localhost:5173/fixtures/r003-candidate.html`。若要真正限定旧版浏览器的外网暴露，**先由操作系统临时断开外网，仅保留 localhost 测试**；BWS Profile 隔离与这些浏览器参数不构成虚拟机或沙箱。不要访问不可信网站、不要关闭 Chrome Sandbox，不使用指纹伪装以免影响真实 UA 取证。
 
 ## 2. R-003：最低版本的观测设计
 
