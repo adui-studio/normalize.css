@@ -1,4 +1,14 @@
+import { fileURLToPath } from "node:url";
 import { defineConfig } from "vite-plus";
+
+const fixtures = [
+  "index",
+  "r003-native",
+  "r003-candidate",
+  "r004-native",
+  "r004-risk-review",
+  "r004-family-review",
+].map((name) => fileURLToPath(new URL(`./fixtures/${name}.html`, import.meta.url)));
 
 export default defineConfig({
   fmt: {
@@ -10,20 +20,17 @@ export default defineConfig({
     environment: "node",
   },
   build: {
-    // Build the only public asset directly, without a JavaScript library entry.
-    lib: {
-      entry: "src/normalize.css",
-      formats: ["es"],
-      cssFileName: "normalize",
+    // vp build is only for the local HTML evidence pages, not the npm package.
+    outDir: "dist-fixtures",
+    rolldownOptions: {
+      input: fixtures,
     },
-    cssMinify: false,
     copyPublicDir: false,
   },
   pack: {
-    // Verify the experimental tsdown CSS-only entry separately from dist/.
-    // Do not publish dist-pack/ or use it for the package root export.
+    // vp pack is the proven CSS-only library build. No JavaScript entry.
     entry: ["src/normalize.css"],
-    outDir: "dist-pack",
+    outDir: "dist",
     format: ["esm"],
     dts: false,
     css: {
