@@ -102,6 +102,36 @@ npm run check
 
 参考：[Tailwind Preflight](https://tailwindcss.com/docs/preflight) · [UnoCSS Style Reset](https://unocss.dev/guide/style-reset) · [UnoCSS Wind4 Preset](https://unocss.dev/presets/wind4) · [MDN Cascade Layers](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics/Cascade_layers)。
 
+### 6.6 W-06 实际执行清单（待执行）
+
+按以下顺序准备并**逐浏览器重复**；尚无测试工程，以下不是已运行的命令：
+
+1. **来源清点**：列出页面实际加载的全部 CSS（组件库自带样式、独立 Reset、其他全局样式、Normalize），记录 URL/解析后的包路径、版本、文件哈希及构建产物顺序。特别检查有无显式导入 `tdesign-vue-next/dist/reset.css`：TDesign Vue Next 官方 FAQ 表明从 0.17.0 起不再默认包含原先的 `reset.less`，独立 Reset 属可选加载，不能混入本次 TDesign 基线。
+2. **排除污染**：T0/T1/T2 均只保留同一版本的 TDesign 组件样式；关闭 Tailwind Preflight、UnoCSS 及其预设 Reset，以及测试环境无关的 Normalize/Reset。若无法排除，先记录阻塞，不能继续认定纯净对照。
+3. **来源独立**：分别校验 T1 的 native CSS 内容、T2 的 package CSS 安装/构建来源和校验值。若二者实为同一个 URL、缓存复用或无法证明包真实存在，报告“对照同源/来源未知”，不写“真实 npm 包通过”。
+4. **基础状态**：在相同 DOM 与视口下比较 Button/Input 的盒模型、字体、边框、尺寸和布局；补充 `b`、`strong`、`code`。此前截图中的 `font-weight: 900` 仅是当前页面计算结果，不是跨浏览器预期值；若需解释应定位最终胜出规则。
+5. **交互状态**：Button 检查点击、hover、focus-visible、disabled；Input 检查输入/清空、placeholder、focus、disabled；随后扩展 Select 展开/选择、Dialog 打开/关闭及键盘响应、Table 表头与单元格布局。对失败项保留复现步骤。
+6. **三引擎核对**：分别在 Chromium、Firefox、WebKit 记录浏览器**实际版本**、系统及结果。WebKit 自动化引擎的通过不等同于实际 Safari 浏览器通过；如需要 Safari 声明，应另行进行 Safari 实测。TDesign 官方文档的浏览器支持表只作为候选验证范围来源，不直接作为本项目已通过证明。
+7. **保存证据**：每个组/引擎保留全页和关键组件截图、计算样式、控制台日志、资源清单，以及相关属性的 Styles 面板胜出声明。Vue Feature Flags 警告作为独立构建环境问题登记，需确认其不影响比较，但不混同 CSS 回归。
+
+| 必查项 | 通过条件 | 不通过/阻塞的判定 |
+| --- | --- | --- |
+| TDesign 样式来源 | T0/T1/T2 均使用相同且可溯源的组件样式 | 出现额外 `dist/reset.css` 或来源未知时先隔离 |
+| Normalize 两种来源 | T1/T2 分别有真实内容与安装/文件来源记录 | 只能证明截图相似时记“证据不足” |
+| 计算样式 | 同一浏览器中与指定基线的差异已解释，未发生无意破坏 | 未解释的盒模型、焦点、字体或布局差异需归因 |
+| 交互可访问性 | 键盘焦点可见、禁用态有效、输入/弹窗等行为符合组件预期 | 行为受损则失败，不因截图一致而放行 |
+| 引擎覆盖 | Chromium / Firefox / WebKit 各自有可复核记录 | 缺一引擎记未完成，不外推全平台 |
+
+### 6.7 Reset 加载顺序的细化判定（待执行）
+
+- **Tailwind v4**：按官方文档仅加载 `tailwindcss/preflight.css` 到 `base` 层；不要把完整 `@import "tailwindcss"` 当作“只测 Preflight”。记录文件实际解析后是否含 `@layer theme, base, components, utilities` 声明、各层何时创建，以及 Normalize 是否未分层。检查标题/列表间距、边框归零、图片尺寸、`[hidden]`、表单默认外观等。
+- **UnoCSS**：优先测试独立 `@unocss/reset/tailwind-v4.css`；额外 `tailwind-compat.css` 以独立组进行。官方说明 compat 入口移除了部分按钮背景色覆盖以减少组件库冲突，故按钮背景属于重点差异项；禁止同组同时载入两个 UnoCSS Reset。
+- **预设去重**：若 UnoCSS 环境还启用了 `presetWind4`，必须检查其 `preflights.reset` 设置与生成 CSS，确保没有内置 Reset 与独立 Reset 同时生效。若不能确认，则该环境不满足独立组隔离条件。
+- **顺序实验**：固定 CSS 文件内容、层声明和所有其余条件，只改变两份 CSS 的预期顺序，并从最终产物核对实际顺序。报告应明确区分“引入顺序不同但结果相同”和“引入顺序导致样式差异”，而不是预设反转一定有效。
+- **重要性核对**：对层内/层外普通声明与 `!important` 分别归因。仅在同一优先级层级内，源码声明先后才可能成为决定项；Cascade Layers 的首次创建顺序不能靠后续同名声明重新排序。
+
+官方依据：[TDesign Vue Next 入门与 Reset FAQ](https://github.com/Tencent/tdesign-vue-next/blob/develop/packages/tdesign-vue-next/site/docs/getting-started.md) · [Tailwind Preflight](https://tailwindcss.com/docs/preflight) · [UnoCSS Style Reset](https://unocss.dev/guide/style-reset) · [Wind4 Preflights](https://unocss.dev/presets/wind4) · [MDN CSS Cascade](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Cascade/Introduction)。
+
 ## 7. 安全和发布门禁（规划）
 
 - 审核第三方规则的许可证及改写过程；不引入未经审批的远程字体、图片或跟踪请求。
