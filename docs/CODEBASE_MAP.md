@@ -31,7 +31,6 @@ normalize.css/
 │   ├── package-smoke.node.test.mjs  # 合成包烟测（普通 test:offline）
 │   ├── package-real.node.test.mjs   # W-04 真实包打包/安装（先 vp pack，再 test:package）
 │   ├── package-vite-consumer.node.test.mjs # W-04 Vite+ 生产 CSS 副作用消费检查（test:consumer）
-│   ├── package-webpack-consumer.node.test.mjs # W-04 Webpack 5 原生 CSS 生产消费（test:webpack）
 │   ├── probe.node.test.mjs
 │   ├── r003-evidence.mjs             # R-003 JSON 比较 CLI
 │   ├── r003-evidence.node.test.mjs   # 合成数据与 CLI 测试
@@ -93,14 +92,14 @@ W-03/W-04/W-05 开发分支基于尚未合并的文档评审分支；已增加�
 | `src/normalize.css`              | 默认 Normalize 唯一源码             | **开发分支已实现：仅 R-003**                                |
 | `dist/`                          | CSS 发布产物                        | 规划中，**不存在**                                          |
 | `package.json` 的 CSS `exports`  | 唯一根 CSS 入口                     | **开发分支已实现**；仍 `private: true`                      |
-| `tests/`                         | Fixture 契约、离线 Node 测试        | **已存在**；增加真实 tarball `test:package`，消费端尚待验证 |
-| `vite.config.ts` 的 `build/pack` | Vite+ Fixture 预览构建与单 CSS 打包 | **已配置；vp pack 原方案已实测，调整后待测**                |
+| `tests/`                         | Fixture 契约、离线 Node 测试        | **已实现**；真实 tarball 与 Vite+ 生产消费均通过 |
+| `vite.config.ts` 的 `build/pack` | Vite+ Fixture 预览构建与单 CSS 打包 | **已实测 vp build / vp pack 产物**                |
 | `.github/workflows/`             | CI/发布工作流                       | **明确不规划**，项目禁止增加 CI；当前不存在                 |
 | `.agents/skills/`                | 第三方原版 Skills                   | 评审分支已纳入，main 尚无；来源见 [SKILLS](SKILLS.md)       |
 
 ## 3. 程序入口与依赖调用链
 
-当前开发分支已有 Fixture 与测试入口，以及 `src/normalize.css`、Vite+ `build/pack` 配置、CSS 包根 exports。先执行 `vp pack` 生成 `dist/normalize.css`；维护者已验证真实 tarball 离线安装和独立 Vite+ 1.4.0 生产消费者均 1/1 PASS。Webpack 5、开发态和实际页面生效仍待验证，npm 尚未发布。项目没有路由、后端 API 或数据库。
+当前开发分支已有 Fixture 与测试入口，以及 `src/normalize.css`、Vite+ `build/pack` 配置、CSS 包根 exports。先执行 `vp pack` 生成 `dist/normalize.css`；维护者已验证真实 tarball 离线安装和独立 Vite+ 1.4.0 生产消费者均 1/1 PASS。Webpack 已退出首版必测范围；开发态和页面样式归 W-06，npm 尚未发布。项目没有路由、后端 API 或数据库。
 
 开发期的预期依赖路径（发布前仍需消费端验证）：
 
