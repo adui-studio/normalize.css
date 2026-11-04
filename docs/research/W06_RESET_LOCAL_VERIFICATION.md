@@ -72,6 +72,19 @@
 
 **后续建议**：不再重复本组三页的静态计算值采样；下一批直接对 `adui-reset-8TXDC6` 的 compat 三页采集 URL 与计算结果，之后再独立运行 Tailwind。出现真实属性差异时才补采 DevTools Styles 面板最终胜出声明并评估是否修改产品 CSS。不新增 CI、不发布或合并。
 
+## 2026-11-04 · UnoCSS tailwind-compat 浏览器基线（阶段记录）
+
+维护者提供 Chrome 156 下的三组页面来源：
+- 5180：`adui-reset-8TXDC6/baseline/style.css`；已收到 12 个元素、14 个计算样式属性。
+- 5181：`adui-reset-8TXDC6/normalize-first/style.css`；尚未收到计算样式 JSON。
+- 5182：`adui-reset-8TXDC6/normalize-last/style.css`；尚未收到计算样式 JSON。
+
+三个页面的 Vite CSS 模块来源与隔离构建目录一致，记为 PAGE_SOURCE_CONFIRMED。现阶段**不能**将 compat 正反加载顺序标为静态零差异或完整浏览器 PASS。
+
+compat baseline 与独立的 v4 baseline 相比：默认字体族、按钮背景和光标、输入框背景、dialog margin 等计算样式存在差异。这些是不同 Reset 的基线差异，不是 Normalize 冲突证据。
+
+后续只需从 5181/5182 采集包含 URL 和 `window.__aduiResetEvidence` 的 JSON；不重复构建，不增加 CI。
+
 ## 1. 测试边界与版本
 
 | 独立场景                 | 仅安装在临时消费者中的固定直接依赖             | 实际加载的唯一第三方 Reset                                                                              |
