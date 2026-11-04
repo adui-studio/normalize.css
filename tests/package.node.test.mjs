@@ -96,6 +96,6 @@ test("offline validation command includes every local Node test, including tarba
   const script = pkg.scripts["test:offline"];
   assert.equal(
     script,
-    "node --test tests/fixtures.node.test.mjs tests/package.node.test.mjs tests/package-smoke.node.test.mjs tests/probe.node.test.mjs tests/r003-evidence.node.test.mjs tests/evidence-file.node.test.mjs tests/ecosystem-contract.node.test.mjs",
+    "node --test tests/fixtures.node.test.mjs tests/package.node.test.mjs tests/package-smoke.node.test.mjs tests/probe.node.test.mjs tests/r003-evidence.node.test.mjs tests/evidence-file.node.test.mjs tests/ecosystem-contract.node.test.mjs tests/reset-contract.node.test.mjs",
   );
 });
