@@ -46,6 +46,9 @@ Get-FileHash -Path $zip -Algorithm SHA256
 在已启动 `vp dev`、外网已暂时断开后，从另一终端执行：
 
 ```powershell
+$root = Join-Path $env:LOCALAPPDATA "adui-normalize-browser-tests\\chrome-120"
+$chrome = Join-Path $root "chrome-win64\\chrome.exe"
+if (-not (Test-Path $chrome)) { throw "Chrome for Testing executable not found" }
 $profile = Join-Path $root "r003-profile"
 $args = @(
   "--user-data-dir=$profile"
