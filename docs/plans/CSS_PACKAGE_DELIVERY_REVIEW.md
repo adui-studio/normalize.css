@@ -1,6 +1,6 @@
 # W-04 — 纯 CSS npm 包导出与副作用验收方案
 
-- **状态**：**W-04 已开始部分实施**，开发用 `package.json` 已存在并完成白名单/`sideEffects` 元数据配置；执行过离线 `npm pack --dry-run`。**仍无正式 Normalize CSS、真实项目 exports、发布包产物或 Vite+/Webpack 消费端测试**；合成临时 CSS 包的 npm pack/离线安装/根路径与封装测试已通过。
+- **状态**：**W-04 已实现开发期首批 CSS 静态构建与单根 exports**，保留 `private: true`，不发布 npm；Vite+/Webpack 生产消费者与完整发布门槛未验收。已有真实 R-003 源码和独立环境中的构建、定向测试、离线包安装结果。
 - **日期**：2026-11-03
 - **关联**：[Issue #5](https://github.com/adui-studio/normalize.css/issues/5) · [ADR-0003](../adr/0003-mvp-package-contract.md) · [ADR-0005](../adr/0005-viteplus-toolchain.md) · [W-03 Harness 设计](VITEPLUS_LOCAL_HARNESS_DESIGN.md) · [MVP 计划](MVP_IMPLEMENTATION_PLAN.md)
 - **范围**：只验证已接受的 `@adui/normalize.css` **根 CSS 入口**，无运行时 JavaScript 依赖，不发布任何可选 CSS 子路径。
@@ -88,6 +88,17 @@
 **真实结果**：与现有探针、Fixture、元数据契约测试合计，`npm run test:offline` 在本地执行 **10/10 PASS**，包括上述一次实际 npm pack + install。运行时 Node `22.16.0`、npm `10.9.2`；此测试不要求安装 Vite+，并不意味着已验证 Vite+ 1.4.0 打包能力。
 
 **严格限制**：这些是临时合成包的 npm 行为证据，**不将 P-01 / P-02 / P-03 / P-06 / P-07 / P-09 正式包测试改为 PASS**。它们仍为 `NOT_RUN`，直到真正的 Normalize CSS 产物、`exports`、Vite+ / Webpack 生产消费端及实际项目 tarball 均有可复现证据。尤其 `require.resolve` 的路径可解析不表示 Node 能执行 CSS，也不表示打包器会保留 CSS 副作用。
+
+## 7.1 首批真实 CSS 包实现与局部验证（2026-11-04）
+
+维护者授权继续开发，按照低侵入原则和已有 Chrome 120 的 R-003 差异证据，首批产品源码为 `src/normalize.css`（唯一规则 `b, strong { font-weight: bolder; }`）。R-004 的等宽字体字号完全采用浏览器默认行为。
+
+- `package.json` 保持 `private: true`、`0.0.0`，只增加 `exports: { ".": "./dist/normalize.css" }`、`build: "node scripts/build.mjs"`，保留 `files: ["dist"]`、`sideEffects: ["**/*.css"]` 和 `vite-plus@1.4.0`；未增加运行时依赖。
+- 构建仅把 `src/normalize.css` 复制至 `dist/normalize.css`，无 JS wrapper、无压缩或修改原始 CSS 字节。Vite+ 继续用于本地 check/test/dev；`vp pack` 是否能满足纯 CSS 契约**尚未测试**，静态复制是最小可用开发交付路径，不据此宣称它不适用。
+- 助手在独立 Linux Node `v22.16.0` 目录重建与 GitHub 完全相同 Git blob 的 CSS、构建脚本、单测；新增 `tests/package.node.test.mjs` **5/5 PASS**，构建产生唯一 CSS 且与源码完全相同。离线执行 `npm pack` 以及在单独临时消费者 `npm install --offline`；根 CSS 解析、字节一致、未公开的 `/reset.css` 路径拒绝均通过。由于重建目录仅放入构建契约文件，pack 清单只有 CSS 和 package.json；**不能把这个清单当作完整 GitHub 仓库的 npm tarball 清单**。
+- 该 Linux Node 版本 **低于**本项目 `^22.18.0` 的要求，npm install 报告了 `EBADENGINE` 警告；验证仅证明标准库构建与 npm 本地契约逻辑。尚未在维护者 Windows 支持环境执行本轮 `vp check/test`、实际完整仓库打包、Vite+ / Webpack 生产消费端。因此 P-01/P-06/P-07/P-09 为**局部验证**，P-02/P-03 未运行，不得标为最终 PASS。
+
+开发阶段不增加 CI，不创建 Release，不将测试包发布到 npm。
 
 ## 8. 研究与事实边界
 
