@@ -41,19 +41,19 @@
 
 **重要区别**：`exports` 指向 CSS 是文件路径契约，不等于 Node.js 执行 CSS。由于 `exports` 会限制子路径，不能让消费者通过未批准的 `/dist/normalize.css` 路径来“补救”根路径解析失败；根入口若无法满足目标消费端，必须记录阻塞，并经 ADR 再评审是否改变公共 API，**不能偷偷追加子路径**。
 
-## 4. 未来最小消费端验收矩阵（计划，全部未运行）
+## 4. 最小消费端验收矩阵（持续更新）
 
 | ID   | 情形                                                              | 预期验收                                                                                                | 当前状态 |
 | ---- | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | -------- |
-| P-01 | 检查实际 tarball 的 root CSS 文件                                 | `exports` 指向的 CSS 在 tarball 中存在、能正常解析                                                      | NOT_RUN  |
-| P-02 | Vite+ 消费应用中使用 JS 副作用导入 `import "@adui/normalize.css"` | 开发和生产均真正应用样式，产物中可追踪到该 CSS                                                          | NOT_RUN  |
+| P-01 | 检查实际 tarball 的 root CSS 文件                                 | `exports` 指向的 CSS 在 tarball 中存在、能正常解析                                                      | PASS · 真实 tarball|
+| P-02 | Vite+ 消费应用中使用 JS 副作用导入 `import "@adui/normalize.css"` | 开发和生产均真正应用样式，产物中可追踪到该 CSS                                                          | 生产 PASS；开发态待测|
 | P-03 | Webpack 5 消费应用中使用同样的 JS 副作用导入                      | 生产 tree shaking 后 CSS 仍保留，并确实影响页面                                                         | NOT_RUN  |
 | P-04 | 消费端 CSS 使用 `@import "@adui/normalize.css";`                  | **仅在支持该 npm 解析语义的构建工具中**验证；若不支持，记录为该调用方式不受支持，不得误称原生浏览器可用 | NOT_RUN  |
 | P-05 | 直接在浏览器加载**真实部署后的 CSS URL**                          | 无需 JS 即可被加载，样式仅影响预期范围；浏览器原生 `@import` 需要 URL，不解析 npm 裸包名                | NOT_RUN  |
-| P-06 | 负向子路径：`/reset.css`、`/forms.css`、`/a11y.css`、`/all.css`   | 不允许成为包的公开 exports；在严守 exports 的工具链中应被阻止                                           | NOT_RUN  |
-| P-07 | CSS-only 产物检查                                                 | tarball 无为导出而凭空生成的 JS 运行时；产物、元数据和源码许可证对应                                    | NOT_RUN  |
+| P-06 | 负向子路径：`/reset.css`、`/forms.css`、`/a11y.css`、`/all.css`   | 不允许成为包的公开 exports；在严守 exports 的工具链中应被阻止                                           | PASS · 私有子路径拒绝|
+| P-07 | CSS-only 产物检查                                                 | tarball 无为导出而凭空生成的 JS 运行时；产物、元数据和源码许可证对应                                    | PASS · 仅 CSS 发行物|
 | P-08 | 无 CSS 副作用的错误对照（测试环境）                               | 通过对照证明生产构建是否会丢 CSS；**不在正式包配置中采用错误值**                                        | NOT_RUN  |
-| P-09 | 安装实际 tarball 到独立消费项目                                   | CSS 根入口能从发布包解析，不依赖仓库相对路径、源码别名或未发布文件                                      | NOT_RUN  |
+| P-09 | 安装实际 tarball 到独立消费项目                                   | CSS 根入口能从发布包解析，不依赖仓库相对路径、源码别名或未发布文件                                      | PASS · 独立离线安装|
 | P-10 | 浏览器原生表现与组件库回归                                        | 仅在 W-05 证明必要且实现规则后执行；不能从“打包成功”推定兼容                                            | NOT_RUN  |
 
 **W-04 DoD**：至少 P-01、P-02、P-03、P-06、P-07、P-09 必须有实际产物和可复现记录；P-04/P-05 根据声明的使用方式决定是否纳入公开承诺，其他测试用于排查副作用及行为风险。任何阻塞必须在公开文档中说明，不得借测试不充分额外扩大入口。
@@ -157,6 +157,22 @@
 该文件已通过 Node `--check` 与 Git blob SHA 核对；**由于当前执行容器不存在 Vite+ 1.4.0，未执行消费端构建**。只有维护者真实运行 `npm run test:consumer` 通过后，才能将 P-02 的生产构建标记为已验证；CSS 真实页面生效还需浏览器或后续 W-06 证据。P-03 Webpack 5 仍为 `NOT_RUN`，不以 Vite+ 替代，也不为此擅自安装 webpack。
 
 推荐顺序：`vp pack` → `npm run test:package` → `npm run test:consumer`。常规 `npm run test:offline` 仍独立运行，无需事先构建。
+
+## 7.6 Windows 真实包与 Vite+ 生产消费验收（2026-11-04）
+
+维护者在 Windows PowerShell 对开发分支的真实产物执行并提供了以下**终端输出**：
+
+| 命令 | 结果 | 可确认范围 |
+| --- | --- | --- |
+| `vp pack` | PASS：`dist/normalize.css` 唯一文件，约 0.20 kB | Vite+ 1.4.0 CSS-only 打包成功；未出现发布用 JS |
+| `npm run test:package` | **1/1 PASS**（1077.096ms） | 完整仓库当前真实 CSS tarball：文件白名单、LICENSE/README、单一根 exports、私有子路径拒绝、离线安装和 CSS 字节匹配 |
+| `npm run test:consumer` | **1/1 PASS**（1400.3435ms） | 从真实 tarball 安装到独立 Vite+ 消费项目，以 JS 副作用导入并运行**生产构建**，输出中保留 R-003 CSS |
+
+**验收映射**：P-01、P-06、P-07、P-09 可标记为当前开发分支下的**构建/打包契约 PASS**；P-02 的**生产打包保留 CSS 子项 PASS**，但其开发模式与浏览器页面实际计算样式仍未直接测量，因此 P-02 不算所有场景完成。P-03 **Webpack 5** 生产消费及 tree shaking 是 W-04 DoD 的未完成阻塞；P-04/P-05 仍需按最终声明支持的使用方法判断，P-08/P-10 分别是补充风险实验及 W-06 的集成回归。
+
+**复现条件**：同一 `private: true`、`0.0.0` 开发包；先 `vp pack`，然后运行 `npm run test:package` 和 `npm run test:consumer`。两项脚本均使用临时包和独立消费者，未执行 `npm publish`。Issue #5 保持 Open，直到 P-03 和必要的发布准入边界完成。
+
+**Windows 行尾处理**：维护者说明多次 `vp check --fix` 仅针对 CRLF → LF。经确认仓库此前不存在 `.gitattributes`、`.editorconfig`；本轮添加 `* text=auto eol=lf` 的 Git 属性与 EditorConfig 的 `end_of_line = lf`，统一新检出与新保存的文本。此配置尚未在维护者 Windows 检出环境中复验，不自动修改上游固定 Skills 或批量重写已跟踪文件。
 
 ## 8. 研究与事实边界
 
