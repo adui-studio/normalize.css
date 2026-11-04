@@ -82,15 +82,15 @@ W-03/W-04 开发分支基于尚未合并的文档评审分支；已增加测试 
 
 ## 2. 尚不存在的路径（不据此创建占位）
 
-| 候选路径 | 拟承担职责 | 状态 |
-| --- | --- | --- |
-| `src/` | CSS 源码分模块 | 规划中，**不存在** |
-| `dist/` | CSS 发布产物 | 规划中，**不存在** |
-| `package.json` 的 CSS `exports` | 唯一根 CSS 入口 | **未实现**；当前仅开发工具声明，`private: true` |
-| `tests/` | W-03 Fixture 契约与探针测试 | **已存在**；浏览器回归仍未完成 |
-| `scripts/` | 文档校验、构建与质量脚本 | 规划中，**不存在** |
-| `.github/workflows/` | CI/发布工作流 | **明确不规划**，项目禁止增加 CI；当前不存在 |
-| `.agents/skills/` | 第三方原版 Skills | 评审分支已纳入，main 尚无；来源见 [SKILLS](SKILLS.md) |
+| 候选路径                        | 拟承担职责                  | 状态                                                  |
+| ------------------------------- | --------------------------- | ----------------------------------------------------- |
+| `src/`                          | CSS 源码分模块              | 规划中，**不存在**                                    |
+| `dist/`                         | CSS 发布产物                | 规划中，**不存在**                                    |
+| `package.json` 的 CSS `exports` | 唯一根 CSS 入口             | **未实现**；当前仅开发工具声明，`private: true`       |
+| `tests/`                        | W-03 Fixture 契约与探针测试 | **已存在**；浏览器回归仍未完成                        |
+| `scripts/`                      | 文档校验、构建与质量脚本    | 规划中，**不存在**                                    |
+| `.github/workflows/`            | CI/发布工作流               | **明确不规划**，项目禁止增加 CI；当前不存在           |
+| `.agents/skills/`               | 第三方原版 Skills           | 评审分支已纳入，main 尚无；来源见 [SKILLS](SKILLS.md) |
 
 ## 3. 程序入口与依赖调用链
 
@@ -107,13 +107,13 @@ W-03/W-04 开发分支基于尚未合并的文档评审分支；已增加测试 
 
 ## 4. 常见任务从哪里开始
 
-| 任务 | 先看 | 同步维护 |
-| --- | --- | --- |
-| 确认新规则是否属于 Normalize | [REQUIREMENTS](REQUIREMENTS.md)、[SDD](SDD.md) | 需求、设计、测试计划 |
-| 讨论 CSS Layers 或模块导出 | [ARCHITECTURE](ARCHITECTURE.md)、[ADR-0001](adr/0001-css-base-strategy.md) | SDD、ADR |
-| 判断能否开始开发 | [PROJECT_CONTEXT](PROJECT_CONTEXT.md)、[MVP 计划](plans/MVP_IMPLEMENTATION_PLAN.md) | HARNESS 与状态 |
-| 设计浏览器兼容性回归 | [HARNESS](HARNESS.md) | SDD、要求与产物 |
-| 新增 Skill | [SKILLS](SKILLS.md) | AGENTS、校验规则 |
-| 新增/重命名重要目录 | 本文 | README 导航 |
+| 任务                         | 先看                                                                                | 同步维护             |
+| ---------------------------- | ----------------------------------------------------------------------------------- | -------------------- |
+| 确认新规则是否属于 Normalize | [REQUIREMENTS](REQUIREMENTS.md)、[SDD](SDD.md)                                      | 需求、设计、测试计划 |
+| 讨论 CSS Layers 或模块导出   | [ARCHITECTURE](ARCHITECTURE.md)、[ADR-0001](adr/0001-css-base-strategy.md)          | SDD、ADR             |
+| 判断能否开始开发             | [PROJECT_CONTEXT](PROJECT_CONTEXT.md)、[MVP 计划](plans/MVP_IMPLEMENTATION_PLAN.md) | HARNESS 与状态       |
+| 设计浏览器兼容性回归         | [HARNESS](HARNESS.md)                                                               | SDD、要求与产物      |
+| 新增 Skill                   | [SKILLS](SKILLS.md)                                                                 | AGENTS、校验规则     |
+| 新增/重命名重要目录          | 本文                                                                                | README 导航          |
 
 **更新约定**：只在仓库结构、关键入口、真实模块职责发生改变时更新；不得将计划中的文件写作已存在。

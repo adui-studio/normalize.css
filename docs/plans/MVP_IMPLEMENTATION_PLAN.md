@@ -8,12 +8,12 @@
 
 ## 0. 已批准的正式决策
 
-| 决策 | 首版承诺 | 不等于 |
-| --- | --- | --- |
-| [ADR-0001](../adr/0001-css-base-strategy.md) | 长期采用默认 Normalize + 可选 Reset / Forms / A11y 的模块化边界 | 首版会交付全部模块 |
-| [ADR-0002](../adr/0002-cascade-layers.md) | 默认 CSS 不内置 `@layer`，必要时逐条评估 `:where()` | 所有用户 CSS 必然可覆盖，或旧浏览器已经实测 |
-| [ADR-0003](../adr/0003-mvp-package-contract.md) | MVP 只规划 `@adui/normalize.css` 默认 CSS 入口 | **尚未实现 npm exports 或公开 CSS 文件**；`/reset.css`、`/forms.css`、`/a11y.css`、`/all.css` 均首版延期 |
-| [ADR-0004](../adr/0004-browser-support-policy.md) | 固定 Baseline 2023 特性准入；Chrome/Edge 120、Firefox 121、Safari 17.2（含相应移动核心家族）已批准为最低测试目标 | **只是最低测试目标批准**；未实测，不包括未确认 WebView |
+| 决策                                              | 首版承诺                                                                                                         | 不等于                                                                                                   |
+| ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| [ADR-0001](../adr/0001-css-base-strategy.md)      | 长期采用默认 Normalize + 可选 Reset / Forms / A11y 的模块化边界                                                  | 首版会交付全部模块                                                                                       |
+| [ADR-0002](../adr/0002-cascade-layers.md)         | 默认 CSS 不内置 `@layer`，必要时逐条评估 `:where()`                                                              | 所有用户 CSS 必然可覆盖，或旧浏览器已经实测                                                              |
+| [ADR-0003](../adr/0003-mvp-package-contract.md)   | MVP 只规划 `@adui/normalize.css` 默认 CSS 入口                                                                   | **尚未实现 npm exports 或公开 CSS 文件**；`/reset.css`、`/forms.css`、`/a11y.css`、`/all.css` 均首版延期 |
+| [ADR-0004](../adr/0004-browser-support-policy.md) | 固定 Baseline 2023 特性准入；Chrome/Edge 120、Firefox 121、Safari 17.2（含相应移动核心家族）已批准为最低测试目标 | **只是最低测试目标批准**；未实测，不包括未确认 WebView                                                   |
 
 ## 1. 实施原则和验收标准
 
@@ -26,15 +26,15 @@
 
 ## 2. 工作包与依赖
 
-| ID | 顺序 | 任务 | 交付物（未来） | 验收口径 | 状态 |
-| --- | --- | --- | --- | --- | --- |
-| W-01 | 第一阶段 | 冻结浏览器最低测试目标和验证边界 | 七项 [最低测试目标](../research/BASELINE_2023_MAPPING.md) 已批准，固定时间线核对通过；仍需 OS/设备/发行版证据 | 取得真实版本测试结果后才可在发行说明承诺支持，不自动覆盖 WebView | **版本目标已批准，实测待进行** |
-| W-02 | 第一阶段 | 最小规则证据卡与原生 Fixture 设计 | [R-003/R-004 证据卡](../research/RULE_EVIDENCE_R003_R004.md) 和 [本地验证执行指南](../research/R003_R004_LOCAL_VERIFICATION.md) 已包含旧版官方环境获取线索、T0/T1/T2 与记录模板 | 必测父级 400/600/700、Chrome/Edge 120、Firefox 121、Safari 17.2 与对应移动端；不以源码当实测 | **执行方案已形成；浏览器实测未做** |
-| W-03 | 第二阶段 | Vite+ 本地 Harness 与验证规范 | 已创建 `package.json`、`vite.config.ts`、R-003/004 T0/T1 HTML、计算样式探针和测试；[设计](VITEPLUS_LOCAL_HARNESS_DESIGN.md) 持续跟踪 | 维护者本机 Node **22/22 PASS**，Vite+ Vitest **5/5 PASS**，`vp dev` 成功；`vp check` **格式 FAIL（66 文件）**；Chrome 156 R-003 无差异、R-004 T0/T1/T1b 为 13/13/16px（四元素）；新 T1b 契约测试待执行，旧版最低目标/锁文件未核实，无 CI | **开发进行中／部分验证（已配置 fmt 排除第三方 Skills，但完整检查尚未复测）** |
-| W-04 | 第二阶段 | Vite+ 下的单一 CSS 包导出与副作用验证 | 已落实 `files: ["dist"]`、`sideEffects: ["**/*.css"]`；离线 dry-run 验证白名单，另以 [独立临时合成 CSS 包测试](CSS_PACKAGE_DELIVERY_REVIEW.md) 真实打包、离线安装并验证 root exports / 非公开子路径封装；[验收研究](CSS_PACKAGE_DELIVERY_REVIEW.md) 提供 P-01～P-10 后续步骤 | **尚无 dist、exports、真实 CSS tarball 和消费端验证**；保持私有，不发布额外入口 | **合成包离线验证通过／真实包导出未完成** |
-| W-05 | 第三阶段 | 逐条最小 Normalize 修复 | 按证据准入的最小 CSS、R-ID → 来源 → 测试映射及变更说明 | 有证据才实现；不内建 `@layer`，不加默认 Reset/Forms/A11y；视觉回归无新增重大问题 | 未开始（需开发授权） |
-| W-06 | 第四阶段 | 跨浏览器、无障碍、生态与发布前验收 | Chromium/Firefox/真实 Safari/iOS、组件库/Reset 对照、npm tarball 与 LICENSE 记录 | 逐项列出通过/失败/未运行及可重现信息；阻塞项不得宣传为通过 | 未开始（需开发授权） |
-| W-07 | 第五阶段 | 文档、许可证与版本发布评审 | README 中文/英文、兼容矩阵、迁移/风险说明、发布前检查表 | 包入口、实际功能、浏览器声明与证据一致；Release 与 npm 发布仍须单独授权 | 未开始 |
+| ID   | 顺序     | 任务                                  | 交付物（未来）                                                                                                                                                                                                                                                               | 验收口径                                                                                                                                                                                                                                 | 状态                                                                         |
+| ---- | -------- | ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| W-01 | 第一阶段 | 冻结浏览器最低测试目标和验证边界      | 七项 [最低测试目标](../research/BASELINE_2023_MAPPING.md) 已批准，固定时间线核对通过；仍需 OS/设备/发行版证据                                                                                                                                                                | 取得真实版本测试结果后才可在发行说明承诺支持，不自动覆盖 WebView                                                                                                                                                                         | **版本目标已批准，实测待进行**                                               |
+| W-02 | 第一阶段 | 最小规则证据卡与原生 Fixture 设计     | [R-003/R-004 证据卡](../research/RULE_EVIDENCE_R003_R004.md) 和 [本地验证执行指南](../research/R003_R004_LOCAL_VERIFICATION.md) 已包含旧版官方环境获取线索、T0/T1/T2 与记录模板                                                                                              | 必测父级 400/600/700、Chrome/Edge 120、Firefox 121、Safari 17.2 与对应移动端；不以源码当实测                                                                                                                                             | **执行方案已形成；浏览器实测未做**                                           |
+| W-03 | 第二阶段 | Vite+ 本地 Harness 与验证规范         | 已创建 `package.json`、`vite.config.ts`、R-003/004 T0/T1 HTML、计算样式探针和测试；[设计](VITEPLUS_LOCAL_HARNESS_DESIGN.md) 持续跟踪                                                                                                                                         | 维护者本机 Node **22/22 PASS**，Vite+ Vitest **5/5 PASS**，`vp dev` 成功；`vp check` **格式 FAIL（66 文件）**；Chrome 156 R-003 无差异、R-004 T0/T1/T1b 为 13/13/16px（四元素）；新 T1b 契约测试待执行，旧版最低目标/锁文件未核实，无 CI | **开发进行中／部分验证（已配置 fmt 排除第三方 Skills，但完整检查尚未复测）** |
+| W-04 | 第二阶段 | Vite+ 下的单一 CSS 包导出与副作用验证 | 已落实 `files: ["dist"]`、`sideEffects: ["**/*.css"]`；离线 dry-run 验证白名单，另以 [独立临时合成 CSS 包测试](CSS_PACKAGE_DELIVERY_REVIEW.md) 真实打包、离线安装并验证 root exports / 非公开子路径封装；[验收研究](CSS_PACKAGE_DELIVERY_REVIEW.md) 提供 P-01～P-10 后续步骤 | **尚无 dist、exports、真实 CSS tarball 和消费端验证**；保持私有，不发布额外入口                                                                                                                                                          | **合成包离线验证通过／真实包导出未完成**                                     |
+| W-05 | 第三阶段 | 逐条最小 Normalize 修复               | 按证据准入的最小 CSS、R-ID → 来源 → 测试映射及变更说明                                                                                                                                                                                                                       | 有证据才实现；不内建 `@layer`，不加默认 Reset/Forms/A11y；视觉回归无新增重大问题                                                                                                                                                         | 未开始（需开发授权）                                                         |
+| W-06 | 第四阶段 | 跨浏览器、无障碍、生态与发布前验收    | Chromium/Firefox/真实 Safari/iOS、组件库/Reset 对照、npm tarball 与 LICENSE 记录                                                                                                                                                                                             | 逐项列出通过/失败/未运行及可重现信息；阻塞项不得宣传为通过                                                                                                                                                                               | 未开始（需开发授权）                                                         |
+| W-07 | 第五阶段 | 文档、许可证与版本发布评审            | README 中文/英文、兼容矩阵、迁移/风险说明、发布前检查表                                                                                                                                                                                                                      | 包入口、实际功能、浏览器声明与证据一致；Release 与 npm 发布仍须单独授权                                                                                                                                                                  | 未开始                                                                       |
 
 **依赖**：W-01 和 W-02 可在设计阶段继续；W-03/W-04 必须在开发获准后开始；W-05 必须依赖 W-02 的可复现问题、W-03 的测试能力；W-06 依赖真实产物；W-07 依赖完整证据。
 
@@ -57,18 +57,18 @@ R-003 已因首版最低目标包含旧版 Blink/WebKit 而列为**优先必测�
 
 ## 4. 最小 Fixture 验收矩阵（规划，不是测试结果）
 
-| Fixture | 关键用例 | 预计阻塞风险 |
-| --- | --- | --- |
-| F-001 | strong/code/abbr、字体继承、缩放、嵌套 | 字重/字号规则的必要性 |
-| F-002 | table、hr、progress 的默认表现 | 过时 UA 修复 |
-| F-003 | details/summary、键盘展开/焦点 | 原生语义被覆盖 |
-| F-004 | 原生 button/search/file/select/textarea | 触控、原生控件样式变化 |
-| F-005 | dialog、popover、浅深色 | top-layer、主题与 Esc 行为 |
-| F-006 | hidden 与 hidden="until-found" | 页面查找/片段导航被破坏 |
-| F-007 | focus-visible、forced-colors、减少动效 | a11y 与用户偏好 |
-| F-008 | 文字断行、媒体、列表、表格 | Reset 侵入性 |
-| F-009 | Element Plus / Ant Design / TDesign | 组件库布局/样式冲突 |
-| F-010 | Tailwind Preflight / UnoCSS Reset | 重复 Reset 与 CSS 顺序 |
+| Fixture | 关键用例                                | 预计阻塞风险               |
+| ------- | --------------------------------------- | -------------------------- |
+| F-001   | strong/code/abbr、字体继承、缩放、嵌套  | 字重/字号规则的必要性      |
+| F-002   | table、hr、progress 的默认表现          | 过时 UA 修复               |
+| F-003   | details/summary、键盘展开/焦点          | 原生语义被覆盖             |
+| F-004   | 原生 button/search/file/select/textarea | 触控、原生控件样式变化     |
+| F-005   | dialog、popover、浅深色                 | top-layer、主题与 Esc 行为 |
+| F-006   | hidden 与 hidden="until-found"          | 页面查找/片段导航被破坏    |
+| F-007   | focus-visible、forced-colors、减少动效  | a11y 与用户偏好            |
+| F-008   | 文字断行、媒体、列表、表格              | Reset 侵入性               |
+| F-009   | Element Plus / Ant Design / TDesign     | 组件库布局/样式冲突        |
+| F-010   | Tailwind Preflight / UnoCSS Reset       | 重复 Reset 与 CSS 顺序     |
 
 每条测试记录：目标规则、精确浏览器/OS/宿主版本、HTML、导入顺序、无库/单规则/实际导出三种输入、可观察的预期/实际、截图或日志、复现次数、失败/通过/未验证、修复后的回归与回退。
 
@@ -97,14 +97,14 @@ R-003 已因首版最低目标包含旧版 Blink/WebKit 而列为**优先必测�
 
 已基于仓库原版 [github-issues Skill](../../.agents/skills/github-issues/SKILL.md) 创建以下正式任务，全部为 Open / 未实施；Issue 在 GitHub 仓库可见，而本计划和 Issue/PR 模板仍位于 Draft PR #1 分支。
 
-| 实施工作包 | GitHub Issue | 阶段与启动条件 |
-| --- | --- | --- |
-| W-01 浏览器版本与设备范围 | [#2：Baseline 2023 最低版本](https://github.com/adui-studio/normalize.css/issues/2) | 研究可先开展；真实设备验证待条件具备 |
-| W-02 最小规则证据 | [#3：R-003/R-004 证据卡](https://github.com/adui-studio/normalize.css/issues/3) | 文献/Fixture 设计可先开展；实际浏览器复现须获授权 |
-| W-03 本地 Harness | [#4：本地测试 Harness](https://github.com/adui-studio/normalize.css/issues/4) | 需开发与测试工具授权，不增加 CI |
-| W-04 单一 CSS 包入口 | [#5：根入口与副作用验证](https://github.com/adui-studio/normalize.css/issues/5) | 需开发授权和真实打包环境 |
-| W-05 逐条 Normalize CSS | [#6：最小规则实现](https://github.com/adui-studio/normalize.css/issues/6) | 需开发授权以及可复现的浏览器差异 |
-| W-06 真实兼容性回归 | [#7：浏览器与生态回归](https://github.com/adui-studio/normalize.css/issues/7) | 依赖实际 CSS、浏览器与 UI 库环境 |
-| W-07 发行前质量审查 | [#8：文档与发布前审核](https://github.com/adui-studio/normalize.css/issues/8) | 依赖真实验证；不执行 npm 发布或 Release |
+| 实施工作包                | GitHub Issue                                                                        | 阶段与启动条件                                    |
+| ------------------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------- |
+| W-01 浏览器版本与设备范围 | [#2：Baseline 2023 最低版本](https://github.com/adui-studio/normalize.css/issues/2) | 研究可先开展；真实设备验证待条件具备              |
+| W-02 最小规则证据         | [#3：R-003/R-004 证据卡](https://github.com/adui-studio/normalize.css/issues/3)     | 文献/Fixture 设计可先开展；实际浏览器复现须获授权 |
+| W-03 本地 Harness         | [#4：本地测试 Harness](https://github.com/adui-studio/normalize.css/issues/4)       | 需开发与测试工具授权，不增加 CI                   |
+| W-04 单一 CSS 包入口      | [#5：根入口与副作用验证](https://github.com/adui-studio/normalize.css/issues/5)     | 需开发授权和真实打包环境                          |
+| W-05 逐条 Normalize CSS   | [#6：最小规则实现](https://github.com/adui-studio/normalize.css/issues/6)           | 需开发授权以及可复现的浏览器差异                  |
+| W-06 真实兼容性回归       | [#7：浏览器与生态回归](https://github.com/adui-studio/normalize.css/issues/7)       | 依赖实际 CSS、浏览器与 UI 库环境                  |
+| W-07 发行前质量审查       | [#8：文档与发布前审核](https://github.com/adui-studio/normalize.css/issues/8)       | 依赖真实验证；不执行 npm 发布或 Release           |
 
 Issue 的创建不代表任务已经开始，更不代表验收通过。

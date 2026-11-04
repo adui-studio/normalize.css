@@ -6,13 +6,13 @@
 
 ## 1. 证据状态
 
-| 类别 | 本次证据 | 结论能力 |
-| --- | --- | --- |
-| S — 标准 | WHATWG HTML Living Standard | 规范对建议性 UA 默认渲染的期待 |
-| B — 浏览器 Bug / 上游提交 | Chromium StrongBolder、WebKit 289297 | 某版本/分支历史默认行为与修复时点 |
-| U — UA 源码快照 | Chromium、Gecko、WebKit 固定版本/提交 | 该源代码快照写明的 UA 样式 |
-| U — 竞品源代码 | modern-normalize、CSSTools normalize.css 固定 SHA | 上游维护者采用的策略，不能证明当前修复仍必要 |
-| T — 本项目真实测试 | **不存在** | 目前不能宣布兼容性差异已实测 |
+| 类别                      | 本次证据                                          | 结论能力                                     |
+| ------------------------- | ------------------------------------------------- | -------------------------------------------- |
+| S — 标准                  | WHATWG HTML Living Standard                       | 规范对建议性 UA 默认渲染的期待               |
+| B — 浏览器 Bug / 上游提交 | Chromium StrongBolder、WebKit 289297              | 某版本/分支历史默认行为与修复时点            |
+| U — UA 源码快照           | Chromium、Gecko、WebKit 固定版本/提交             | 该源代码快照写明的 UA 样式                   |
+| U — 竞品源代码            | modern-normalize、CSSTools normalize.css 固定 SHA | 上游维护者采用的策略，不能证明当前修复仍必要 |
+| T — 本项目真实测试        | **不存在**                                        | 目前不能宣布兼容性差异已实测                 |
 
 本卡仅为 S/B/U 类证据，不包含 T 类结果。源码不是浏览器运行结果；发行分支和操作系统字体偏好可能与当前主分支不同。
 
@@ -23,7 +23,10 @@
 [WHATWG HTML Rendering §15.3.4 Phrasing content](https://html.spec.whatwg.org/multipage/rendering.html#phrasing-content-3) 对 UA 建议样式明确写出：
 
 ```css
-b, strong { font-weight: bolder; }
+b,
+strong {
+  font-weight: bolder;
+}
 ```
 
 这里的 `bolder` 是相对于父元素计算的粗细，不等于固定的 `bold`。依据 [MDN font-weight](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/font-weight)，典型映射中父级 400/500 时 `bolder` 得到 700；父级 600/700/800/900 时 `bolder` 得到 900。固定 `bold` 则为 700。
@@ -32,14 +35,14 @@ b, strong { font-weight: bolder; }
 
 ### 2.2 浏览器上游证据
 
-| 引擎 / 版本证据 | UA 源码或 Bug 记录 | 已知行为 |
-| --- | --- | --- |
-| Chromium 120.0.6099.109 | [固定版本 html.css](https://github.com/chromium/chromium/blob/120.0.6099.109/third_party/blink/renderer/core/html/resources/html.css#L1158-L1160) | `strong, b { font-weight: bold }` |
-| Chromium M135 | [StrongBolder 功能记录](https://chromium.googlesource.com/chromium/src/%2B/cf5d8a7575e96c938296a9ca04291c00b4bf601c/third_party/blink/renderer/platform/runtime_enabled_features.json5) 说明 M135 默认启用；[M135 html.css](https://github.com/chromium/chromium/blob/135.0.7049.41/third_party/blink/renderer/core/html/resources/html.css#L1222-L1228) 含特性开关 | 新行为为 `bolder`；保留关闭功能时的 `bold` 回退 |
-| Gecko 2023-10-19 源码提交（早于 Firefox 121 发布） | [固定提交 html.css](https://github.com/mozilla/gecko-dev/blob/325bc7b486ea4df80f4029af6ec2001a339c234e/layout/style/res/html.css) | 已写为 `b, strong { font-weight: bolder }`；**该 SHA 仍不是 Firefox 121 精确发行标签** |
-| WebKit 2025-03-08 | [WebKit commit 2f7d04c](https://github.com/WebKit/WebKit/commit/2f7d04cbae67d35d6c3f2830cb134313c9b0dde1) / [Bug 289297](https://bugs.webkit.org/show_bug.cgi?id=289297) | WebKit 同步到规范 `bolder`；Bug 描述修复前 Safari 18.4 Technology Preview 的嵌套粗体结果为 700 |
-| WebKit 2023-12-10（支持目标时期的源码快照） | [固定提交 html.css](https://github.com/WebKit/WebKit/blob/e9d3bfd635935ca09fd161b9bccba90c413a1602/Source/WebCore/css/html.css) | `strong, b { font-weight: bold; }`；**不是 Safari 17.2 正式发行源码/实机结果** |
-| WebKit 当前源码（2026-10-28） | [固定提交 html.css](https://github.com/WebKit/WebKit/blob/5d3798558c9272ebe643e05fa67e0e68107c287a/Source/WebCore/css/html.css#L1426-L1428) | 已写为 `strong, b { font-weight: bolder }` |
+| 引擎 / 版本证据                                    | UA 源码或 Bug 记录                                                                                                                                                                                                                                                                                                                                                  | 已知行为                                                                                       |
+| -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| Chromium 120.0.6099.109                            | [固定版本 html.css](https://github.com/chromium/chromium/blob/120.0.6099.109/third_party/blink/renderer/core/html/resources/html.css#L1158-L1160)                                                                                                                                                                                                                   | `strong, b { font-weight: bold }`                                                              |
+| Chromium M135                                      | [StrongBolder 功能记录](https://chromium.googlesource.com/chromium/src/%2B/cf5d8a7575e96c938296a9ca04291c00b4bf601c/third_party/blink/renderer/platform/runtime_enabled_features.json5) 说明 M135 默认启用；[M135 html.css](https://github.com/chromium/chromium/blob/135.0.7049.41/third_party/blink/renderer/core/html/resources/html.css#L1222-L1228) 含特性开关 | 新行为为 `bolder`；保留关闭功能时的 `bold` 回退                                                |
+| Gecko 2023-10-19 源码提交（早于 Firefox 121 发布） | [固定提交 html.css](https://github.com/mozilla/gecko-dev/blob/325bc7b486ea4df80f4029af6ec2001a339c234e/layout/style/res/html.css)                                                                                                                                                                                                                                   | 已写为 `b, strong { font-weight: bolder }`；**该 SHA 仍不是 Firefox 121 精确发行标签**         |
+| WebKit 2025-03-08                                  | [WebKit commit 2f7d04c](https://github.com/WebKit/WebKit/commit/2f7d04cbae67d35d6c3f2830cb134313c9b0dde1) / [Bug 289297](https://bugs.webkit.org/show_bug.cgi?id=289297)                                                                                                                                                                                            | WebKit 同步到规范 `bolder`；Bug 描述修复前 Safari 18.4 Technology Preview 的嵌套粗体结果为 700 |
+| WebKit 2023-12-10（支持目标时期的源码快照）        | [固定提交 html.css](https://github.com/WebKit/WebKit/blob/e9d3bfd635935ca09fd161b9bccba90c413a1602/Source/WebCore/css/html.css)                                                                                                                                                                                                                                     | `strong, b { font-weight: bold; }`；**不是 Safari 17.2 正式发行源码/实机结果**                 |
+| WebKit 当前源码（2026-10-28）                      | [固定提交 html.css](https://github.com/WebKit/WebKit/blob/5d3798558c9272ebe643e05fa67e0e68107c287a/Source/WebCore/css/html.css#L1426-L1428)                                                                                                                                                                                                                         | 已写为 `strong, b { font-weight: bolder }`                                                     |
 
 [Chrome 135 官方稳定版发布说明](https://developer.chrome.com/release-notes/135) 的发布日期为 2025-04-01；[Safari 18.4 官方发行说明](https://developer.apple.com/documentation/safari-release-notes/safari-18_4-release-notes) 的发布日期为 2025-03-31。WebKit 补丁早于 Safari 18.4 正式发行，但 Apple 发行说明未单独列出该 Bug，因此**不能只凭日期就把 Safari 18.4 首次包含版本标为已实证**。
 
@@ -68,11 +71,16 @@ b, strong { font-weight: bolder; }
 ```
 
 ```css
-.weight-600 { font-weight: 600; }
-.weight-700 { font-weight: 700; }
+.weight-600 {
+  font-weight: 600;
+}
+.weight-700 {
+  font-weight: 700;
+}
 ```
 
 观察项：
+
 1. 不加载作者 CSS 时，记录浏览器 UA 样式声明及实际计算 `font-weight`。
 2. 分别记录父级 600、700 时 `b` / `strong` 的 `getComputedStyle().fontWeight`。
 3. 如需比较像素字重，另选具备 100–900 字重轴的固定本地可变字体；不得依赖某台设备偶然安装的字体。
@@ -81,11 +89,11 @@ b, strong { font-weight: bolder; }
 
 ### 2.5 首版最低目标下的复现验收矩阵（尚未执行）
 
-| 测试环境 | UA 源码预期（不是实测） | parent=400 | parent=600 | parent=700 | 阻塞条件 |
-| --- | --- | --- | --- | --- | --- |
-| Chrome 120 / Edge 120 / Chrome Android 120 | Blink 120 预计 `bold` | 700 | **700（对比规范应为 900）** | **700（对比规范应为 900）** | 分别确认各真实发行版本和 Android 平台 |
-| Firefox 121 / Firefox Android 121 | Gecko 2023 年源码预计 `bolder` | 700 | 900 | 900 | 必须核对实际发行版本，不能以 main/某日源码冒充 release |
-| Safari 17.2 / Safari iOS 17.2 | WebKit 2023-12-10 源码预计 `bold` | 700 | **700（对比规范应为 900）** | **700（对比规范应为 900）** | 需要真实 Safari 17.2 / iOS 17.2 或明示不可得、不能用 Playwright WebKit 冒充 |
+| 测试环境                                   | UA 源码预期（不是实测）           | parent=400 | parent=600                  | parent=700                  | 阻塞条件                                                                    |
+| ------------------------------------------ | --------------------------------- | ---------- | --------------------------- | --------------------------- | --------------------------------------------------------------------------- |
+| Chrome 120 / Edge 120 / Chrome Android 120 | Blink 120 预计 `bold`             | 700        | **700（对比规范应为 900）** | **700（对比规范应为 900）** | 分别确认各真实发行版本和 Android 平台                                       |
+| Firefox 121 / Firefox Android 121          | Gecko 2023 年源码预计 `bolder`    | 700        | 900                         | 900                         | 必须核对实际发行版本，不能以 main/某日源码冒充 release                      |
+| Safari 17.2 / Safari iOS 17.2              | WebKit 2023-12-10 源码预计 `bold` | 700        | **700（对比规范应为 900）** | **700（对比规范应为 900）** | 需要真实 Safari 17.2 / iOS 17.2 或明示不可得、不能用 Playwright WebKit 冒充 |
 
 父级 600/700 是关键分叉，而父级 400 下多数引擎可能同为 700。CSS `bolder` 对父级 600/700 的计算目标为 900，参阅 [MDN font-weight relative weights](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/font-weight)。
 
@@ -108,6 +116,7 @@ b, strong { font-weight: bolder; }
 [WHATWG HTML Rendering §15.3.4](https://html.spec.whatwg.org/multipage/rendering.html#phrasing-content-3) 对内联代码元素建议使用 `font-family: monospace`；对 `pre` 还建议块级显示与 `white-space: pre`。标准没有要求把这些元素统一设置 `font-size: 1em`。
 
 固定 UA 源码快照也显示：
+
 - [Chromium 120](https://github.com/chromium/chromium/blob/120.0.6099.109/third_party/blink/renderer/core/html/resources/html.css#L1166-L1174)：`code/kbd/samp` 与 `pre` 使用 `monospace`；没有为这些目标元素设置 `font-size: 1em`。
 - [Gecko 2023-10-19](https://github.com/mozilla/gecko-dev/blob/325bc7b486ea4df80f4029af6ec2001a339c234e/layout/style/res/html.css)：`code/kbd/samp` 使用 `-moz-fixed`，属于 Gecko 的固定宽度字体映射；没有统一 `font-size:1em`。该提交不是精确 Firefox 121 release tag。
 - [WebKit 2026-10-28](https://github.com/WebKit/WebKit/blob/5d3798558c9272ebe643e05fa67e0e68107c287a/Source/WebCore/css/html.css#L1434-L1443)：使用 `monospace`，`pre` 具有 `white-space: pre`；没有设置目标元素的 `font-size:1em`。
@@ -119,6 +128,7 @@ b, strong { font-weight: bolder; }
 MDN 同时指出，显式 `font-size` 或 `font-family: monospace, monospace` 会绕过这一单独偏好，使其回到继承字号。这种行为在主流浏览器中可互操作，但并非 CSS 规范要求所有作者都必须覆盖。
 
 因此：
+
 - `font-size: 1em` 不是“纯修复字号差异”的无害声明；它可能覆盖用户有意设置的较小等宽字体字号。
 - `font-family: monospace, monospace` 是历史兼容技巧，也会绕过该偏好。
 - 把系统 monospace 替换为固定 `ui-monospace/SFMono-Regular/Consolas/Menlo` 字体栈，会改变平台字体和字符回退行为；这属于排版选择，不是默认 Normalize 必需行为。
@@ -139,16 +149,22 @@ MDN 同时指出，显式 `font-size` 或 `font-family: monospace, monospace` �
   <kbd id="keyboard">Ctrl</kbd>
   <samp id="sample">OK</samp>
 </div>
-<pre id="pre-context">const value = 1;
+<pre id="pre-context">
+const value = 1;
 console.log(value);</pre>
 ```
 
 ```css
-.text-context { font-size: 1rem; }
-#pre-context { font-size: 1.5rem; }
+.text-context {
+  font-size: 1rem;
+}
+#pre-context {
+  font-size: 1.5rem;
+}
 ```
 
 需要分别使用：
+
 1. 默认浏览器等宽字号偏好；
 2. 用户主动把 monospace 字号设小的浏览器配置；
 3. 中文、英文、符号混排与缺字回退；

@@ -12,16 +12,16 @@
 
 ## 2. 单一事实来源
 
-| 问题 | 优先文档 |
-| --- | --- |
-| 要实现什么及如何验收 | [REQUIREMENTS](docs/REQUIREMENTS.md) |
-| 架构边界与原因 | [ARCHITECTURE](docs/ARCHITECTURE.md) 和 [ADR](docs/adr/0001-css-base-strategy.md) |
-| 模块接口及具体设计 | [SDD](docs/SDD.md) |
-| 当前进度和待决策 | [PROJECT_CONTEXT](docs/PROJECT_CONTEXT.md) |
-| 文件位置 | [CODEBASE_MAP](docs/CODEBASE_MAP.md) |
-| 可用 Skills | [SKILLS](docs/SKILLS.md)：第三方原版技能的来源与使用边界 |
-| 可执行检查 | [HARNESS](docs/HARNESS.md) |
-| 文档一致性 | [DOCUMENTATION_VALIDATION](docs/DOCUMENTATION_VALIDATION.md) |
+| 问题                 | 优先文档                                                                          |
+| -------------------- | --------------------------------------------------------------------------------- |
+| 要实现什么及如何验收 | [REQUIREMENTS](docs/REQUIREMENTS.md)                                              |
+| 架构边界与原因       | [ARCHITECTURE](docs/ARCHITECTURE.md) 和 [ADR](docs/adr/0001-css-base-strategy.md) |
+| 模块接口及具体设计   | [SDD](docs/SDD.md)                                                                |
+| 当前进度和待决策     | [PROJECT_CONTEXT](docs/PROJECT_CONTEXT.md)                                        |
+| 文件位置             | [CODEBASE_MAP](docs/CODEBASE_MAP.md)                                              |
+| 可用 Skills          | [SKILLS](docs/SKILLS.md)：第三方原版技能的来源与使用边界                          |
+| 可执行检查           | [HARNESS](docs/HARNESS.md)                                                        |
+| 文档一致性           | [DOCUMENTATION_VALIDATION](docs/DOCUMENTATION_VALIDATION.md)                      |
 
 ## 3. 规则优先级
 

@@ -7,15 +7,15 @@
 
 ## 1. 已核实的官方能力
 
-| 命令 | 文档中的用途 | 对本项目的适用范围 |
-| --- | --- | --- |
-| `vp check` | Oxfmt + Oxlint + 类型检查 | 本地静态检查候选；需确认对 CSS 规则是否足够 |
-| `vp fmt` | Oxfmt 格式化 | 本地 Markdown、CSS 格式校验支持范围需实际验证 |
-| `vp test` | Vitest 单元测试 | 可验证规则 ID 映射、包导出等；不替代真实浏览器 |
-| `vp dev` | Vite 开发服务器 | 为原生 HTML、交互和组件库 Fixture 提供本地预览 |
-| `vp build` | Vite **应用**生产构建 | 用于 Fixture 消费者应用，不默认作为 CSS-only 发布命令 |
-| `vp pack` | tsdown 库打包，官方称 CSS bundling 已集成 | 是否适合纯 CSS 根入口、无 JS 产物必须实测 |
-| `vp run <name>` | 运行 package scripts | 与内置 `vp build/test` 区分，不假定自定义脚本会覆盖内置行为 |
+| 命令            | 文档中的用途                              | 对本项目的适用范围                                          |
+| --------------- | ----------------------------------------- | ----------------------------------------------------------- |
+| `vp check`      | Oxfmt + Oxlint + 类型检查                 | 本地静态检查候选；需确认对 CSS 规则是否足够                 |
+| `vp fmt`        | Oxfmt 格式化                              | 本地 Markdown、CSS 格式校验支持范围需实际验证               |
+| `vp test`       | Vitest 单元测试                           | 可验证规则 ID 映射、包导出等；不替代真实浏览器              |
+| `vp dev`        | Vite 开发服务器                           | 为原生 HTML、交互和组件库 Fixture 提供本地预览              |
+| `vp build`      | Vite **应用**生产构建                     | 用于 Fixture 消费者应用，不默认作为 CSS-only 发布命令       |
+| `vp pack`       | tsdown 库打包，官方称 CSS bundling 已集成 | 是否适合纯 CSS 根入口、无 JS 产物必须实测                   |
+| `vp run <name>` | 运行 package scripts                      | 与内置 `vp build/test` 区分，不假定自定义脚本会覆盖内置行为 |
 
 来源：[guide](https://viteplus.dev/guide/) · [pack](https://viteplus.dev/guide/pack) · [build](https://viteplus.dev/guide/build) · [test](https://viteplus.dev/guide/test) · [config](https://viteplus.dev/config/)。
 
@@ -40,12 +40,12 @@
 
 ## 4. 现阶段验证结果
 
-| 项目 | 结果 |
-| --- | --- |
-| Vite+ 官网文档与 CLI 说明 | **已查阅**（非运行测试） |
-| CSS 打包文档存在性 | **已查阅** |
-| Vite+ 实际安装及项目版本 | **未运行 / 未确认** |
-| `vp pack` 对 CSS-only 包的有效性 | **未知，待实测** |
-| `vp check` 是否覆盖全部 CSS 规则约束 | **未知，待实测** |
-| Chrome / Firefox / Safari 兼容回归 | **未运行** |
-| CI | **禁止，未添加** |
+| 项目                                 | 结果                     |
+| ------------------------------------ | ------------------------ |
+| Vite+ 官网文档与 CLI 说明            | **已查阅**（非运行测试） |
+| CSS 打包文档存在性                   | **已查阅**               |
+| Vite+ 实际安装及项目版本             | **未运行 / 未确认**      |
+| `vp pack` 对 CSS-only 包的有效性     | **未知，待实测**         |
+| `vp check` 是否覆盖全部 CSS 规则约束 | **未知，待实测**         |
+| Chrome / Firefox / Safari 兼容回归   | **未运行**               |
+| CI                                   | **禁止，未添加**         |

@@ -16,13 +16,13 @@ A planned, modern CSS normalization foundation emphasizing **minimal defaults, o
 
 ## Approved MVP scope (not implemented)
 
-| Entry | Purpose | MVP status |
-| --- | --- | --- |
-| `@adui/normalize.css` | Evidence-based browser normalization | Only planned public entry |
-| `@adui/normalize.css/reset.css` | Optional layout reset | Deferred |
-| `@adui/normalize.css/a11y.css` | Optional focus/preferences | Deferred |
-| `@adui/normalize.css/forms.css` | Optional native forms | Deferred |
-| `@adui/normalize.css/all.css` | Combined styles | Deferred |
+| Entry                           | Purpose                              | MVP status                |
+| ------------------------------- | ------------------------------------ | ------------------------- |
+| `@adui/normalize.css`           | Evidence-based browser normalization | Only planned public entry |
+| `@adui/normalize.css/reset.css` | Optional layout reset                | Deferred                  |
+| `@adui/normalize.css/a11y.css`  | Optional focus/preferences           | Deferred                  |
+| `@adui/normalize.css/forms.css` | Optional native forms                | Deferred                  |
+| `@adui/normalize.css/all.css`   | Combined styles                      | Deferred                  |
 
 The MVP default entry does not embed `@layer`, CSS feature admission uses fixed **Baseline 2023** as a reference, and **Vite+ 1.4.0** is declared as a development dependency and has now been installed and exercised on the maintainer's local Windows environment. Minimum **test targets** are approved: Chrome/Edge 120, Firefox 121, Safari 17.2 and corresponding core mobile browsers. **The minimum target browser versions remain untested; these are not published support claims.** No installation instructions are available before implementation and release.
 

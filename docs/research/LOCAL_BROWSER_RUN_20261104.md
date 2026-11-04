@@ -9,24 +9,24 @@
 
 ## 1. 本机实际命令结果
 
-| 操作 | 维护者提供的结果 | 状态 |
-| --- | --- | --- |
-| `pnpm install` | pnpm `11.24.0` 安装 `vite-plus@1.4.0` 成功；提示 peer dependency 警告 | **PASS / 带警告**；详情需 `pnpm peers check` |
-| `npm run test:offline` | Node 内置测试共 22 项，`pass 22 / fail 0`；合成包 smoke 产生 Node `DEP0190` 弃用安全警告 | **PASS 22/22**；警告仍待定位 |
-| `npm exec -- vp test` | 内置 Vitest `v5.0.5`，`tests/fixtures.test.ts` 的 5 项测试通过 | **PASS 5/5** |
-| `npm exec -- vp dev` | Vite+ `v1.4.0` 启动成功，本地 `http://localhost:5173/`；4 个 Fixture 页面已由维护者打开 | **PASS（本地服务与页面）** |
+| 操作                   | 维护者提供的结果                                                                                           | 状态                                               |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| `pnpm install`         | pnpm `11.24.0` 安装 `vite-plus@1.4.0` 成功；提示 peer dependency 警告                                      | **PASS / 带警告**；详情需 `pnpm peers check`       |
+| `npm run test:offline` | Node 内置测试共 22 项，`pass 22 / fail 0`；合成包 smoke 产生 Node `DEP0190` 弃用安全警告                   | **PASS 22/22**；警告仍待定位                       |
+| `npm exec -- vp test`  | 内置 Vitest `v5.0.5`，`tests/fixtures.test.ts` 的 5 项测试通过                                             | **PASS 5/5**                                       |
+| `npm exec -- vp dev`   | Vite+ `v1.4.0` 启动成功，本地 `http://localhost:5173/`；4 个 Fixture 页面已由维护者打开                    | **PASS（本地服务与页面）**                         |
 | `npm exec -- vp check` | 报告 **66 个文件存在格式问题**，包括上游复制的 `.agents/skills/`、项目 Markdown、HTML/JS/TS 与 GitHub 模板 | **FAIL（格式）**；没有看到其他检查项完成的充分证据 |
-| 本机锁文件 | `pnpm install` 已成功，但未提供 `git status` / 锁文件内容 | **未核对是否已生成及纳入 Git** |
+| 本机锁文件             | `pnpm install` 已成功，但未提供 `git status` / 锁文件内容                                                  | **未核对是否已生成及纳入 Git**                     |
 
 **不要**为了让 `vp check` 通过而不加审查地执行全仓 `vp check --fix`：它会修改带来源/许可证记录的上游原版 Skills 与大量非任务文件。后续需针对第一方代码/文档制定最小格式处理方案；上游 Skills 应保持固定 SHA 原文，必要时按 Vite+ 官方 `fmt.ignorePatterns` 单独排除。正式格式通过在重验前仍为 `FAIL`。
 
 ## 2. R-003：Chrome 156 的真实截图观察（非最低目标）
 
 | 父级 `font-weight` | T0 原生 `b` | T0 原生 `strong` | T1 候选 `b` | T1 候选 `strong` |
-| --- | --- | --- | --- | --- |
-| `400` | `700` | `700` | `700` | `700` |
-| `600` | `900` | `900` | `900` | `900` |
-| `700` | `900` | `900` | `900` | `900` |
+| ------------------ | ----------- | ---------------- | ----------- | ---------------- |
+| `400`              | `700`       | `700`            | `700`       | `700`            |
+| `600`              | `900`       | `900`            | `900`       | `900`            |
+| `700`              | `900`       | `900`            | `900`       | `900`            |
 
 两页均显示 `font-size: 16px`、`font-family: "Noto Sans SC"`，简化 UA 相同。**六组计算字重均无差异**。人工对照符合 `NO_COMPUTED_DIFFERENCE` 的数字条件，但**尚未从原始 JSON 文件运行 `tests/r003-evidence.mjs`**，故不得登记为自动比较器执行通过。
 
@@ -34,12 +34,12 @@
 
 ## 3. R-004：T1 有候选声明，但截图计算值没有变化（待诊断）
 
-| 节点 | T0 父级字号 | T0 自身字号 | T1 父级字号 | T1 自身字号 |
-| --- | --- | --- | --- | --- |
-| `code` | `16px` | `13px` | `16px` | `13px` |
-| `kbd` | `16px` | `13px` | `16px` | `13px` |
-| `samp` | `16px` | `13px` | `16px` | `13px` |
-| `pre` | `16px` | `13px` | `16px` | `13px` |
+| 节点   | T0 父级字号 | T0 自身字号 | T1 父级字号 | T1 自身字号 |
+| ------ | ----------- | ----------- | ----------- | ----------- |
+| `code` | `16px`      | `13px`      | `16px`      | `13px`      |
+| `kbd`  | `16px`      | `13px`      | `16px`      | `13px`      |
+| `samp` | `16px`      | `13px`      | `16px`      | `13px`      |
+| `pre`  | `16px`      | `13px`      | `16px`      | `13px`      |
 
 T0/T1 均报告 `font-family: monospace`。仓库 T1 HTML 明确包含 `code, kbd, samp, pre { font-size: 1em; }`，按预期相对于 16px 父级应得到 16px；**截图的 13px 尚不能解释为“声明生效但无风险”**，应先核对样式加载、层叠优先级及探针采样时机。
 
@@ -47,8 +47,8 @@ T0/T1 均报告 `font-family: monospace`。仓库 T1 HTML 明确包含 `code, kb
 
 ```js
 (() => {
-  const element = document.querySelector('#code');
-  const styleElement = document.querySelector('#risk-review-only');
+  const element = document.querySelector("#code");
+  const styleElement = document.querySelector("#risk-review-only");
   return {
     readyState: document.readyState,
     styleElementPresent: Boolean(styleElement),
@@ -58,10 +58,11 @@ T0/T1 均报告 `font-family: monospace`。仓库 T1 HTML 明确包含 `code, kb
       : null,
     parentFontSize: getComputedStyle(element.parentElement).fontSize,
     currentFontSize: getComputedStyle(element).fontSize,
-    capturedFontSize: JSON.parse(document.querySelector('#probe-output').textContent)
-      .rows.find((row) => row.id === 'code')?.fontSize,
+    capturedFontSize: JSON.parse(document.querySelector("#probe-output").textContent).rows.find(
+      (row) => row.id === "code",
+    )?.fontSize,
   };
-})()
+})();
 ```
 
 - 若 `currentFontSize === "16px"` 而 `capturedFontSize === "13px"`，优先调查探针**过早采集**或样式动态注入时机。
@@ -79,12 +80,12 @@ T0/T1 均报告 `font-family: monospace`。仓库 T1 HTML 明确包含 `code, kb
 
 **证据来源**：维护者于 2026-11-04 提供的第五组浏览器截图（T1b 页面及 DevTools Console），并与前述 T0/T1 截图进行对照。浏览器 UA 显示 `Chrome/156.0.0.0`、Windows NT 10.0（Windows 实际版本和 Chrome 完整构建号仍未确认）。记录仅为这台机器的**计算样式观察**，不是最低版本兼容性认证。
 
-| 元素 | T0 原生 | T1：仅 `font-size: 1em` | T1b：保留 `1em` 并追加 `monospace, monospace` |
-| --- | --- | --- | --- |
-| `code` | 13px | 13px | **16px** |
-| `kbd` | 13px | 13px | **16px** |
-| `samp` | 13px | 13px | **16px** |
-| `pre` | 13px | 13px | **16px** |
+| 元素   | T0 原生 | T1：仅 `font-size: 1em` | T1b：保留 `1em` 并追加 `monospace, monospace` |
+| ------ | ------- | ----------------------- | --------------------------------------------- |
+| `code` | 13px    | 13px                    | **16px**                                      |
+| `kbd`  | 13px    | 13px                    | **16px**                                      |
+| `samp` | 13px    | 13px                    | **16px**                                      |
+| `pre`  | 13px    | 13px                    | **16px**                                      |
 
 - 三组页面均报告父级 `font-size: 16px`；T0/T1 的计算字体族为 `monospace`，T1b 四个元素报告 `monospace, monospace`。
 - T1b Console 显示 `readyState: "complete"`、`currentFontSize: "16px"`、`capturedFontSize: "16px"`，二者一致；页面路径为 `/fixtures/r004-family-review.html`。
@@ -111,13 +112,13 @@ fmt: {
 
 维护者提供 Windows PowerShell 最新完整命令输出；以下均为**维护者本地执行结果**，助手尚未在同一 Windows 环境独立复跑：
 
-| 操作 | 最新结果 | 结论 |
-| --- | --- | --- |
-| `vp fmt --check` | 检查列出 54 个第一方文件，报告 `Format issues found` | **FAIL**；尚未执行格式修复 |
-| `vp check` | 仍因格式问题失败，报告 54 个文件 | **FAIL**；不能视为完整 lint/type-check 通过 |
-| `vp test:offline` | Vite+ 返回 `Command 'test:offline' not found` | **调用方式错误**；该名称属于 npm script 而非 Vite+ 内置子命令 |
-| `npm run test:offline` | Node `tests 23 / pass 23 / fail 0` | **PASS 23/23**；离线包测试仍出现 Node `DEP0190` 警告 |
-| `vp test` | Vitest 5.0.5，`tests/fixtures.test.ts` 共 6 项 | **PASS 6/6** |
+| 操作                   | 最新结果                                             | 结论                                                          |
+| ---------------------- | ---------------------------------------------------- | ------------------------------------------------------------- |
+| `vp fmt --check`       | 检查列出 54 个第一方文件，报告 `Format issues found` | **FAIL**；尚未执行格式修复                                    |
+| `vp check`             | 仍因格式问题失败，报告 54 个文件                     | **FAIL**；不能视为完整 lint/type-check 通过                   |
+| `vp test:offline`      | Vite+ 返回 `Command 'test:offline' not found`        | **调用方式错误**；该名称属于 npm script 而非 Vite+ 内置子命令 |
+| `npm run test:offline` | Node `tests 23 / pass 23 / fail 0`                   | **PASS 23/23**；离线包测试仍出现 Node `DEP0190` 警告          |
+| `vp test`              | Vitest 5.0.5，`tests/fixtures.test.ts` 共 6 项       | **PASS 6/6**                                                  |
 
 与此前 66 个文件的格式报告相比，本轮不再列出 `.agents/skills/**`，与已提交的忽略配置相符；**但 54 是本轮输出列出的文件集合，不能以数量变化证明每一个被排除文件的具体格式状态**。项目自有文件仍应保持格式检查，不应通过扩大忽略范围规避问题。
 

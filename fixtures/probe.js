@@ -1,5 +1,5 @@
 // 本模块仅用于本地浏览器 Fixture。它不会进入任何 npm CSS 发布产物。
-const rows = [...document.querySelectorAll('[data-probe]')].map((element) => {
+const rows = [...document.querySelectorAll("[data-probe]")].map((element) => {
   const style = getComputedStyle(element);
   const parentStyle = getComputedStyle(element.parentElement);
 
@@ -20,5 +20,5 @@ const evidence = {
   rows,
 };
 
-document.getElementById('probe-output').textContent = JSON.stringify(evidence, null, 2);
-document.documentElement.dataset.probeStatus = 'complete';
+document.getElementById("probe-output").textContent = JSON.stringify(evidence, null, 2);
+document.documentElement.dataset.probeStatus = "complete";

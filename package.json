@@ -2,20 +2,20 @@
   "name": "@adui/normalize.css",
   "version": "0.0.0",
   "private": true,
-  "type": "module",
-  "engines": {
-    "node": "^22.18.0 || ^24.11.0 || >=26.0.0"
-  },
-  "devDependencies": {
-    "vite-plus": "1.4.0"
-  },
   "files": [
     "dist"
   ],
+  "type": "module",
   "sideEffects": [
     "**/*.css"
   ],
   "scripts": {
     "test:offline": "node --test tests/fixtures.node.test.mjs tests/package.node.test.mjs tests/package-smoke.node.test.mjs tests/probe.node.test.mjs tests/r003-evidence.node.test.mjs tests/evidence-file.node.test.mjs"
+  },
+  "devDependencies": {
+    "vite-plus": "1.4.0"
+  },
+  "engines": {
+    "node": "^22.18.0 || ^24.11.0 || >=26.0.0"
   }
 }

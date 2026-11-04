@@ -22,20 +22,21 @@
 
 ## 3. 官方文档核对
 
-| 目的 | 官方能力 | 采用原则 |
-| --- | --- | --- |
-| 统一静态检查 | [`vp check`](https://viteplus.dev/guide/check) 通过 Oxfmt/Oxlint/类型检查处理支持的文件 | 作为本地统一入口候选；**不等于已拥有 CSS 特定语义检查** |
-| 格式化 | [`vp fmt`](https://viteplus.dev/guide/fmt) | 格式化支持范围在实际文件上验证 |
-| 单元/规范性检查 | [`vp test`](https://viteplus.dev/guide/test) 基于 Vitest | 测试规则元数据、文件导出等可自动检验部分；无法替代浏览器渲染 |
-| 应用预览/Fixture | [`vp dev`、`vp build`](https://viteplus.dev/guide/build) | 用于未来的本地可视化测试页面；不要把 `vp build` 误称为 CSS 库发布打包 |
-| 库打包 | [`vp pack`](https://viteplus.dev/guide/pack) 基于 tsdown，文档称支持 CSS bundling | **需实测是否满足纯 CSS 无 JS 入口/产物**，暂不承诺直接可用 |
-| 命令区别 | [Vite+ Getting Started](https://viteplus.dev/guide/) | `vp build`、`vp test` 是内置命令；若要调用 package scripts 用 `vp run <name>` 或 `vpr <name>` |
+| 目的             | 官方能力                                                                                | 采用原则                                                                                      |
+| ---------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| 统一静态检查     | [`vp check`](https://viteplus.dev/guide/check) 通过 Oxfmt/Oxlint/类型检查处理支持的文件 | 作为本地统一入口候选；**不等于已拥有 CSS 特定语义检查**                                       |
+| 格式化           | [`vp fmt`](https://viteplus.dev/guide/fmt)                                              | 格式化支持范围在实际文件上验证                                                                |
+| 单元/规范性检查  | [`vp test`](https://viteplus.dev/guide/test) 基于 Vitest                                | 测试规则元数据、文件导出等可自动检验部分；无法替代浏览器渲染                                  |
+| 应用预览/Fixture | [`vp dev`、`vp build`](https://viteplus.dev/guide/build)                                | 用于未来的本地可视化测试页面；不要把 `vp build` 误称为 CSS 库发布打包                         |
+| 库打包           | [`vp pack`](https://viteplus.dev/guide/pack) 基于 tsdown，文档称支持 CSS bundling       | **需实测是否满足纯 CSS 无 JS 入口/产物**，暂不承诺直接可用                                    |
+| 命令区别         | [Vite+ Getting Started](https://viteplus.dev/guide/)                                    | `vp build`、`vp test` 是内置命令；若要调用 package scripts 用 `vp run <name>` 或 `vpr <name>` |
 
 ## 4. 特别风险：纯 CSS npm 包与 vp pack
 
 官方 `vp pack` 对库入口的说明主要基于 TS/JS；虽支持 CSS 转换与打包，但**没有据此验证纯 CSS 包能够直接以 `vp pack` 产出唯一 CSS 根入口且无 JS 包装文件**。
 
 因此 W-04 必须在未来实现阶段进行对照：
+
 - A：以 Vite+ 可直接支持的 CSS 构建与导出方式产生静态 CSS；
 - B：如 `vp pack` 存在无关 JS 产物或 CSS 副作用问题，选择同一 Vite+ 工具链内最小可验证替代方式，必要时简单复制/压缩静态 CSS，但不能引入额外笨重脚手架；
 - 采用哪个方式以真实 tarball、`exports`、`sideEffects`、Vite/Vite+ 和 Webpack 消费端构建验证为准。

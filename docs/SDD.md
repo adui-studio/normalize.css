@@ -4,25 +4,25 @@
 
 ## 1. 设计范围与需求映射
 
-| 候选模块 | 需求 | 拟议接口/职责 | 实现状态 |
-| --- | --- | --- | --- |
-| Normalize | FR-001、NFR-001 | 默认标准化样式表 | 未实现 |
-| Reset | FR-002 | 显式导入的 Reset | 未实现 |
-| A11y | FR-003 | 焦点与系统偏好增强 | 未实现 |
-| Forms | FR-004 | 原生表单增强 | 未实现 |
-| Combined | FR-005 | 显式组合入口 | 未实现 |
-| Exports | FR-006 | npm 导出映射 | 未实现 |
-| 规则追踪 | FR-007、NFR-002/003/007 | 兼容性证据与回归用例 | 未实现 |
+| 候选模块  | 需求                    | 拟议接口/职责        | 实现状态 |
+| --------- | ----------------------- | -------------------- | -------- |
+| Normalize | FR-001、NFR-001         | 默认标准化样式表     | 未实现   |
+| Reset     | FR-002                  | 显式导入的 Reset     | 未实现   |
+| A11y      | FR-003                  | 焦点与系统偏好增强   | 未实现   |
+| Forms     | FR-004                  | 原生表单增强         | 未实现   |
+| Combined  | FR-005                  | 显式组合入口         | 未实现   |
+| Exports   | FR-006                  | npm 导出映射         | 未实现   |
+| 规则追踪  | FR-007、NFR-002/003/007 | 兼容性证据与回归用例 | 未实现   |
 
 ## 2. 首版正式设计契约（尚不可使用）
 
-| 导入路径（候选） | 返回内容 | 副作用边界 |
-| --- | --- | --- |
-| `@adui/normalize.css` | **首版唯一已批准的 CSS 入口**（未实现） | 只包含有证据的 Normalize，且不内置 `@layer` |
-| `@adui/normalize.css/reset.css` | Reset CSS | **首版延期**；未来版本单独决策 |
-| `@adui/normalize.css/a11y.css` | A11y CSS | **首版延期**；未来版本单独决策 |
-| `@adui/normalize.css/forms.css` | Forms CSS | **首版延期**；未来版本单独决策 |
-| `@adui/normalize.css/all.css` | 经评审的组合 CSS | **首版延期**；未来版本单独决策 |
+| 导入路径（候选）                | 返回内容                                | 副作用边界                                  |
+| ------------------------------- | --------------------------------------- | ------------------------------------------- |
+| `@adui/normalize.css`           | **首版唯一已批准的 CSS 入口**（未实现） | 只包含有证据的 Normalize，且不内置 `@layer` |
+| `@adui/normalize.css/reset.css` | Reset CSS                               | **首版延期**；未来版本单独决策              |
+| `@adui/normalize.css/a11y.css`  | A11y CSS                                | **首版延期**；未来版本单独决策              |
+| `@adui/normalize.css/forms.css` | Forms CSS                               | **首版延期**；未来版本单独决策              |
+| `@adui/normalize.css/all.css`   | 经评审的组合 CSS                        | **首版延期**；未来版本单独决策              |
 
 首版只规划 `@adui/normalize.css` 根入口，**不发布四个候选子路径**；未来版本可重新评审。开发工具链统一 Vite+（[ADR-0005](adr/0005-viteplus-toolchain.md)），但 CSS-only 的 `vp pack` 产物适配仍需在 W-04 实测，不能提前承诺 JS 入口或已编译 CSS。目前 `package.json` 已配置 `files: ["dist"]` 和 `sideEffects: ["**/*.css"]` 并通过离线打包文件清单预检，但**没有可用 CSS、exports 或生产构建证明**。具体 exports、CSS 文件名与编译方式仍须在实际开发后做构建验证，参阅 [ADR-0003](adr/0003-mvp-package-contract.md)、[W-04 包交付验收研究](plans/CSS_PACKAGE_DELIVERY_REVIEW.md) 和 [实施计划](plans/MVP_IMPLEMENTATION_PLAN.md)。
 
@@ -73,15 +73,15 @@
 
 ## 6. 测试设计（未来工作）
 
-| 用例类别 | 场景 | 需求 | 状态 |
-| --- | --- | --- | --- |
-| 规则静态审查 | 默认模块禁止高侵入全局声明；选择器和注释合理 | FR-001、NFR-001 | 未实现 |
-| 原生语义 | button、input、select、textarea、fieldset、details、dialog、summary | FR-001/002/004 | 未实现 |
-| 浏览器差异 | Chromium / Firefox / WebKit 前后对照 | NFR-002/003 | 未实现 |
-| 交互无障碍 | 键盘焦点、高对比度、减少动画设置 | FR-003 | 未实现 |
-| 组件库回归 | Element Plus / Ant Design / TDesign 的表单与弹窗等 | NFR-007 | 未实现 |
-| 包导出检查 | npm tarball 中所有公开路径存在且可解析 | FR-005/006 | 未实现 |
-| 体积与许可证 | 原始/Gzip 比较、许可证归属与发布清单 | NFR-004/006 | 未实现 |
+| 用例类别     | 场景                                                                | 需求            | 状态   |
+| ------------ | ------------------------------------------------------------------- | --------------- | ------ |
+| 规则静态审查 | 默认模块禁止高侵入全局声明；选择器和注释合理                        | FR-001、NFR-001 | 未实现 |
+| 原生语义     | button、input、select、textarea、fieldset、details、dialog、summary | FR-001/002/004  | 未实现 |
+| 浏览器差异   | Chromium / Firefox / WebKit 前后对照                                | NFR-002/003     | 未实现 |
+| 交互无障碍   | 键盘焦点、高对比度、减少动画设置                                    | FR-003          | 未实现 |
+| 组件库回归   | Element Plus / Ant Design / TDesign 的表单与弹窗等                  | NFR-007         | 未实现 |
+| 包导出检查   | npm tarball 中所有公开路径存在且可解析                              | FR-005/006      | 未实现 |
+| 体积与许可证 | 原始/Gzip 比较、许可证归属与发布清单                                | NFR-004/006     | 未实现 |
 
 **禁止**用单元文本检查代替浏览器对照并宣称兼容性通过。
 

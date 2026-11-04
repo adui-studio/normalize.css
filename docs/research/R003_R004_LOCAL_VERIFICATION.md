@@ -7,14 +7,14 @@
 
 ## 1. 目标版本的官方获取线索（并不代表环境已经具备）
 
-| 目标环境 | 官方路径与版本依据 | 本次验证状态 | 使用限制 |
-| --- | --- | --- | --- |
-| Chrome 120（桌面） | [Chrome for Testing 官方版本目录](https://github.com/GoogleChromeLabs/chrome-for-testing/blob/main/data/latest-versions-per-milestone-with-downloads.json) 的 milestone 120 提供 `120.0.6099.109`，含 Windows、macOS、Linux 构建 | **仅核对索引，未下载/运行** | 记录实际完整版本；CfT 不等于已经覆盖普通 Chrome 用户配置 |
-| Edge 120（桌面） | 已接受最低测试目标 120；当前**没有验证可用的官方旧版 Edge 离线发行物** | **环境待确认** | 不能直接把 CfT 120 的结果当成 Edge 120 实测 |
-| Firefox 121（桌面） | [Mozilla 官方 Firefox 121.0 发行归档](https://archive.mozilla.org/pub/firefox/releases/121.0/) 提供各系统目录与校验清单 | **仅核对归档目录，未下载/运行** | 历史安装包应核对来源与校验值，不覆盖正常浏览器用户配置 |
-| Safari 17.2（macOS） | [Apple 官方发布说明](https://developer.apple.com/documentation/safari-release-notes/safari-17_2-release-notes) 记载 2023-12-11，版本 `17.2 (19617.1.17)`；适用 Sonoma、Ventura、Monterey | **无真实 Safari 17.2 测试记录** | 必须记录真实 Safari 完整版本、macOS 版本及构建号；Playwright WebKit 不能替代 |
-| Chrome Android 120 / Firefox Android 121 | Baseline 固定映射已批准为测试目标 | **缺少历史版本设备与官方包源核验** | 仅桌面 UA 相同不等于 Android 已通过；记录 Android 版本、设备和浏览器构建 |
-| Safari iOS 17.2 | Apple 发布说明确认 iOS 17.2 平台 | **无真实 iOS 17.2 设备测试** | 必须记录 iOS/设备/浏览器构建；macOS Safari 构建号不可直接套用到 iOS |
+| 目标环境                                 | 官方路径与版本依据                                                                                                                                                                                                               | 本次验证状态                       | 使用限制                                                                     |
+| ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- | ---------------------------------------------------------------------------- |
+| Chrome 120（桌面）                       | [Chrome for Testing 官方版本目录](https://github.com/GoogleChromeLabs/chrome-for-testing/blob/main/data/latest-versions-per-milestone-with-downloads.json) 的 milestone 120 提供 `120.0.6099.109`，含 Windows、macOS、Linux 构建 | **仅核对索引，未下载/运行**        | 记录实际完整版本；CfT 不等于已经覆盖普通 Chrome 用户配置                     |
+| Edge 120（桌面）                         | 已接受最低测试目标 120；当前**没有验证可用的官方旧版 Edge 离线发行物**                                                                                                                                                           | **环境待确认**                     | 不能直接把 CfT 120 的结果当成 Edge 120 实测                                  |
+| Firefox 121（桌面）                      | [Mozilla 官方 Firefox 121.0 发行归档](https://archive.mozilla.org/pub/firefox/releases/121.0/) 提供各系统目录与校验清单                                                                                                          | **仅核对归档目录，未下载/运行**    | 历史安装包应核对来源与校验值，不覆盖正常浏览器用户配置                       |
+| Safari 17.2（macOS）                     | [Apple 官方发布说明](https://developer.apple.com/documentation/safari-release-notes/safari-17_2-release-notes) 记载 2023-12-11，版本 `17.2 (19617.1.17)`；适用 Sonoma、Ventura、Monterey                                         | **无真实 Safari 17.2 测试记录**    | 必须记录真实 Safari 完整版本、macOS 版本及构建号；Playwright WebKit 不能替代 |
+| Chrome Android 120 / Firefox Android 121 | Baseline 固定映射已批准为测试目标                                                                                                                                                                                                | **缺少历史版本设备与官方包源核验** | 仅桌面 UA 相同不等于 Android 已通过；记录 Android 版本、设备和浏览器构建     |
+| Safari iOS 17.2                          | Apple 发布说明确认 iOS 17.2 平台                                                                                                                                                                                                 | **无真实 iOS 17.2 设备测试**       | 必须记录 iOS/设备/浏览器构建；macOS Safari 构建号不可直接套用到 iOS          |
 
 **安全注意**：2023 年的浏览器早已不再是当前安全版本。将来的旧版复现应在隔离的、本地离线 Fixture 环境中进行，不登录真实账号、不访问不可信外网、不覆盖日常默认浏览器。此处不包含下载安装命令。
 
@@ -30,15 +30,16 @@
 
 ### 观测对象及预期（来源推导，非运行结果）
 
-| 父级计算粗细 | 旧 UA `bold` 理论结果 | 标准 `bolder` 理论结果 | 差异 |
-| --- | --- | --- | --- |
-| 400 | 700 | 700 | 无（基础对照） |
-| 600 | 700 | 900 | **关键断点** |
-| 700 | 700 | 900 | **关键断点** |
+| 父级计算粗细 | 旧 UA `bold` 理论结果 | 标准 `bolder` 理论结果 | 差异           |
+| ------------ | --------------------- | ---------------------- | -------------- |
+| 400          | 700                   | 700                    | 无（基础对照） |
+| 600          | 700                   | 900                    | **关键断点**   |
+| 700          | 700                   | 900                    | **关键断点**   |
 
 对于 `b`、`strong` 分别记录：
-- DevTools *Styles* 中来源于 UA 还是作者声明、当前 `font-weight` 的获胜规则；
-- DevTools *Computed* 中的计算粗细数值，父级对应数值；
+
+- DevTools _Styles_ 中来源于 UA 还是作者声明、当前 `font-weight` 的获胜规则；
+- DevTools _Computed_ 中的计算粗细数值，父级对应数值；
 - 在真实可变字体/具备 900 字重字体环境下的视觉对照。**计算值 900 不证明设备实际渲染了 900 字体文件**；
 - 双重嵌套（例如 `strong` 内再嵌套 `strong`）以及用户明确设置 `font-weight: normal` 时的覆盖行为；
 - 兼容性问题是否涉及 `!important`、CSS Layers、UI 组件库选择器优先级（不得为了“修复”添加全局重要性覆盖）。
@@ -64,27 +65,27 @@
 
 为避免同时更改多个变量，新增三个明确分离的对照：
 
-| 页面 | 测试 CSS | 作用 |
-| --- | --- | --- |
-| `r004-native.html`（T0） | 无作者字号/字体族规则 | 原生对照 |
-| `r004-risk-review.html`（T1） | `font-size: 1em` | 原有单声明风险对照 |
+| 页面                             | 测试 CSS                                                                    | 作用                 |
+| -------------------------------- | --------------------------------------------------------------------------- | -------------------- |
+| `r004-native.html`（T0）         | 无作者字号/字体族规则                                                       | 原生对照             |
+| `r004-risk-review.html`（T1）    | `font-size: 1em`                                                            | 原有单声明风险对照   |
 | `r004-family-review.html`（T1b） | 与 T1 相同的 `font-size: 1em`，**额外** `font-family: monospace, monospace` | 隔离重复字体族的影响 |
 
 T1b **不属于已批准的发布规则、不改变 R-004 默认排除决定**。维护者已在 **Chrome 156** 实测并提供截图：T0/T1 中四个元素均为 **13px**，T1b 均为 **16px**，T1b 的 `fontFamily` 均为 `monospace, monospace`；当前值与探针记录一致。详见 [运行记录 §3.2](LOCAL_BROWSER_RUN_20261104.md)。这只证明本次环境的计算样式差异；用户独立等宽字号配置、其他目标浏览器和 CJK 字形回归仍未验证。
 
 ## 4. 逐次执行记录模板（开发后使用）
 
-| 字段 | 必填内容 |
-| --- | --- |
-| 规则 ID / Fixture / 运行日期 | R-003 或 R-004；T0/T1/T2；实际时间 |
-| 浏览器及构建号 | 名称、**完整版本**、是否为 CfT/官方发行版、实验特性是否开启 |
-| OS / 设备 / 宿主 | macOS、Windows、Linux、Android、iOS 完整版本和必要设备标识 |
-| 测试环境 | 本地离线 Fixture 位置、字体、浏览器独立偏好设置、来源/校验情况 |
-| 输入 | 原生/候选/集成，父级粗细，CSS 导入顺序；涉及的所有作者 CSS |
-| 观察结果 | DevTools Styles/Computed 数值，实际渲染差异，截图或必要日志 |
-| 结果状态 | `PASS` / `FAIL` / `BLOCKED` / `NOT_RUN`（不能用空白代表通过） |
-| 问题和复现信息 | 与预期不一致的最小条件、复现频次、版本、回退方案 |
-| 审核结论 | 是否证明 UA 差异仍存在，是否可归入默认 Normalize，以及下一步 |
+| 字段                         | 必填内容                                                       |
+| ---------------------------- | -------------------------------------------------------------- |
+| 规则 ID / Fixture / 运行日期 | R-003 或 R-004；T0/T1/T2；实际时间                             |
+| 浏览器及构建号               | 名称、**完整版本**、是否为 CfT/官方发行版、实验特性是否开启    |
+| OS / 设备 / 宿主             | macOS、Windows、Linux、Android、iOS 完整版本和必要设备标识     |
+| 测试环境                     | 本地离线 Fixture 位置、字体、浏览器独立偏好设置、来源/校验情况 |
+| 输入                         | 原生/候选/集成，父级粗细，CSS 导入顺序；涉及的所有作者 CSS     |
+| 观察结果                     | DevTools Styles/Computed 数值，实际渲染差异，截图或必要日志    |
+| 结果状态                     | `PASS` / `FAIL` / `BLOCKED` / `NOT_RUN`（不能用空白代表通过）  |
+| 问题和复现信息               | 与预期不一致的最小条件、复现频次、版本、回退方案               |
+| 审核结论                     | 是否证明 UA 差异仍存在，是否可归入默认 Normalize，以及下一步   |
 
 所有环境各自独立记录；**不允许**以 Chrome 120 测试替代 Edge 120、以桌面 Chrome 替代 Android Chrome、以 Playwright WebKit 替代 Safari 17.2。
 
@@ -98,12 +99,12 @@ node tests/r003-evidence.mjs r003-native.json r003-candidate.json
 
 该比较器验证 UA 字符串相同、页面身份、六个测量元素、父级字重 400/600/700、计算字重，以及两个输入的字号/字体家族一致性。结果分为：
 
-| 结果 | 含义 | 注意 |
-| --- | --- | --- |
+| 结果                           | 含义                                  | 注意                            |
+| ------------------------------ | ------------------------------------- | ------------------------------- |
 | `COMPUTED_DIFFERENCE_OBSERVED` | T0/T1 有计算字重差异，T1 达到候选预期 | **不是** UA 源头/实际渲染已验证 |
-| `NO_COMPUTED_DIFFERENCE` | 两者计算字重一致，T1 达到预期 | **不是** 旧版兼容性已通过 |
-| `CANDIDATE_MISMATCH` | T1 没有达到候选的预期计算值 | 需定位 CSS 获胜规则、采集条件 |
-| 输入拒绝 | 记录不完整、UA/字体上下文不一致 | 不得把无效样本记为通过 |
+| `NO_COMPUTED_DIFFERENCE`       | 两者计算字重一致，T1 达到预期         | **不是** 旧版兼容性已通过       |
+| `CANDIDATE_MISMATCH`           | T1 没有达到候选的预期计算值           | 需定位 CSS 获胜规则、采集条件   |
+| 输入拒绝                       | 记录不完整、UA/字体上下文不一致       | 不得把无效样本记为通过          |
 
 CLI 退出状态码：`0` 为输入有效且 T1 满足预期，`1` 为候选不符，`2` 为输入不合法。已用**合成证据**增加 8 项 Node 单测，当前本地测试总计 18/18 通过；**没有任何真实 Chrome/Edge 120、Firefox 121、Safari 17.2 的运行证据**。UA 字符串存在版本简化风险，实际完整版本/OS/DevTools UA 声明来源及字形渲染仍需独立记录。
 

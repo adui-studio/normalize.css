@@ -1,21 +1,21 @@
-import { readEvidenceFile } from './evidence-file.mjs';
-import { pathToFileURL } from 'node:url';
+import { readEvidenceFile } from "./evidence-file.mjs";
+import { pathToFileURL } from "node:url";
 
 const WEIGHTS = [400, 600, 700];
-const TAGS = ['b', 'strong'];
+const TAGS = ["b", "strong"];
 const EXPECTED_IDS = new Set(WEIGHTS.flatMap((weight) => TAGS.map((tag) => `${tag}-${weight}`)));
 
 function requireText(value, field) {
-  if (typeof value !== 'string' || !value.trim()) {
+  if (typeof value !== "string" || !value.trim()) {
     throw new TypeError(`${field} must be a nonempty string`);
   }
   return value;
 }
 
 function numericWeight(value, field) {
-  if (value === 'bold') return 700;
-  if (value === 'normal') return 400;
-  if (typeof value !== 'string' || !/^\d{1,4}$/.test(value)) {
+  if (value === "bold") return 700;
+  if (value === "normal") return 400;
+  if (typeof value !== "string" || !/^\d{1,4}$/.test(value)) {
     throw new TypeError(`${field} must be a computed numeric font-weight`);
   }
   const weight = Number(value);
@@ -26,12 +26,12 @@ function numericWeight(value, field) {
 }
 
 function validateFixture(evidence, role) {
-  if (!evidence || typeof evidence !== 'object' || Array.isArray(evidence)) {
+  if (!evidence || typeof evidence !== "object" || Array.isArray(evidence)) {
     throw new TypeError(`${role} evidence must be a JSON object`);
   }
   const agent = requireText(evidence.userAgent, `${role}.userAgent`);
   const location = requireText(evidence.location, `${role}.location`);
-  const expectedFile = role === 'native' ? 'r003-native.html' : 'r003-candidate.html';
+  const expectedFile = role === "native" ? "r003-native.html" : "r003-candidate.html";
   if (!location.endsWith(`/${expectedFile}`)) {
     throw new Error(`${role}.location must end in /${expectedFile}`);
   }
@@ -41,14 +41,14 @@ function validateFixture(evidence, role) {
   const seen = new Set();
   const rows = new Map();
   for (const row of evidence.rows) {
-    if (!row || typeof row !== 'object' || Array.isArray(row)) {
+    if (!row || typeof row !== "object" || Array.isArray(row)) {
       throw new TypeError(`${role} row must be an object`);
     }
     if (!EXPECTED_IDS.has(row.id) || seen.has(row.id)) {
       throw new Error(`${role} contains unknown or duplicate row ID: ${String(row.id)}`);
     }
     seen.add(row.id);
-    const [tag, weightText] = row.id.split('-');
+    const [tag, weightText] = row.id.split("-");
     if (row.tagName !== tag) {
       throw new Error(`${role}.${row.id}.tagName must be ${tag}`);
     }
@@ -70,10 +70,10 @@ function validateFixture(evidence, role) {
  * font-file rendering, release authenticity, or framework compatibility.
  */
 export function compareR003Evidence(nativeJson, candidateJson) {
-  const baseline = validateFixture(nativeJson, 'native');
-  const candidate = validateFixture(candidateJson, 'candidate');
+  const baseline = validateFixture(nativeJson, "native");
+  const candidate = validateFixture(candidateJson, "candidate");
   if (baseline.agent !== candidate.agent) {
-    throw new Error('T0/T1 userAgent values differ; use the same browser build');
+    throw new Error("T0/T1 userAgent values differ; use the same browser build");
   }
   let differences = 0;
   let candidateFailures = 0;
@@ -83,7 +83,7 @@ export function compareR003Evidence(nativeJson, candidateJson) {
       const id = `${tag}-${weight}`;
       const before = baseline.rows.get(id);
       const after = candidate.rows.get(id);
-      for (const key of ['parent', 'parentFontSize', 'fontSize', 'fontFamily']) {
+      for (const key of ["parent", "parentFontSize", "fontSize", "fontFamily"]) {
         if (before[key] !== after[key]) {
           throw new Error(`${id}: T0/T1 ${key} differs; environments are not comparable`);
         }
@@ -93,20 +93,31 @@ export function compareR003Evidence(nativeJson, candidateJson) {
       const candidateMatches = after.computed === expectedCandidate;
       if (changed) differences += 1;
       if (!candidateMatches) candidateFailures += 1;
-      rows.push({ id, parentWeight: weight, nativeWeight: before.computed,
-        candidateWeight: after.computed, expectedCandidate, changed, candidateMatches });
+      rows.push({
+        id,
+        parentWeight: weight,
+        nativeWeight: before.computed,
+        candidateWeight: after.computed,
+        expectedCandidate,
+        changed,
+        candidateMatches,
+      });
     }
   }
   return {
     userAgent: baseline.agent,
-    status: candidateFailures ? 'CANDIDATE_MISMATCH' : differences ? 'COMPUTED_DIFFERENCE_OBSERVED' : 'NO_COMPUTED_DIFFERENCE',
+    status: candidateFailures
+      ? "CANDIDATE_MISMATCH"
+      : differences
+        ? "COMPUTED_DIFFERENCE_OBSERVED"
+        : "NO_COMPUTED_DIFFERENCE",
     candidateFailures,
     differences,
     rows,
     limitations: [
-      'Confirm the UA declaration origin in DevTools before calling a difference a browser defect.',
-      'A computed weight does not prove that a matching physical font face was rendered.',
-      'This does not verify target browser release authenticity or UI framework compatibility.',
+      "Confirm the UA declaration origin in DevTools before calling a difference a browser defect.",
+      "A computed weight does not prove that a matching physical font face was rendered.",
+      "This does not verify target browser release authenticity or UI framework compatibility.",
     ],
   };
 }
@@ -117,12 +128,15 @@ function readEvidence(path) {
 
 function main() {
   if (process.argv.length !== 4) {
-    console.error('Usage: node tests/r003-evidence.mjs <r003-native.json> <r003-candidate.json>');
+    console.error("Usage: node tests/r003-evidence.mjs <r003-native.json> <r003-candidate.json>");
     process.exitCode = 2;
     return;
   }
   try {
-    const report = compareR003Evidence(readEvidence(process.argv[2]), readEvidence(process.argv[3]));
+    const report = compareR003Evidence(
+      readEvidence(process.argv[2]),
+      readEvidence(process.argv[3]),
+    );
     console.log(JSON.stringify(report, null, 2));
     if (report.candidateFailures) process.exitCode = 1;
   } catch (error) {
