@@ -1,6 +1,6 @@
 # HARNESS — 执行、验证与反馈环境
 
-**当前状态：W-03 已在独立开发分支实现首批本地 Harness 资产**：`package.json`、`vite.config.ts`、R-003/R-004 Fixture、`tests/fixtures.test.ts` 与 Node 探针测试。维护者本机最新 `vp check`、Vitest 6/6、离线 Node 23/23 均通过（代码修复前）；当前容器未安装 Vite+，历史目标浏览器未测。无 CSS 发布产物或 CI。
+**当前状态：W-03 已在独立开发分支实现首批本地 Harness 资产**：`package.json`、`vite.config.ts`、R-003/R-004 Fixture、`tests/fixtures.test.ts` 与 Node 探针测试。维护者本机最新 `vp check`、Vitest 6/6、离线 Node 23/23 均通过，Windows `DEP0190` 在修复后未复现；Chrome 156 R-003 原始 JSON 比较已完成，历史目标浏览器未测。无 CSS 发布产物或 CI。
 
 **本机首次实测（2026-11-04）**：维护者在 Windows 上用 pnpm 11.24.0 安装了 Vite+ 1.4.0，`npm run test:offline` **22/22 PASS**，`npm exec -- vp test` **5/5 PASS**，`npm exec -- vp dev` 启动成功并访问四个 Fixture；`npm exec -- vp check` **FAIL**（当时报告 66 个文件格式问题）。Chrome 156 的 R-003 T0/T1 字重无差异；R-004 T1 声明效果不符合预期，待诊断。完整记录见 [首次本地运行](research/LOCAL_BROWSER_RUN_20261104.md)。上述结果**来自维护者提供的本地截图/终端日志**，不是本执行容器独立重跑。
 
@@ -9,6 +9,8 @@
 **本机第二轮实测（2026-11-04）**：维护者使用 `vp fmt --check` 和 `vp check` 重新检查，均因格式问题 **FAIL**（本轮输出列出 54 个第一方文件）；`npm run test:offline` **23/23 PASS**，`vp test` **6/6 PASS**。不能将 `vp test:offline` 视为存在的子命令；离线脚本使用 `npm run test:offline`。Windows 上 `DEP0190` 警告仍存在，已定位到 `tests/package-smoke.node.test.mjs` 的 `spawnSync` 配置，尚未修复。格式化后完整重验仍待执行；见 [最新本机执行记录](research/LOCAL_BROWSER_RUN_20261104.md)。
 
 **本机第三轮实测（2026-11-04，维护者提供）**：`vp check` **PASS**（54 个文件格式正确、11 个文件无 Lint 警告或错误）；`vp test` **6/6 PASS**；`npm run test:offline` **23/23 PASS**，但原测试代码在 Windows 仍发出 `DEP0190`。已在 `tests/package-smoke.node.test.mjs` 将 Windows npm 启动从 `npm.cmd` + `shell: true` 改为 `node.exe` 直接执行 npm JavaScript CLI，保留独立参数数组；**提交后的 Windows 回归尚未执行，不得声称警告消失**。独立 Linux Node 22 环境已验证同类无 shell npm CLI 调用可完成离线打包与安装，但不能替代真实 Windows 验证。
+
+**本机第四轮验证与真实 JSON 比较（2026-11-04）**：维护者在 Windows 上重新执行 `vp check`（54 文件格式/11 文件 Lint PASS）、`vp test`（6/6 PASS）、`npm run test:offline`（23/23 PASS），并单独运行合成 npm 包烟测（1/1 PASS）；两次 Node 测试均不再出现 `DEP0190`。维护者随后运行 R-003 原始 T0/T1 JSON 比较器，得到 `NO_COMPUTED_DIFFERENCE`、`differences: 0`、`candidateFailures: 0`；本次对话附件也已被独立解析核对。完整构建号和旧版浏览器矩阵仍未验证。详见[本机运行记录](research/LOCAL_BROWSER_RUN_20261104.md)。
 
 ## 1. Harness 目标
 
@@ -46,7 +48,7 @@ pnpm exec vp check
 pnpm exec vp check --no-fmt
 ```
 
-**当前验证边界**：维护者已修复第一方格式问题并提交，第三轮 `vp check` 完整通过（54 个格式文件、11 个 Lint 文件）；此结果来自修复 npm 子进程代码**之前**，代码修改仍须运行相同检查。第三方 Skills 继续保留原文，不扩大忽略范围。
+**当前验证边界**：维护者已修复第一方格式问题并提交，且在 Windows npm 子进程修复后重新执行完整本机检查，54 个格式文件、11 个 Lint 文件、6 项 Vitest 与 23 项离线 Node 均通过，未再出现 `DEP0190`。这仍不是旧版浏览器与实际发行包的兼容验收。第三方 Skills 保留原文，不扩大忽略范围。
 
 Vite+ 已根据 [ADR-0005](adr/0005-viteplus-toolchain.md) 选定为统一工具链；已在 `package.json` 固定开发依赖 1.4.0，`vite.config.ts` 配置测试。**本机 `vp check`（代码修改前）、`vp test`、`vp dev` 已验证可执行；本执行容器尚未安装 Vite+，`vp pack` 仍未验证**。
 
