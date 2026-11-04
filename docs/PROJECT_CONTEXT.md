@@ -137,6 +137,8 @@
 
 **2026-11-04 · W-06 UnoCSS Reset 两组构建实测回填**：维护者 Windows 实际运行 `npm run test:reset -- unocss-tailwind-v4 --keep` 和 `npm run test:reset -- unocss-tailwind-compat --keep`；两套彼此隔离的真实 tarball 消费者各自 `baseline`、`normalize-first`、`normalize-last` 三种 Vite+ 生产构建均成功，合计 **6/6 BUILD_PASS**，输出均显示 `hasLayer:false`。已记录每组产物字节数、SHA-256 及临时目录于 [W-06 Reset 实测指南](research/W06_RESET_LOCAL_VERIFICATION.md)。**本轮没有浏览器最终计算样式/交互证据、Tailwind Preflight 实跑日志或新离线全量测试日志**，F-010 尚未整体 PASS；未修改产品 CSS、CI、npm 发布或 main。
 
+**2026-11-04 · W-06 UnoCSS Chrome 156 静态结果**：维护者提供三份 `window.__aduiResetEvidence` JSON，均为 Chrome 156 / Windows NT UA，12 个相同元素各采集 14 项计算样式，三份逐项一致（本次审阅未发现差异）。暂按此前顺序归为 `unocss-tailwind-v4` 的 `baseline → normalize-first → normalize-last`；由于数据未含页面 URL、模式 ID 或 CSS 来源，该归类仍需由页面地址或资源证据确认。只记录 **静态计算样式零差异**，不得记为完整浏览器/交互 PASS；兼容组、Tailwind 与规则胜出来源待测。详见 [W-06 Reset 记录](research/W06_RESET_LOCAL_VERIFICATION.md)。产品 CSS 未改。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与待决策变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源
