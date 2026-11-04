@@ -129,7 +129,7 @@ strong {
 
 维护者已在 Windows 执行 `node tests/r003-evidence.mjs` 对 Firefox 121 两份 JSON 进行比较，终端返回 `NO_COMPUTED_DIFFERENCE`、`differences: 0`、`candidateFailures: 0`。助手独立读取两份原始附件，核对六组数据：父级 400 时 `b`、`strong` 的 T0/T1 均为 700；父级 600 和 700 时两页均为 900。T0/T1 的字体上下文完全一致，字体族为 `sans-serif`，字号 16px。原始文件 SHA-256 见[运行记录 §2.4](LOCAL_BROWSER_RUN_20261104.md)。
 
-**证据边界**：Firefox 121 的 UA 字符串与页面角色一致，真实计算样式结果符合旧 Gecko 源码预期；尚未提供 `about:support` 完整构建 ID、UA 规则获胜声明、真实字体渲染及 UI 组件库回归。R-003 是否加入产品默认 CSS 仍需单独准入评审；当前不实施。
+**证据边界**：Firefox 121 的 UA 字符串与页面角色一致，真实计算样式结果符合旧 Gecko 源码预期；已另行提供 `about:support` Build ID `20231211174248`（见[记录 §3.2.1](LOCAL_BROWSER_RUN_20261104.md)）；UA 规则获胜声明、真实字体渲染及 UI 组件库回归仍未验证。R-003 是否加入产品默认 CSS 仍需单独准入评审；当前不实施。
 
 ## 3. R-004 — `code` / `kbd` / `samp` / `pre` 等宽字体与字号
 
@@ -202,6 +202,14 @@ console.log(value);</pre>
 - T0 原生 `monospace` 与 T1（增加 `font-size: 1em`）的自身计算字号均为 **13px**。
 - T1b 相比 T1 只增加 `font-family: monospace, monospace`，四个元素的自身计算字号均为 **16px**，字体族报告为 `monospace, monospace`，探针与页面当前计算字号一致。
 - 该观察与独立等宽字体字号机制一致，但**不能代表用户设置效果、最低目标 Chrome/Edge 120、Firefox 121、Safari 17.2 或移动端行为**。未完成字体文件实际渲染/无障碍回归，也没有为 R-004 正式发布 CSS。
+
+### 3.5.1 Firefox 121 实测补充（2026-11-04）
+
+维护者在 Firefox 121.0 的三个现有 R-004 Fixture 分别读取探针 JSON：`code`、`kbd`、`samp`、`pre` 四元素在 T0/T1/T1b 的父级字号与自身字号均为 `16px`。T0/T1 的计算字体族为 `monospace`，T1b 的字体族为 `monospace, monospace`。这些数据来自维护者的 PowerShell 表格输出，**三份原始 JSON 未在本轮上传**，因此没有助手独立 JSON 校验。详见[本机运行记录 §3.2.1](LOCAL_BROWSER_RUN_20261104.md)。
+
+同时，维护者上传的 Firefox `about:support` 文件经独立核对为 **121.0 / Build ID 20231211174248 / release / Windows_NT 10.0 26200**；公开文档不纳入完整本机支持信息。该证据补齐 R-003 Firefox 的版本标识，但仍没有 CSS UA 获胜来源和用户自定义等宽字号偏好实测。
+
+**判断边界**：Firefox 121 本次默认配置下，重复字体族仅改变报告的 `fontFamily`，未改变计算字号；Chrome 156 的 T1b 曾从 13px 变为 16px。二者不构成统一字号策略安全的证明，不能按一次观测反推所有配置或实际字形。**R-004 默认不采纳的决策保持不变**。
 
 ### 3.6 暂定准入结论
 
