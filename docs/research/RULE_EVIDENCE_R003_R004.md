@@ -201,7 +201,7 @@ console.log(value);</pre>
 - `code` / `kbd` / `samp` / `pre` 的父级计算字号均为 `16px`。
 - T0 原生 `monospace` 与 T1（增加 `font-size: 1em`）的自身计算字号均为 **13px**。
 - T1b 相比 T1 只增加 `font-family: monospace, monospace`，四个元素的自身计算字号均为 **16px**，字体族报告为 `monospace, monospace`，探针与页面当前计算字号一致。
-- 该观察与独立等宽字体字号机制一致，但**不能代表用户设置效果、最低目标 Chrome/Edge 120、Firefox 121、Safari 17.2 或移动端行为**。未完成字体文件实际渲染/无障碍回归，也没有为 R-004 正式发布 CSS。
+- 该观察与独立等宽字体字号机制一致。后续已补 Chrome 120 和 Firefox 121 的实测（§3.5.1、§3.5.2）；**仍不能代表用户修改字体偏好、Edge 120、Safari 17.2 或移动端行为**。未完成字体文件实际渲染/无障碍回归，也没有为 R-004 正式发布 CSS。
 
 ### 3.5.1 Firefox 121 实测补充（2026-11-04）
 
@@ -210,6 +210,12 @@ console.log(value);</pre>
 同时，维护者上传的 Firefox `about:support` 文件经独立核对为 **121.0 / Build ID 20231211174248 / release / Windows_NT 10.0 26200**；公开文档不纳入完整本机支持信息。该证据补齐 R-003 Firefox 的版本标识，但仍没有 CSS UA 获胜来源和用户自定义等宽字号偏好实测。
 
 **判断边界**：Firefox 121 本次默认配置下，重复字体族仅改变报告的 `fontFamily`，未改变计算字号；Chrome 156 的 T1b 曾从 13px 变为 16px。二者不构成统一字号策略安全的证明，不能按一次观测反推所有配置或实际字形。**R-004 默认不采纳的决策保持不变**。
+
+### 3.5.2 Chrome 120 实测补充（2026-11-04）
+
+维护者在官方 Chrome for Testing 120.0.6099.109 / Windows 11、BWS 独立 Profile 中执行现有三个 R-004 Fixture。三页的四个元素 `code`、`kbd`、`samp`、`pre` 均测得父级字号 `16px`；T0/T1 的自身计算字号均为 `13px`、字体族为 `monospace`；T1b 自身计算字号为 `16px`、字体族为 `monospace, monospace`。结果来自维护者运行 PowerShell 读取 JSON 的终端输出；三份 Chrome 120 原始 JSON **未上传**，没有助手独立逐行解析或文件指纹。详见[本机记录 §3.2.2](LOCAL_BROWSER_RUN_20261104.md)。
+
+**跨版本对照**：Chrome 120、Chrome 156 的 T0/T1/T1b 均呈现 `13/13/16px`，Firefox 121 呈现 `16/16/16px`。该观察说明计算样式存在浏览器环境差异，不等同于用户主动设置等宽字号偏好后被覆盖的实测。尚未完成用户设置前后、真实字形、UA 获胜声明、Edge / Safari 或组件库回归。**默认不采纳 R-004 的决策不变**。
 
 ### 3.6 暂定准入结论
 
