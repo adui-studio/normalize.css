@@ -48,7 +48,6 @@ vp test            # Vitest 单元测试
 npm run test:offline
 npm run test:package  # vp pack 后，验证真实 npm tarball 与离线安装
 npm run test:consumer # vp pack 后，验证 Vite+ 生产消费者保留 CSS
-npm run test:webpack  # vp pack 后，独立验证 Webpack 5 的生产 CSS 保留
 ```
 
 本机已验证 Vite+ 1.4.0 的 `vp pack` 能直接以 CSS 作为唯一入口、输出一个样式文件（测试时约 200 字节、无 JS）。因此现在由 **`vp pack` 生成 npm 根导出的 `dist/normalize.css`**。原先把 CSS 作为 `vp build` 库入口会触发 `cssCodeSplit: false` 与 CSS input 冲突，已改成 **`vp build` 负责构建现有六张 Fixture HTML**，结果隔离在 `dist-fixtures/`，不进入 npm 包。修订后的两项命令均已在维护者 Windows Vite+ 1.4.0 环境实测通过。如需在本地 HTML 试用，可直接用 `<link rel="stylesheet" href="/dist/normalize.css">`（前提是你的静态服务器确实提供该 URL）。若从本地构建的 npm tarball 安装到支持 CSS 导入的构建工具，可测试 `import "@adui/normalize.css";`，其中 Vite+ 生产构建已经验证 CSS 保留，Webpack 5 以及浏览器页面实际生效仍未验收。**不执行 npm publish**。
@@ -81,9 +80,9 @@ node tests/r003-evidence.mjs r003-native.json r003-candidate.json
 
 输出会区分 `COMPUTED_DIFFERENCE_OBSERVED`、`NO_COMPUTED_DIFFERENCE` 与 `CANDIDATE_MISMATCH`，但**不会自动证明 UA 缺陷、具体发行版本或实际字体渲染**。见 [R-003/R-004 本地验证指南](docs/research/R003_R004_LOCAL_VERIFICATION.md)。
 
-**W-04 最新真实验证（2026-11-04）**：维护者在 Windows Vite+ 1.4.0 执行 `vp pack`，生成唯一 `dist/normalize.css`（约 200 字节）；`npm run test:package` **1/1 PASS**（真实 tarball、离线安装、根导出/私有子路径和文件白名单）；`npm run test:consumer` **1/1 PASS**（真实 tarball 安装至独立 Vite+ 生产消费者，CSS 副作用导入保留）。已有本地 `vp build` 六张 Fixture HTML、`vp test` 6/6 和 `npm run test:offline` 26/26 的实际输出。Webpack 5、Vite+ 开发态以及真实浏览器页面/组件库验收仍待完成；项目不发布 npm、不新增 CI。
+**W-04 最新真实验证（2026-11-04）**：维护者在 Windows Vite+ 1.4.0 执行 `vp pack`，生成唯一 `dist/normalize.css`（约 200 字节）；`npm run test:package` **1/1 PASS**（真实 tarball、离线安装、根导出/私有子路径和文件白名单）；`npm run test:consumer` **1/1 PASS**（真实 tarball 安装至独立 Vite+ 生产消费者，CSS 副作用导入保留）。已有本地 `vp build` 六张 Fixture HTML、`vp test` 6/6 和 `npm run test:offline` 26/26 的实际输出。Vite+ 开发态以及真实浏览器页面/组件库回归留给 W-06；Webpack 已取消首版必测要求。项目不发布 npm、不新增 CI。
 
-**W-04 Webpack 5 验证（待执行）**：已提供独立 `npm run test:webpack`，在 `vp pack` 后从真实 tarball 临时安装 CSS 包和**固定 `webpack@5.112.2`**，以 Webpack 原生 `experiments.css: true` 执行生产构建，检查打包后保留 R-003 字重声明。无需 `webpack-cli` / CSS loader，也**不修改项目根依赖和锁文件**；但此命令首次执行可能访问 npm registry 安装 Webpack，且**还未在 Windows 实跑**。它只检验原生 CSS 生产打包，不代表所有 Webpack loader 链或浏览器效果均已验证。[完整方案](docs/plans/CSS_PACKAGE_DELIVERY_REVIEW.md)。
+**W-04 包交付验收（开发分支范围）**：维护者确认只需 Vite+ 工具链。`vp pack` 唯一 CSS、`test:package` 真实包安装、`test:consumer` Vite+ 生产构建均已有实测 PASS；Webpack 专项测试已删除，不再作为阻塞。浏览器直接加载、开发态效果和组件库风险仍归 W-06；公开 npm 包仍须 W-07 单独批准。详见[W-04 当前验收口径](docs/plans/CSS_PACKAGE_DELIVERY_REVIEW.md)。
 
 ## Windows 换行符统一（LF）
 
@@ -144,7 +143,7 @@ pnpm exec vp check --no-fmt  # 仅隔离格式问题排查 lint，不等于完�
 | [开发准入清单](docs/research/REVIEW_GATE.md)                                  | 四份已接受 ADR 与剩余验证门槛                                                                     |
 | [MVP 实施计划](docs/plans/MVP_IMPLEMENTATION_PLAN.md)                         | W-01～W-07 的任务分解、依赖、测试与发布前验收                                                     |
 | [Vite+ 本地 Harness 设计](docs/plans/VITEPLUS_LOCAL_HARNESS_DESIGN.md)        | 本机 `vp test` / `vp dev` 已运行；`vp check` 格式失败，旧版实测未完成                             |
-| [纯 CSS npm 包交付研究](docs/plans/CSS_PACKAGE_DELIVERY_REVIEW.md)            | W-04 已部分落实文件白名单与 CSS 副作用元数据；根入口和消费端测试仍未实施                          |
+| [纯 CSS npm 包交付研究](docs/plans/CSS_PACKAGE_DELIVERY_REVIEW.md)            | W-04 已通过真实包安装、单一 CSS 导出和 Vite+ 生产消费端测试                          |
 | [浏览器矩阵](docs/research/BROWSER_REVIEW.md)                                 | 支持范围与测试策略草案                                                                            |
 | [竞品对照](docs/research/COMPETITOR_REVIEW.md)                                | 六类 Normalize/Reset 方案源码研究                                                                 |
 
