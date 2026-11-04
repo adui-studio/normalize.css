@@ -102,7 +102,7 @@ vp dev
 
 详细步骤见 [W-06 T2 验证说明](docs/research/W06_T2_LOCAL_VERIFICATION.md)。`dist-fixtures/` 仅供本地测试，绝不会进入只包含 `dist/` 的 npm 包。本轮不修改产品 CSS、不新增依赖或 CI。
 
-## W-06：Vue / React 组件库独立消费（脚本已实现，尚未实测）
+## W-06：Vue / React 组件库独立消费（Vue 静态回归已验证）
 
 继 Chrome 156 原生页面静态对照与部分交互人工验证通过后，已新增隔离的 Vue 3 + Element Plus、React + Ant Design 测试。使用本仓库 `vp pack` 的**真实 tarball**，由 Vite+ 1.4.0 分别构建 T0（不加载本库）与 T2（加载 `@adui/normalize.css`）；只在显式运行时向 Git 忽略的临时目录安装固定版本组件库，**不会增加正式项目依赖或发布文件**。
 
@@ -115,7 +115,7 @@ npm run test:ecosystem -- react-antd
 
 两项生态构建首次运行可能需要 npm 网络。构建成功**不等于 UI 实际渲染兼容通过**；如需保留临时对照项目供浏览器人工测试，添加 `--keep`。详细步骤见 [W-06 生态对照指南](docs/research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)。TDesign、UnoCSS Reset 与 Tailwind Preflight 仍待后续独立测试。
 
-**最新 Windows 实测（2026-11-04）**：Vue + Element Plus 与 React + Ant Design 两组真实 tarball 的 Vite+ 生产构建均已 PASS；Vue `--keep` 已保留临时 T0/T2 项目用于浏览器对照。原 `npm run test:offline` 为 29/30 PASS：`tests/package.node.test.mjs` 仍断言旧六项清单，遗漏新增的第七项生态契约。该断言现已修正，**修复后的完整离线回归还需重新执行**。生产构建通过不等于浏览器组件外观或交互 PASS。
+**最新 Windows 实测（2026-11-04）**：Vue + Element Plus 与 React + Ant Design 两组真实 tarball 的 Vite+ 生产构建均已 PASS；Vue `--keep` 已保留临时 T0/T2 项目用于浏览器对照。原 `npm run test:offline` 为 29/30 PASS：`tests/package.node.test.mjs` 仍断言旧六项清单，遗漏新增的第七项生态契约。该断言现已修正，**修复后的完整离线回归还需重新执行**。Vue + Element Plus 已在 Chrome 156 的 T0/T2 浏览器截图中确认 Button/Input 挂载正常、静态外观及五项计算样式一致，**静态 UI 对照 PASS**。两页的 Vue feature flags 警告和 favicon 404 相同，未发现可归因于 Normalize 的样式冲突。**Vue 交互及 React + Ant Design 浏览器对照仍未完成**；生产构建通过不自动等于键盘/输入兼容 PASS。
 
 ## Windows 换行符统一（LF）
 
