@@ -1,15 +1,16 @@
-# W-06 · Vue / React 实际生态消费对照
+# W-06 · Vue / React / TDesign 实际生态消费对照
 
-**状态（2026-11-04）**：维护者 Windows 实测 Vue+Element Plus、React+Ant Design **Vite+ 生产构建均 PASS**；随后提供 Chrome 156 的 Vue+Element Plus T0/T2 截图，确认组件已挂载且 5 个样式探针一致，记为**此环境静态 UI 对照 PASS（截图）**。React+Ant Design 也已提供 Chrome 156 的 T0/T2 截图：Button/Input 挂载正常、五项计算样式完全一致，故两组组件库的 **Chrome 156 静态 UI 对照均 PASS（截图）**。Vue/React 键盘与实际输入交互、其他浏览器及 TDesign/Reset 生态仍待测。新增离线契约 2/2 PASS，旧清单断言导致全套 29/30；该断言已修复，**修复后完整测试尚待本机重跑**。
+**状态（2026-11-04）**：维护者 Windows 最新 `npm run test:offline` 已实测 **30/30 PASS、0 FAIL**，确认此前旧清单断言错误已修复。Vue 3 + Element Plus、React + Ant Design 的真实 tarball Vite+ 生产构建以及 Chrome 156 T0/T2 静态 UI 对照均已 PASS（终端日志和截图），其组件完整键盘/输入交互与其他浏览器仍待验证。新增 **Vue 3 + TDesign Vue Next 1.20.10** 独立消费脚本，已核对生成 JavaScript 语法及 T0/T2 仅差 Normalize CSS 导入；**TDesign 实际安装、生产构建和浏览器 UI 仍 NOT_RUN**。本轮代码变更后的完整离线测试也尚待重新执行。
 
 ## 验证范围
 
-| 组合               | 固定版本                                 | 页面元素                              | 实际结果                                     |
-| ------------------ | ---------------------------------------- | ------------------------------------- | -------------------------------------------- |
-| Vue + Element Plus | Vue 3.5.44、Element Plus 2.14.7          | 原生 b/strong/code、ElButton、ElInput | 构建 PASS；Chrome 156 静态 UI PASS；交互未测 |
-| React + Ant Design | React/React DOM 19.3.1、Ant Design 6.6.8 | 原生 b/strong/code、Button、Input     | 构建 PASS；Chrome 156 静态 UI PASS；交互未测 |
+| 组合                   | 固定版本                                 | 页面元素                                 | 实际结果                                     |
+| ---------------------- | ---------------------------------------- | ---------------------------------------- | -------------------------------------------- |
+| Vue + Element Plus     | Vue 3.5.44、Element Plus 2.14.7          | 原生 b/strong/code、ElButton、ElInput    | 构建 PASS；Chrome 156 静态 UI PASS；交互未测 |
+| React + Ant Design     | React/React DOM 19.3.1、Ant Design 6.6.8 | 原生 b/strong/code、Button、Input        | 构建 PASS；Chrome 156 静态 UI PASS；交互未测 |
+| Vue + TDesign Vue Next | Vue 3.5.44、TDesign Vue Next 1.20.10     | 原生 b/strong/code、TDesign Button/Input | 构建 NOT_RUN；浏览器 NOT_RUN                 |
 
-版本仅用于**测试复现**，不是对用户项目的最低或最高兼容承诺。分别从官方 npm 公开包的稳定发布记录选取；不依赖 CDN，不使用未固定的 `latest`。TDesign / Tailwind Preflight / UnoCSS Reset 属 W-06 后续批次，不在本次宣布通过。
+版本仅用于**测试复现**，不是对用户项目的最低或最高兼容承诺。分别从官方 npm 公开包的稳定发布记录选取；不依赖 CDN，不使用未固定的 `latest`。TDesign 已加入本地生态消费脚本但仍未实际运行；Tailwind Preflight、UnoCSS Reset 仍属后续独立批次，均不得宣布兼容通过。
 
 ## 一、生产构建验证
 
@@ -23,6 +24,7 @@ npm run test:offline
 
 npm run test:ecosystem -- vue-element
 npm run test:ecosystem -- react-antd
+npm run test:ecosystem -- vue-tdesign
 ```
 
 `test:offline` 只运行**不联网的纯 Node 契约**，不会下载 Vue/React；`test:ecosystem` 是**明确手动触发**的网络/本地 npm cache 消费测试：
@@ -34,6 +36,14 @@ npm run test:ecosystem -- react-antd
 5. 默认测试结束清理临时目录；失败请保留终端日志。**这只验证构建/导入，不验证最终组件渲染或键盘交互**。
 
 如果 npm registry 不可用或 Vite+ 实际构建失败，记录完整报错并将案例标记 FAIL / BLOCKED，不将其视为浏览器兼容性失败。
+
+## 2026-11-04 · 离线 30/30 已复验，TDesign 进入测试准备
+
+维护者随后在 Windows 再次运行 `npm run test:offline`，终端明确显示 **30 tests / 30 pass / 0 fail / 0 skip**，耗时 1101.97ms；这确认此前 `tests/package.node.test.mjs` 旧清单断言问题已解决。以下较早的 29/30 和“修复后待运行”段落保留为**当时的故障历史**，不代表最新状态。
+
+基于原有 `ecosystemCases`，本轮新增 `vue-tdesign`，锁定 `vue@3.5.44` + `tdesign-vue-next@1.20.10`，采用官方样式路径 `tdesign-vue-next/es/style/index.css`，仅把 TDesign Button/Input 接入现有 Vue `h()` 页面。来源：[TDesign Vue Next 官方 npm 包](https://www.npmjs.com/package/tdesign-vue-next)与[官方仓库](https://github.com/Tencent/tdesign-vue-next)。现有 Vite+、临时消费者、真实 npm tarball 以及 T0/T2 生成逻辑均复用，**没有新增根依赖、JS 运行时和 CI**。
+
+**本次已做的检查**：读取 GitHub 最新文件，解析三份 JS 源码及三个生成的生态入口；T0/T2 JS 除 `import "@adui/normalize.css"` 外完全相同，`.t-button` / `.t-input` 选择器和固定版本已经纳入离线契约。由于执行容器无法连通 GitHub，**未执行新代码的真实 Node/Vite+ 运行**；新增 TDesign 场景仅为开发完成、真实构建和浏览器待测。之前的 30/30 PASS 只属于修改 TDesign 测试之前的代码版本。
 
 ## 2026-11-04 · Windows 实际命令记录
 
