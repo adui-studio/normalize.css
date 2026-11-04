@@ -67,7 +67,9 @@ function main() {
     !Object.hasOwn(ecosystemCases, caseNames[0]) ||
     args.some((arg) => arg.startsWith("--") && arg !== "--keep")
   ) {
-    throw new Error("Usage: npm run test:ecosystem -- <vue-element|vue-tdesign|react-antd> [--keep]");
+    throw new Error(
+      "Usage: npm run test:ecosystem -- <vue-element|vue-tdesign|react-antd> [--keep]",
+    );
   }
 
   const caseName = caseNames[0];
