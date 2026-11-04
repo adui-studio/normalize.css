@@ -111,6 +111,8 @@ R-003 已因首版最低目标包含旧版 Blink/WebKit 而列为**优先必测�
 
 **W-06 生态构建本机实测（2026-11-04）**：维护者运行 `npm run test:ecosystem -- vue-element`、`-- react-antd`，真实 CSS tarball 的 Vite+ 双消费者**生产构建均 PASS**（Vue T0/T2 CSS 360171/360362 字节，React T0/T2 0/192 字节）；`vue-element --keep` 再次 PASS，保留本地临时消费项目。`npm run test:offline` 同轮 **29/30 PASS、1 FAIL**，原因是 `tests/package.node.test.mjs` 对 `test:offline` 旧六项脚本清单做全等断言，新增第七项生态离线契约后未同步；现已修正该断言，**最新离线结果仍待本机重跑**。浏览器 UI 组件实际呈现与键盘交互尚未验证，F-009 生态兼容只确认生产构建子项 PASS，W-06 #7 保持 Open。见[本机生态验证记录](../research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)。
 
+**W-06 Vue + Element Plus 浏览器对照（2026-11-04）**：维护者提供 Chrome 156 在 `localhost:5174`（T0）和 `localhost:5175`（T2）的页面/DevTools 截图。Element Plus Button/Input 均挂载且静态外观一致，五组 R-003/R-004 代表性计算样式完全一致（b/strong 父级 600/700 计算字重 `900`，code `13px`）。在既有真实 npm tarball 生产构建通过的基础上，**Vue 3.5.44 + Element Plus 2.14.7 的 Chrome 156 静态 UI 对照 PASS（截图）**；组件键盘/输入交互、React+Ant Design 浏览器对照和其他浏览器仍待验收。双方共有的 Vue feature flags 警告及 favicon 404 不当作 Normalize 样式冲突。W-06 #7 保持 Open；修复后的 `test:offline` 全套回归仍待本机重跑。[证据](../research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)。
+
 ## 7. GitHub Issue 跟踪
 
 已基于仓库原版 [github-issues Skill](../../.agents/skills/github-issues/SKILL.md) 创建以下正式任务，全部为 Open / 未实施；Issue 在 GitHub 仓库可见，而本计划和 Issue/PR 模板仍位于 Draft PR #1 分支。
