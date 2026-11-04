@@ -1,7 +1,7 @@
 # W-06 · Tailwind Preflight 与 UnoCSS Reset 独立回归
 
 **更新日期**：2026-11-04  
-**状态**：维护者已在 Windows 实测 UnoCSS Reset `tailwind-v4` 与 `tailwind-compat` 两个隔离场景的真实 tarball + Vite+ 三模式生产构建，**各 3/3 BUILD_PASS，共 6/6**；**UnoCSS tailwind-v4 与 tailwind-compat 两个独立场景均已取得 Chrome 156 三模式静态计算样式：每组 12 元素 × 14 属性，正反引入顺序相对自身 baseline 均零差异；各组三页的 Vite CSS 来源已核对。Tailwind Preflight 独立场景也已收到 Chrome 156 三模式静态计算样式，168 项属性相对本组 Baseline 均零差异；其真实 Vite+ 构建 3/3 PASS。Tailwind 场景的 `b#bold` 在 Chrome 156 两种顺序下的 CSS Cascade 胜出声明已由 DevTools 截图确认，其他 CSS 属性/交互及跨浏览器验证仍未完成**，F-010 仍是部分完成，不能记整体 PASS。下文既有“待执行”步骤保留用于复现，实际结果以新增记录为准。
+**状态**：维护者已在 Windows 实测 UnoCSS Reset `tailwind-v4` 与 `tailwind-compat` 两个隔离场景的真实 tarball + Vite+ 三模式生产构建，**各 3/3 BUILD_PASS，共 6/6**；**UnoCSS tailwind-v4 与 tailwind-compat 两个独立场景均已取得 Chrome 156 三模式静态计算样式：每组 12 元素 × 14 属性，正反引入顺序相对自身 baseline 均零差异；各组三页的 Vite CSS 来源已核对。Tailwind Preflight 独立场景也已收到 Chrome 156 三模式静态计算样式，168 项属性相对本组 Baseline 均零差异；其真实 Vite+ 构建 3/3 PASS。Tailwind 场景的 `b#bold` CSS Cascade 胜出声明已由 DevTools 截图确认；三个模式的按钮、输入、Details、Dialog 和焦点已取得可信 Chrome 156 交互日志，`until-found` 查找揭示与跨浏览器验证仍待确认**，F-010 仍是部分完成，不能记整体 PASS。下文既有“待执行”步骤保留用于复现，实际结果以新增记录为准。
 
 **前置**：维护者在本轮对话中确认 TDesign 对照已完成；其具体浏览器、日志、截图、结果尚未同步到 W-06 记录。以下任务直接推进 F-010，**不要求重复 TDesign**。
 
@@ -277,6 +277,26 @@ typeof window.__aduiF010
 | 跨引擎、系统偏好 | Firefox、WebKit、最低目标版本和系统强制色/减少动效 | NOT_RUN |
 
 此代码为 DevTools 手动取证工具，**不是自动化测试结果或交互质量结论**。事件有时会因开发者工具焦点、浏览器默认行为或元素当前状态而缺失；要记录阻塞而非凭空填 PASS。CSS 只含 R-003，若观察到差异先比对同一 Reset 的 Baseline，不能把不同 Reset 的默认视觉差异归咎本库。所有手动测试依然不能替代未来真实跨浏览器回归；**不增 CI，不发布或合并 main**。
+
+## 2026-11-04 · Tailwind Preflight 三模式原生交互日志已核对（Chrome 156）
+
+维护者依次提供三份 `window.__aduiF010.report()`，其中 `normalize-last` 后续**补发最新日志**（替代其首次不含点击和输入事件的记录）。最终三份均为同一 Chrome/156.0.0.0 UA，CSS 来源分别命中 `adui-reset-JQcSHX/baseline/style.css`、`normalize-first/style.css`、`normalize-last/style.css`，对应 `localhost:5180/5181/5182/`；日志来源和模式关系已确认。
+
+| 检查项 | Baseline 5180 | Normalize First 5181 | Normalize Last 5182（最新日志） |
+| --- | --- | --- | --- |
+| Button 点击 | 有 `button-click`，`trusted:true` | 有 `button-click`，`trusted:true` | **补齐 3 次** `button-click`，均 `trusted:true` |
+| Input 输入 | 有可信 `input`，最终长度 9 | 有可信 `input`，最终长度 9 | **补齐**可信 `input` 长度 1 至 9，最终长度 9 |
+| `details` | 可信事件包含 `open:false` 和 `open:true`，最终 true | 可信事件包含 true 和 false，最终 true | 可信事件包含 true 和 false，最终 false |
+| `dialog` Esc 取消与关闭 | `dialog-cancel`、`dialog-close` 可信；最终关闭 | 同左 | 同左 |
+| 焦点 | button/input/summary 均有 `focusVisible:true` 与 `outlineStyle:auto`、`outlineWidth:1px` | 同左 | 同左 |
+| 普通 `hidden` | `display:none` | `display:none` | `display:none` |
+| `hidden="until-found"` 查找揭示 | 无 `beforematch`，属性仍 `until-found` | 同左 | 同左 |
+
+**范围内结果**：Chrome 156 的 Tailwind Preflight 三个模式均已取得可信 Button/Input/Details/Dialog 事件、可见焦点及普通 hidden 状态证据；**没有发现当前测试中 Normalize 引入顺序导致的上述行为差异**。需注意 `focusVisible:false` 亦出现在真实鼠标聚焦时，不能自动判断焦点功能损坏。三个页面 `detailsOpen` 末态不同但所有模式均有双向 toggle，不是 CSS 回归。
+
+**尚未通过的独立子项**：`until-found` 的浏览器查找揭示**未取得成功证据**；三个报告均未出现 `beforematch`，且 `untilFoundAttribute` 均保留 `"until-found"`。这只说明当前日志没有确认揭示行为，既不是 PASS，也不足以指认 Normalize 缺陷。后续应刷新页面重新初始化采集器，先单击页面把焦点移出 DevTools，然后使用**浏览器页面的 Ctrl+F** 搜索 `查找时显示`，实际查看内容是否揭示及后续 `beforematch` 和属性值，记录搜索行为与时间点。也可以单独采集 DevTools Console 中的 `document.getElementById("until-found").getAttribute("hidden")`，注意别用 `display:block` 冒充已揭示。
+
+**证据边界**：这是维护者 Chrome 156 人工操作日志，不是 Firefox/WebKit/最低目标版本或复杂表单的测试结果；`trusted:true` 支持真实浏览器分发事件，但当前采集器未记录具体键值，不能逐项证明完整键盘路径。F-010 / W-06 仍为部分完成，正式 `src/normalize.css` 不需要修改，禁止新增 CI/发布。
 
 ## 1. 测试边界与版本
 
