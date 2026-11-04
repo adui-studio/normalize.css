@@ -1,6 +1,6 @@
 # HARNESS — 执行、验证与反馈环境
 
-**当前状态：W-03 已在独立开发分支实现首批本地 Harness 资产**：`package.json`、`vite.config.ts`、R-003/R-004 Fixture、`tests/fixtures.test.ts` 与 Node 探针测试。维护者本机最新 `vp check`、Vitest 6/6、离线 Node 23/23 均通过，Windows `DEP0190` 在修复后未复现；Chrome 156 R-003 原始 JSON 比较已完成，历史目标浏览器未测。无 CSS 发布产物或 CI。
+**当前状态：W-03 已在独立开发分支实现首批本地 Harness 资产**：`package.json`、`vite.config.ts`、R-003/R-004 Fixture、`tests/fixtures.test.ts` 与 Node 探针测试。维护者本机最新 `vp check`、Vitest 6/6、离线 Node 23/23 均通过，Windows `DEP0190` 在修复后未复现；R-003 已有 Chrome 156 / Firefox 121 零差异与 Chrome 120 四组差异的 T0/T1 对照；Edge 120、Safari 17.2 及移动端未测。无 CSS 发布产物或 CI。
 
 **本机首次实测（2026-11-04）**：维护者在 Windows 上用 pnpm 11.24.0 安装了 Vite+ 1.4.0，`npm run test:offline` **22/22 PASS**，`npm exec -- vp test` **5/5 PASS**，`npm exec -- vp dev` 启动成功并访问四个 Fixture；`npm exec -- vp check` **FAIL**（当时报告 66 个文件格式问题）。Chrome 156 的 R-003 T0/T1 字重无差异；R-004 T1 声明效果不符合预期，待诊断。完整记录见 [首次本地运行](research/LOCAL_BROWSER_RUN_20261104.md)。上述结果**来自维护者提供的本地截图/终端日志**，不是本执行容器独立重跑。
 
@@ -13,6 +13,8 @@
 **本机第四轮验证与真实 JSON 比较（2026-11-04）**：维护者在 Windows 上重新执行 `vp check`（54 文件格式/11 文件 Lint PASS）、`vp test`（6/6 PASS）、`npm run test:offline`（23/23 PASS），并单独运行合成 npm 包烟测（1/1 PASS）；两次 Node 测试均不再出现 `DEP0190`。维护者随后运行 R-003 原始 T0/T1 JSON 比较器，得到 `NO_COMPUTED_DIFFERENCE`、`differences: 0`、`candidateFailures: 0`；本次对话附件也已被独立解析核对。完整构建号和旧版浏览器矩阵仍未验证。详见[本机运行记录](research/LOCAL_BROWSER_RUN_20261104.md)。
 
 **R-003 Chrome 120 独立复核（2026-11-04）**：维护者已上传官方 Chrome for Testing 120.0.6099.109 / Windows 11 的 T0/T1 JSON，六组中有四组从计算字重 700 变为 900。助手使用当前仓库比较器内容的独立临时副本，在 Linux Node 22.16.0 实际运行得到 `COMPUTED_DIFFERENCE_OBSERVED`、`differences: 4`、`candidateFailures: 0`、退出码 0；这不是 Windows 本机的 CLI 执行，也不等于 Chrome 120 以外浏览器已验证。Firefox 121 的独立 Profile 测试流程已列入[验证指南](research/R003_R004_LOCAL_VERIFICATION.md)，尚未执行。
+
+**R-003 Firefox 121 实测（2026-11-04）**：维护者在 Windows Firefox 121 真实页面中导出 T0/T1 JSON 并执行仓库 CLI，得到 `NO_COMPUTED_DIFFERENCE`、`differences: 0`、`candidateFailures: 0`。本次上传的原始两份 JSON 已独立解析，六组测量值与字体上下文一致；此为 Gecko 121 单环境计算样式证据，非 UA 声明来源、实际字体渲染、精确构建 ID 或完整发布兼容性证明。见[本机记录 §2.4](research/LOCAL_BROWSER_RUN_20261104.md)。
 
 ## 1. Harness 目标
 
