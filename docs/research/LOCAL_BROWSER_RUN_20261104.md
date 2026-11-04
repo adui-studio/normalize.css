@@ -1,7 +1,7 @@
 # R-003 / R-004 · 首次本地 Vite+ 与 Chrome 156 验证记录
 
 - **记录日期**：2026-11-04
-- **证据来源**：维护者提供的四张本地 Fixture 截图，以及 pnpm、Node 测试、Vite+ 命令的终端原始输出。**本记录对用户提供的观察进行复核和转录，并非助手独立运行其 Windows 浏览器**。
+- **证据来源**：维护者提供的本地 Fixture 截图、终端原始输出，以及后续 R-003 T0/T1 原始 JSON。**本记录核对维护者提供的证据，并非助手独立运行其 Windows 浏览器**。
 - **关联**：[W-02 / Issue #3](https://github.com/adui-studio/normalize.css/issues/3)、[W-03 / Issue #4](https://github.com/adui-studio/normalize.css/issues/4)、[验证指南](R003_R004_LOCAL_VERIFICATION.md)
 - **测试场景**：开发分支 `feat/viteplus-local-harness`，Vite+ 1.4.0，本地服务 `http://localhost:5173/`，Chrome UA 所示 `Chrome/156.0.0.0`、`Windows NT 10.0; Win64; x64`。
 - **重要限制**：UA 中的 `Windows NT 10.0` 不足以区分 Windows 10 与 Windows 11；`Chrome/156.0.0.0` 是简化 UA，**不是完整发行构建号**，需要使用 `chrome://version` 补充。未检查 DevTools UA 获胜声明和原始文件的完整性。原始截图未纳入仓库。
@@ -28,9 +28,24 @@
 | `600`              | `900`       | `900`            | `900`       | `900`            |
 | `700`              | `900`       | `900`            | `900`       | `900`            |
 
-两页均显示 `font-size: 16px`、`font-family: "Noto Sans SC"`，简化 UA 相同。**六组计算字重均无差异**。人工对照符合 `NO_COMPUTED_DIFFERENCE` 的数字条件，但**尚未从原始 JSON 文件运行 `tests/r003-evidence.mjs`**，故不得登记为自动比较器执行通过。
+两页均显示 `font-size: 16px`、`font-family: "Noto Sans SC"`，简化 UA 相同。**六组计算字重均无差异**。以上为最初截图观察；后续维护者已提交原始 JSON 并实际运行比较器，见下节。
 
 推论：在该台机器的 Chrome 156 下，没有证据证明 `b, strong { font-weight: bolder; }` 能改变默认计算结果。**不将其加入正式 Normalize CSS**；旧 Chrome、Firefox、Safari 仍需另行取证。
+
+### 2.1 原始 JSON 自动比较复核（2026-11-04）
+
+维护者在 Windows 的 Chrome 156 Fixture 中，分别从 `/fixtures/r003-native.html` 和 `/fixtures/r003-candidate.html` 导出 `r003-native.json`、`r003-candidate.json`，并运行 `node tests/r003-evidence.mjs $native $candidate`。**维护者终端实际返回**：
+
+- `status: "NO_COMPUTED_DIFFERENCE"`，`differences: 0`，`candidateFailures: 0`；六行 `candidateMatches` 均为 `true`。
+- 父级 `400` 时 `b`、`strong` 在 T0/T1 均为 `700`；父级 `600`、`700` 时均为 `900`。
+- T0/T1 的 UA 字符串一致，六组 ID、父级计算字重、`16px` 字号与 `"Noto Sans SC"` 字体族上下文一致。
+
+助手对维护者上传的**两份原始 JSON 附件**完成独立解析与逐行数值复核，结果同样为零差异；**没有**在维护者 Windows 浏览器内重新运行。附件保留在本次对话，不向公开仓库提交原始环境数据。上传附件 SHA-256（仅用于识别这一份证据文件）：
+
+- `r003-native.json`：`5760e2d712c7f52622d7483c9f75e1cd2cb7189e131512ac1679679113ea322d`
+- `r003-candidate.json`：`8c89facf37e8cc987a19b3ccb34638a18384bf7c634f962d8517b089aec4f97e`
+
+**局部结论**：当前 Chrome 156 运行环境中，`b, strong { font-weight: bolder; }` 没有改变上述六组计算值；这不说明所有浏览器均不需要修复。UA 只给出简化的 `Chrome/156.0.0.0`，完整构建号、DevTools 获胜 UA 声明、真实字形渲染、Chrome/Edge 120、Firefox 121、Safari 17.2 与移动版本仍需独立验证。R-003 保持**条件性候选／未准入默认 CSS**。
 
 ## 3. R-004：T1 有候选声明，但截图计算值没有变化（待诊断）
 
