@@ -96,7 +96,7 @@ vp test
 vp dev
 ```
 
-访问 [T0 原生](http://localhost:5173/fixtures/t2-native.html) 和 [T2 实际 CSS](http://localhost:5173/fixtures/t2-package.html)。两页具有相同的被测内容，T2 **只多一个** `../dist/normalize.css` 样式链接，探针会报告 `packageStylesheet.loaded`；若为 `false` 则不能据此判定规则无差异。新增页面保留 R-003 字重、R-004 等宽字体及少量原生控件观察点，**暂未取得真实 T2 浏览器测试结果**；后续开发态、组件库和无障碍回归继续归 W-06 #7。
+访问 [T0 原生](http://localhost:5173/fixtures/t2-native.html) 和 [T2 实际 CSS](http://localhost:5173/fixtures/t2-package.html)。两页具有相同的被测内容，T2 **只多一个** `../dist/normalize.css` 样式链接，探针会报告 `packageStylesheet.loaded`；若为 `false` 则不能据此判定规则无差异。新增页面保留 R-003 字重、R-004 等宽字体以及原生表单、details、dialog、hidden 等观察点，**维护者已反馈首批 T2 本地验证通过**，但未提供逐浏览器 JSON/版本记录；新增加的原生表单、dialog、键盘焦点和隐藏元素交互检查仍待执行，不能因此推定组件库或无障碍兼容性通过。后续回归继续归 W-06 #7。
 
 详细步骤见 [W-06 T2 验证说明](docs/research/W06_T2_LOCAL_VERIFICATION.md)。`dist-fixtures/` 仅供本地测试，绝不会进入只包含 `dist/` 的 npm 包。本轮不修改产品 CSS、不新增依赖或 CI。
 
