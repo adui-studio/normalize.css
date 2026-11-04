@@ -100,6 +100,14 @@ W-03 的 T0/T1 只验证浏览器原生值与孤立候选规则；W-04 已证明
 
 本阶段只开发本地可复现实验，不新增产品 CSS、UI 框架依赖、浏览器自动化提供者或 CI；通过 Node/Vitest 的静态契约不等于任何浏览器 T2 真正通过。见[W-06 T2 本地验证说明](research/W06_T2_LOCAL_VERIFICATION.md)。
 
+### 2.9 W-06 第二批：原生交互观察点（2026-11-04）
+
+维护者反馈前一轮 T2 本地验证**通过**，但未提供浏览器版本、逐项控制台 JSON、键盘操作录屏或截图；因此可记录为“维护者报告 T2 基础回归通过”，**不能标记 F-001～F-010 全矩阵 PASS**，也不外推到 Safari、Edge 或移动端。
+
+第二批仍只扩展现有 `t2-native.html` 与 `t2-package.html` 两页，维持两页 **body 完全一致、T2 唯一新增实际 CSS link** 的隔离契约。添加原生 `select`、`textarea`、`checkbox`、`fieldset`、`dialog` 作为 F-004/F-005 观察点，复用既有 `button`、`input[type=search]`、`details/summary` 和 `hidden` 作为 F-003/F-006/F-007 观察点。通过原生 `dialog.showModal()`、`<form method="dialog">`、键盘 Tab/Esc、页面查找等手工操作确认行为；不添加交互模拟脚本、CSS 覆盖、依赖或 CI。
+
+此阶段只提供可复现**操作和证据采集入口**。用户反馈的上一轮 T2 通过不能自动成为这些新交互项目的 PASS；按浏览器/系统/功能逐项记录 PASS、FAIL、NOT_RUN。[W-06 验证说明](research/W06_T2_LOCAL_VERIFICATION.md)持续维护具体操作。
+
 ## 3. CSS 规则准入流程（拟议）
 
 1. **问题**：列出浏览器/版本、HTML Fixture、原生样式偏差及用户可见问题。
