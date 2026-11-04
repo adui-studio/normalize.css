@@ -4,8 +4,8 @@
 
 ## 验证范围
 
-| 组合               | 固定版本                                 | 页面元素                              | 实际结果 |
-| ------------------ | ---------------------------------------- | ------------------------------------- | -------- |
+| 组合               | 固定版本                                 | 页面元素                              | 实际结果              |
+| ------------------ | ---------------------------------------- | ------------------------------------- | --------------------- |
 | Vue + Element Plus | Vue 3.5.44、Element Plus 2.14.7          | 原生 b/strong/code、ElButton、ElInput | 构建 PASS；UI NOT_RUN |
 | React + Ant Design | React/React DOM 19.3.1、Ant Design 6.6.8 | 原生 b/strong/code、Button、Input     | 构建 PASS；UI NOT_RUN |
 
@@ -39,12 +39,12 @@ npm run test:ecosystem -- react-antd
 
 维护者提供真实 PowerShell 输出，已确认：
 
-| 命令 / 场景 | 结果 | 说明 |
-| --- | --- | --- |
-| `npm run test:offline`（修复前） | **29/30 PASS，1 FAIL** | 新增 `ecosystem-contract.node.test.mjs` 后，旧测试 `tests/package.node.test.mjs:95` 对 `scripts["test:offline"]` 做旧清单**严格全等**比较；实际七项文件清单已正确运行，新契约测试 2/2 PASS |
-| `npm run test:ecosystem -- vue-element` | **PASS** | T0 CSS **360171** 字节；T2 CSS **360362** 字节；真实包成功导入 Vite+ 生产构建 |
-| `npm run test:ecosystem -- react-antd` | **PASS** | T0 静态 CSS **0** 字节；T2 静态 CSS **192** 字节；真实包成功导入 Vite+ 生产构建。Ant Design CSS-in-JS 可能在浏览器运行时注入样式，0 字节不等于无组件样式 |
-| `npm run test:ecosystem -- vue-element --keep` | **PASS** | 两份生产构建再次成功；隔离消费者目录保留用于后续真实浏览器对照 |
+| 命令 / 场景                                    | 结果                   | 说明                                                                                                                                                                                       |
+| ---------------------------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `npm run test:offline`（修复前）               | **29/30 PASS，1 FAIL** | 新增 `ecosystem-contract.node.test.mjs` 后，旧测试 `tests/package.node.test.mjs:95` 对 `scripts["test:offline"]` 做旧清单**严格全等**比较；实际七项文件清单已正确运行，新契约测试 2/2 PASS |
+| `npm run test:ecosystem -- vue-element`        | **PASS**               | T0 CSS **360171** 字节；T2 CSS **360362** 字节；真实包成功导入 Vite+ 生产构建                                                                                                              |
+| `npm run test:ecosystem -- react-antd`         | **PASS**               | T0 静态 CSS **0** 字节；T2 静态 CSS **192** 字节；真实包成功导入 Vite+ 生产构建。Ant Design CSS-in-JS 可能在浏览器运行时注入样式，0 字节不等于无组件样式                                   |
+| `npm run test:ecosystem -- vue-element --keep` | **PASS**               | 两份生产构建再次成功；隔离消费者目录保留用于后续真实浏览器对照                                                                                                                             |
 
 **已实施的最小修复**：仅将 `tests/package.node.test.mjs` 中的 `test:offline` 预期字符串更新为与 `package.json` 一致的七项清单；不改变运行命令、产品 CSS、依赖或生态构建逻辑。**修复后 30/30 尚未在维护者环境执行**，不得推断通过。
 
