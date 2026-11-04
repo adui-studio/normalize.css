@@ -1,6 +1,6 @@
 # W-06 · Vue / React 实际生态消费对照
 
-**状态（2026-11-04）**：维护者 Windows 实测两种真实 npm 包生态消费者的 **Vite+ 生产构建均 PASS**；浏览器 UI、CSS 计算值与键盘交互尚未验证。新增离线契约 2/2 PASS，但原有 `tests/package.node.test.mjs` 因精确匹配旧六项脚本而失败，本轮已同步断言，**修改后的全套离线测试仍待本机重跑**。不能将构建 PASS 直接扩大为 UI 兼容 PASS。
+**状态（2026-11-04）**：维护者 Windows 实测 Vue+Element Plus、React+Ant Design **Vite+ 生产构建均 PASS**；随后提供 Chrome 156 的 Vue+Element Plus T0/T2 截图，确认组件已挂载且 5 个样式探针一致，记为**此环境静态 UI 对照 PASS（截图）**。React 浏览器、Vue 键盘交互及其他浏览器仍待测。新增离线契约 2/2 PASS，旧清单断言导致全套 29/30；该断言已修复，**修复后完整测试尚待本机重跑**。
 
 ## 验证范围
 
@@ -55,6 +55,17 @@ D:\Workspace\adui-studio\normalize.css\node_modules\.cache\adui-ecosystem-tLDzuZ
 ```
 
 以上路径来自维护者终端，不作为永久路径或重新运行的固定名称。后续浏览器 T0/T2 仍应检查组件是否挂载、外观、焦点与 R-003 计算字重；`F-009` 生态完整回归保持部分完成，Issue #7 Open。
+
+## 2026-11-04 · Vue + Element Plus / Chrome 156 截图对照
+
+维护者提供两张页面及 DevTools Console 截图：`http://localhost:5174/` 为 T0 原生组，`http://localhost:5175/` 为 T2 CSS 包组。截图证据不包含键盘交互日志。可核实：
+
+- 两页 `ui.buttonMounted: true`、`ui.inputMounted: true`；Element Plus 按钮、输入框均可见，静态外观一致。
+- 两页五个计算样式行完全一致：`b-600`、`strong-600`、`b-700`、`strong-700` 的 `fontWeight` 均为 `"900"`、`fontSize` 均为 `"16px"`、`fontFamily` 均为 `"Noto Sans SC"`；`code` 的 `fontWeight` 为 `"400"`、`fontSize` 为 `"13px"`、`fontFamily` 为 `"monospace"`。
+- Console UA 包含 `Chrome/156.0.0.0`、`Windows NT 10.0; Win64; x64`，但 UA 不能单独确认 Windows 实际发行版。
+- 两页均存在 Vue esm-bundler feature flags 未显式注入的警告，以及本地 `favicon.ico` 404。它们是共同出现的测试环境提示，不构成 Normalize 样式冲突证据；本次不增加产品 CSS、依赖或构建配置来清理这些非阻塞提示。
+
+**判定**：结合已通过的真实 tarball 生产构建，可将 **Vue 3.5.44 + Element Plus 2.14.7 在 Chrome 156 的 T0/T2 静态渲染和五项计算样式对照**记为 **PASS（截图）**。**未验证** Vue 键盘焦点、实际输入交互，React+Ant Design 的浏览器对照，以及 Edge、Firefox、Safari 和移动端的完整生态回归。W-06 F-009 继续部分完成，Issue #7 保持 Open。修复后的 `npm run test:offline` 完整重跑仍待维护者结果。
 
 ## 二、真实浏览器 T0/T2 对照
 
