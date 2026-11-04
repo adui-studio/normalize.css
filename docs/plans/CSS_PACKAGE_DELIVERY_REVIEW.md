@@ -135,6 +135,21 @@
 
 下一步维护者只需 `vp check`、`vp build`、`vp pack`、`npm run test:offline`（需要时再执行 `vp test`）；观察 `dist-fixtures/` 的六个 HTML 与 `dist/` 唯一 CSS。真正 npm tarball 与 Vite+/Webpack 消费端仍需独立验证，当前不发布。
 
+## 7.4 真实 CSS tarball 离线消费检查（2026-11-04，脚本已提交／Windows 待执行）
+
+维护者已在 Windows Vite+ 1.4.0 运行修订后的 `vp build`：成功生成 6 张 HTML Fixture 和 1 个本地探针 JS 至 `dist-fixtures/`；`vp pack`：`dist/normalize.css` **单个 200 字节 CSS 文件**，无 JS；`npm run test:offline`：**26/26 PASS**。这一轮证明 Vite+ 产物结构正确，但独立消费者尚未安装**真实** tarball。
+
+已新增 `tests/package-real.node.test.mjs` 和**独立**脚本 `npm run test:package`（必须先 `vp pack`）：
+
+- **P-01 / P-07**：使用当前仓库的 `dist/normalize.css`、`package.json`、`LICENSE` 和 `README.md`，在系统临时目录执行 `npm pack --offline --ignore-scripts`；检查 tarball 清单仅包含批准的 CSS、元数据和 README/LICENSE（可含英文 README），无测试、源码、JS 包装或 Fixture。
+- **P-06 / P-09**：将该真实 tarball 离线安装至单独的系统临时消费目录，核对 `require.resolve("@adui/normalize.css")` 指向真实 CSS 且字节一致；拒绝 `reset.css`、`forms.css`、`a11y.css`、`all.css`、`dist/normalize.css`、`package.json` 等未公开子路径，并校验 `sideEffects` 与零运行时依赖。
+- 测试采用 Node 标准库及现有 npm，无网络请求、额外依赖或 CI；所有 tarball、消费者及 npm cache 都在临时目录创建，并于测试结束清理。不改变 `private: true` 和产品 CSS。
+- 助手已经用与 GitHub 提交完全相同 Git blob 的测试文件在独立 Linux Node 22.16.0 仿真包目录运行，**1/1 PASS**，但那是相同契约的**代表性目录**，非完整 GitHub 仓库，也没有运行当前项目 Vite+；因此**真实仓库 P-01/P-06/P-07/P-09 仍标记待 Windows 执行**。
+
+执行顺序：`vp pack` → `npm run test:package`。普通 `npm run test:offline` 不要求提前打包，保留原 26 项回归范围。
+
+**仍未完成**：P-02 Vite+ 和 P-03 Webpack 5 的真实生产构建（包括 CSS 副作用与 tree shaking）、必要时 P-04/P-05、组件库集成及发布批准。W-04 Issue #5 继续 Open；不增加 CI、不执行 npm publish。
+
 ## 8. 研究与事实边界
 
 - **已核对**：Vite+ CSS bundling 能力、Node `exports` 的路径与封装规则、Webpack CSS 副作用/打包行为、npm tarball 过滤机制。
