@@ -135,6 +135,8 @@
 
 **2026-11-04 · W-06 最新推进**：维护者反馈 TDesign 对照已完成；本轮未新提供逐浏览器 JSON、交互日志及截图，记录为“维护者报告完成，证据待归档”，不擅自扩展为全部平台 PASS。已在 `feat/viteplus-local-harness` 建立 F-010 的三个独立 Reset 测试场景与 `npm run test:reset` 命令，新增 [本地执行指南](research/W06_RESET_LOCAL_VERIFICATION.md)。目前仅完成代码/隔离逻辑的静态核对；**尚未安装 Reset、运行新 Vite+ 构建、采集浏览器结果或更新产品 CSS**。保持 W-06 #7 Open、禁止新增 CI、禁止发布及合并 main。
 
+**2026-11-04 · W-06 UnoCSS Reset 两组构建实测回填**：维护者 Windows 实际运行 `npm run test:reset -- unocss-tailwind-v4 --keep` 和 `npm run test:reset -- unocss-tailwind-compat --keep`；两套彼此隔离的真实 tarball 消费者各自 `baseline`、`normalize-first`、`normalize-last` 三种 Vite+ 生产构建均成功，合计 **6/6 BUILD_PASS**，输出均显示 `hasLayer:false`。已记录每组产物字节数、SHA-256 及临时目录于 [W-06 Reset 实测指南](research/W06_RESET_LOCAL_VERIFICATION.md)。**本轮没有浏览器最终计算样式/交互证据、Tailwind Preflight 实跑日志或新离线全量测试日志**，F-010 尚未整体 PASS；未修改产品 CSS、CI、npm 发布或 main。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与待决策变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源
