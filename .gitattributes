@@ -1,0 +1,2 @@
+# Keep repository text files as LF on every platform, regardless of core.autocrlf.
+* text=auto eol=lf
