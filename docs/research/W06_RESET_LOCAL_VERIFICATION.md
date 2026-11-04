@@ -1,7 +1,7 @@
 # W-06 · Tailwind Preflight 与 UnoCSS Reset 独立回归
 
 **更新日期**：2026-11-04  
-**状态**：维护者已在 Windows 实测 UnoCSS Reset `tailwind-v4` 与 `tailwind-compat` 两个隔离场景的真实 tarball + Vite+ 三模式生产构建，**各 3/3 BUILD_PASS，共 6/6**；**UnoCSS tailwind-v4 与 tailwind-compat 两个独立场景均已取得 Chrome 156 三模式静态计算样式：每组 12 元素 × 14 属性，正反引入顺序相对自身 baseline 均零差异；各组三页的 Vite CSS 来源已核对。CSS Cascade 胜出规则、交互及 Tailwind Preflight 仍待确认**，F-010 仍是部分完成，不能记整体 PASS。下文既有“待执行”步骤保留用于复现，实际结果以新增记录为准。
+**状态**：维护者已在 Windows 实测 UnoCSS Reset `tailwind-v4` 与 `tailwind-compat` 两个隔离场景的真实 tarball + Vite+ 三模式生产构建，**各 3/3 BUILD_PASS，共 6/6**；**UnoCSS tailwind-v4 与 tailwind-compat 两个独立场景均已取得 Chrome 156 三模式静态计算样式：每组 12 元素 × 14 属性，正反引入顺序相对自身 baseline 均零差异；各组三页的 Vite CSS 来源已核对。CSS Cascade 胜出规则、交互及 Tailwind Preflight 的浏览器对照仍待确认；Tailwind Preflight 三模式构建已收到维护者 3/3 PASS 日志**，F-010 仍是部分完成，不能记整体 PASS。下文既有“待执行”步骤保留用于复现，实际结果以新增记录为准。
 
 **前置**：维护者在本轮对话中确认 TDesign 对照已完成；其具体浏览器、日志、截图、结果尚未同步到 W-06 记录。以下任务直接推进 F-010，**不要求重复 TDesign**。
 
@@ -100,6 +100,20 @@ compat baseline 与独立的 v4 baseline 相比：默认字体族、按钮背景
 **结论**：结合本组已记录的真实 tarball + Vite+ 生产构建 **3/3 BUILD_PASS** 与三页 CSS 来源证据，记录为 **COMPUTED_EQUAL（Chrome 156，12 元素 × 14 静态样式，前后顺序均相对 baseline 零差异）**。连同此前 `unocss-tailwind-v4` 的三模式静态一致结果，两套 UnoCSS Reset 的构建与静态采样均已有局部证据，且始终分别执行、未在同一消费者叠加。
 
 **验收边界**：这并不证明所有 CSS 属性、鼠标/键盘交互、`:focus-visible`、`hidden=until-found` 查找揭示、弹窗实际打开行为、样式表胜出声明以及跨引擎兼容。此轮未执行本地新命令，数据来自维护者提供的原始 JSON，**不能将 F-010 或整个 W-06 标记为整体 PASS**。下一阶段应独立运行 Tailwind v4 Preflight 的三模式验证，且不因该两组结果修改产品 CSS。
+
+## 2026-11-04 · Tailwind v4 Preflight 三模式生产构建（维护者 Windows 日志）
+
+维护者执行 `npm run test:reset -- tailwind-preflight --keep`，命令输出 `PASS: isolated Reset production builds and tarball resolution`。测试在独立消费者中安装固定的 `tailwindcss@4.3.4`、`@tailwindcss/vite@4.3.4` 与开发期 Normalize tarball，未混合 UnoCSS Reset。三组 Vite+ 构建及 SHA-256 证据：
+
+| 模式 | CSS 字节数 | SHA-256 | hasLayer | 构建 |
+| --- | ---: | --- | --- | --- |
+| baseline | 4586 | `811a10ce2388159ea26f8cba47e6296b6799c402ba3eef8f6e2a8bdafcc977c0` | true | PASS |
+| normalize-first | 4786 | `074b40c42674108e538782ecf766ca501ac0d4bffb912c5dff1b8290a32a3e75` | true | PASS |
+| normalize-last | 4786 | `5299c72db32767f1470cb68c6c492dadedfea5763afbbd0fe966ea1e34a3bff8` | true | PASS |
+
+保留的消费者：`D:\Workspace\adui-studio\normalize.css\node_modules\.cache\adui-reset-JQcSHX`（`baseline`、`normalize-first`、`normalize-last`）。当前 `hasLayer:true` 为生成 CSS 的正则扫描结果；按现有测试脚本，Tailwind 场景还必须命中 `@layer base` 才会通过。正反顺序 CSS 字节数相同但 SHA-256 不同，表明输出内容不同，**不能据此判定浏览器最终计算值存在差异**。
+
+**阶段结论：BUILD_PASS 3/3（维护者日志）**。尚无本组 Chrome/Firefox/WebKit 页面来源、计算样式、焦点交互或胜出 CSS 声明证据，不能宣布 Tailwind 浏览器兼容 PASS，F-010 仍部分完成。下一步直接复用临时目录，以三端口独立页面采集带 URL 的 `window.__aduiResetEvidence` 与 CSS 来源，不重复已成功的安装和生产构建；不修改产品规则、依赖或 CI。
 
 ## 1. 测试边界与版本
 
