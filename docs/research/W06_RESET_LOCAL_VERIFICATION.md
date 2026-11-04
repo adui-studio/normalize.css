@@ -1,7 +1,7 @@
 # W-06 · Tailwind Preflight 与 UnoCSS Reset 独立回归
 
 **更新日期**：2026-11-04  
-**状态**：维护者已在 Windows 实测 UnoCSS Reset `tailwind-v4` 与 `tailwind-compat` 两个隔离场景的真实 tarball + Vite+ 三模式生产构建，**各 3/3 BUILD_PASS，共 6/6**；**UnoCSS tailwind-v4 与 tailwind-compat 两个独立场景均已取得 Chrome 156 三模式静态计算样式：每组 12 元素 × 14 属性，正反引入顺序相对自身 baseline 均零差异；各组三页的 Vite CSS 来源已核对。Tailwind Preflight 独立场景也已收到 Chrome 156 三模式静态计算样式，168 项属性相对本组 Baseline 均零差异；其真实 Vite+ 构建 3/3 PASS。CSS Cascade 最终胜出声明、交互及跨浏览器验证仍未确认**，F-010 仍是部分完成，不能记整体 PASS。下文既有“待执行”步骤保留用于复现，实际结果以新增记录为准。
+**状态**：维护者已在 Windows 实测 UnoCSS Reset `tailwind-v4` 与 `tailwind-compat` 两个隔离场景的真实 tarball + Vite+ 三模式生产构建，**各 3/3 BUILD_PASS，共 6/6**；**UnoCSS tailwind-v4 与 tailwind-compat 两个独立场景均已取得 Chrome 156 三模式静态计算样式：每组 12 元素 × 14 属性，正反引入顺序相对自身 baseline 均零差异；各组三页的 Vite CSS 来源已核对。Tailwind Preflight 独立场景也已收到 Chrome 156 三模式静态计算样式，168 项属性相对本组 Baseline 均零差异；其真实 Vite+ 构建 3/3 PASS。Tailwind 场景的 `b#bold` 在 Chrome 156 两种顺序下的 CSS Cascade 胜出声明已由 DevTools 截图确认，其他 CSS 属性/交互及跨浏览器验证仍未完成**，F-010 仍是部分完成，不能记整体 PASS。下文既有“待执行”步骤保留用于复现，实际结果以新增记录为准。
 
 **前置**：维护者在本轮对话中确认 TDesign 对照已完成；其具体浏览器、日志、截图、结果尚未同步到 W-06 记录。以下任务直接推进 F-010，**不要求重复 TDesign**。
 
@@ -132,6 +132,23 @@ compat baseline 与独立的 v4 baseline 相比：默认字体族、按钮背景
 **层级归因边界**：Tailwind 正式产物存在 `@layer base`，而产品 Normalize 的 R-003 是未分层 `b, strong { font-weight: bolder }`；本次 `900` 的相同计算值不能确定浏览器最终胜出声明，亦不能单凭值一致证明 CSS Layers 的先后优先级。需另看 DevTools Styles 或 CSSOM 的匹配声明、重要性和层归属，尤其检查 `b` / `strong`，才可形成“层级胜出”结论。
 
 **仍未验证**：`:focus-visible` 的键盘实际状态，按钮/输入行为，`hidden=until-found` 查找揭示，dialog 打开/Esc 关闭，第二个无来源样式表的声明，以及 Firefox/WebKit/目标旧版浏览器。以上不能从静态 JSON 推定 PASS，**F-010/W-06 均不能整体结项**。暂时没有证据需要修改 `src/normalize.css`；本轮未修改产品 CSS、依赖、CI 或发布配置。
+
+## 2026-11-04 · Tailwind Preflight CSS Layers 胜出规则实测（Chrome 156）
+
+维护者提供 `http://localhost:5181/`（`normalize-first`）和 `http://localhost:5182/`（`normalize-last`）的 Chrome 156 DevTools **Elements → Styles** 截图，选中元素均为 `b#bold`，其父级 `section` 设置 `font-weight: 600`。本次记录依据维护者截图及已确认的 `tests/reset-fixtures.mjs` / `src/normalize.css`；截图原文件仅在对话附件中，**未另存为 GitHub 仓库证据文件**。
+
+| 验证项 | 5181：Normalize First | 5182：Normalize Last |
+| --- | --- | --- |
+| 未分层 `b, strong { font-weight: bolder; }` | DevTools 显示有效、未划线 | 有效、未划线 |
+| Tailwind `base` 层的相同规则 | 显示在“级联层 base”，声明被划线覆盖 | 显示在“级联层 base”，声明被划线覆盖 |
+| 最终计算字重 | 先前 JSON 为 `900` | 先前 JSON 为 `900` |
+| 交换 CSS 导入顺序是否改变胜出规则 | 否 | 否 |
+
+**归因**：当前产品 CSS 只包含 R-003 的未分层 `b, strong { font-weight: bolder; }`，Tailwind Preflight 在 `base` 层中也包含同选择器/同值的普通声明。依据此组 Fixture 的隔离导入及截图，两页均是**未分层的普通作者声明胜出**，层内声明被覆盖。对于相同来源、相同重要性的普通作者规则，CSS Layer 优先级先于特异性和源码顺序比较，未分层规则优先于具名层的普通规则；这不适用于所有来源和 `!important` 场景。
+
+**范围内结论：CASCADE_WINNER_CONFIRMED（Chrome 156 / `b#bold` / 两种导入顺序）**。与之前的 3/3 BUILD_PASS、三模式 168 项静态采样零差异互相印证，没有发现本次 R-003 与 Tailwind Preflight 的顺序敏感问题；**不需要修改产品 CSS 或将 R-003 改成 `@layer` 规则**。当前测试仅对 `b#bold` 的 Styles 面板完成明确胜出规则归因（`strong` 的计算值一致，但未提供单独的 Styles 面板截图），不能推广成全部 CSS 属性、交互或完整浏览器兼容证明。
+
+**剩余验收**：键盘 `:focus-visible`、真实表单交互、`hidden="until-found"` 查找揭示、dialog 行为以及 Firefox/WebKit/最低目标版本仍待分别取得证据；`F-010` / `W-06` 保持部分完成。未增加 CI、未修改源码或发布设置。
 
 ## 1. 测试边界与版本
 
