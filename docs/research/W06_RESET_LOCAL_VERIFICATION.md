@@ -1,7 +1,7 @@
 # W-06 · Tailwind Preflight 与 UnoCSS Reset 独立回归
 
 **更新日期**：2026-11-04  
-**状态**：维护者已在 Windows 实测 UnoCSS Reset `tailwind-v4` 与 `tailwind-compat` 两个隔离场景的真实 tarball + Vite+ 三模式生产构建，**各 3/3 BUILD_PASS，共 6/6**；**已收到 Chrome 156 三份原始计算样式 JSON（12 元素 × 14 属性），静态值逐项一致；随后已收到三个端口的 Vite `data-vite-dev-id`，证实三种独立页面的 `style.css` 来源。JSON 自身仍未携带页面标识，CSS Cascade 胜出规则、交互、另一 UnoCSS 组浏览器对照和 Tailwind Preflight 仍待确认**，F-010 仍是部分完成，不能记整体 PASS。下文既有“待执行”步骤保留用于复现，实际结果以新增记录为准。
+**状态**：维护者已在 Windows 实测 UnoCSS Reset `tailwind-v4` 与 `tailwind-compat` 两个隔离场景的真实 tarball + Vite+ 三模式生产构建，**各 3/3 BUILD_PASS，共 6/6**；**UnoCSS tailwind-v4 与 tailwind-compat 两个独立场景均已取得 Chrome 156 三模式静态计算样式：每组 12 元素 × 14 属性，正反引入顺序相对自身 baseline 均零差异；各组三页的 Vite CSS 来源已核对。CSS Cascade 胜出规则、交互及 Tailwind Preflight 仍待确认**，F-010 仍是部分完成，不能记整体 PASS。下文既有“待执行”步骤保留用于复现，实际结果以新增记录为准。
 
 **前置**：维护者在本轮对话中确认 TDesign 对照已完成；其具体浏览器、日志、截图、结果尚未同步到 W-06 记录。以下任务直接推进 F-010，**不要求重复 TDesign**。
 
@@ -84,6 +84,22 @@
 compat baseline 与独立的 v4 baseline 相比：默认字体族、按钮背景和光标、输入框背景、dialog margin 等计算样式存在差异。这些是不同 Reset 的基线差异，不是 Normalize 冲突证据。
 
 后续只需从 5181/5182 采集包含 URL 和 `window.__aduiResetEvidence` 的 JSON；不重复构建，不增加 CI。
+
+## 2026-11-04 · UnoCSS tailwind-compat 三模式计算样式对照已补齐（Chrome 156）
+
+维护者补充了 `http://localhost:5181/` 和 `http://localhost:5182/` 的 `window.__aduiResetEvidence` 全量 JSON。与此前 `http://localhost:5180/` 的 baseline 比较，这三份数据的浏览器 UA 相同（Chrome/156.0.0.0 / Windows NT），每份均有相同 12 个元素 ID、每个元素 14 个属性：
+
+| 组别 | 页面/来源（此前已核对） | 采集数量 | 相对于 baseline 的静态差异 | 判定 |
+| --- | --- | --- | --- | --- |
+| baseline | 5180，`adui-reset-8TXDC6/baseline/style.css` | 12 × 14 | 基线 | 已采集 |
+| normalize-first | 5181，`adui-reset-8TXDC6/normalize-first/style.css` | 12 × 14 | **0** | 静态一致 |
+| normalize-last | 5182，`adui-reset-8TXDC6/normalize-last/style.css` | 12 × 14 | **0** | 静态一致 |
+
+重点计算值：`bold` / `strong` 的 `fontWeight=900`；`code` 的 `fontSize=16px`；`heading` / `paragraph` / `list` 的 `margin=0px`；`button` 背景 `rgb(240,240,240)`、`cursor=pointer`；`input` 背景 `rgb(255,255,255)`；`dialog` 的 `margin=auto`；`[hidden]` 的 `display=none` 与 `[hidden="until-found"]` 的 `display=block`。这些值在三组中均相同。
+
+**结论**：结合本组已记录的真实 tarball + Vite+ 生产构建 **3/3 BUILD_PASS** 与三页 CSS 来源证据，记录为 **COMPUTED_EQUAL（Chrome 156，12 元素 × 14 静态样式，前后顺序均相对 baseline 零差异）**。连同此前 `unocss-tailwind-v4` 的三模式静态一致结果，两套 UnoCSS Reset 的构建与静态采样均已有局部证据，且始终分别执行、未在同一消费者叠加。
+
+**验收边界**：这并不证明所有 CSS 属性、鼠标/键盘交互、`:focus-visible`、`hidden=until-found` 查找揭示、弹窗实际打开行为、样式表胜出声明以及跨引擎兼容。此轮未执行本地新命令，数据来自维护者提供的原始 JSON，**不能将 F-010 或整个 W-06 标记为整体 PASS**。下一阶段应独立运行 Tailwind v4 Preflight 的三模式验证，且不因该两组结果修改产品 CSS。
 
 ## 1. 测试边界与版本
 
