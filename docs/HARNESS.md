@@ -54,6 +54,8 @@
 
 **W-06 Vue + Element Plus / Chrome 156 浏览器对照（2026-11-04）**：维护者提交 T0 `localhost:5174` 与 T2 `localhost:5175` 的页面/DevTools 截图，两组 Element Plus Button/Input 均成功挂载（`buttonMounted`、`inputMounted` 都为 `true`），组件静态外观一致，`b-600`、`strong-600`、`b-700`、`strong-700` 的计算字重均 `900`，`code` 字号均 `13px`，两组五个探针相同；据此确认该 Chrome 156 环境的**静态 UI 及计算样式对照 PASS（截图）**。两页共同的 Vue feature flags 警告及 favicon.ico 404 不构成 CSS 冲突证据。Vue 实际键盘/输入行为、React+Ant Design 浏览器对照、其他浏览器仍待测。修复后的离线 Node 全套 30 项尚未取得最新运行结果。[详见 W-06 生态记录](research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)。
 
+**W-06 React + Ant Design / Chrome 156 静态 UI 对照（2026-11-04）**：维护者新增 React T0/T2 两张浏览器及 Console 截图。两页 Ant Design Button/Input 正常挂载（`buttonMounted: true`、`inputMounted: true`），外观一致，`b-600/strong-600/b-700/strong-700` 均为 `fontWeight: 900`、`fontSize: 16px`、`fontFamily: Noto Sans SC`，`code` 为 `fontWeight: 400`、`fontSize: 13px`、`fontFamily: monospace`。结合之前真实 tarball 的 Vite+ 生产构建 PASS，记录 **React 19.3.1 + Ant Design 6.6.8 在 Chrome 156 的静态 UI/五项计算样式对照 PASS（截图）**。React DevTools 信息提示非异常；实际点击/输入/焦点未测，不外推其他浏览器或组件。Vue + Element Plus 的 Chrome 156 静态对照此前已 PASS。`test:offline` 修复后 30/30 尚未获本机日志，W-06 #7 保持 Open。见[生态验证记录](research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)。
+
 ## 1. Harness 目标
 
 形成可重复的闭环：理解需求 → 影响分析 → 制定验证矩阵 → 最小修改 → 检查 → 定位失败 → 修复重验 → 记录结果。未来仅考虑维护者本地运行可复现检查并记录结果；项目明确**不增加任何 CI**，避免仅凭经验声称跨浏览器兼容。
