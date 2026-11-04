@@ -126,11 +126,19 @@ fmt: {
 
 **DEP0190 代码定位**：`tests/package-smoke.node.test.mjs` 的 `npm()` 辅助函数在 Windows 下以 `spawnSync('npm.cmd', args, { shell: true })` 启动 npm。警告与 Node 对 `shell: true` 携带参数数组的弃用提示一致；目前未修改。后续修复需保证 Windows `npm.cmd` 启动、参数安全传递与离线打包测试均通过，禁止仅靠屏蔽警告视为修复。
 
+## 3.5 第三轮本机静态与测试回归，以及 Windows npm 子进程修复（2026-11-04）
+
+维护者提交格式化修改后提供新一轮 Windows PowerShell 输出：`vp check` **PASS**（全部 54 个第一方文件格式正确；11 个文件无警告或 Lint 错误）；`vp test` **6/6 PASS**；`npm run test:offline` **23/23 PASS**。该轮离线 Node 测试仍显示 `DEP0190` 警告，因此不能宣称无警告验收。以上是**维护者本地运行结果**，并非助手独立运行 Windows。
+
+根据 [Node.js child_process 官方文档](https://nodejs.org/api/child_process.html)，Windows `.cmd` 文件不能像普通可执行文件一样无 shell 启动，而 `shell: true` 搭配参数数组会产生未安全转义的 shell 解析风险。开发分支的 `tests/package-smoke.node.test.mjs` 已修改：Windows 下以 `process.execPath` 启动有效的 `npm-cli.js` 并将命令参数作为独立数组传递；优先验证 `npm_execpath` 是存在的 npm CLI，否则尝试 Node 安装目录下的 npm CLI。非 Windows 平台保留原有 `npm` 调用。没有通过关闭弃用警告掩盖问题。
+
+**已验证的范围**：单独在 Linux Node 22 环境中运行了无 shell 的 Node npm CLI 离线 `pack` / `install`，包含路径空格场景，结果通过；未在本环境运行 Windows，也未基于此代码提交重跑全量 `vp check`、Vitest 和 23 个 Node 测试。**待维护者 Windows 本机执行** `vp check`、`vp test`、`npm run test:offline`，确认无 `DEP0190`、合成 CSS 包导出测试仍通过；如报 `Cannot locate npm CLI`，需记录 Node 安装来源与 `npm_execpath` 后再调整解析路径。
+
 ## 4. 下一步与关闭条件
 
 1. 保留此次 Chrome 156 的 R-003 **局部无差异**观察；优先收集目标 **Chrome 120 / Edge 120 / Firefox 121 / Safari 17.2** 的原始 T0/T1 JSON、真实构建号、DevTools UA 声明。
 2. R-004 在 Chrome 156 已完成 T0/T1/T1b 计算字号对照：13px / 13px / 16px；不采纳默认强制字号/重复字体族。**仍需**最低目标浏览器、用户自定义等宽字号设置以及 CJK 实际字形/可访问性回归证据，才可更新跨浏览器结论。
-3. 定位 `DEP0190`：离线包测试在 Windows 上使用 `shell:true` 的警告可考虑通过无 shell 的参数传递修复，但需要复测 npm.cmd 启动是否兼容，不在本轮凭推测改动。
-4. 对 `vp check` 的 66 项格式问题分类：上游 Skills 原样保留；第一方代码与文档再按最小范围处理。完成修复前不得写作检查通过。
+3. `DEP0190` 的无 shell npm CLI 启动修复已提交到开发分支，待真实 Windows 本机复测；不能将 Linux 的离线打包验证当作 Windows 已通过。
+4. 第三轮维护者本机 `vp check` 已通过；新提交的测试代码和文档仍需完整重验。上游 Skills 保持原样，不扩大忽略范围。
 5. 核对 `pnpm-lock.yaml` 是否存在及 `git status --short`；**本次并未取得/提交锁文件**。
 6. W-03 与 W-02 的目标旧版/移动端和兼容性门槛未完成，Issue #3 / #4 继续 Open；没有正式 CSS 发布、没有 CI。
