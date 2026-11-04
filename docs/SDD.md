@@ -24,13 +24,13 @@
 | `@adui/normalize.css/forms.css` | Forms CSS                               | **首版延期**；未来版本单独决策              |
 | `@adui/normalize.css/all.css`   | 经评审的组合 CSS                        | **首版延期**；未来版本单独决策              |
 
-首版只规划 `@adui/normalize.css` 根入口，**不发布四个候选子路径**；未来版本可重新评审。开发工具链统一 Vite+（[ADR-0005](adr/0005-viteplus-toolchain.md)），但 CSS-only 的 `vp pack` 产物适配仍需在 W-04 实测，不能提前承诺 JS 入口或已编译 CSS。目前 `package.json` 已配置 `files: ["dist"]`、`sideEffects: ["**/*.css"]` 与唯一根 CSS `exports`，`src/normalize.css` 经 `npm run build` 输出 `dist/normalize.css`；已做标准库构建和离线安装局部验证，但**没有 Vite+/Webpack 生产消费端与完整兼容性验收证明**。具体 exports、CSS 文件名与编译方式仍须在实际开发后做构建验证，参阅 [ADR-0003](adr/0003-mvp-package-contract.md)、[W-04 包交付验收研究](plans/CSS_PACKAGE_DELIVERY_REVIEW.md) 和 [实施计划](plans/MVP_IMPLEMENTATION_PLAN.md)。
+首版只规划 `@adui/normalize.css` 根入口，**不发布四个候选子路径**；未来版本可重新评审。开发工具链统一 Vite+（[ADR-0005](adr/0005-viteplus-toolchain.md)），但 CSS-only 的 `vp pack` 产物适配仍需在 W-04 实测，不能提前承诺 JS 入口或已编译 CSS。目前 `package.json` 已配置 `files: ["dist"]`、`sideEffects: ["**/*.css"]` 与唯一根 CSS `exports`，`src/normalize.css` 经 `vp pack` 输出 `dist/normalize.css`；已做标准库构建和离线安装局部验证，但**没有 Vite+/Webpack 生产消费端与完整兼容性验收证明**。具体 exports、CSS 文件名与编译方式仍须在实际开发后做构建验证，参阅 [ADR-0003](adr/0003-mvp-package-contract.md)、[W-04 包交付验收研究](plans/CSS_PACKAGE_DELIVERY_REVIEW.md) 和 [实施计划](plans/MVP_IMPLEMENTATION_PLAN.md)。
 
 ### 2.1 首个最小交付切片（2026-11-04 开发决策）
 
 - **首批源文件**：`src/normalize.css`，只纳入 R-003：`b, strong { font-weight: bolder; }`。依据真实 Chrome for Testing 120.0.6099.109 T0/T1 对照（父级 600/700 时四组计算字重由 700 → 900），Firefox 121 / Chrome 156 中候选无额外计算值变化；[证据卡](research/RULE_EVIDENCE_R003_R004.md)。
 - **明确不纳入**：R-004 `font-size: 1em`、重复 `monospace`、统一代码字体栈；不添加 Reset、Forms、A11y、全局视觉规则、`@layer`、`!important`。
-- **开发期根入口**：`package.json` 的唯一 `exports["."]` 指向 `./dist/normalize.css`；仍 `private: true`、版本 `0.0.0`，不能公开发布。Vite+ 继续承担开发与本机检查；维护者后续要求以 `vp build` 直接构建 CSS，取代早期 Node 原样复制方案。该方案以真实 Vite+ 运行结果为准；构建前根导出目标尚不存在。
+- **开发期根入口**：`package.json` 的唯一 `exports["."]` 指向 `./dist/normalize.css`；仍 `private: true`、版本 `0.0.0`，不能公开发布。Vite+ 继续承担开发与本机检查；维护者实际验证 `vp pack` 可以独立打包 CSS，而原 CSS-entry `vp build` 因默认关闭 CSS 拆分而失败；当前由 `vp pack` 输出根导出产物，`vp build` 负责构建测试 Fixture。修订后需本机复测。
 - **验证边界**：构建字节完整性、文件封装、离线 npm smoke 可以本地验证；实际消费端的 Vite+/Webpack 生产构建、WebKit/Safari、Edge/移动端、组件库及最终 CSS 准入仍应在发布前单独审核。维护者当前要求停止额外字体偏好专项测试，按浏览器原生行为使用。
 
 ### 2.2 统一 Vite+ 命令与 CSS-only 构建（2026-11-04）
@@ -38,11 +38,11 @@
 维护者明确要求使用 Vite+ 原生命令 `vp dev`、`vp build`、`vp pack`，替代 `npm run build` 调用 Node 文件复制脚本。三条命令功能不同（[Vite+ Build](https://viteplus.dev/guide/build)、[Dev](https://viteplus.dev/guide/dev)、[Pack](https://viteplus.dev/guide/pack)）：
 
 - `vp dev`：仍从项目根目录启动本地 Vite 开发服务器，访问现有 `/fixtures/`；不发布 CSS。
-- `vp build`：以 `src/normalize.css` 为 Vite 库构建输入，只输出 `dist/normalize.css`。开发期不压缩 CSS，避免无意改变维护者源码；离线测试校验构建结果仅有预期 CSS 规则且不包含 JS 包装。
-- `vp pack`：使用 Vite+ 集成的 tsdown 尝试 CSS-only 打包。官方明确支持从 JS/TS 入口提取 CSS，但尚未确认直接将 CSS 文件用作唯一 entry 时的具体行为；先输出到单独的 `dist-pack/` 验证，**不覆盖 `vp build` 的 `dist/` 或 npm 根 exports**。实际能否成功及是否产生 JS，必须使用维护者安装的 Vite+ 1.4.0 验证，不能预先声称三个命令全部通过。
+- `vp build`：现已修订为六张现有 HTML Fixture 的预览构建，输出到 `dist-fixtures/`；不进入 npm 包。此前直接以 CSS 作为库构建入口在 Vite+ 1.4.0 本机失败，实际根因与修正见 §2.3。
+- `vp pack`：已在维护者 Windows Vite+ 1.4.0 实测可直接以 CSS 为唯一入口生成单个文件（原验证输出 `dist-pack/normalize.css`），现改为输出 `dist/normalize.css`，作为唯一 npm 根导出目标；修订配置仍需重新运行。
 - `vp pack` 不是 `npm pack`：真正检查 npm tarball 应使用 `npm pack --dry-run`，任何发布仍需维护者单独授权。
 
-不要增加 JS 业务入口、额外打包依赖、公开子路径或 CI。保留 `private: true`，除非正式产物与消费端均通过审核，否则 `vp pack` 仅是非发布实验。
+不增加发布用 JS、额外打包依赖、公开子路径或 CI；保留 `private: true`。`vp pack` 已是正式候选 CSS 产物构建命令，但是否可以公开发布仍受 tarball、消费端和兼容性验收约束。
 
 ### 2.3 Vite+ 1.4.0 本机实测后的构建职责修订（2026-11-04）
 
