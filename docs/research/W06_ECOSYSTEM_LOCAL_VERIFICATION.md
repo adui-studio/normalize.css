@@ -46,12 +46,15 @@ npm run test:ecosystem -- vue-element --keep
 终端将打印临时消费者目录。以实际打印路径为准，在**两个 PowerShell 终端**分别进入对应子目录：
 
 ```powershell
-# 终端 A：T0，无 @adui/normalize.css
-cd <打印的消费者路径>\native
+# 首先替换为测试输出里真实打印的目录
+$consumerDir = 'D:\\Workspace\\adui-studio\\normalize.css\\node_modules\\.cache\\adui-ecosystem-实际目录'
+
+# 终端 A：T0，不加载 @adui/normalize.css
+Set-Location (Join-Path $consumerDir 'native')
 vp dev --port 5174
 
-# 终端 B：T2，实际 npm 包 CSS
-cd <打印的消费者路径>\package
+# 终端 B：另开一个 PowerShell，使用相同 $consumerDir
+Set-Location (Join-Path $consumerDir 'package')
 vp dev --port 5175
 ```
 
