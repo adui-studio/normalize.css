@@ -1,6 +1,6 @@
 # R-003 / R-004 最低版本本地验证执行指南
 
-- **状态**：维护者已在 Chrome 156 执行首轮 T0/T1 Fixture，并在 Windows 本机运行 Vite+；详见 [运行记录](LOCAL_BROWSER_RUN_20261104.md)。**最低目标旧版浏览器及移动端仍未测试**。
+- **状态**：维护者已在 Chrome 156 实测 T0/T1 Fixture，且 R-003 原始 JSON 自动比较得到 `NO_COMPUTED_DIFFERENCE`；详见[运行记录](LOCAL_BROWSER_RUN_20261104.md)。**最低目标旧版浏览器及移动端仍未测试**。
 - **日期**：2026-11-03
 - **关联**：[R-003 / R-004 证据卡](RULE_EVIDENCE_R003_R004.md) · [Baseline 2023 最低测试目标](BASELINE_2023_MAPPING.md) · [浏览器矩阵](BROWSER_REVIEW.md) · [Issue #2](https://github.com/adui-studio/normalize.css/issues/2) · [Issue #3](https://github.com/adui-studio/normalize.css/issues/3)
 - **约束**：维护者已授权开发；Vite+ 是开发工具链（[ADR-0005](../adr/0005-viteplus-toolchain.md)）；检查仅在**本地手动运行，不增加 CI**。
@@ -89,7 +89,7 @@ T1b **不属于已批准的发布规则、不改变 R-004 默认排除决定**�
 
 所有环境各自独立记录；**不允许**以 Chrome 120 测试替代 Edge 120、以桌面 Chrome 替代 Android Chrome、以 Playwright WebKit 替代 Safari 17.2。
 
-## 5. R-003 T0/T1 JSON 比较器（工具已实现，真实浏览器未测）
+## 5. R-003 T0/T1 JSON 比较器（已获 Chrome 156 证据，最低目标未测）
 
 维护者授权开发后，已在独立 PR #9 实现 `tests/r003-evidence.mjs`。在**同一真实浏览器**分别打开 `/fixtures/r003-native.html`（T0）与 `/fixtures/r003-candidate.html`（T1），将各自 `probe-output` 中显示的完整 JSON 保存为本地临时文件（**原始环境标识数据不直接提交公开仓库**），再执行：
 
@@ -106,11 +106,11 @@ node tests/r003-evidence.mjs r003-native.json r003-candidate.json
 | `CANDIDATE_MISMATCH`           | T1 没有达到候选的预期计算值           | 需定位 CSS 获胜规则、采集条件   |
 | 输入拒绝                       | 记录不完整、UA/字体上下文不一致       | 不得把无效样本记为通过          |
 
-CLI 退出状态码：`0` 为输入有效且 T1 满足预期，`1` 为候选不符，`2` 为输入不合法。已用**合成证据**增加 8 项 Node 单测，当前本地测试总计 18/18 通过；**没有任何真实 Chrome/Edge 120、Firefox 121、Safari 17.2 的运行证据**。UA 字符串存在版本简化风险，实际完整版本/OS/DevTools UA 声明来源及字形渲染仍需独立记录。
+CLI 退出状态码：`0` 为输入有效且 T1 满足预期，`1` 为候选不符，`2` 为输入不合法。比较器此前已用合成证据覆盖关键输入校验；维护者近期完整离线 Node 23/23 PASS。2026-11-04 维护者实际运行 Chrome 156 T0/T1 JSON 比较，得到 `NO_COMPUTED_DIFFERENCE`，详见[记录 §2.1](LOCAL_BROWSER_RUN_20261104.md)；**Chrome/Edge 120、Firefox 121、Safari 17.2 仍无真实运行证据**。UA 字符串存在版本简化风险，实际完整版本/OS/DevTools UA 声明来源及字形渲染仍需独立记录。
 
 ## 6. 2026-11-04 首轮实际观察
 
-[首次 Vite+ / Chrome 156 本地运行记录](LOCAL_BROWSER_RUN_20261104.md) 已转录 R-003 六组计算字重无差异与 R-004 13px/16px 的异常对照；Chrome 156 不属于 Chrome 120 最低测试目标，不能代替历史浏览器。R-004 T1 是否实际应用了作者声明**尚待诊断**，不可据此采纳或排除候选的运行效果。
+[首次 Vite+ / Chrome 156 本地运行记录](LOCAL_BROWSER_RUN_20261104.md) 已转录 R-003 六组计算字重无差异与 R-004 13px/16px 的异常对照；Chrome 156 不属于 Chrome 120 最低测试目标，不能代替历史浏览器。R-004 T1 的 CSSOM 与当前计算值已由维护者复核，T1b 还观察到 16px；具体获胜样式和用户等宽字号偏好仍需单独验证，不可据此准入候选。R-003 Chrome 156 的 JSON 自动比较已完成，仅证明该环境六组字重无差异。
 
 ## 7. 执行与规则准入门槛
 
@@ -119,4 +119,4 @@ CLI 退出状态码：`0` 为输入有效且 T1 满足预期，`1` 为候选不�
 - R-003 的最小修复只有在目标旧版真实复现、且 T1 对原生语义/组件库不存在重大回归时，才能提交规则准入评审。
 - R-004 当前是**低侵入的排除决定**；如需改变，应提新规则提案，不能静默修改。
 - 如果旧版环境无法获取，标记 `BLOCKED`；在支持目标未修订或缺少替代证据时，不能宣称兼容验证通过。
-- 维护者已经批准开始开发，测试 Fixture 和证据比较器已存在；Vite+ 安装及最低目标浏览器运行仍因当前环境限制未完成。**不得新增 CI**，也不得以合成数据代替真实兼容性证明。
+- 维护者已在 Windows 本机完成 Vite+ 运行及 Chrome 156 的部分真实浏览器测试；最低目标版本仍未执行。**不得新增 CI**，也不得以 Chrome 156 或合成数据代替最低版本兼容性证明。
