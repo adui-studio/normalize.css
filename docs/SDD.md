@@ -88,6 +88,18 @@ W-04 仅要求 `vp pack` CSS-only 真实产物、npm 根 `exports`、文件白�
 
 此次调整只收敛测试范围，**不修改** ADR-0003 的唯一根入口、CSS 语义、`private: true`、已有包元数据或发布授权。[W-04 最新 DoD](plans/CSS_PACKAGE_DELIVERY_REVIEW.md#77-最新范围决策只使用-vite撤销-webpack-强制验收2026-11-04) 为当前实施基准。
 
+### 2.8 W-06 首批 T2 实际 CSS 页面对照（2026-11-04）
+
+W-03 的 T0/T1 只验证浏览器原生值与孤立候选规则；W-04 已证明真实 npm tarball 可以被 Vite+ 生产消费者保留，但尚未在真实浏览器里采集**实际 `vp pack` CSS 加载后的计算样式**。W-06 第一阶段新增两张 HTML Fixture：
+
+- `fixtures/t2-native.html`：T0，保留原生样式；只设置 R-003 测试用父级 font-weight（400/600/700），不加载任何产品 CSS。
+- `fixtures/t2-package.html`：T2，与 T0 **相同 body、被测元素和测试用父级样式**，仅在 `head` 增加 `<link id="package-css" rel="stylesheet" href="../dist/normalize.css">`。引用的是 `vp pack` 真正输出的 CSS 文件，而不是复制粘贴候选声明或新增 JS 包装。
+- 复用 `fixtures/probe.js` 采集原有的计算 fontWeight、fontSize、fontFamily；仅在存在 `package-css` 链接时，额外记录同源样式表的 `href` 和是否成功挂载 `sheet`。若未加载则证据无效，不能把零差异误判为无回归。
+- 首批被测元素：`b`/`strong`（父级 400/600/700）、`code`/`kbd`/`samp`/`pre`；同时保留原生 button、search input、details/summary、hidden 与 `hidden="until-found"` 作为后续手工交互观察点。**存在 DOM 不等于交互测试已通过**。
+- 构建前需执行 `vp pack`；`vp dev` 访问 `/fixtures/t2-native.html` 和 `/fixtures/t2-package.html`；`vp build` 的多页面输入须同时包含这两页。`dist-fixtures/` 仍是私有测试预览产物，npm `files: ["dist"]` 不包含它。
+
+本阶段只开发本地可复现实验，不新增产品 CSS、UI 框架依赖、浏览器自动化提供者或 CI；通过 Node/Vitest 的静态契约不等于任何浏览器 T2 真正通过。见[W-06 T2 本地验证说明](research/W06_T2_LOCAL_VERIFICATION.md)。
+
 ## 3. CSS 规则准入流程（拟议）
 
 1. **问题**：列出浏览器/版本、HTML Fixture、原生样式偏差及用户可见问题。
