@@ -1,9 +1,34 @@
 # W-06 · Tailwind Preflight 与 UnoCSS Reset 独立回归
 
 **更新日期**：2026-11-04  
-**状态**：独立消费 Fixture 与 CLI 已写入开发分支；本轮只核对源文件和纯函数生成的隔离关系，**未在维护者 Windows 实际安装第三方包、执行 Vite+ 构建或浏览器交互**。不得把已生成测试代码标为 F-010 PASS。
+**状态**：维护者已在 Windows 实测 UnoCSS Reset `tailwind-v4` 与 `tailwind-compat` 两个隔离场景的真实 tarball + Vite+ 三模式生产构建，**各 3/3 BUILD_PASS，共 6/6**；**实际浏览器对照、CSS Cascade 胜出规则和 Tailwind Preflight 尚未收到结果**，F-010 仍是部分完成，不能记整体 PASS。下文既有“待执行”步骤保留用于复现，实际结果以新增记录为准。
 
 **前置**：维护者在本轮对话中确认 TDesign 对照已完成；其具体浏览器、日志、截图、结果尚未同步到 W-06 记录。以下任务直接推进 F-010，**不要求重复 TDesign**。
+
+## 2026-11-04 · 维护者 Windows 实测回填：UnoCSS 两组构建 6/6 PASS
+
+以下来自维护者提供的原始 PowerShell 终端输出，并非本执行环境独立重跑。
+
+- `npm run test:reset -- unocss-tailwind-v4 --keep`：三组 `baseline`、`normalize-first`、`normalize-last` 全部成功；CLI 最终输出 `PASS: isolated Reset production builds and tarball resolution`。
+- `npm run test:reset -- unocss-tailwind-compat --keep`：同样三组全部成功，CLI 输出同样 PASS。
+- 两组输出的 `hasLayer` 均为 `false`；这是**当前产物的正则扫描结果**，与本测试中 UnoCSS Reset 不主动声明 Layer 一致，但单凭这一字段无法判断每条声明的最终 Cascade 优先级。
+- 正反顺序产物 SHA-256 不同，只证明**产物不一致**，不等于计算样式存在差异或冲突。当前只有 R-003 `b,strong { font-weight:bolder }` 一条产品规则，仍需对浏览器最终值和胜出来源做验证。
+
+| 场景 | 模式 | CSS 字节数 | SHA-256 | hasLayer | 构建 |
+| --- | --- | ---: | --- | --- | --- |
+| UnoCSS tailwind-v4 | baseline | 8162 | `a6974aae821ff22156cab7ccf62c5ef7afa22285651e343300c221fd4a05beb3` | false | PASS |
+| UnoCSS tailwind-v4 | normalize-first | 8362 | `d2cd6586fd781a484ccdc09c11bead0414a4e5da05043044022807a12d760eb1` | false | PASS |
+| UnoCSS tailwind-v4 | normalize-last | 8363 | `dedf5837aa5f2de0343f33b52f628ae60b881e713403b36605357a757284e82d` | false | PASS |
+| UnoCSS tailwind-compat | baseline | 7700 | `626b893a9c0e0eff49859497975ed0a0f2de05b22192a66936ddfd4befa691d9` | false | PASS |
+| UnoCSS tailwind-compat | normalize-first | 7900 | `1ad5d3f86a9f906d448526ce691803a98c388d427e40d5dacc0d6fa49cc57a20` | false | PASS |
+| UnoCSS tailwind-compat | normalize-last | 7901 | `4f039abc9340265be20052228ad0be2d0fcc4d84b41ac2005f947fa15920f572` | false | PASS |
+
+保留的隔离消费者目录（维护者终端原样输出，后续仅使用**当前实际存在的目录**）：
+
+- `D:\Workspace\adui-studio\normalize.css\node_modules\.cache\adui-reset-UQvmww`（UnoCSS tailwind-v4）
+- `D:\Workspace\adui-studio\normalize.css\node_modules\.cache\adui-reset-8TXDC6`（UnoCSS tailwind-compat）
+
+**下一门槛**：分别启动每组的三份页面，在同一浏览器采集 `window.__aduiResetEvidence` 和对应胜出 CSS 声明；再单独运行 Tailwind Preflight。**本次没有提供这些浏览器结果、Tailwind 命令日志或新增离线套件检查日志**。因此 F-010 不勾选整体完成，也不修改产品 CSS。
 
 ## 1. 测试边界与版本
 
@@ -13,7 +38,7 @@
 | `unocss-tailwind-v4`     | `@unocss/reset@66.12.0`                        | `@unocss/reset/tailwind-v4.css`                                                                         |
 | `unocss-tailwind-compat` | `@unocss/reset@66.12.0`                        | `@unocss/reset/tailwind-compat.css`                                                                     |
 
-版本为**拟执行的精确直接依赖版本**，并非本轮已完成 npm 安装；间接依赖由实际安装记录为准。UnoCSS 组**不安装 `unocss`、不启动 presetWind4、不引入 Tailwind Preflight**。Tailwind 组不引入 `@unocss/reset`。Vite+ 继续使用当前仓库已固定的 `vite-plus@1.4.0`，无新增根项目开发/运行时依赖。
+版本为测试场景固定的精确直接依赖版本；本轮维护者已成功执行两项 UnoCSS 隔离安装及版本/真实 tarball 断言，Tailwind 仍待本机执行。间接依赖由实际安装记录为准。UnoCSS 组**不安装 `unocss`、不启动 presetWind4、不引入 Tailwind Preflight**。Tailwind 组不引入 `@unocss/reset`。Vite+ 继续使用当前仓库已固定的 `vite-plus@1.4.0`，无新增根项目开发/运行时依赖。
 
 各场景生成三个独立页面，且共用相同 HTML、探针 JS 与视口：
 
