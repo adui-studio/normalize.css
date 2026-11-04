@@ -50,7 +50,7 @@ $root = Join-Path $env:LOCALAPPDATA "adui-normalize-browser-tests\chrome-120"
 $chrome = Join-Path $root "chrome-win64\chrome.exe"
 if (-not (Test-Path $chrome)) { throw "Chrome for Testing executable not found" }
 $profile = Join-Path $root "r003-profile"
-$args = @(
+$chromeArgs = @(
   "--user-data-dir=$profile"
   "--no-first-run"
   "--no-default-browser-check"
@@ -59,7 +59,7 @@ $args = @(
   "--proxy-server=http://127.0.0.1:9"
   "http://localhost:5173/fixtures/r003-native.html"
 )
-& $chrome @args
+& $chrome @chromeArgs
 ```
 
 此处的无响应代理仅作为附加限制：Chromium 对 `localhost` 有[隐式代理绕过规则](https://chromium.googlesource.com/chromium/src/+/HEAD/net/docs/proxy.md)，所以本地 Fixture 应仍可直接访问；**代理参数本身不等于禁用所有网络访问**，真实外网断开更重要。保持浏览器原有 sandbox，不安装扩展，不绑定个人 Chrome profile。
