@@ -1,7 +1,7 @@
 # W-06 · Tailwind Preflight 与 UnoCSS Reset 独立回归
 
 **更新日期**：2026-11-04  
-**状态**：维护者已在 Windows 实测 UnoCSS Reset `tailwind-v4` 与 `tailwind-compat` 两个隔离场景的真实 tarball + Vite+ 三模式生产构建，**各 3/3 BUILD_PASS，共 6/6**；**已收到 Chrome 156 三份原始计算样式 JSON（12 元素 × 14 属性），静态值逐项一致；但 JSON 未含页面 URL/模式标签，CSS Cascade 胜出规则、交互、另一 UnoCSS 组浏览器对照和 Tailwind Preflight 仍待确认**，F-010 仍是部分完成，不能记整体 PASS。下文既有“待执行”步骤保留用于复现，实际结果以新增记录为准。
+**状态**：维护者已在 Windows 实测 UnoCSS Reset `tailwind-v4` 与 `tailwind-compat` 两个隔离场景的真实 tarball + Vite+ 三模式生产构建，**各 3/3 BUILD_PASS，共 6/6**；**已收到 Chrome 156 三份原始计算样式 JSON（12 元素 × 14 属性），静态值逐项一致；随后已收到三个端口的 Vite `data-vite-dev-id`，证实三种独立页面的 `style.css` 来源。JSON 自身仍未携带页面标识，CSS Cascade 胜出规则、交互、另一 UnoCSS 组浏览器对照和 Tailwind Preflight 仍待确认**，F-010 仍是部分完成，不能记整体 PASS。下文既有“待执行”步骤保留用于复现，实际结果以新增记录为准。
 
 **前置**：维护者在本轮对话中确认 TDesign 对照已完成；其具体浏览器、日志、截图、结果尚未同步到 W-06 记录。以下任务直接推进 F-010，**不要求重复 TDesign**。
 
@@ -50,6 +50,27 @@
 **判定**：在“按既定顺序对应三个不同页面”的前提下，静态计算样式为 **0 差异（维护者 JSON）**；之前的真实 tarball / Vite+ 生产构建已 3/3 PASS。当前 **不能**据此判定完整 `BROWSER_PASS` 或确认 CSS 规则胜出来源。未发现需要修改 `src/normalize.css` 的具体冲突证据。
 
 **下一步最小证据**：在三个页面各记录 `location.href`、当前 `style.css` 加载内容或 DevTools 资源、已确认的 `baseline/normalize-first/normalize-last` 身份；在差异风险点（尤其 `b/strong` 和聚焦状态）保留 DevTools 命中规则。UnoCSS `tailwind-compat` 要使用另一个独立消费者重复，Tailwind Preflight 仍单独执行。当前不混合 Reset、不增加 CI、不发布 npm。
+
+## 2026-11-04 · UnoCSS tailwind-v4 三模式 CSS 页面来源复核（维护者提供）
+
+维护者接着在三个不同的 Chrome 156 本地页面执行 `document.styleSheets` 来源检查，结果如下：
+
+| 页面 URL | 首个样式表 `href` | 首个样式表 `data-vite-dev-id` 后缀 | 与预期模式 |
+| --- | --- | --- | --- |
+| `http://localhost:5180/` | `null` | `adui-reset-UQvmww/baseline/style.css` | 匹配 |
+| `http://localhost:5181/` | `null` | `adui-reset-UQvmww/normalize-first/style.css` | 匹配 |
+| `http://localhost:5182/` | `null` | `adui-reset-UQvmww/normalize-last/style.css` | 匹配 |
+
+三页各有第二个 `href:null`、`viteId:null` 的样式表；**其用途尚未识别，不能据此声称已审计所有 CSS 声明或不存在其他动态样式**。首个样式表的 `data-vite-dev-id` 精确匹配先前 `--keep` 输出的 UnoCSS `tailwind-v4` 临时消费者目录及三份模式的 `style.css`，证明三页使用独立 Vite CSS 模块，而非三个端口意外落到同一份 `style.css`。
+
+据此更新当前证据状态：
+
+- **BUILD_PASS**：此组既有 3/3 真实 tarball + Vite+ 生产构建结果保持有效。
+- **PAGE_SOURCE_CONFIRMED**：维护者提供的三个 URL 和 Vite 样式模块路径均与模式对应。
+- **COMPUTED_EQUAL（有限静态采样）**：此前按三组顺序采集的三份 JSON，12 个元素 × 14 属性零差异；鉴于原始 JSON 本身不携带 URL/模式身份，这是**依据连续操作上下文关联的证据**，不是单份 JSON 内的自证。
+- **尚未验收**：CSSOM 完整胜出规则与 `:focus-visible`、输入/按钮交互、`hidden="until-found"` 查找揭示；以及独立的 UnoCSS `tailwind-compat` 三页浏览器对照、Tailwind Preflight。不能把 F-010 整体标成 PASS。
+
+**后续建议**：不再重复本组三页的静态计算值采样；下一批直接对 `adui-reset-8TXDC6` 的 compat 三页采集 URL 与计算结果，之后再独立运行 Tailwind。出现真实属性差异时才补采 DevTools Styles 面板最终胜出声明并评估是否修改产品 CSS。不新增 CI、不发布或合并。
 
 ## 1. 测试边界与版本
 
