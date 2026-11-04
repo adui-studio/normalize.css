@@ -1,6 +1,6 @@
 # CODEBASE_MAP — 仓库结构与定位
 
-**状态**：开发分支已包含 Fixture、探针、Vite+、首条 R-003 Normalize CSS、Vite+ CSS-only 构建配置和包根 exports；发布、生态兼容与完整浏览器矩阵仍未验收。区分开发分支、依赖的文档评审分支与 main。
+**状态（2026-11-04）**：开发分支的 R-003 是唯一正式默认 Normalize CSS；**W-05 已通过 36 条规则首版评审**，W-06 已由维护者正式验收归档。开发分支含 Fixture、Vite+ CSS-only 打包和唯一根 exports；W-07 发布前质量审核和具体公开兼容版本仍未冻结，未发布/未合并 main。
 
 ## 1. 当前真实文件
 
@@ -65,6 +65,7 @@ normalize.css/
     ├── research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md # W-06 生态对照本地执行与验收边界
     ├── research/W06_RESET_LOCAL_VERIFICATION.md # W-06 F-010 三组 Reset 分离验证执行说明
     ├── research/W06_ACCEPTANCE_INDEX.md # W-06 正式验收归档索引与证据边界
+    ├── research/W05_RULE_ACCEPTANCE.md # W-05 36 条规则首版评审归档索引
     ├── CODEBASE_MAP.md      # 本轮文档：代码地图
     ├── SKILLS.md            # 本轮文档：Skill 索引
     ├── HARNESS.md           # 本轮文档：验证机制规划
