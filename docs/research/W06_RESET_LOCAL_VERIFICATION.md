@@ -1,7 +1,7 @@
 # W-06 · Tailwind Preflight 与 UnoCSS Reset 独立回归
 
 **更新日期**：2026-11-04  
-**状态**：维护者已在 Windows 实测 UnoCSS Reset `tailwind-v4` 与 `tailwind-compat` 两个隔离场景的真实 tarball + Vite+ 三模式生产构建，**各 3/3 BUILD_PASS，共 6/6**；**实际浏览器对照、CSS Cascade 胜出规则和 Tailwind Preflight 尚未收到结果**，F-010 仍是部分完成，不能记整体 PASS。下文既有“待执行”步骤保留用于复现，实际结果以新增记录为准。
+**状态**：维护者已在 Windows 实测 UnoCSS Reset `tailwind-v4` 与 `tailwind-compat` 两个隔离场景的真实 tarball + Vite+ 三模式生产构建，**各 3/3 BUILD_PASS，共 6/6**；**已收到 Chrome 156 三份原始计算样式 JSON（12 元素 × 14 属性），静态值逐项一致；但 JSON 未含页面 URL/模式标签，CSS Cascade 胜出规则、交互、另一 UnoCSS 组浏览器对照和 Tailwind Preflight 仍待确认**，F-010 仍是部分完成，不能记整体 PASS。下文既有“待执行”步骤保留用于复现，实际结果以新增记录为准。
 
 **前置**：维护者在本轮对话中确认 TDesign 对照已完成；其具体浏览器、日志、截图、结果尚未同步到 W-06 记录。以下任务直接推进 F-010，**不要求重复 TDesign**。
 
@@ -29,6 +29,27 @@
 - `D:\Workspace\adui-studio\normalize.css\node_modules\.cache\adui-reset-8TXDC6`（UnoCSS tailwind-compat）
 
 **下一门槛**：分别启动每组的三份页面，在同一浏览器采集 `window.__aduiResetEvidence` 和对应胜出 CSS 声明；再单独运行 Tailwind Preflight。**本次没有提供这些浏览器结果、Tailwind 命令日志或新增离线套件检查日志**。因此 F-010 不勾选整体完成，也不修改产品 CSS。
+
+## 2026-11-04 · Chrome 156 三份计算样式 JSON 静态对照（维护者提供）
+
+维护者连续提供三份 `window.__aduiResetEvidence` JSON。三份 UA 相同：Windows NT 平台字符串、Chrome/156.0.0.0。按此前 `tailwind-v4` 优先、`baseline → normalize-first → normalize-last` 的既定测试顺序，**暂作为 `unocss-tailwind-v4` 的三个模式数据**；由于 JSON **没有**包含 `location.href`、模式 ID、Reset 名称或构建 CSS 哈希，不能从 JSON 本身独立确认模式及页面来源。需要额外 URL/加载记录作为证据闭环。
+
+逐项阅读维护者提供的三份 JSON：每份 **12 个相同 ID、14 个相同计算样式属性**，共每份 168 个属性观测值；三份之间未发现任何计算值差异。重点如下：
+
+| 检查项 | 三份观测结果 | 注意 |
+| --- | --- | --- |
+| `bold`、`strong` | `fontWeight: "900"` | 父级 600，`bolder` 的计算结果符合预期；不能单凭计算值证明最终胜出 CSS 文件 |
+| `heading`、`paragraph`、`list` | `margin: 0px`、`fontSize: 16px` | 显示 Reset 风格的计算效果，不是本库新加的规则 |
+| `code` | `fontSize: 16px`、字体族以 `ui-monospace` 开头 | 三份一致；与非 Reset 的浏览器默认字体大小不能混为同一实验 |
+| `button`、`input` | `boxSizing: border-box`、`borderWidth: 0px`、背景透明 | 三份一致，未证明聚焦/输入/点击行为 |
+| `hidden` | `display: none` | 仅静态显示计算值 |
+| `until-found` | `display: block` | `hidden="until-found"` 可能通过 `content-visibility` 隐藏；不能以 `display` 单独判断查找揭示 |
+| `dialog` | `display: none` | 只是未打开状态，未验证打开/Esc/焦点 |
+| `outlineStyle` | 三份静态均为 `none` | 未采集 `:focus-visible` 状态，不能推断焦点标记被移除 |
+
+**判定**：在“按既定顺序对应三个不同页面”的前提下，静态计算样式为 **0 差异（维护者 JSON）**；之前的真实 tarball / Vite+ 生产构建已 3/3 PASS。当前 **不能**据此判定完整 `BROWSER_PASS` 或确认 CSS 规则胜出来源。未发现需要修改 `src/normalize.css` 的具体冲突证据。
+
+**下一步最小证据**：在三个页面各记录 `location.href`、当前 `style.css` 加载内容或 DevTools 资源、已确认的 `baseline/normalize-first/normalize-last` 身份；在差异风险点（尤其 `b/strong` 和聚焦状态）保留 DevTools 命中规则。UnoCSS `tailwind-compat` 要使用另一个独立消费者重复，Tailwind Preflight 仍单独执行。当前不混合 Reset、不增加 CI、不发布 npm。
 
 ## 1. 测试边界与版本
 
