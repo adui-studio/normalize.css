@@ -121,7 +121,7 @@ strong {
 
 维护者使用 Browser Workshop v1.0.0 启动 Chrome for Testing **120.0.6099.109 / Windows 11 25H2**，提供 `chrome://version` 截图与原始 T0/T1 JSON。助手对上传的两份 JSON 独立解析：父级 400 下 `b` / `strong` 都为 700（T0/T1 相同）；父级 **600、700** 下，T0 都为 **700**，而 T1 都为 **900**，共计**四个计算值差异**，候选结果不符为零。字体上下文一致，字号 16px、字体族为 `"Microsoft YaHei"`。
 
-**证据等级**：Chrome 120 桌面 CfT、单一 Windows 环境、真实计算样式对照；这是对旧版 Blink UA 行为与候选修复效果的**实测支持**。当前只由助手独立解析附件推得比较器状态（预期 `COMPUTED_DIFFERENCE_OBSERVED`），尚未收到维护者执行 `tests/r003-evidence.mjs` 对 Chrome 120 原始文件的终端输出。完整版本以截图而非简化 UA 为准，原始附件的 SHA-256 和详细环境限制见[运行记录 §2.2](LOCAL_BROWSER_RUN_20261104.md)。
+**证据等级**：Chrome 120 桌面 CfT、单一 Windows 环境、真实计算样式对照；这是对旧版 Blink UA 行为与候选修复效果的**实测支持**。助手随后在独立 Linux Node.js 22.16.0 容器中，根据仓库当前 `tests/r003-evidence.mjs`、`tests/evidence-file.mjs` 的实际内容复制临时模块并执行真实比较，得到 `COMPUTED_DIFFERENCE_OBSERVED`、`differences: 4`、`candidateFailures: 0`、退出码 0（详见[运行记录 §2.3](LOCAL_BROWSER_RUN_20261104.md)）。维护者 Windows 本机运行该批文件的 CLI 日志尚未收到。完整版本以截图而非简化 UA 为准，原始附件的 SHA-256 和详细环境限制见[运行记录 §2.2](LOCAL_BROWSER_RUN_20261104.md)。
 
 **继续准入评审而非直接实现**：需从 DevTools Styles 明确 UA 获胜声明，补充嵌套字重、显式用户样式/焦点与 UI 组件库回归；Edge 120、Firefox 121、Safari 17.2 与移动端不得借用 Chrome 120 的结果。当前正式 Normalize CSS 未实现，R-003 仍是有真实差异证据的条件性候选。
 
