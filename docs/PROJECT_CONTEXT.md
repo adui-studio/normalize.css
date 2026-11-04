@@ -169,6 +169,8 @@
 
 **2026-11-04 · W-07 P-01 单一包管理器策略已确认（最新）**：维护者同意统一采用 pnpm。根据此前 Windows PowerShell 的实际 pnpm 12.15.0 使用记录，在开发分支 `package.json` **仅新增** `"packageManager":"pnpm@12.15.0"`，保留既有 `vite-plus@1.4.0`、Node engines、`private:true` 与 `version:0.0.0`；中英文 README 及 [W-07 审核记录](research/W07_RELEASE_READINESS_REVIEW.md) 已同步。本执行环境 pnpm 未安装，npm Registry 请求返回 `EAI_AGAIN`，且 Node 22.16 不满足项目最低 Node 22.18 要求，**未生成任何 pnpm-lock.yaml 或完成冻结安装**。P-01 状态为「版本与包管理器决策已实现、锁文件和本机验证仍阻塞」，W-07 #8 保持 Open；维护者应使用 pnpm 12.15.0 在 Windows 生成真实锁文件并提交，不手工伪造。无产品 CSS / CI / 发布 / main 合并变更。
 
+**2026-11-04 · W-07 P-01 已提交锁文件的静态复核（最新）**：维护者确认已提交；经 GitHub 开发分支读取，`pnpm-lock.yaml` 确实已入库（blob SHA `b2a572124b5434bc10fdf91c4f2c4aefcf426520`），为唯一根锁文件。文件采用 pnpm 12 的**双 YAML 文档**格式：环境文档的 `packageManagerDependencies.pnpm` 锁定 **12.15.0**，项目依赖文档的 root importer 锁定 **`vite-plus@1.4.0`**，与 `package.json` 一致，且包含 sha512 完整性记录。**P-01 的缺锁文件阻塞已解除（GitHub 静态 PASS）**；当前对话尚未附本次 `pnpm install --frozen-lockfile`、`vp check`、`vp test`、`test:offline`、真实包与消费测试日志，因此冻结安装与最终 P-06 复核均未宣称 PASS。已同步 [W-07 审核记录](research/W07_RELEASE_READINESS_REVIEW.md) 与双语 README；W-07 Issue #8 保持 Open，正式版本、npm metadata、scope 授权和公开浏览器兼容声明仍需审查。无产品 CSS、依赖、CI、发布或主分支变更。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与待决策变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源
