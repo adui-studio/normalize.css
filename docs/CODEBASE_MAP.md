@@ -64,6 +64,7 @@ normalize.css/
     ├── PROJECT_CONTEXT.md   # 本轮文档：阶段事实
     ├── research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md # W-06 生态对照本地执行与验收边界
     ├── research/W06_RESET_LOCAL_VERIFICATION.md # W-06 F-010 三组 Reset 分离验证执行说明
+    ├── research/W06_ACCEPTANCE_INDEX.md # W-06 正式验收归档索引与证据边界
     ├── CODEBASE_MAP.md      # 本轮文档：代码地图
     ├── SKILLS.md            # 本轮文档：Skill 索引
     ├── HARNESS.md           # 本轮文档：验证机制规划
