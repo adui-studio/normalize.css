@@ -33,6 +33,9 @@ normalize.css/
 │   ├── package-smoke.node.test.mjs  # 合成包烟测（普通 test:offline）
 │   ├── package-real.node.test.mjs   # W-04 真实包打包/安装（先 vp pack，再 test:package）
 │   ├── package-vite-consumer.node.test.mjs # W-04 Vite+ 生产 CSS 副作用消费检查（test:consumer）
+│   ├── ecosystem-fixtures.mjs       # W-06 Vue/React T0/T2 同源 JS/HTML 生成器
+│   ├── ecosystem-consumer.mjs       # W-06 隔离真实 tarball + 组件库 Vite+ 构建 CLI
+│   ├── ecosystem-contract.node.test.mjs # W-06 无网络隔离与依赖版本契约
 │   ├── probe.node.test.mjs
 │   ├── r003-evidence.mjs             # R-003 JSON 比较 CLI
 │   ├── r003-evidence.node.test.mjs   # 合成数据与 CLI 测试
@@ -56,6 +59,7 @@ normalize.css/
     ├── ARCHITECTURE.md      # 本轮文档：总体架构草案
     ├── SDD.md               # 本轮文档：详细设计草案
     ├── PROJECT_CONTEXT.md   # 本轮文档：阶段事实
+    ├── research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md # W-06 生态对照本地执行与验收边界
     ├── CODEBASE_MAP.md      # 本轮文档：代码地图
     ├── SKILLS.md            # 本轮文档：Skill 索引
     ├── HARNESS.md           # 本轮文档：验证机制规划
