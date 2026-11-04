@@ -18,6 +18,80 @@
 
 **安全注意**：2023 年的浏览器早已不再是当前安全版本。将来的旧版复现应在隔离的、本地离线 Fixture 环境中进行，不登录真实账号、不访问不可信外网、不覆盖日常默认浏览器。此处不包含下载安装命令。
 
+### 1.1 无虚拟机的 Windows 本机验证（待执行）
+
+维护者目前没有虚拟机。对 Chrome 120 可采用**官方 Chrome for Testing (CfT) 历史版解压目录 + 独立浏览器配置目录 + 暂时断开电脑外网**的本地复现方式，不需覆盖日常 Chrome，也不新增测试依赖。这是**在真实 Windows 宿主运行旧浏览器**，不能冒充虚拟机/沙箱隔离。
+
+**安全门槛**：Chrome 120 不再自动接收修复，Chromium [安全 FAQ](https://chromium.googlesource.com/chromium/src/+/HEAD/docs/security/faq.md) 明确警告不可用 CfT 旧版访问不可信网站。优先在下载完成后临时断开 Wi-Fi、以太网及 VPN 的外部连接，再运行旧版浏览器；本地 `localhost` 通常仍可访问。若无法让外网断开，**不要把独立 profile 或拒绝连接的代理视为安全隔离**；可以标记 `BLOCKED` 并先继续其他研究。不得加入 `--no-sandbox` 或 `--disable-web-security`；禁止访问真实账号、外部网站或加载任何第三方资源。
+
+浏览器下载地址来自 [Chrome for Testing 固定 milestone 120 的官方 JSON](https://github.com/GoogleChromeLabs/chrome-for-testing/blob/main/data/latest-versions-per-milestone-with-downloads.json)，对应 Windows x64 为 `120.0.6099.109`。先在联网状态下，仅下载并解压（PowerShell；不会修改现有 Chrome）：
+
+```powershell
+$version = "120.0.6099.109"
+$root = Join-Path $env:LOCALAPPDATA "adui-normalize-browser-tests\\chrome-120"
+$zip = Join-Path $root "chrome-win64.zip"
+New-Item -ItemType Directory -Force -Path $root | Out-Null
+
+Invoke-WebRequest -Uri "https://storage.googleapis.com/chrome-for-testing-public/$version/win64/chrome-win64.zip" -OutFile $zip
+Expand-Archive -Path $zip -DestinationPath $root -Force
+
+$chrome = Join-Path $root "chrome-win64\\chrome.exe"
+if (-not (Test-Path $chrome)) { throw "Chrome for Testing executable not found" }
+Get-FileHash -Path $zip -Algorithm SHA256
+& $chrome --version
+```
+
+`Get-FileHash` 只生成下载文件的本地指纹，**不等于已与官方校验值比对**。实际版本仍应从运行后的 `chrome://version` 记录。下载目录位于 `LOCALAPPDATA`，不在项目仓库内；不要提交浏览器二进制或 profile。
+
+在已启动 `vp dev`、外网已暂时断开后，从另一终端执行：
+
+```powershell
+$profile = Join-Path $root "r003-profile"
+$args = @(
+  "--user-data-dir=$profile"
+  "--no-first-run"
+  "--no-default-browser-check"
+  "--disable-extensions"
+  "--disable-background-networking"
+  "--proxy-server=http://127.0.0.1:9"
+  "http://localhost:5173/fixtures/r003-native.html"
+)
+& $chrome @args
+```
+
+此处的无响应代理仅作为附加限制：Chromium 对 `localhost` 有[隐式代理绕过规则](https://chromium.googlesource.com/chromium/src/+/HEAD/net/docs/proxy.md)，所以本地 Fixture 应仍可直接访问；**代理参数本身不等于禁用所有网络访问**，真实外网断开更重要。保持浏览器原有 sandbox，不安装扩展，不绑定个人 Chrome profile。
+
+进入 T0、T1 页面后，确认 `document.documentElement.dataset.probeStatus === "complete"`。各自通过 DevTools Console 导出 JSON（同样脚本分别执行两次；自动按页面生成文件名）：
+
+```js
+(() => {
+  const data = JSON.parse(document.querySelector("#probe-output").textContent);
+  const name = location.pathname.endsWith("r003-native.html")
+    ? "r003-native-120.json"
+    : "r003-candidate-120.json";
+  const url = URL.createObjectURL(
+    new Blob([JSON.stringify(data, null, 2)], { type: "application/json" }),
+  );
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = name;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+})();
+```
+
+T1 地址：`http://localhost:5173/fixtures/r003-candidate.html`。文件放在本机 Downloads 或临时目录，不加入公开仓库。浏览器关闭后恢复电脑网络，再运行现有比较器（路径按实际下载位置调整）：
+
+```powershell
+$native = Join-Path $HOME "Downloads\\r003-native-120.json"
+$candidate = Join-Path $HOME "Downloads\\r003-candidate-120.json"
+node tests/r003-evidence.mjs $native $candidate
+```
+
+**验收与限制**：记录 `chrome://version` 的完整版本、操作系统、原生与候选的六组计算字重、比较器输出及浏览器 UA 样式来源。根据已核对的 Blink 120 UA 源码，父级 600/700 时**预期** T0=700、T1=900，但没有实际数据前必须记为 `NOT_RUN`，不能把预期当实测。Edge 120、Firefox 121、Safari 17.2 和移动端均需要各自独立验证。
+
 ## 2. R-003：最低版本的观测设计
 
 沿用 [证据卡 §2.4](RULE_EVIDENCE_R003_R004.md) 的最小 HTML 结构和仅控制父级字体粗细的 Fixture 样式，**不要将 Fixture 样式与待审查的 Normalize 修复混为一谈**。
