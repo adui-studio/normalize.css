@@ -131,6 +131,10 @@ W-03 的 T0/T1 只验证浏览器原生值与孤立候选规则；W-04 已证明
 
 同轮离线 Node 29/30 PASS、1 FAIL；原因是旧 `tests/package.node.test.mjs` 严格断言六项测试清单，而 `package.json` 已加入第七项 `ecosystem-contract.node.test.mjs`。仅同步断言的预期字符串，不改执行脚本或产品 CSS。**修复后尚未重跑完整离线测试**；浏览器 UI/交互、其他框架及目标旧版浏览器结果仍待测试，W-06 Issue #7 不结项。
 
+### 2.13 W-06 Vue/Element Plus Chrome 156 静态生态对照（2026-11-04）
+
+维护者在完成 Vue 3.5.44 + Element Plus 2.14.7 的真实 npm tarball Vite+ 双生产构建之后，提供 T0（`localhost:5174`）与 T2（`localhost:5175`）的 Chrome 156 页面/DevTools 截图。两边 `ui.buttonMounted`、`ui.inputMounted` 均为 `true`，Element Plus Button/Input 外观一致；`b-600`、`strong-600`、`b-700`、`strong-700` 均计算为 `fontWeight: 900`、`fontSize: 16px`、`fontFamily: Noto Sans SC`，`code` 均为 `fontWeight: 400`、`fontSize: 13px`、`fontFamily: monospace`。**本环境静态 UI 与五项计算样式对照 PASS（截图）**；此结论不等于组件输入/焦点交互 PASS，也不代表 React/Ant Design 或其他浏览器支持已确认。两组共有 Vue esm-bundler feature flag 警告、favicon 404，不视为 Normalize 引起的样式失败。详情见[生态记录](research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)，Issue #7 保持 Open。
+
 ## 3. CSS 规则准入流程（拟议）
 
 1. **问题**：列出浏览器/版本、HTML Fixture、原生样式偏差及用户可见问题。
