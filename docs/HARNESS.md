@@ -141,6 +141,14 @@ npm pack --dry-run --json --ignore-scripts --offline .
 
 每一项需同时记录 **浏览器版本、操作步骤、期待行为、实际结果**。浏览器引擎覆盖不能由 CSS 解析测试代替。
 
+## W-06 / F-010 · 独立 Reset 本地回归入口（2026-11-04）
+
+维护者已反馈 TDesign 对照完成；不重复要求执行。F-009 的浏览器/组件实测细项以归档日志为准，不自动将所有引擎标为 PASS。
+
+为 F-010 添加 `tests/reset-fixtures.mjs`、`tests/reset-consumer.mjs`、`tests/reset-contract.node.test.mjs`。本地命令为 `npm run test:reset -- tailwind-preflight --keep`、`npm run test:reset -- unocss-tailwind-v4 --keep` 和 `npm run test:reset -- unocss-tailwind-compat --keep`；每次只在 Git 忽略的临时消费者中安装一套 Reset，使用真实 Normalize tarball 与现有 Vite+ 分别构建 `baseline`、`normalize-first`、`normalize-last` 三页。Tailwind v4 使用 `@tailwindcss/vite` 处理 Preflight `base` 层，UnoCSS 只加载单个 `@unocss/reset` CSS 入口；不添加工具链、运行时依赖或 CI。
+
+**已核对**：GitHub 中独立生成器的三组模式及 CSS 导入顺序满足源文件隔离关系；`package.json` 与离线套件清单断言同步。**尚未验证**：维护者 Windows 上的新离线全量运行、npm 包下载、真实 Vite+ 构建结果与浏览器交互；不得据此标记 F-010 PASS。详见 [W-06 Reset 验证指南](research/W06_RESET_LOCAL_VERIFICATION.md)。
+
 ## 6. 安全和发布门禁（规划）
 
 - 审核第三方规则的许可证及改写过程；不引入未经审批的远程字体、图片或跟踪请求。
