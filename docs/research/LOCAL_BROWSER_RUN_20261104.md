@@ -68,6 +68,21 @@
 
 **环境风险与后续**：版本页启动命令及浏览器标签栏截图显示 `--disable-extensions`、`--disable-background-networking`、`--proxy-server=...` 被当作网页地址打开，**无法据此确认这些附加限制曾生效**；独立 BWS Profile 不是操作系统隔离，是否实际断开外网未获确认。后续在真实受控隔离条件下复测时，不应将这次命令行附加参数视为安全保证。尚未从 DevTools Styles 核对胜出 UA 声明、嵌套字重、实际字体字形及组件库覆盖风险。R-003 进入**有旧版真实差异证据的条件性候选评审**，仍不准入正式产品 CSS，Issue #3 保持 Open。
 
+## 2.3 Chrome 120 原始 JSON：独立 Node 比较器执行（2026-11-04）
+
+在独立的 Linux 容器 Node.js `v22.16.0` 环境中，助手根据 GitHub 开发分支当前 `tests/r003-evidence.mjs`、`tests/evidence-file.mjs` 的实际内容复制出独立临时模块，并对维护者上传的两份 **Chrome 120** JSON 附件运行同样的 CLI 比较逻辑。真实执行结果：
+
+```text
+status: COMPUTED_DIFFERENCE_OBSERVED
+differences: 4
+candidateFailures: 0
+exit_code: 0
+```
+
+六组详细结果与 §2.2 的原始 JSON 对照完全一致：`b-400` / `strong-400` 不变，`b-600` / `strong-600` / `b-700` / `strong-700` 由 `700` 变为 `900`。两份文件的 SHA-256 重新计算后，与 §2.2 的登记值一致。
+
+**证据边界**：这是基于仓库文件内容在独立容器复制运行比较器的结果，不是维护者 Windows 本机执行记录，也不等于在该容器重新启动 Chrome 120；尚未运行项目完整的 `vp check` / `vp test`。继续保留 DevTools UA 获胜声明、Firefox 121 等其他版本及组件库回归的待验证状态。
+
 ## 3. R-004：T1 有候选声明，但截图计算值没有变化（待诊断）
 
 | 节点   | T0 父级字号 | T0 自身字号 | T1 父级字号 | T1 自身字号 |
