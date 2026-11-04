@@ -42,6 +42,8 @@
 
 **W-06 首批 T2 页面开发（2026-11-04）**：新增 `fixtures/t2-native.html` 与 `t2-package.html`，body 与测试用父级字重一致；T2 仅通过 `<link href="../dist/normalize.css">` 加载当前 `vp pack` 构建产物。`probe.js` 在 T2 额外记录 `packageStylesheet.href/loaded`，避免 CSS 404 被误判为浏览器零差异。新增 Node/Vitest 契约，并将两页加入 `vp build`；包含 R-003 的 6 个字重点、R-004 的 4 个等宽元素，以及后续可手工观察的原生控件。已对 GitHub 实际文件完成 body/样式/ID/链接与配置一致性静态检查，**未在 Windows 执行本轮 Vite+ 命令或浏览器 T2**；结果应保持 NOT_RUN。先 `vp pack`，再 `vp build` / `vp dev`，详见[本地验证说明](research/W06_T2_LOCAL_VERIFICATION.md)。不新增产品 CSS、依赖或 CI。
 
+**W-06 T2 反馈与第二批原生交互开发（2026-11-04）**：维护者反馈首批 T0/T2 本地验证通过，但未提供浏览器/系统精确版本、原始 JSON 和截图；记录为**维护者报告通过**，尚不足以给 R-003/R-004 各浏览器兼容矩阵逐项签署 PASS。两张 T0/T2 页面同步新增原生 fieldset/select/textarea/checkbox 与 dialog（保留此前 button/search/details/hidden），仍是相同 DOM，只有 T2 引用真实 CSS。新增 Node 契约只检查页面元素存在与隔离，不证明键盘焦点、Esc、系统偏好或 until-found 查找通过；这些步骤按[W-06 指南](research/W06_T2_LOCAL_VERIFICATION.md)手工验证，状态为 NOT_RUN。无产品 CSS、运行时依赖或 CI 变更。
+
 ## 1. Harness 目标
 
 形成可重复的闭环：理解需求 → 影响分析 → 制定验证矩阵 → 最小修改 → 检查 → 定位失败 → 修复重验 → 记录结果。未来仅考虑维护者本地运行可复现检查并记录结果；项目明确**不增加任何 CI**，避免仅凭经验声称跨浏览器兼容。
