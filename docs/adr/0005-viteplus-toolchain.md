@@ -43,6 +43,10 @@
 
 不能把应用构建命令成功，等同于 npm CSS-only 包发布验证成功。
 
+### 后续实施补充（2026-11-04，维护者确认）
+
+本 ADR 的 Vite+ 单工具链约定保持 Accepted。开发分支已实际验证 `vp build` 的本地 Fixture 构建与 `vp pack` 的单 CSS 输出，并完成真实 npm tarball 独立安装及 Vite+ 生产消费端测试。维护者进一步明确：**本库仅交付标准 CSS 文件，不需要通过 Webpack 二次打包，Webpack 不属于首版强制开发工具或验收门槛**。先前关于 Vite+/Webpack 双消费端验证的条款属于早期风险研究，现由 [W-04 最新验收口径](../plans/CSS_PACKAGE_DELIVERY_REVIEW.md) 覆盖，不再阻塞 W-04。浏览器、无障碍与组件库回归仍须按 W-06 单独记录，未公开发布 npm，不增加 CI。
+
 ## 5. 验收与未完成
 
 **已批准**：开发工具链选用 Vite+，其作用仅限开发和本地测试，长期无运行时 JS、无 CI。
