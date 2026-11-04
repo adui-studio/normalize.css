@@ -131,6 +131,8 @@
 
 **W-06 React + Ant Design 浏览器截图结果（2026-11-04）**：维护者提供 React 19.3.1 + React DOM 19.3.1 + Ant Design 6.6.8 的 Chrome 156 T0/T2 页面与 Console 截图，两页 Button/Input 均已挂载（`true/true`）、静态外观一致；b/strong 四组计算字重皆 `900`，`code` 为 `13px`/`monospace`，两页五项数据一致。结合该组合真实 npm tarball 的 Vite+ 生产构建 PASS，**React+Ant Design 的 Chrome 156 静态 UI/计算样式对照 PASS（截图）**；Vue+Element Plus 在该浏览器的同类对照此前亦已 PASS。未执行 UI 输入/焦点交互、其他目标浏览器、TDesign、Tailwind/UnoCSS 回归；修复后的离线 Node 30/30 仍待本机验证。F-009、W-06 Issue #7 保持部分完成/Open。详见[生态验证说明](research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)，未改产品 CSS、依赖或 CI。
 
+**W-06 离线 Node 30/30 与 TDesign 生态场景（2026-11-04）**：维护者 Windows 最新 `npm run test:offline` 实际 **30/30 PASS、0 FAIL**（1101.97ms），证明此前 `test:offline` 的旧清单断言已修复；此结论针对**新增 TDesign 代码之前**的实际版本。当前开发分支已在原 `tests/ecosystem-fixtures.mjs` 中增加 `vue-tdesign`，固定 Vue 3.5.44 + TDesign Vue Next 1.20.10，使用官方 `tdesign-vue-next/es/style/index.css`，保留真实 npm tarball + Vite+ 1.4.0 的 T0/T2 独立构建模式，无根项目新增依赖。离线契约测试扩充组件导入及样式路径核查；通过源生成器静态确认三组案例仅 CSS 导入不同，**新代码的 `vp check`、完整 Node 测试、TDesign 安装/生产构建/浏览器测试仍未取得维护者结果**。Vue+Element Plus、React+Ant Design 的既有 Chrome 156 静态回归 PASS 继续有效；Tailwind/UnoCSS Reset 仍未实现，W-06 #7 继续 Open。详细见 [W-06 生态本地验证](research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)。不改产品 CSS、不增加 CI、不发布 npm。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与待决策变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源
