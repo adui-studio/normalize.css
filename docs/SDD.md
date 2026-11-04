@@ -74,6 +74,12 @@ W-03 已验收后，W-04 下一项最小必要检查是 **`vp pack` 的真实 `d
 
 该脚本已通过 Node 语法检查，但当前执行环境没有本项目的 Vite+ 1.4.0，生产构建未运行。W-04 的 P-03 Webpack 5 消费端仍待单独验证，不能因 P-02 实验脚本存在而关闭 Issue。
 
+### 2.6 W-04 Windows 真实验收与行尾规则（2026-11-04）
+
+维护者确认 `vp pack` 输出唯一 `dist/normalize.css`（约 200 字节）；`npm run test:package` **1/1 PASS**，验证完整仓库真实 tarball 的文件白名单、导出、离线安装与子路径封装；`npm run test:consumer` **1/1 PASS**，验证独立 Vite+ 1.4.0 **生产**消费应用的 CSS 导入未被丢弃。W-04 的 P-01/P-06/P-07/P-09 已满足当前包契约；P-02 生产 CSS 保留子项已通过，但 Vite+ 开发态与浏览器实际渲染未测试；P-03 Webpack 5 仍未测试。详见[W-04 §7.6](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)。
+
+维护者反映 Windows 上反复 `vp check --fix` 是 CRLF→LF 行尾纠正。新增 `.gitattributes` 的 `* text=auto eol=lf` 与 `.editorconfig` 的 `end_of_line = lf`、UTF-8 和末尾换行规定，**不修改产品 CSS**。这解决后续 Git 检出与编辑器保存的统一策略，但是否消除既有工作区行尾问题，仍待维护者拉取后执行 `vp check` 核对；不对第三方 Skills 执行大规模 renormalize。
+
 ## 3. CSS 规则准入流程（拟议）
 
 1. **问题**：列出浏览器/版本、HTML Fixture、原生样式偏差及用户可见问题。
