@@ -1,6 +1,6 @@
 # SDD — 详细设计草案
 
-**状态：首版公开 CSS 契约已批准 / 未实现**。ADR-0001～0005 已 Accepted；W-03 开发分支已有 Vite+ 清单、配置及本地 Fixture/测试，但仍无正式 CSS、npm 导出或发行产物。
+**状态：首版公开 CSS 契约已批准，正在实施最小开发版本**。ADR-0001～0005 已 Accepted；基于 Chrome 120 的真实 R-003 字重差异，首批实现仅加入 `b`/`strong` 的 `bolder` 修正，并明确排除 R-004 的等宽字体字号调整。开发包继续保持 `private: true`，不等于已发布或完成兼容验收。
 
 ## 1. 设计范围与需求映射
 
@@ -25,6 +25,13 @@
 | `@adui/normalize.css/all.css`   | 经评审的组合 CSS                        | **首版延期**；未来版本单独决策              |
 
 首版只规划 `@adui/normalize.css` 根入口，**不发布四个候选子路径**；未来版本可重新评审。开发工具链统一 Vite+（[ADR-0005](adr/0005-viteplus-toolchain.md)），但 CSS-only 的 `vp pack` 产物适配仍需在 W-04 实测，不能提前承诺 JS 入口或已编译 CSS。目前 `package.json` 已配置 `files: ["dist"]` 和 `sideEffects: ["**/*.css"]` 并通过离线打包文件清单预检，但**没有可用 CSS、exports 或生产构建证明**。具体 exports、CSS 文件名与编译方式仍须在实际开发后做构建验证，参阅 [ADR-0003](adr/0003-mvp-package-contract.md)、[W-04 包交付验收研究](plans/CSS_PACKAGE_DELIVERY_REVIEW.md) 和 [实施计划](plans/MVP_IMPLEMENTATION_PLAN.md)。
+
+### 2.1 首个最小交付切片（2026-11-04 开发决策）
+
+- **首批源文件**：`src/normalize.css`，只纳入 R-003：`b, strong { font-weight: bolder; }`。依据真实 Chrome for Testing 120.0.6099.109 T0/T1 对照（父级 600/700 时四组计算字重由 700 → 900），Firefox 121 / Chrome 156 中候选无额外计算值变化；[证据卡](research/RULE_EVIDENCE_R003_R004.md)。
+- **明确不纳入**：R-004 `font-size: 1em`、重复 `monospace`、统一代码字体栈；不添加 Reset、Forms、A11y、全局视觉规则、`@layer`、`!important`。
+- **开发期根入口**：`package.json` 的唯一 `exports["."]` 指向 `./dist/normalize.css`；仍 `private: true`、版本 `0.0.0`，不能公开发布。Vite+ 继续承担开发与本机检查；静态 CSS 直接复制为 `dist/normalize.css`，不创建 JS 入口，不增加额外打包依赖。构建前根导出目标尚不存在，应先运行 `npm run build`。
+- **验证边界**：构建字节完整性、文件封装、离线 npm smoke 可以本地验证；实际消费端的 Vite+/Webpack 生产构建、WebKit/Safari、Edge/移动端、组件库及最终 CSS 准入仍应在发布前单独审核。维护者当前要求停止额外字体偏好专项测试，按浏览器原生行为使用。
 
 ## 3. CSS 规则准入流程（拟议）
 
