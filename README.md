@@ -38,7 +38,7 @@ npm exec -- vp test
 npm exec -- vp dev
 ```
 
-打开本地 Vite+ 服务器提示的地址下的 `/fixtures/`，选择 R-003 的 T0 原生与 T1 候选页面；R-004 提供 T0 原生、T1 单独 `font-size: 1em`、T1b 只额外添加 `monospace, monospace` 字体族的风险对照。T1b **只用于调查 Chrome 的等宽字体偏好，不能作为正式 Normalize 规则**。每页会展示可复制的计算样式 JSON。无需 Vite+ 安装也可以使用**内置 Node 测试**检验探针逻辑：
+打开本地 Vite+ 服务器提示的地址下的 `/fixtures/`，选择 R-003 的 T0 原生与 T1 候选页面；R-004 提供 T0 原生、T1 单独 `font-size: 1em`、T1b 只额外添加 `monospace, monospace` 字体族的风险对照。T1b **只用于调查 Chrome 的等宽字体偏好，不能作为正式 Normalize 规则**。维护者已在 Chrome 156 实测四个元素的计算字号为 T0 13px、T1 13px、T1b **16px**；完整目标浏览器与用户设置验证未完成。每页会展示可复制的计算样式 JSON。无需 Vite+ 安装也可以使用**内置 Node 测试**检验探针逻辑：
 
 ```sh
 npm run test:offline
@@ -79,7 +79,7 @@ node tests/r003-evidence.mjs r003-native.json r003-candidate.json
 | [第三批规则证据研究](docs/research/RULE_EVIDENCE_BATCH3.md) | 剩余 17 条排版、Reset 和系统偏好候选规则 |
 | [R-003/R-004 专项证据卡](docs/research/RULE_EVIDENCE_R003_R004.md) | b/strong 字重修复时间线与等宽字号用户偏好 |
 | [R-003/R-004 本地验证指南](docs/research/R003_R004_LOCAL_VERIFICATION.md) | 版本目标、测试矩阵与留证要求 |
-| [首次本地运行记录（2026-11-04）](docs/research/LOCAL_BROWSER_RUN_20261104.md) | 本机 Vite+ / 22+5 项测试、Chrome 156 的 R-003 无差异、R-004 待查与格式失败 |
+| [首次本地运行记录（2026-11-04）](docs/research/LOCAL_BROWSER_RUN_20261104.md) | 本机 Vite+ / 22+5 项旧版本测试、Chrome 156 的 R-003 无差异、R-004 T0/T1/T1b 13/13/16px 与格式失败 |
 | [ADR-0003](docs/adr/0003-mvp-package-contract.md) | 首版 MVP 导出契约已批准方案（Accepted） |
 | [ADR-0004](docs/adr/0004-browser-support-policy.md) | 浏览器支持基线与范围策略（Accepted） |
 | [ADR-0005](docs/adr/0005-viteplus-toolchain.md) | 后续开发统一使用 Vite+（Accepted；维护者本机已验证可运行） |

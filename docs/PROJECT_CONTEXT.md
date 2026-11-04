@@ -36,7 +36,7 @@
 - **ADR-0003 Accepted**：首版只规划 `@adui/normalize.css` 默认根入口；`all.css` 等路径延期。
 - **ADR-0004 Accepted**：固定 Baseline 2023 作为特性准入参考，七项 [最低浏览器测试目标](research/BASELINE_2023_MAPPING.md) 已批准并依据时间线核对；实际兼容性声明、OS/设备/WebView 仍未实测。
 - **ADR-0005 Accepted**：开发工具链统一使用 Vite+，Vite+ 1.4.0 已在维护者本机运行；纯 CSS 打包方式和完整格式检查通过状态仍未确定。
-- **W-02 部分研究**：已批准最低测试目标包含旧 Blink/WebKit，因此 R-003 成为首版必测条件性候选；R-004 不宜在默认 Normalize 中覆盖用户等宽字号偏好。[专项证据](research/RULE_EVIDENCE_R003_R004.md) 与 [本地执行指南](research/R003_R004_LOCAL_VERIFICATION.md) 已建立，真实浏览器复现未执行。
+- **W-02 部分研究**：已批准最低测试目标包含旧 Blink/WebKit，因此 R-003 成为首版必测条件性候选；R-004 不宜在默认 Normalize 中覆盖用户等宽字号偏好；Chrome 156 T0/T1/T1b 已观察到 13px/13px/16px 的局部差异。[专项证据](research/RULE_EVIDENCE_R003_R004.md) 与 [本地执行指南](research/R003_R004_LOCAL_VERIFICATION.md) 已建立，真实浏览器复现未执行。
 - 仍需实测 Vue/React、Element Plus、Ant Design、TDesign、Tailwind/UnoCSS Reset 兼容性；所有候选规则均未获准实现。
 
 ## 4. 当前工作与后续顺序
@@ -81,7 +81,8 @@
 | 2026-11-03 | W-02/W-03 增加 R-003 的 T0/T1 JSON 比较器、CLI 与合成数据回归 | 当前离线 Node 测试 18/18 通过；仅测试比较器逻辑，实际旧浏览器证据仍无 |
 | 2026-11-03 | 修复 R-003 输入文件先读取后限长的问题 | 原 18 项复测通过，新增 4 项边界测试单独通过；完整 22 项未同批运行，未执行真实浏览器验证 |
 | 2026-11-04 | 维护者本机完成 Vite+ 和 Chrome 156 第一轮执行 | Node 22/22、Vitest 5/5、dev 启动；check 因 66 个格式问题失败；R-003 无差异，R-004 T1 未如预期生效，旧版目标待测。见 [运行记录](research/LOCAL_BROWSER_RUN_20261104.md) |
-| 2026-11-04 | R-004 Console 复核与独立字体族 T1b 对照页面 | CSSOM 已包含 1em 声明、当前与探针均为 13px；新增 T1b 验证 monospace 字体族偏好，尚未收到 T1b 的真实浏览器结果 |
+| 2026-11-04 | R-004 Console 复核与独立字体族 T1b 对照页面 | T1 CSSOM 已包含 1em 声明、当前与探针均为 13px；新增 T1b 字体族偏好对照 |
+| 2026-11-04 | 维护者提交 Chrome 156 的 T1b 真实截图 | T0/T1 四元素均为 13px；T1b 四元素均为 16px，fontFamily 为 monospace, monospace；仅为当前环境计算样式，R-004 默认不准入，旧版目标仍未实测 |
 
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与下一阶段变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 

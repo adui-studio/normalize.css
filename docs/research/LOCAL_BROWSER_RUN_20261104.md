@@ -73,12 +73,30 @@ T0/T1 均报告 `font-family: monospace`。仓库 T1 HTML 明确包含 `code, kb
 
 维护者补充的 T1 Console 截图确认：`readyState: "complete"`、`stylePresent: true`，CSSOM 可读出 `code, kbd, samp, pre { font-size: 1em; }`，`currentFontSize: "13px"` 与 `capturedFontSize: "13px"` 一致，`parentFontSize: "16px"`。这排除了“样式元素不存在”或“探针采样后最终字号已变化”的假设，**但不代表已完整确认 CSS 层叠中的获胜声明**。
 
-参考 [MDN 对浏览器独立等宽字号偏好的说明](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/font-family#monospace_font_size)，单独的 `monospace` 字体族与重复的 `monospace, monospace` 对独立等宽字号偏好的处理可能不同。已设计 T1b `/fixtures/r004-family-review.html`：保留 T1 的 `font-size: 1em`，只额外添加 `font-family: monospace, monospace`；其**真实计算结果尚未执行/提供**，不得凭机制推断为 PASS。
+参考 [MDN 对浏览器独立等宽字号偏好的说明](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/font-family#monospace_font_size)，单独的 `monospace` 字体族与重复的 `monospace, monospace` 对独立等宽字号偏好的处理可能不同。已设计并执行 T1b `/fixtures/r004-family-review.html`：保留 T1 的 `font-size: 1em`，只额外添加 `font-family: monospace, monospace`。维护者已提供真实 Chrome 156 截图，四种元素的计算字号均为 **16px**，详见下节。此结果不能替代目标最低浏览器版本实测。
+
+## 3.2 T1b 实测结果：重复 monospace 后计算字号发生变化
+
+**证据来源**：维护者于 2026-11-04 提供的第五组浏览器截图（T1b 页面及 DevTools Console），并与前述 T0/T1 截图进行对照。浏览器 UA 显示 `Chrome/156.0.0.0`、Windows NT 10.0（Windows 实际版本和 Chrome 完整构建号仍未确认）。记录仅为这台机器的**计算样式观察**，不是最低版本兼容性认证。
+
+| 元素 | T0 原生 | T1：仅 `font-size: 1em` | T1b：保留 `1em` 并追加 `monospace, monospace` |
+| --- | --- | --- | --- |
+| `code` | 13px | 13px | **16px** |
+| `kbd` | 13px | 13px | **16px** |
+| `samp` | 13px | 13px | **16px** |
+| `pre` | 13px | 13px | **16px** |
+
+- 三组页面均报告父级 `font-size: 16px`；T0/T1 的计算字体族为 `monospace`，T1b 四个元素报告 `monospace, monospace`。
+- T1b Console 显示 `readyState: "complete"`、`currentFontSize: "16px"`、`capturedFontSize: "16px"`，二者一致；页面路径为 `/fixtures/r004-family-review.html`。
+- 此次 Console 查询仍是 `#risk-review-only`，核对的是 **T1 保留下来的 `font-size: 1em` 声明**；**并未单独查询 `#family-review-only` 的 CSSOM**。但页面源文件已包含这一字体族规则，且探针的计算 `fontFamily` 已对应发生变化。
+- **局部结论**：在此 Chrome 156 环境里，T1 与 T1b 的唯一新增作者 CSS 声明是重复的等宽字体族，测得字号从 13px 变成 16px。该现象与浏览器独立等宽字号机制的已知行为相符，但没有进行用户手动设置等宽字号、跨浏览器及字体实际渲染对照，**不进一步断言唯一内部原因**。
+- **产品取舍**：保持低侵入原则，R-004 **不准入默认 Normalize**。不添加 `font-size: 1em`、`font-family: monospace, monospace` 或强制字体栈；T1b 只保留为风险验证 Fixture。后续若有可选 Typography 模块需求，再另行评审。
+- 此次不运行新提交后的全部 Node/Vite+ 契约测试，上一轮 **22/22 Node 和 5/5 Vitest** 仅对应 T1b 新增前的提交；T1b 页面由维护者实际浏览器访问，但新测试的全量回归仍待执行。
 
 ## 4. 下一步与关闭条件
 
 1. 保留此次 Chrome 156 的 R-003 **局部无差异**观察；优先收集目标 **Chrome 120 / Edge 120 / Firefox 121 / Safari 17.2** 的原始 T0/T1 JSON、真实构建号、DevTools UA 声明。
-2. 先诊断 R-004 样式生效问题再讨论强制 `font-size: 1em` 的影响；**不要把 T1=13px 当成候选可用**。
+2. R-004 在 Chrome 156 已完成 T0/T1/T1b 计算字号对照：13px / 13px / 16px；不采纳默认强制字号/重复字体族。**仍需**最低目标浏览器、用户自定义等宽字号设置以及 CJK 实际字形/可访问性回归证据，才可更新跨浏览器结论。
 3. 定位 `DEP0190`：离线包测试在 Windows 上使用 `shell:true` 的警告可考虑通过无 shell 的参数传递修复，但需要复测 npm.cmd 启动是否兼容，不在本轮凭推测改动。
 4. 对 `vp check` 的 66 项格式问题分类：上游 Skills 原样保留；第一方代码与文档再按最小范围处理。完成修复前不得写作检查通过。
 5. 核对 `pnpm-lock.yaml` 是否存在及 `git status --short`；**本次并未取得/提交锁文件**。

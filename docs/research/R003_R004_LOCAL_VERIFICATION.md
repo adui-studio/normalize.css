@@ -70,7 +70,7 @@
 | `r004-risk-review.html`（T1） | `font-size: 1em` | 原有单声明风险对照 |
 | `r004-family-review.html`（T1b） | 与 T1 相同的 `font-size: 1em`，**额外** `font-family: monospace, monospace` | 隔离重复字体族的影响 |
 
-T1b **不属于已批准的发布规则、不改变 R-004 默认排除决定**。检查各页 `code/kbd/samp/pre` 的计算字号、字体族和 Chrome 的独立等宽字体大小设置；结果需要由维护者在真实浏览器另行采集。
+T1b **不属于已批准的发布规则、不改变 R-004 默认排除决定**。维护者已在 **Chrome 156** 实测并提供截图：T0/T1 中四个元素均为 **13px**，T1b 均为 **16px**，T1b 的 `fontFamily` 均为 `monospace, monospace`；当前值与探针记录一致。详见 [运行记录 §3.2](LOCAL_BROWSER_RUN_20261104.md)。这只证明本次环境的计算样式差异；用户独立等宽字号配置、其他目标浏览器和 CJK 字形回归仍未验证。
 
 ## 4. 逐次执行记录模板（开发后使用）
 
