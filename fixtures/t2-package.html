@@ -48,12 +48,30 @@
       <button id="t2-button" type="button">键盘聚焦按钮</button>
       <label for="t2-search">搜索</label>
       <input id="t2-search" type="search" />
+      <fieldset id="t2-fieldset">
+        <legend>原生表单控件</legend>
+        <label for="t2-select">选择一项</label>
+        <select id="t2-select">
+          <option value="one">选项一</option>
+          <option value="two">选项二</option>
+        </select>
+        <label for="t2-textarea">多行文本</label>
+        <textarea id="t2-textarea" rows="2">示例</textarea>
+        <label><input id="t2-checkbox" type="checkbox" /> 保持原生复选框</label>
+      </fieldset>
       <details>
         <summary id="t2-summary">展开原生 details</summary>
         <p>这是原生 details 内容。</p>
       </details>
       <p id="t2-hidden" hidden>hidden 的内容应隐藏。</p>
       <p id="t2-until-found" hidden="until-found">until-found 的内容用于后续交互验证。</p>
+      <dialog id="t2-dialog" aria-labelledby="t2-dialog-title">
+        <h3 id="t2-dialog-title">原生对话框</h3>
+        <p>在开发者工具中调用 showModal()，用 Esc 或下方按钮关闭。</p>
+        <form method="dialog">
+          <button id="t2-dialog-close" type="submit">关闭对话框</button>
+        </form>
+      </dialog>
     </section>
     <h2>计算样式证据</h2>
     <pre id="probe-output" aria-live="polite">读取中</pre>
