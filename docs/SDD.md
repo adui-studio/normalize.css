@@ -6,13 +6,13 @@
 
 | 候选模块  | 需求                    | 拟议接口/职责        | 实现状态 |
 | --------- | ----------------------- | -------------------- | -------- |
-| Normalize | FR-001、NFR-001         | 默认标准化样式表     | 未实现   |
+| Normalize | FR-001、NFR-001         | 默认标准化样式表     | 已实现   |
 | Reset     | FR-002                  | 显式导入的 Reset     | 未实现   |
 | A11y      | FR-003                  | 焦点与系统偏好增强   | 未实现   |
 | Forms     | FR-004                  | 原生表单增强         | 未实现   |
 | Combined  | FR-005                  | 显式组合入口         | 未实现   |
-| Exports   | FR-006                  | npm 导出映射         | 未实现   |
-| 规则追踪  | FR-007、NFR-002/003/007 | 兼容性证据与回归用例 | 未实现   |
+| Exports   | FR-006                  | npm 导出映射         | 已配置   |
+| 规则追踪  | FR-007、NFR-002/003/007 | 兼容性证据与回归用例 | 部分完成 |
 
 ## 2. 首版正式设计契约（尚不可使用）
 
@@ -24,7 +24,7 @@
 | `@adui/normalize.css/forms.css` | Forms CSS                               | **首版延期**；未来版本单独决策              |
 | `@adui/normalize.css/all.css`   | 经评审的组合 CSS                        | **首版延期**；未来版本单独决策              |
 
-首版只规划 `@adui/normalize.css` 根入口，**不发布四个候选子路径**；未来版本可重新评审。开发工具链统一 Vite+（[ADR-0005](adr/0005-viteplus-toolchain.md)），但 CSS-only 的 `vp pack` 产物适配仍需在 W-04 实测，不能提前承诺 JS 入口或已编译 CSS。目前 `package.json` 已配置 `files: ["dist"]` 和 `sideEffects: ["**/*.css"]` 并通过离线打包文件清单预检，但**没有可用 CSS、exports 或生产构建证明**。具体 exports、CSS 文件名与编译方式仍须在实际开发后做构建验证，参阅 [ADR-0003](adr/0003-mvp-package-contract.md)、[W-04 包交付验收研究](plans/CSS_PACKAGE_DELIVERY_REVIEW.md) 和 [实施计划](plans/MVP_IMPLEMENTATION_PLAN.md)。
+首版只规划 `@adui/normalize.css` 根入口，**不发布四个候选子路径**；未来版本可重新评审。开发工具链统一 Vite+（[ADR-0005](adr/0005-viteplus-toolchain.md)），但 CSS-only 的 `vp pack` 产物适配仍需在 W-04 实测，不能提前承诺 JS 入口或已编译 CSS。目前 `package.json` 已配置 `files: ["dist"]`、`sideEffects: ["**/*.css"]` 与唯一根 CSS `exports`，`src/normalize.css` 经 `npm run build` 输出 `dist/normalize.css`；已做标准库构建和离线安装局部验证，但**没有 Vite+/Webpack 生产消费端与完整兼容性验收证明**。具体 exports、CSS 文件名与编译方式仍须在实际开发后做构建验证，参阅 [ADR-0003](adr/0003-mvp-package-contract.md)、[W-04 包交付验收研究](plans/CSS_PACKAGE_DELIVERY_REVIEW.md) 和 [实施计划](plans/MVP_IMPLEMENTATION_PLAN.md)。
 
 ### 2.1 首个最小交付切片（2026-11-04 开发决策）
 
