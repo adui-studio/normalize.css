@@ -40,6 +40,8 @@
 
 **最新完整本地回归与任务清理（2026-11-04）**：维护者在 Windows 运行 `vp check`，**57 个文件格式 PASS / 13 个文件 Lint PASS**；`vp test` **6/6 PASS**；`vp pack` 单个 CSS PASS；`npm run test:offline` **26/26 PASS**；`npm run test:package` 真实 tarball **1/1 PASS**、`npm run test:consumer` Vite+ 生产消费 **1/1 PASS**。已核对 GitHub 关闭的 W-03 #4 和 W-04 #5 进度条源自历史阶段记录里的 Markdown `[ ]`；现把历史状态保留为普通文字，顶部当前阶段清单各 4/4，未完成的 T2、浏览器和组件库回归移交 W-06 #7，锁文件/包管理器策略核对移交 W-07 #8。**这不是把未执行的测试改为通过**。不新增 CI、不发布 npm。
 
+**W-06 首批 T2 页面开发（2026-11-04）**：新增 `fixtures/t2-native.html` 与 `t2-package.html`，body 与测试用父级字重一致；T2 仅通过 `<link href="../dist/normalize.css">` 加载当前 `vp pack` 构建产物。`probe.js` 在 T2 额外记录 `packageStylesheet.href/loaded`，避免 CSS 404 被误判为浏览器零差异。新增 Node/Vitest 契约，并将两页加入 `vp build`；包含 R-003 的 6 个字重点、R-004 的 4 个等宽元素，以及后续可手工观察的原生控件。已对 GitHub 实际文件完成 body/样式/ID/链接与配置一致性静态检查，**未在 Windows 执行本轮 Vite+ 命令或浏览器 T2**；结果应保持 NOT_RUN。先 `vp pack`，再 `vp build` / `vp dev`，详见[本地验证说明](research/W06_T2_LOCAL_VERIFICATION.md)。不新增产品 CSS、依赖或 CI。
+
 ## 1. Harness 目标
 
 形成可重复的闭环：理解需求 → 影响分析 → 制定验证矩阵 → 最小修改 → 检查 → 定位失败 → 修复重验 → 记录结果。未来仅考虑维护者本地运行可复现检查并记录结果；项目明确**不增加任何 CI**，避免仅凭经验声称跨浏览器兼容。
