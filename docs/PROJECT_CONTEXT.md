@@ -151,6 +151,8 @@
 
 **2026-11-04 · Tailwind Preflight Chrome 156 CSS Layer 胜出声明核实**：维护者提供 `localhost:5181`（Normalize First）与 `localhost:5182`（Normalize Last）的 DevTools Elements → Styles 截图；两页选中的 `b#bold` 均显示未分层 `b,strong { font-weight: bolder }` **有效**，而标记“级联层 base”的同名声明**被划线覆盖**。结合 `src/normalize.css` 现有唯一 R-003 及已核实的隔离导入，可将此场景记为 **CASCADE_WINNER_CONFIRMED（Chrome 156，b#bold，两种顺序）**；此前三模式 `fontWeight:900` 计算值一致。该结论符合普通作者声明中未分层样式优先于具名层样式的规则，不推广到 `!important`、其他选择器/浏览器。此前三个独立 Reset 方案 9/9 构建和各自 Chrome 156 静态采样零差异仍成立；F-010 仅部分完成，交互、`:focus-visible` 和其他引擎仍待验。详见 [Reset 实测记录](research/W06_RESET_LOCAL_VERIFICATION.md)。截图源于维护者对话附件，未作为仓库二进制资产提交；无产品 CSS、CI 或发布改动。
 
+**2026-11-04 · W-06 F-010 原生交互验收准备**：基于已确认的三套互不混合 Reset 共 9/9 生产构建、Chrome 156 三模式静态样式零差异以及 Tailwind `b#bold` CSS Layer 胜出声明证据，现已在 [Reset 本地验证记录](research/W06_RESET_LOCAL_VERIFICATION.md) 补充可直接粘贴到 DevTools Console 的**临时人工取证代码**和操作步骤：物理 Tab/焦点可见、Button 可信点击、Input 可信输入、details 键盘切换、dialog 真实 Esc 关闭、`hidden=until-found` 浏览器查找揭示。复用已有临时消费者，不重新打包、不引入依赖或 CI；当前**仅已编写并静态检查采集代码，交互实测均 NOT_RUN**，未将 DevTools 代码存在误写为浏览器 PASS。现有 Fixture 没有真实业务按钮处理器和完整表单元素，不能据此扩展验收范围。下阶段采集三个模式的交互事件日志并对照各自 baseline，其他引擎及系统偏好仍待验。未修改产品 CSS、不合并或发布。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与待决策变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源
