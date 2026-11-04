@@ -34,6 +34,10 @@
 
 **W-04 真实 Windows 测试与 LF 行尾规范（2026-11-04）**：维护者已执行 `vp pack`，生成唯一 `dist/normalize.css`（约 200 字节）；`npm run test:package` **1/1 PASS**（真实 tarball、封装、独立离线安装），`npm run test:consumer` **1/1 PASS**（真实 tarball、独立 Vite+ 生产构建、R-003 CSS 保留）。P-01/P-06/P-07/P-09 已有真实包验证，P-02 **生产构建子项**通过；P-02 开发态与页面实际计算样式、P-03 Webpack 5 仍待测，不能关闭 W-04 Issue #5。维护者指出重复执行 `vp check --fix` 是 CRLF→LF 行尾转换，本轮新增 `.gitattributes`（`* text=auto eol=lf`）与 `.editorconfig`（UTF-8、LF、末尾换行），**新配置尚待 Windows 本机 `vp check` 与 Git 工作区验证**。不重写上游固定 Skills，不新增 CI。[完整结果](plans/CSS_PACKAGE_DELIVERY_REVIEW.md#76-windows-真实包与-vite-生产消费验收2026-11-04)。
 
+**W-04 P-03 Webpack 5 测试准备（2026-11-04）**：新增独立 `npm run test:webpack`，使用当前真实 `vp pack` 生成的 CSS tarball，在系统临时目录安装固定 `webpack@5.112.2`，通过 Webpack Node API 的 `mode: production` 与 `experiments.css: true` 处理 `import "@adui/normalize.css"`，检验 CSS 在 tree shaking 后仍被输出。只在主动执行该命令时从 npm 缓存或网络安装 Webpack；项目根依赖/锁文件不变，不新增 CI。**脚本已通过 Node 语法检查，但当前环境不能访问 npm registry，Webpack 生产构建尚未执行，P-03 继续 NOT_RUN**。见[W-04 §7.7](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)。
+
+**Windows 格式检查说明**：维护者 `git check-attr` 已确认 `auto/lf`，随后 `vp check --fix` 格式修复与 13 文件 Lint 通过。已提交的该次 diff 主要是 3 个 Markdown 表格列宽对齐，而非 CRLF→LF，不能将表格布局问题归因于 Git 属性失效；还需再执行一次 `vp check` 确认格式检查完全 PASS。
+
 ## 1. Harness 目标
 
 形成可重复的闭环：理解需求 → 影响分析 → 制定验证矩阵 → 最小修改 → 检查 → 定位失败 → 修复重验 → 记录结果。未来仅考虑维护者本地运行可复现检查并记录结果；项目明确**不增加任何 CI**，避免仅凭经验声称跨浏览器兼容。
