@@ -1,6 +1,6 @@
 # AGENTS.md — @adui/normalize.css
 
-> 本文件是项目 Agent 的简明规则入口。**维护者统一使用 `vp dev`、`vp build`、`vp pack`：修订后的 `vp build` 已在 Windows 成功构建六张测试 HTML，`vp pack` 已生成唯一产品 CSS，常规离线测试 26/26 通过。W-03 Issue #4 已结项；W-04 新增真实 tarball 与 Vite+ 消费端独立测试脚本，完整仓库执行结果待核对。未经明确许可不合并、发布或增加 CI。** 以用户最新要求为准。
+> 本文件是项目 Agent 的简明规则入口。**维护者统一使用 `vp dev`、`vp build`、`vp pack`：Windows 已实测 `vp build` 六张 Fixture HTML、`vp pack` 唯一 CSS、离线 Node 26/26、真实 tarball 安装 1/1、独立 Vite+ 生产消费 1/1。W-03 Issue #4 已结项；W-04 的 Webpack 5 和开发态/页面回归仍待测试。Git 文本与 JetBrains 保存行尾统一 LF，待 Windows 复验。未经明确许可不合并、发布或增加 CI。** 以用户最新要求为准。
 
 ## 1. 项目事实
 
