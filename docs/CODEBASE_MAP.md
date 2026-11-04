@@ -99,7 +99,7 @@ W-03/W-04/W-05 开发分支基于尚未合并的文档评审分支；已增加�
 
 ## 3. 程序入口与依赖调用链
 
-当前开发分支已有供本地使用的 Fixture 与测试入口，以及 `src/normalize.css`、Vite+ `build/pack` 配置、CSS 包根 exports。消费端需先执行 `vp pack` 并确认生成 `dist/normalize.css`；尚未发布或验证 Vite+/Webpack 生产消费者。项目没有路由、后端 API 或数据库。
+当前开发分支已有 Fixture 与测试入口，以及 `src/normalize.css`、Vite+ `build/pack` 配置、CSS 包根 exports。先执行 `vp pack` 生成 `dist/normalize.css`；维护者已验证真实 tarball 离线安装和独立 Vite+ 1.4.0 生产消费者均 1/1 PASS。Webpack 5、开发态和实际页面生效仍待验证，npm 尚未发布。项目没有路由、后端 API 或数据库。
 
 开发期的预期依赖路径（发布前仍需消费端验证）：
 
