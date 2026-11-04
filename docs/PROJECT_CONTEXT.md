@@ -155,6 +155,8 @@
 
 **2026-11-04 · Tailwind Preflight Chrome 156 三模式交互日志回填**：维护者已提交 `localhost:5180`、`:5181` 和 `:5182` 的完整 `window.__aduiF010.report()`，且随后补齐 `normalize-last` 可信按钮点击（3 次）和输入（长度逐步达到 9）的事件。三页均有 `button-click`、`input`（`trusted:true`）、`details-toggle` 展开与收起、`dialog-cancel`/`dialog-close`、按钮/输入/summary 的 `focusVisible:true` 及 `outlineStyle:auto` 实测证据；普通 hidden 的 `display:none` 也一致。`detailsOpen` 最终状态因操作次数有差异，不属于 CSS 属性差异。三份记录均未出现 `beforematch`，且 `untilFoundAttribute` 均仍为 `until-found`，**不能确认浏览器查找揭示已通过**。F-010 继续部分完成，其他两个 UnoCSS 方案的交互及其他浏览器仍待验，暂无产品 CSS 改动依据。已同步 [W-06 Reset 实测文档](research/W06_RESET_LOCAL_VERIFICATION.md)，无 CI、依赖或发布改动。
 
+**2026-11-04 · Tailwind Preflight 三模式 `hidden="until-found"` 补验通过**：维护者补充 Chrome 156 的三个独立消费者（`localhost:5180/5181/5182`）最新 `window.__aduiF010.report()`；三份均出现 `beforematch` 且 `trusted:true`，最终 `untilFoundAttribute:null`，证明当前 Fixture 的浏览器查找揭示路径已触发，普通 `#hidden` 仍保持 `display:none`。这一**最新证据替代**上一条“查找揭示尚未确认”的历史阶段状态。结合已有可信按钮点击/输入、details 展开收起、dialog 取消关闭和焦点可见性记录，**Tailwind Preflight 在 Chrome 156 下三模式已覆盖的原生交互子项全部通过**，未发现 Normalize 引入顺序造成的回归。仍不能扩展为 Firefox/WebKit、系统偏好、复杂表单或 UnoCSS 独立交互的通过结论，F-010/W-06 保持部分完成。见 [W-06 Reset 验证记录](research/W06_RESET_LOCAL_VERIFICATION.md)；无产品 CSS、依赖、CI、发布或主分支合并变更。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与待决策变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源
