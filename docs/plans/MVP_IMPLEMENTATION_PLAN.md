@@ -115,6 +115,8 @@ R-003 已因首版最低目标包含旧版 Blink/WebKit 而列为**优先必测�
 
 **W-06 React + Ant Design Chrome 156 浏览器静态回归（2026-11-04）**：维护者已提供 React+Ant Design T0/T2 页面与 DevTools 截图，两组 Ant Design Button/Input 均成功挂载、静态外观相同，四组 b/strong 的计算字重皆为 900、code 字号 13px，五个探针值一致。继实际 npm tarball 的生产构建 PASS 后，**React+Ant Design 在 Chrome 156 的静态样式对照 PASS（截图）**。至此 Vue+Element Plus 与 React+Ant Design 两个样本均取得 Chrome 156 静态证据；完整组件交互、TDesign、Tailwind Preflight、UnoCSS Reset、其他目标浏览器及 `test:offline` 修复后重跑结果仍未完成，F-009 仅部分通过，W-06 #7 不关闭。见[验证记录](../research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)。
 
+**W-06 最新复验与 TDesign 第一批（2026-11-04）**：维护者新增实际命令输出：`npm run test:offline` **30/30 PASS、0 FAIL**，确认测试清单断言已修复，消除之前的 29/30 阻塞。随后新增 **Vue 3.5.44 + TDesign Vue Next 1.20.10** 的独立 `vue-tdesign` 测试场景，沿用真实 tarball、Vite+ 1.4.0、T0/T2 隔离页面及 Button/Input 样式探针。已静态核对生成器与三组入口均可解析，且仅 T2 多 Normalize CSS 导入；新场景的**完整离线测试、真实生产构建与浏览器 UI 尚未执行**，F-009 仍部分完成，Issue #7 继续 Open。Tailwind Preflight、UnoCSS Reset 留在后续独立研究；不增加 CI、运行时依赖或 npm 发布。[详情](../research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)。
+
 ## 7. GitHub Issue 跟踪
 
 已基于仓库原版 [github-issues Skill](../../.agents/skills/github-issues/SKILL.md) 创建以下正式任务，全部为 Open / 未实施；Issue 在 GitHub 仓库可见，而本计划和 Issue/PR 模板仍位于 Draft PR #1 分支。
