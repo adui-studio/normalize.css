@@ -1,6 +1,6 @@
 # W-06 · T2 真实 CSS 浏览器对照（首批）
 
-- **阶段**：测试页面与契约实现中；尚未取得本轮 T2 浏览器实测结果。
+- **阶段**：维护者反馈首批 T2 本地验证通过（未提交逐浏览器 UA/JSON/截图）；新增的原生交互观察点仍为 NOT_RUN，不能据此宣称整体兼容性 PASS。
 - **范围**：R-003 `b/strong` 与 R-004 默认等宽字号。基础 button/search/details/hidden 只作为手工观察点，不在本阶段宣称无障碍兼容通过。
 - **相关**：[W-06 #7](https://github.com/adui-studio/normalize.css/issues/7) · [W-03](../plans/VITEPLUS_LOCAL_HARNESS_DESIGN.md) · [W-04 包证据](../plans/CSS_PACKAGE_DELIVERY_REVIEW.md)
 
@@ -19,6 +19,29 @@ vp dev
 - T2 实际产物：`http://localhost:5173/fixtures/t2-package.html`
 
 **先执行 `vp pack` 是必要前提**：T2 的 `<link>` 直接引用 `../dist/normalize.css`，对应 npm 包唯一根导出 `./dist/normalize.css`；不是拷贝的 T1 候选 CSS。T0 和 T2 的 body 与测试用父级字重样式相同，唯一增加的是 T2 的 CSS 链接。后续用 `vp build` 生成独立的 `dist-fixtures/` HTML 预览；该目录不进入 npm tarball。
+
+## 下一批：原生交互最小检查（F-003～F-007）
+
+**T0、T2 都要用同一浏览器、相同设置操作一遍**，比较两页的行为是否一致。新增元素不会被 `[data-probe]` 作为字重目标计算，原有 10 个字重/字号测量点保持不变。
+
+1. **F-003 · `details/summary`**：用 Tab 聚焦 `t2-summary`，按 Enter 或 Space 展开与关闭；记录展开状态和焦点是否保留。
+2. **F-004 · 表单**：依次 Tab 聚焦 `t2-button`、`t2-search`、`t2-select`、`t2-textarea`、`t2-checkbox`，检查键盘输入、选择、勾选是否正常以及焦点是否可见。不能把视觉观察代替真实键盘操作。
+3. **F-005 · `dialog`**：在两页的开发者工具 Console 各执行一次：
+   ```js
+   document.querySelector("#t2-dialog").showModal();
+   ```
+   检查焦点转移、是否进入模态 top-layer；先按 Esc 关闭，再重新打开并点击对话框内 `关闭对话框` 按钮。若环境不支持 `showModal`，记录为不支持/FAIL 或 NOT_RUN，不得用脚本假装支持。
+4. **F-006 · `hidden`**：确认 `#t2-hidden` 默认不可见；使用页面查找 `until-found 的内容用于后续交互验证`，观察 `hidden="until-found"` 是否被浏览器按本机版本的原生能力揭示。记录查找路径和具体结果，Safari、Firefox、Chromium 的行为不互相代替。
+5. **F-007 · 系统与焦点**：实际按 Tab，观察原生焦点标记；分别在普通与设置了降低动态效果/高对比度的系统环境下复测（若无对应环境，标记 NOT_RUN）。可记录当前值：
+   ```js
+   console.table({
+     reducedMotion: matchMedia("(prefers-reduced-motion: reduce)").matches,
+     forcedColors: matchMedia("(forced-colors: active)").matches
+   });
+   ```
+   读取媒体查询值只记录当前偏好，**不是已经验证模式切换的证据**。
+
+每一项记录：浏览器准确版本与 OS、T0/T2 是否一致、实际操作、PASS/FAIL/NOT_RUN 和关键异常。新观察点只是复用既有两张测试页面，未修改任何产品 CSS；不添加模拟 DOM/键盘的脚本，也不安装 UI 框架或 CI。未收集结果前，F-003～F-007 继续 NOT_RUN。
 
 ## 观察方法与判定
 
