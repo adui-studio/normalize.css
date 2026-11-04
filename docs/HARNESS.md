@@ -153,6 +153,8 @@ npm pack --dry-run --json --ignore-scripts --offline .
 
 **2026-11-04 · Tailwind Preflight 原生交互三模式补验**：维护者在 Chrome 156 三个独立页面的更新日志中均取得可信 `beforematch` 事件（`trusted:true`）且 `untilFoundAttribute:null`，确认 `[hidden="until-found"]` 浏览器查找揭示在 baseline、normalize-first、normalize-last 中均已实际触发。此前三页的可信按钮点击、输入、details 双向切换、dialog 取消/关闭以及当前采样范围内可见焦点均已获证实；**Tailwind 方案在 Chrome 156 的当前 Fixture 原生交互子集已通过**。尚不代表 UnoCSS 两套独立 Reset 的交互、Firefox/WebKit、目标最低浏览器、系统偏好或完整无障碍验收通过；F-010 保持部分完成。详见 [验证证据](research/W06_RESET_LOCAL_VERIFICATION.md)。不增加 CI。
 
+**2026-11-04 · UnoCSS 双 Reset 原生交互维护者完成反馈（最新）**：维护者在 Tailwind Chrome 156 的逐页交互报告与 beforematch 事件已通过后，确认两套独立 UnoCSS Reset 的原生交互“全部验证通过”。按已约定的 Chrome 156 三种独立加载模式记为 **人工反馈 PASS**，目前没有附带两套 UnoCSS 的逐页 JSON，证据等级与 Tailwind 的原始事件报告不同。三个 Reset 的 9/9 真实生产构建与静态样式对照已通过；**此处完成的是 Chrome 156 本地子范围**，并非 F-010 的全平台或 W-06 全部验收。后续仅推进尚未覆盖的 Firefox/WebKit/低版本及系统无障碍偏好，不重新要求维护者做已通过的 Chrome 测试。详见 [Reset 记录](research/W06_RESET_LOCAL_VERIFICATION.md)；不新增 CI。
+
 ## 6. 安全和发布门禁（规划）
 
 - 审核第三方规则的许可证及改写过程；不引入未经审批的远程字体、图片或跟踪请求。
