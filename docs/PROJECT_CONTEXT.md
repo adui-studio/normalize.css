@@ -21,7 +21,7 @@
 | 八类工程资产 | 文档初始化 | [AGENTS](../AGENTS.md)、需求、SDD、架构、上下文、代码地图、Skills、Harness |
 | CSS 源码 | **未实现** | 仓库无 src/ 或发布 CSS 文件 |
 | package.json、依赖、构建脚本 | **部分实现** | W-03 已有 `package.json` 和 `vite.config.ts`；固定 Vite+ 1.4.0（开发依赖），维护者本机已成功安装并运行 Vite+；锁文件是否提交尚未核实 |
-| 自动化测试、浏览器回归 | **部分实现** | 维护者本机 Node **22/22 PASS**、Vite+ Vitest **5/5 PASS**、`vp dev` 成功；`vp check` 格式 FAIL（66 文件）；Chrome 156 已做 Fixture 观察，最低目标版本仍未测 |
+| 自动化测试、浏览器回归 | **部分实现** | 维护者本机 Node **23/23 PASS**、Vite+ Vitest **6/6 PASS**、`vp dev` 成功；最新 `vp check` 格式 FAIL（本轮报告 54 文件）；Chrome 156 已做 Fixture 观察，最低目标版本仍未测 |
 | CI | **明确不规划** | 项目约束：不增加任何 CI |
 | npm 包发布、版本号 | **未发布/未确定** | 不能将先前讨论的草案版本当成仓库发布事实 |
 | 架构方案 | **已接受／未实现** | ADR-0001～0005 均 Accepted；[MVP 实施计划](plans/MVP_IMPLEMENTATION_PLAN.md) 已建立，浏览器兼容承诺仍待验证 |
@@ -83,7 +83,9 @@
 | 2026-11-04 | 维护者本机完成 Vite+ 和 Chrome 156 第一轮执行 | Node 22/22、Vitest 5/5、dev 启动；check 因 66 个格式问题失败；R-003 无差异，R-004 T1 未如预期生效，旧版目标待测。见 [运行记录](research/LOCAL_BROWSER_RUN_20261104.md) |
 | 2026-11-04 | R-004 Console 复核与独立字体族 T1b 对照页面 | T1 CSSOM 已包含 1em 声明、当前与探针均为 13px；新增 T1b 字体族偏好对照 |
 | 2026-11-04 | 维护者提交 Chrome 156 的 T1b 真实截图 | T0/T1 四元素均为 13px；T1b 四元素均为 16px，fontFamily 为 monospace, monospace；仅为当前环境计算样式，R-004 默认不准入，旧版目标仍未实测 |
-| 2026-11-04 | W-03 配置 Vite+ 格式检查隔离上游 Skills | `vite.config.ts` 增加 `fmt.ignorePatterns` 排除 `.agents/skills/**`；第一方仍纳入检查；配置已提交但 `vp check` 尚未重验，66 项为旧基线 |
+| 2026-11-04 | W-03 配置 Vite+ 格式检查隔离上游 Skills | `vite.config.ts` 增加 `fmt.ignorePatterns` 排除 `.agents/skills/**`；第一方仍纳入检查；初始 66 文件为旧基线 |
+
+| 2026-11-04 | 维护者第二轮本机静态检查与测试 | `vp fmt --check` / `vp check` 仍 FAIL（报告 54 个第一方文件）；离线 Node 23/23、Vitest 6/6 PASS；Windows `DEP0190` 警告待处理，未执行正式 CSS 打包/旧版浏览器矩阵 |
 
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与下一阶段变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
