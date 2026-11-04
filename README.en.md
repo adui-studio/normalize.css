@@ -34,6 +34,7 @@ vp test
 npm run test:offline
 npm run test:package   # After vp pack: real tarball + offline installation
 npm run test:consumer  # After vp pack: Vite+ production CSS retention
+npm run test:webpack   # After vp pack: temporary Webpack 5 production CSS test
 ```
 
 The only package export is `@adui/normalize.css` → `./dist/normalize.css`. Consumers can import the stylesheet through an appropriate bundler:
@@ -43,6 +44,8 @@ import "@adui/normalize.css";
 ```
 
 **Verified on Windows, 2026-11-04:** `npm run test:package` **1/1 PASS** against the full repository's actual tarball, and `npm run test:consumer` **1/1 PASS** against a separate Vite+ 1.4.0 production build with CSS retained. Previously, `vp test` passed 6/6 and the offline Node suite passed 26/26. Webpack 5, the Vite+ development consumer path, and actual browser/framework rendering are still unverified. The package remains private and is not published.
+
+**Webpack 5 smoke test (not yet executed):** `npm run test:webpack` packs the actual CSS tarball and installs it alongside pinned `webpack@5.112.2` in a temporary consumer. It runs native CSS support (`experiments.css: true`) in production mode and checks that R-003 remains in the emitted CSS. It does not add dependencies or a lockfile to this repository, but may download Webpack from npm upon explicit invocation; it does not validate classic loader chains or visual browser behavior. Only syntax validation has been completed so far.
 
 ## Windows line endings
 
