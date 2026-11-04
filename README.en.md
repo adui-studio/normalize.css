@@ -23,7 +23,7 @@ R-004 deliberately does **not** normalize the font size or font family of `code`
 
 ## Local build
 
-The maintainer has verified **Vite+ 1.4.0** with `vp build` (six local HTML fixtures), `vp pack` (one `dist/normalize.css`, no published JS), and the real package installation and production consumer checks.
+The maintainer has verified **Vite+ 1.4.0** with `vp build` (the initial six local HTML fixtures; now eight with W-06, pending fresh build verification), `vp pack` (one `dist/normalize.css`, no published JS), and the real package installation and production consumer checks.
 
 ```sh
 vp dev              # Local fixture server
@@ -52,7 +52,7 @@ import "@adui/normalize.css";
 
 First run `vp pack` to generate `dist/normalize.css`, then `vp build` or `vp dev`. Compare `/fixtures/t2-native.html` (native) with `/fixtures/t2-package.html` (the identical content with a link to the actual packed CSS). The probe reports `packageStylesheet.loaded`; a failed stylesheet load cannot count as a browser compatibility pass.
 
-The new fixtures cover R-003 emphasis weights, unchanged R-004 monospace values, and native form/dialog/focus observation points. **The maintainer reports that the initial T2 local verification passed**, but no per-browser JSON or exact browser versions were provided. The new native form, dialog, focus, and hidden-state interactions are still NOT_RUN. See the [Chinese local verification guide](docs/research/W06_T2_LOCAL_VERIFICATION.md). No new library rules, runtime dependencies, CI, or public exports were added.
+The new fixtures cover R-003 emphasis weights, unchanged R-004 monospace values, and native form/dialog/focus observation points. **The maintainer provided Chrome 156 T0/T2 screenshots and confirmed a local PASS.** Dialog opening/Esc, keyboard focus and hidden-until-found behavior also passed manual checks; exact event logs and complete browser/UI framework matrices are still unavailable. See the [Chinese local verification guide](docs/research/W06_T2_LOCAL_VERIFICATION.md). No new library rules, runtime dependencies, CI, or public exports were added.
 
 ## W-06 isolated Vue / React ecosystem consumers
 
