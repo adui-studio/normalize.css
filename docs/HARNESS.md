@@ -53,7 +53,7 @@ npm run check
 
 ## 6. W-06、Tailwind 与 UnoCSS 独立对照计划（未执行）
 
-**目标**：先完成 W-06 TDesign 的跨浏览器 native/package 比较，再分别验证 Tailwind Preflight 与 UnoCSS Reset 的加载顺序、层级和冲突。关联 FR-001/006/007、NFR-001/002/003/007。以下是计划，不是已经完成的测试。
+**目标**：先完成 W-06 TDesign 的跨浏览器 native/package 比较，再分别验证 Tailwind Preflight 与 UnoCSS Reset 的加载顺序、层级和冲突。关联 FR-001/006/007、NFR-001/002/003/007。以下是计划，不是已经完成的测试。已对固定上游源码完成独立技术审查，见 [2026-11-04 Reset 源码审查](research/2026-11-04-reset-source-audit.md)；其冲突项仍待浏览器实测。
 
 ### 6.1 共用约束
 
