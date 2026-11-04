@@ -127,6 +127,8 @@
 
 **W-06 Vue/React 实际构建与离线测试修复（2026-11-04）**：维护者 Windows 实测 `npm run test:ecosystem -- vue-element` **PASS**（T0 CSS 360171 字节，T2 360362 字节）、`npm run test:ecosystem -- react-antd` **PASS**（T0 静态 CSS 0，T2 192 字节；Ant Design 可在运行时注入样式）；再次执行 `vue-element --keep` PASS，并保留真实 tarball 临时消费者目录用于浏览器 T0/T2 对照。同期 `npm run test:offline` **29/30 PASS、1 FAIL**，唯一失败在 `tests/package.node.test.mjs:95`：新增第七项 `ecosystem-contract.node.test.mjs` 后，脚本全等断言仍要求旧六项列表。已只更新该断言使其与 `package.json` 对齐，未改生态构建逻辑或产品 CSS；**修复后 30/30 尚待维护者本机复验**。Vue/React 真实生产构建验证已通过，但组件实际挂载、UI 外观、键盘焦点仍为 NOT_RUN，W-06 #7 保持 Open。详情见[生态记录](research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)。无新增根依赖或 CI。
 
+**W-06 Vue + Element Plus 浏览器截图结果（2026-11-04）**：维护者提供两张 Chrome 156 的真实页面+控制台截图，T0 `localhost:5174` 和 T2 `localhost:5175` 的 Element Plus Button/Input 均挂载（`true/true`），页面静态外观一致；计算样式的五行完全一致，父级 600/700 的 b/strong 均为 `900`，`code` 均为 `13px`、`monospace`。综合此前 Vue 真实 tarball Vite+ 构建 PASS，**Vue 3.5.44 + Element Plus 2.14.7 在 Chrome 156 的静态 UI 与 R-003/R-004 代表性计算样式对照 PASS（截图证据）**；未运行 Vue 组件实际输入/键盘回归，React+Ant Design 仅生产构建 PASS，其他浏览器未测。两页面有相同 Vue feature flags 警告及本地 favicon 404，均不视作由 Normalize 引起的样式失败。W-06 #7 保持 Open；修复后的 Node 30/30 仍待本机回归。[详情](research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与待决策变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源
