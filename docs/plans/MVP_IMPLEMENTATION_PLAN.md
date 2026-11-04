@@ -33,7 +33,7 @@
 | W-03 | 第二阶段 | Vite+ 本地 Harness 与验证规范         | 已创建 `package.json`、`vite.config.ts`、R-003/004 T0/T1 HTML、计算样式探针和测试；[设计](VITEPLUS_LOCAL_HARNESS_DESIGN.md) 持续跟踪                                            | 已实测 `vp check`（55 格式/11 Lint）、`vp test` 6/6、离线 Node 26/26、`vp dev`、`vp build` 6 页 Fixture、`vp pack` 单一 CSS；T2、组件库及完整浏览器回归转 W-06 | **W-03 已验收结项（Issue #4 Closed）**                   |
 | W-04 | 第二阶段 | Vite+ 下的单一 CSS 包导出与副作用验证 | 已实现 CSS-only 根导出，真实 tarball 安装与 Vite+ 生产消费均 PASS；见 [W-04 验收](CSS_PACKAGE_DELIVERY_REVIEW.md)                                                               | 真实包 P-01/06/07/09 与 Vite+ 生产 CSS 保留已 PASS；Webpack 不要求；开发态/浏览器回归转 W-06                                                                   | **W-04 包交付已验收（Issue #5 Closed）**                 |
 | W-05 | 第三阶段 | 逐条最小 Normalize 修复               | 按证据准入的最小 CSS、R-ID → 来源 → 测试映射及变更说明                                                                                                                          | 有证据才实现；不内建 `@layer`，不加默认 Reset/Forms/A11y；视觉回归无新增重大问题                                                                               | **首批仅 R-003 已开发；发布前仍待审查**                  |
-| W-06 | 第四阶段 | 跨浏览器、无障碍、生态与发布前验收    | T0/T2 已实现且反馈通过；F-003～F-007 原生控件观察点扩展中，逐浏览器记录待补                                                                                                     | T2 反馈未附 UA/JSON；新增 dialog/fieldset 等语义控件，交互回归仍 NOT_RUN                                                                                       | **T2 反馈通过；交互矩阵未验收**                          |
+| W-06 | 第四阶段 | 跨浏览器、无障碍、生态与发布前验收    | T0/T2 Chrome 156 静态对照 PASS；dialog/Esc、焦点、until-found 人工 PASS；其他浏览器待测                                                                                         | F-005/006/007 具体子项已由维护者操作通过；系统偏好、完整交互与生态回归仍待测                                                                                   | **Chrome 156 部分 PASS；W-06 尚未完成**                  |
 | W-07 | 第五阶段 | 文档、许可证与版本发布评审            | README 中文/英文、兼容矩阵、迁移/风险说明、发布前检查表                                                                                                                         | 包入口、实际功能、浏览器声明与证据一致；Release 与 npm 发布仍须单独授权                                                                                        | 未开始                                                   |
 
 **依赖**：W-01 和 W-02 可在设计阶段继续；W-03/W-04 必须在开发获准后开始；W-05 必须依赖 W-02 的可复现问题、W-03 的测试能力；W-06 依赖真实产物；W-07 依赖完整证据。
@@ -104,6 +104,8 @@ R-003 已因首版最低目标包含旧版 Blink/WebKit 而列为**优先必测�
 **W-06 T2 维护者反馈与第二批原生观察点（2026-11-04）**：维护者反馈首批本地 T0/T2 运行验证通过，尚未提供精确浏览器/OS/JSON/截图，因此不认定全浏览器 PASS。当前在原有两张内容相同的 T0/T2 页面同步增加 fieldset、select、textarea、checkbox、dialog；F-003/004/005/006/007 的 Tab、Esc、summary、hidden/until-found、系统偏好操作仍为 NOT_RUN。继续复用 Vite+ 与现有 10 个计算样式探针，未增加产品 CSS、依赖、CI 或发布行为。见[W-06 本地验证](../research/W06_T2_LOCAL_VERIFICATION.md)。
 
 **W-06 Chrome 156 截图结果（2026-11-04）**：维护者新增 T0/T2 实际页面截图并确认通过。T2 显示真实 `dist/normalize.css` 已挂载（`packageStylesheet.loaded: true`）；两页 10 个 R-003/R-004 测量点的计算样式一致，四个等宽元素仍为浏览器默认 `13px`、`monospace`。据此将 **Chrome 156 本地 T2 静态加载及计算样式对照**记为有截图证据的 PASS；此前“无截图”的阶段记录保留为历史，不再代表最新状态。Tab、dialog、hidden/until-found、系统偏好、其他浏览器/移动端和生态组件库仍未有逐项操作证据，W-06 #7 继续 Open。详见[W-06 实测记录](../research/W06_T2_LOCAL_VERIFICATION.md)。
+
+**W-06 交互实测补充（2026-11-04）**：维护者确认 Chrome 156 T0/T2 的 `dialog` 打开和 Esc 关闭、键盘焦点、`hidden="until-found"` 页面查找揭示均已实际操作通过；上述仅记录 **F-005/F-006/F-007 相应子项人工 PASS**。`details/summary` 键盘操作、完整表单流程、dialog 表单关闭按钮、减少动效/强制颜色切换以及其他浏览器、UI 组件库仍需独立记录，W-06 #7 继续 Open。详见[W-06 记录](../research/W06_T2_LOCAL_VERIFICATION.md)。
 
 ## 7. GitHub Issue 跟踪
 
