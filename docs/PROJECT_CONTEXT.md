@@ -1,7 +1,7 @@
 # PROJECT_CONTEXT — 项目长期上下文
 
 **最近更新**：2026-11-04  
-**当前阶段**：五项 ADR 已接受／W-03 本地 Harness 开发中／CSS 发布产物尚不存在
+**当前阶段**：五项 ADR 已接受／W-03 Harness 已具备本机检查／W-04 包根导出与 W-05 首条 CSS 开发中／尚未发布
 
 ## 1. 项目概况
 
@@ -19,15 +19,15 @@
 | GitHub 仓库                  | 已创建             | 根目录已有 LICENSE                                                                                                                    |
 | LICENSE                      | 已存在             | MIT，Copyright © 2026 ADui Studio                                                                                                     |
 | 八类工程资产                 | 文档初始化         | [AGENTS](../AGENTS.md)、需求、SDD、架构、上下文、代码地图、Skills、Harness                                                            |
-| CSS 源码                     | **未实现**         | 仓库无 src/ 或发布 CSS 文件                                                                                                           |
-| package.json、依赖、构建脚本 | **部分实现**       | W-03 已有 `package.json` 和 `vite.config.ts`；固定 Vite+ 1.4.0（开发依赖），维护者本机已成功安装并运行 Vite+；锁文件是否提交尚未核实  |
+| CSS 源码                     | **首条已实现**     | 开发分支 `src/normalize.css` 仅包含 R-003；R-004 保留原生默认                                                                         |
+| package.json、依赖、构建脚本 | **部分实现**       | 开发分支已有 `exports["."]`、静态 CSS 构建脚本；Vite+ 1.4.0 仅开发依赖，仍 private                                                    |
 | 自动化测试、浏览器回归       | **部分实现**       | 本机检查与 29 项测试通过；Chrome 120 四组差异；Firefox 121、Chrome 156 均零差异；其余未测                                             |
 | CI                           | **明确不规划**     | 项目约束：不增加任何 CI                                                                                                               |
 | npm 包发布、版本号           | **未发布/未确定**  | 不能将先前讨论的草案版本当成仓库发布事实                                                                                              |
 | 架构方案                     | **已接受／未实现** | ADR-0001～0005 均 Accepted；[MVP 实施计划](plans/MVP_IMPLEMENTATION_PLAN.md) 已建立，浏览器兼容承诺仍待验证                           |
 | 自研 Skills                  | **未创建**         | 目前没有项目自研技能                                                                                                                  |
 | 第三方 Skills                | **评审分支已纳入** | 3 个 awesome-copilot 原版 Skill，CLI 未执行，本机发现未验证；见 [索引](SKILLS.md)                                                     |
-| Harness                      | **部分实现**       | W-03 的纯 HTML 夹具和探针已存在，见 [HARNESS](HARNESS.md)；维护者本机 Vite+ 已运行、Chrome 156 已观察；最低目标旧版与完整回归仍未完成 |
+| Harness                      | **部分实现**       | 已有 Fixture 与测试；首批 CSS 构建和定向 Node 测试通过；Vite+ 最新改动未重跑                                                          |
 
 ## 3. 已接受架构与仍待验证的事项
 
@@ -94,6 +94,8 @@
 **Firefox 121 的 R-004 补充（2026-11-04）**：维护者使用 PowerShell 读取 T0/T1/T1b 三组 JSON，四个等宽元素在三页的父级和自身计算字号均为 16px；T1b 仅计算字体族变为 `monospace, monospace`。原始三份 JSON 本轮未上传，助手没有独立校验。另从 Firefox `about:support` JSON 核实正式 release `121.0`、Build ID `20231211174248`、Windows OS build `26200`；完整报告不公开。见[运行记录 §3.2.1](research/LOCAL_BROWSER_RUN_20261104.md)。R-004 继续不准入默认 CSS，Chrome 120/Edge 120/Safari 17.2 的 R-004 同类实验及用户偏好模拟仍缺。
 
 **R-004 Chrome 120 补充（2026-11-04）**：维护者从现有三个 Fixture 的本地 JSON 读取到四元素相同结果：T0/T1 为 13px、T1b 为 16px，与 Chrome 156 一致；Firefox 121 的三页均为 16px。Chrome 120 原始三份 JSON 未上传，记录为终端实测而非助手独立文件复核。该对照不证明用户主动修改字体偏好的结果，R-004 继续排除默认 CSS。详见[运行记录 §3.2.2](research/LOCAL_BROWSER_RUN_20261104.md)。
+
+**首批产品代码开发（2026-11-04）**：维护者明确要求按浏览器默认使用并停止额外字体偏好专项测试。开发分支新增 `src/normalize.css`（唯一 R-003 的 `b, strong { font-weight: bolder; }`）、`scripts/build.mjs`、单一 CSS 根 `exports`，保持 `private: true`、`0.0.0`、无新增依赖及 CI。定向 Node 测试 5/5、静态 CSS 输出字节检查、离线本地 tarball 安装/根路径解析/未公开子路径拒绝已在独立 Linux Node 22.16.0 复刻目录实测通过；该运行时低于项目要求，Windows 上最新 `vp check`、完整 Node/Vitest 与实际 Vite+/Webpack 消费端验证仍待执行。R-004 不进入产品 CSS，Chrome 120/Firefox 121/Safari 等完整发布兼容范围未验收。详见[SDD](SDD.md)、[包方案](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)与[代码地图](CODEBASE_MAP.md)。
 
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与下一阶段变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
