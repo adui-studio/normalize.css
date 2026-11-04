@@ -78,7 +78,8 @@
 | 原生语义 | button、input、select、textarea、fieldset、details、dialog、summary | FR-001/002/004 | 未实现 |
 | 浏览器差异 | Chromium / Firefox / WebKit 前后对照 | NFR-002/003 | 未实现 |
 | 交互无障碍 | 键盘焦点、高对比度、减少动画设置 | FR-003 | 未实现 |
-| 组件库回归 | Element Plus / Ant Design / TDesign 的表单与弹窗等 | NFR-007 | 未实现 |
+| 组件库回归 | Element Plus / Ant Design / TDesign 的表单与弹窗等；优先完成 W-06 TDesign 三引擎 native/package 基线对照 | NFR-007 | 未实现 |
+| Reset 生态隔离 | Tailwind v4 Preflight 与 UnoCSS Reset 分别做基线、前后加载顺序测试；不得叠加两套 Reset，并记录 Cascade Layers/最终产物 | FR-001/007、NFR-001/003/007 | 未实现 |
 | 包导出检查 | npm tarball 中所有公开路径存在且可解析 | FR-005/006 | 未实现 |
 | 体积与许可证 | 原始/Gzip 比较、许可证归属与发布清单 | NFR-004/006 | 未实现 |
 
