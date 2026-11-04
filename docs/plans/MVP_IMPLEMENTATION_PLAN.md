@@ -103,6 +103,8 @@ R-003 已因首版最低目标包含旧版 Blink/WebKit 而列为**优先必测�
 
 **W-06 T2 维护者反馈与第二批原生观察点（2026-11-04）**：维护者反馈首批本地 T0/T2 运行验证通过，尚未提供精确浏览器/OS/JSON/截图，因此不认定全浏览器 PASS。当前在原有两张内容相同的 T0/T2 页面同步增加 fieldset、select、textarea、checkbox、dialog；F-003/004/005/006/007 的 Tab、Esc、summary、hidden/until-found、系统偏好操作仍为 NOT_RUN。继续复用 Vite+ 与现有 10 个计算样式探针，未增加产品 CSS、依赖、CI 或发布行为。见[W-06 本地验证](../research/W06_T2_LOCAL_VERIFICATION.md)。
 
+**W-06 Chrome 156 截图结果（2026-11-04）**：维护者新增 T0/T2 实际页面截图并确认通过。T2 显示真实 `dist/normalize.css` 已挂载（`packageStylesheet.loaded: true`）；两页 10 个 R-003/R-004 测量点的计算样式一致，四个等宽元素仍为浏览器默认 `13px`、`monospace`。据此将 **Chrome 156 本地 T2 静态加载及计算样式对照**记为有截图证据的 PASS；此前“无截图”的阶段记录保留为历史，不再代表最新状态。Tab、dialog、hidden/until-found、系统偏好、其他浏览器/移动端和生态组件库仍未有逐项操作证据，W-06 #7 继续 Open。详见[W-06 实测记录](../research/W06_T2_LOCAL_VERIFICATION.md)。
+
 ## 7. GitHub Issue 跟踪
 
 已基于仓库原版 [github-issues Skill](../../.agents/skills/github-issues/SKILL.md) 创建以下正式任务，全部为 Open / 未实施；Issue 在 GitHub 仓库可见，而本计划和 Issue/PR 模板仍位于 Draft PR #1 分支。
