@@ -108,6 +108,12 @@ W-03 的 T0/T1 只验证浏览器原生值与孤立候选规则；W-04 已证明
 
 此阶段只提供可复现**操作和证据采集入口**。用户反馈的上一轮 T2 通过不能自动成为这些新交互项目的 PASS；按浏览器/系统/功能逐项记录 PASS、FAIL、NOT_RUN。[W-06 验证说明](research/W06_T2_LOCAL_VERIFICATION.md)持续维护具体操作。
 
+### 2.10 W-06 原生交互实测反馈（2026-11-04）
+
+维护者在 Chrome 156 的 T0/T2 截图确认真实 CSS 加载、10 个计算样式点一致后，进一步明确**已经实际操作并通过** `dialog` 打开及 Esc 关闭、键盘焦点、`hidden="until-found"` 的页面查找揭示。验收记录分别对应 **F-005/F-006/F-007 的具体子项人工 PASS**；不是 F-003～F-007 整体的自动化 PASS，且该轮并无逐操作录屏/原始交互日志。
+
+仍需保留 NOT_RUN / 部分完成状态：`details/summary` 键盘展开、完整表单交互、dialog `method="dialog"` 关闭按钮、系统 `prefers-reduced-motion` / `forced-colors` 切换，以及最低目标浏览器与 Vue/React/UI 组件库回归。对同一操作不再重复要求维护者执行；完整支持声明仍须分别取得环境和结果证据。[W-06 记录](research/W06_T2_LOCAL_VERIFICATION.md)。
+
 ## 3. CSS 规则准入流程（拟议）
 
 1. **问题**：列出浏览器/版本、HTML Fixture、原生样式偏差及用户可见问题。
