@@ -4,7 +4,9 @@
 
 A minimal, evidence-driven CSS Normalize library. It aims to preserve native browser defaults while correcting demonstrated inconsistencies, without runtime JavaScript.
 
-> **Development preview; not published.** The feature branch now contains one Normalize rule (R-003), one CSS root export and a dependency-free static CSS build. The package remains `private: true` at version `0.0.0`. Browser support and UI-framework integration have not completed release validation.
+> **Latest status (2026-11-04): development preview, not published.** W-03 (local harness), W-04 (package contract), W-05 (36-rule acceptance decisions), and W-06 (regression work) have been closed following maintainer approval. The MVP still contains **one** default Normalize rule, R-003, and one CSS root export; other candidates are excluded from the MVP. W-07 release-readiness review is in progress. The package remains `private: true` at `0.0.0`. Maintainer acceptance of regression work must not be presented as independently auditable support for every proposed minimum browser version.
+
+**Current audit references:** [W-05 rule decisions](docs/research/W05_RULE_ACCEPTANCE.md) · [W-06 acceptance index](docs/research/W06_ACCEPTANCE_INDEX.md) · [W-07 release-readiness review](docs/research/W07_RELEASE_READINESS_REVIEW.md) · [Unreleased changelog](CHANGELOG.md). Earlier W-03/W-04/W-06 sections retain historical results and intermediate test states; use these latest acceptance records for current project status.
 
 ## First implementation
 
@@ -86,7 +88,7 @@ If previously checked-out files still contain CRLF, inspect local changes first,
 
 - Default Normalize is low-intrusion; no forced root font size, global theme, button reset, general margin reset or `@layer`.
 - Exactly one CSS root export. There are no public `/reset.css`, `/forms.css`, `/a11y.css` or `/all.css` exports in the MVP.
-- Baseline 2023-derived Chrome/Edge 120, Firefox 121 and Safari 17.2 browser targets are **test targets**, not supported-version claims. Edge, Safari, mobile browsers and component-library regressions remain unverified.
+- Baseline 2023-derived Chrome/Edge 120, Firefox 121 and Safari 17.2 targets are **test targets**, not public supported-version claims. The maintainer has formally accepted W-06; a complete per-browser, per-OS results appendix for those targets was not provided with the acceptance, so this README makes no unsubstantiated version-specific compatibility promise.
 - No CI, no new runtime dependencies, no npm publication.
 
 ## Documentation
