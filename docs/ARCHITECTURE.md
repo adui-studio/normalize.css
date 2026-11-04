@@ -51,7 +51,7 @@ flowchart TD
 ## 5. 浏览器、生态与部署边界
 
 - 依 [ADR-0004 Accepted](adr/0004-browser-support-policy.md) 固定 Baseline 2023 为 CSS 特性准入参考；Chrome/Edge 120、Firefox 121、Safari 17.2 等为已批准的最低**测试目标**，非已发布支持范围；系统 WebView 按实际设备另行确认。
-- 开发工具链已按 [ADR-0005](adr/0005-viteplus-toolchain.md) 选定 **Vite+**；CSS 仍应是无运行时 JS 依赖的独立文件。不能因为在 Vite+ 中构建通过就假定无需验证 Webpack、SSR 构建或原生 CSS 导入路径。
+- 开发工具链已按 [ADR-0005](adr/0005-viteplus-toolchain.md) 选定 **Vite+**；CSS 仍应是无运行时 JS 依赖的独立文件。外部用户可按其现有环境加载 CSS，但本项目不额外引入 Webpack 等第二工具链；不能把 Vite+ 产物通过等同于所有浏览器、SSR 或 CSS 裸包导入方式都已兼容。
 - 原生 HTML、Vue、React 只是**使用场景**，不是本库的运行时框架依赖。
 - 预期发布介质是 npm 静态 CSS 包（尚未发布）；无需数据库、缓存、后端服务、环境变量、账号认证和外部 API。
 - 许可证已确认为 MIT，第三方来源授权仍须逐项核查。
@@ -71,7 +71,7 @@ flowchart TD
 | npm 包名 `@adui/normalize.css` | 项目目标已明确             | 与仓库定位一致；发布权限待确认                                                                      |
 | CSS Cascade Layers             | 首版默认不内置（Accepted） | ADR-0002；逐条评估 `:where()` 和覆盖风险                                                            |
 | 开发工具链                     | **Vite+（Accepted）**      | [ADR-0005](adr/0005-viteplus-toolchain.md)；开发期统一 Vite+，无运行时 JS                           |
-| 纯 CSS 库打包方式              | **已切换 Vite+ 构建方案**  | `vp build` 构建 Fixture；`vp pack` 生成唯一 CSS；真实 tarball 与 Vite+ 生产消费已验收，Webpack 未测 |
+| 纯 CSS 库打包方式              | **已验证 Vite+ 包构建**    | `vp build` 构建 Fixture；`vp pack` 唯一 CSS；真实 tarball 与 Vite+ 生产消费已通过，Webpack 非必测   |
 | 具体 Vite+ 版本与包管理器      | 未冻结                     | 获开发授权后核对环境、锁文件与最小依赖                                                              |
 | 本地浏览器自动化               | 未选型                     | 定义浏览器与 Fixtures，再选本地执行工具；**不增加 CI**                                              |
 | 首版包含哪些增强模块           | 已决定：只含 Normalize     | ADR-0003；Reset/Forms/A11y/all.css 延后                                                             |
@@ -85,6 +85,6 @@ flowchart TD
 - [ADR-0005：开发工具链统一采用 Vite+](adr/0005-viteplus-toolchain.md) — **Accepted**；尚未安装或运行。
 - [MVP 实施计划](plans/MVP_IMPLEMENTATION_PLAN.md) — 可执行的任务与验收门槛；**尚未开发**。
 
-**2026-11-04 实施说明**：默认 CSS 的首条可追踪规则为 R-003（`b, strong { font-weight: bolder; }`），R-004 不加入；`vp build` 曾尝试把 `src/normalize.css` 作为库输入，但在维护者 Windows Vite+ 1.4.0 因 `cssCodeSplit: false` 与 CSS 入口冲突而失败。`vp pack` 真实成功输出单个 CSS、无 JS，故现改为由 `vp pack` 输出 `dist/normalize.css`、保持唯一根 `exports["."]`；`vp build` 构建六张独立 Fixture HTML 到 `dist-fixtures/`，产物不进入 npm 包；`vp dev` 保持本地 Fixture 服务。新分工已在维护者 Windows Vite+ 1.4.0 上实测通过；真实 tarball 安装与 Vite+ 生产消费均 1/1 PASS，但 Webpack 5、Vite+ 开发态及 WebKit/组件库仍未验收。Git 与编辑器通过根 `.gitattributes`、`.editorconfig` 对文本统一 LF，配置尚待维护者本机复验。当前保留 `private: true`、不发布。
+**2026-11-04 实施说明**：默认 CSS 的首条可追踪规则为 R-003（`b, strong { font-weight: bolder; }`），R-004 不加入；`vp build` 曾尝试把 `src/normalize.css` 作为库输入，但在维护者 Windows Vite+ 1.4.0 因 `cssCodeSplit: false` 与 CSS 入口冲突而失败。`vp pack` 真实成功输出单个 CSS、无 JS，故现改为由 `vp pack` 输出 `dist/normalize.css`、保持唯一根 `exports["."]`；`vp build` 构建六张独立 Fixture HTML 到 `dist-fixtures/`，产物不进入 npm 包；`vp dev` 保持本地 Fixture 服务。新分工已在维护者 Windows Vite+ 1.4.0 上实测通过；真实 tarball 安装与 Vite+ 生产消费均 1/1 PASS，W-04 的 Vite+ 包契约已满足；开发态及 WebKit/组件库等视觉回归仍待 W-06，Webpack 不作为本项目必测项。Git 与编辑器通过根 `.gitattributes`、`.editorconfig` 对文本统一 LF，配置尚待维护者本机复验。当前保留 `private: true`、不发布。
 
 **更新约定**：模块职责、技术选型、对外依赖和浏览器支持矩阵变化时更新本文件与 ADR，并评估 SDD/需求影响。
