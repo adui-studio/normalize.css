@@ -115,6 +115,8 @@
 
 **最新 Windows 回归与 GitHub 任务列表清理（2026-11-04）**：维护者提供 `vp check` 57 文件格式与 13 文件 Lint PASS、`vp test` 6/6 PASS、`vp pack` 单 CSS PASS、离线 Node 26/26、真实包 1/1、独立 Vite+ 生产消费 1/1 PASS。原已 Closed 的 Issue #4 仍显示 23/48、Issue #5 仍显示 9/14，是因为历史阶段中的 `[ ]` Markdown 清单也被 GitHub 累计。现保留全部历史状态文本但退出当前待办统计，两个已结项 Issue 顶部当前验收清单分别 4/4、4/4；尚未验证的 T2、系统偏好、浏览器/组件库回归明确转交 W-06 #7，开发环境锁文件策略核对转交 W-07 #8。PR 仍未合并，包仍 private，未发布、无 CI。
 
+**W-06 首批 T2 开发（2026-11-04）**：在已结项 W-03/W-04 后，开发分支新增 `fixtures/t2-native.html` / `fixtures/t2-package.html`，将 R-003 六组 b/strong 父级字重、R-004 四组原生等宽元素及按钮/搜索/details/hidden 观察点放入一致 DOM。T2 仅引用已存在的 `vp pack` 产物 `../dist/normalize.css`，不复制 T1 候选 CSS，也不安装框架依赖；探针在 T2 记录 CSS 链接是否挂载。`vp build` 增加两张页面，Node/Vitest 契约随之调整。本轮 GitHub 文件静态一致性核对已通过；**尚无最新 Vite+ 命令与真实浏览器 T2 输出**，不得写作浏览器回归通过。仍不修改 R-003 产品规则、不增加 CI、不发布；详见[W-06 T2 验证说明](research/W06_T2_LOCAL_VERIFICATION.md)。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与下一阶段变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源
