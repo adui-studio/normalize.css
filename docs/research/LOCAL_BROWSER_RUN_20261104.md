@@ -162,11 +162,11 @@ T0/T1 均报告 `font-family: monospace`。仓库 T1 HTML 明确包含 `code, kb
 
 维护者在 Windows Firefox 121.0 使用现有的 `r004-native.html`（T0）、`r004-risk-review.html`（T1）及 `r004-family-review.html`（T1b），并以 PowerShell `Get-Content | ConvertFrom-Json` 读取三个已下载的探针 JSON，提供了完整表格输出。每个页面的 `code`、`kbd`、`samp`、`pre` **四个元素均相同**：
 
-| 页面对照 | 父级字号 | 元素计算字号 | 计算字体族 |
-| --- | --- | --- | --- |
-| T0（无 Normalize） | `16px` | `16px` | `monospace` |
-| T1（仅额外 `font-size: 1em`） | `16px` | `16px` | `monospace` |
-| T1b（在 T1 基础上额外指定 `monospace, monospace`） | `16px` | `16px` | `monospace, monospace` |
+| 页面对照                                           | 父级字号 | 元素计算字号 | 计算字体族             |
+| -------------------------------------------------- | -------- | ------------ | ---------------------- |
+| T0（无 Normalize）                                 | `16px`   | `16px`       | `monospace`            |
+| T1（仅额外 `font-size: 1em`）                      | `16px`   | `16px`       | `monospace`            |
+| T1b（在 T1 基础上额外指定 `monospace, monospace`） | `16px`   | `16px`       | `monospace, monospace` |
 
 **已验证层级**：以上表格来自维护者实际读取 JSON 的 PowerShell 原始输出；助手尚未收到这三份 R-004 JSON 文件，因此没有独立逐行解析或计算其指纹。数值说明 **当前 Firefox 121 配置下 T0/T1/T1b 字号无差异**，不是用户更改等宽字体偏好、渲染物理字形、所有 Gecko 版本均无影响的证据。与 Chrome 156 的 T0/T1=13px、T1b=16px 形成**不同测试环境**的计算字号观察，不可将环境差异直接定性为浏览器缺陷。
 
