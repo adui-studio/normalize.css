@@ -1,7 +1,7 @@
 # R-003 / R-004 规则证据卡：粗体语义与等宽字体字号
 
 - **日期**：2026-11-03
-- **状态**：上游标准与 UA 源码研究完成第一轮；**未执行本项目真实浏览器测试、未批准 CSS 实现**。
+- **状态**：上游标准与 UA 源码研究完成第一轮；**R-003 已取得 Chrome 156 单环境 T0/T1 JSON 自动比较证据，最低目标浏览器未测，未批准 CSS 实现**。
 - **关联**：FR-001、FR-007、NFR-001/002/007 · [规则总表](RULE_REVIEW.md) · [Baseline 2023 映射](BASELINE_2023_MAPPING.md) · [本地复现执行指南](R003_R004_LOCAL_VERIFICATION.md) · [MVP 实施计划](../plans/MVP_IMPLEMENTATION_PLAN.md) · [Issue #3](https://github.com/adui-studio/normalize.css/issues/3)。
 
 ## 1. 证据状态
@@ -12,9 +12,9 @@
 | B — 浏览器 Bug / 上游提交 | Chromium StrongBolder、WebKit 289297              | 某版本/分支历史默认行为与修复时点            |
 | U — UA 源码快照           | Chromium、Gecko、WebKit 固定版本/提交             | 该源代码快照写明的 UA 样式                   |
 | U — 竞品源代码            | modern-normalize、CSSTools normalize.css 固定 SHA | 上游维护者采用的策略，不能证明当前修复仍必要 |
-| T — 本项目真实测试        | **不存在**                                        | 目前不能宣布兼容性差异已实测                 |
+| T — 本项目真实测试        | Chrome 156 的 R-003 T0/T1 JSON 与 R-004 截图       | 仅能说明对应环境的计算样式；旧版目标未测     |
 
-本卡仅为 S/B/U 类证据，不包含 T 类结果。源码不是浏览器运行结果；发行分支和操作系统字体偏好可能与当前主分支不同。
+本卡包含 S/B/U 类研究证据和**Chrome 156 的有限 T 类数据**；源码不是浏览器运行结果，Chrome 156 也不能代替首版最低测试目标。
 
 ## 2. R-003 — `b` / `strong` 字重
 
@@ -55,7 +55,7 @@ strong {
 - [WebKit 2023-12-10 固定提交](https://github.com/WebKit/WebKit/blob/e9d3bfd635935ca09fd161b9bccba90c413a1602/Source/WebCore/css/html.css) 也明确写为 `font-weight: bold`，这增强了 Safari 17.2 时期旧行为的源码证据；**它不是 Safari 17.2 精确发行标签或实机运行结果**。2025 年 WebKit Bug 又提供了该历史行为的修复时间线。
 - W-01 已把七项版本定为**最低测试目标**，因此 R-003 不能仅因 2025 年浏览器已修复就排除，必须在最低目标版本中优先验证；是否进入默认 CSS 仍以真实复现、低侵入与组件库回归为门槛。
 
-### 2.4 最小复现 Fixture（设计稿，尚未运行）
+### 2.4 最小复现 Fixture（已实现；Chrome 156 已运行，最低目标未运行）
 
 ```html
 <div class="weight-600">
@@ -108,6 +108,14 @@ strong {
 - 当前首版目标已包含 Chromium M135 之前和 WebKit 修复之前的版本；**上游源码证据支持必须优先验证这一条**。若精确目标版本真实 Fixture 复现差异，再经 a11y/组件库回归，可以提交最小修复的实现评审。
 - 如果未来维护者正式变更最低支持目标，或目标旧版本的真实行为与源码预期不一致，则重新评审；不得以现代版本行为替代旧版测试。
 - R-003 当前升级为**首版最低目标必测的条件性候选**，但没有获得 CSS 准入、测试通过或实现授权。
+
+### 2.7 Chrome 156 原始 JSON 对照结果（2026-11-04）
+
+维护者对真实 Fixture 导出的 T0/T1 JSON 执行 `node tests/r003-evidence.mjs`，得到 `NO_COMPUTED_DIFFERENCE`、`differences: 0`、`candidateFailures: 0`。两份原始附件经独立解析，`b`、`strong` 在父级 400/600/700 下的 T0/T1 计算值依次都为 700/900/900；每组字体上下文一致。
+
+**证据级别**：本项目 T 类、Chrome 156 单一环境的真实计算样式对照；不是助手独立操作浏览器，也不是 Chrome 120、Firefox 121 或 Safari 17.2 的验收。原始 JSON 不提交公开仓库，附件指纹、文件字段及验证限制记录在[本机运行记录 §2.1](LOCAL_BROWSER_RUN_20261104.md)。
+
+**准入结论不变**：当前 Chrome 156 未观察到候选规则产生额外计算值变化，**不把 R-003 加入默认 Normalize**；仍须在已批准的最低浏览器版本单独实测并核对 UA 来源，之后才能决定是否准入。
 
 ## 3. R-004 — `code` / `kbd` / `samp` / `pre` 等宽字体与字号
 
@@ -195,6 +203,6 @@ console.log(value);</pre>
 1. W-01 已将 Baseline 2023 的七项映射版本确认为**首版最低测试目标**；旧 UA 字重行为仍需真实发行版本的运行结果证明。
 2. W-02 的 R-003 需要真实旧版最低支持浏览器和现代浏览器对照；R-004 已在 Chrome 156 观察到 T1b 计算字号变化，仍须测试用户 monospace 字号偏好是否保留及目标最低版本表现。
 3. 当前 Chrome 156 的单环境复现不足以证明各最低目标浏览器行为；两个候选均不得因此直接进入正式 CSS。
-4. 本卡引用维护者提供的 **Chrome 156 截图与 Console 计算样式**，不是助手独立执行；尚无 Playwright、Safari、Firefox、旧 Chrome、真实字体加载回归或完整浏览器矩阵。
+4. 本卡引用维护者提供的 **Chrome 156 截图、Console 计算样式及 R-003 原始 T0/T1 JSON**，不是助手独立执行浏览器；尚无 Safari、Firefox、旧 Chrome、真实字体加载回归或完整浏览器矩阵。
 
 **结论**：R-003 是首版已批准最低版本目标下的**必测条件性 Normalize 候选**；R-004 的字号统一会覆盖用户偏好，当前不应进入默认 Normalize。两个候选均未实现正式 Normalize；R-004 已在 Chrome 156 局部实测，但未通过完整浏览器矩阵，Issue #3 保持 Open。
