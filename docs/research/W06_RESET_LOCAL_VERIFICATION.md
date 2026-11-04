@@ -248,6 +248,22 @@ compat baseline 与独立的 v4 baseline 相比：默认字体族、按钮背景
 copy(JSON.stringify(window.__aduiF010.report(), null, 2));
 ```
 
+### 无法读取 report 的排障
+
+如果执行 `copy(JSON.stringify(window.__aduiF010.report(), null, 2))` 时出现 `Cannot read properties of undefined (reading 'report')`，表示当前页面的 `window.__aduiF010` **不存在**，通常是尚未执行上方完整的 `(() => { ... })();` 初始化代码、刷新页面导致全局变量丢失，或 Console 当前并非被测页面的执行上下文。**这不是 CSS 失败，也不能将测试标为 FAIL/PASS。**
+
+请在当前页面 Console 依次执行：
+
+```javascript
+location.href
+document.getElementById("button") !== null
+typeof window.__aduiF010
+```
+
+应分别确认是目标端口、`true`，以及已初始化时的 `"object"`。若为 `"undefined"`，**先完整执行上方“Console 临时采集代码”代码块**（不是下方的 `copy(...)` 结果采集语句），看到“F-010 已启动”后再进行物理键盘/鼠标测试。若仍未初始化，保留 Console 第一条异常供诊断；不要立即改动项目源代码。所有页面均需单独初始化，刷新会清空变量及事件日志。
+
+采集时可先用 `window.__aduiF010?.report?.()` 确认能返回对象，再执行 `copy(JSON.stringify(window.__aduiF010.report(), null, 2))`。
+
 ### 验收标准及不确定性
 
 | 维度 | 目标证据 | 当前状态 |
