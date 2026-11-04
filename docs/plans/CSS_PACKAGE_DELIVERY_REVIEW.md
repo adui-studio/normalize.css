@@ -115,14 +115,14 @@
 
 维护者的 Windows PowerShell 实测证据：
 
-| 命令 | 本机结果 | 证据边界 |
-| --- | --- | --- |
-| `vp check` | PASS：55 文件格式、11 文件 Lint | 修订构建配置前 |
-| `vp test` | PASS：6/6 | 修订构建配置前 |
-| `npm run test:offline` | PASS：25/25 | 修订构建配置前 |
-| `vp dev` | PASS：Vite+ 1.4.0 本地服务就绪 | 原 Fixture 页面开发服务 |
-| `vp build` | **FAIL**：`cssCodeSplit: false` 与 CSS 输入冲突 | 此前 `build.lib.entry = "src/normalize.css"` 的配置不适用 |
-| `vp pack` | **PASS**：只生成 `dist-pack/normalize.css`，200 字节，无 JS | 证明 Vite+ 1.4.0 已能原生直接打包 CSS-only 入口 |
+| 命令                   | 本机结果                                                    | 证据边界                                                  |
+| ---------------------- | ----------------------------------------------------------- | --------------------------------------------------------- |
+| `vp check`             | PASS：55 文件格式、11 文件 Lint                             | 修订构建配置前                                            |
+| `vp test`              | PASS：6/6                                                   | 修订构建配置前                                            |
+| `npm run test:offline` | PASS：25/25                                                 | 修订构建配置前                                            |
+| `vp dev`               | PASS：Vite+ 1.4.0 本地服务就绪                              | 原 Fixture 页面开发服务                                   |
+| `vp build`             | **FAIL**：`cssCodeSplit: false` 与 CSS 输入冲突             | 此前 `build.lib.entry = "src/normalize.css"` 的配置不适用 |
+| `vp pack`              | **PASS**：只生成 `dist-pack/normalize.css`，200 字节，无 JS | 证明 Vite+ 1.4.0 已能原生直接打包 CSS-only 入口           |
 
 **纠正旧方案**：Vite 的 library mode 默认 `cssCodeSplit: false`，当前 Rolldown 拒绝将 CSS 文件直接作为这种模式的输入。鉴于 `vp pack` 已真实验证，**不通过制造 JS 入口或强制修改 Vite 的 CSS 拆分行为来绕过错误**。
 
