@@ -14,14 +14,14 @@
 - 两组输出的 `hasLayer` 均为 `false`；这是**当前产物的正则扫描结果**，与本测试中 UnoCSS Reset 不主动声明 Layer 一致，但单凭这一字段无法判断每条声明的最终 Cascade 优先级。
 - 正反顺序产物 SHA-256 不同，只证明**产物不一致**，不等于计算样式存在差异或冲突。当前只有 R-003 `b,strong { font-weight:bolder }` 一条产品规则，仍需对浏览器最终值和胜出来源做验证。
 
-| 场景 | 模式 | CSS 字节数 | SHA-256 | hasLayer | 构建 |
-| --- | --- | ---: | --- | --- | --- |
-| UnoCSS tailwind-v4 | baseline | 8162 | `a6974aae821ff22156cab7ccf62c5ef7afa22285651e343300c221fd4a05beb3` | false | PASS |
-| UnoCSS tailwind-v4 | normalize-first | 8362 | `d2cd6586fd781a484ccdc09c11bead0414a4e5da05043044022807a12d760eb1` | false | PASS |
-| UnoCSS tailwind-v4 | normalize-last | 8363 | `dedf5837aa5f2de0343f33b52f628ae60b881e713403b36605357a757284e82d` | false | PASS |
-| UnoCSS tailwind-compat | baseline | 7700 | `626b893a9c0e0eff49859497975ed0a0f2de05b22192a66936ddfd4befa691d9` | false | PASS |
-| UnoCSS tailwind-compat | normalize-first | 7900 | `1ad5d3f86a9f906d448526ce691803a98c388d427e40d5dacc0d6fa49cc57a20` | false | PASS |
-| UnoCSS tailwind-compat | normalize-last | 7901 | `4f039abc9340265be20052228ad0be2d0fcc4d84b41ac2005f947fa15920f572` | false | PASS |
+| 场景                   | 模式            | CSS 字节数 | SHA-256                                                            | hasLayer | 构建 |
+| ---------------------- | --------------- | ---------: | ------------------------------------------------------------------ | -------- | ---- |
+| UnoCSS tailwind-v4     | baseline        |       8162 | `a6974aae821ff22156cab7ccf62c5ef7afa22285651e343300c221fd4a05beb3` | false    | PASS |
+| UnoCSS tailwind-v4     | normalize-first |       8362 | `d2cd6586fd781a484ccdc09c11bead0414a4e5da05043044022807a12d760eb1` | false    | PASS |
+| UnoCSS tailwind-v4     | normalize-last  |       8363 | `dedf5837aa5f2de0343f33b52f628ae60b881e713403b36605357a757284e82d` | false    | PASS |
+| UnoCSS tailwind-compat | baseline        |       7700 | `626b893a9c0e0eff49859497975ed0a0f2de05b22192a66936ddfd4befa691d9` | false    | PASS |
+| UnoCSS tailwind-compat | normalize-first |       7900 | `1ad5d3f86a9f906d448526ce691803a98c388d427e40d5dacc0d6fa49cc57a20` | false    | PASS |
+| UnoCSS tailwind-compat | normalize-last  |       7901 | `4f039abc9340265be20052228ad0be2d0fcc4d84b41ac2005f947fa15920f572` | false    | PASS |
 
 保留的隔离消费者目录（维护者终端原样输出，后续仅使用**当前实际存在的目录**）：
 
@@ -36,16 +36,16 @@
 
 逐项阅读维护者提供的三份 JSON：每份 **12 个相同 ID、14 个相同计算样式属性**，共每份 168 个属性观测值；三份之间未发现任何计算值差异。重点如下：
 
-| 检查项 | 三份观测结果 | 注意 |
-| --- | --- | --- |
-| `bold`、`strong` | `fontWeight: "900"` | 父级 600，`bolder` 的计算结果符合预期；不能单凭计算值证明最终胜出 CSS 文件 |
-| `heading`、`paragraph`、`list` | `margin: 0px`、`fontSize: 16px` | 显示 Reset 风格的计算效果，不是本库新加的规则 |
-| `code` | `fontSize: 16px`、字体族以 `ui-monospace` 开头 | 三份一致；与非 Reset 的浏览器默认字体大小不能混为同一实验 |
-| `button`、`input` | `boxSizing: border-box`、`borderWidth: 0px`、背景透明 | 三份一致，未证明聚焦/输入/点击行为 |
-| `hidden` | `display: none` | 仅静态显示计算值 |
-| `until-found` | `display: block` | `hidden="until-found"` 可能通过 `content-visibility` 隐藏；不能以 `display` 单独判断查找揭示 |
-| `dialog` | `display: none` | 只是未打开状态，未验证打开/Esc/焦点 |
-| `outlineStyle` | 三份静态均为 `none` | 未采集 `:focus-visible` 状态，不能推断焦点标记被移除 |
+| 检查项                         | 三份观测结果                                          | 注意                                                                                         |
+| ------------------------------ | ----------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| `bold`、`strong`               | `fontWeight: "900"`                                   | 父级 600，`bolder` 的计算结果符合预期；不能单凭计算值证明最终胜出 CSS 文件                   |
+| `heading`、`paragraph`、`list` | `margin: 0px`、`fontSize: 16px`                       | 显示 Reset 风格的计算效果，不是本库新加的规则                                                |
+| `code`                         | `fontSize: 16px`、字体族以 `ui-monospace` 开头        | 三份一致；与非 Reset 的浏览器默认字体大小不能混为同一实验                                    |
+| `button`、`input`              | `boxSizing: border-box`、`borderWidth: 0px`、背景透明 | 三份一致，未证明聚焦/输入/点击行为                                                           |
+| `hidden`                       | `display: none`                                       | 仅静态显示计算值                                                                             |
+| `until-found`                  | `display: block`                                      | `hidden="until-found"` 可能通过 `content-visibility` 隐藏；不能以 `display` 单独判断查找揭示 |
+| `dialog`                       | `display: none`                                       | 只是未打开状态，未验证打开/Esc/焦点                                                          |
+| `outlineStyle`                 | 三份静态均为 `none`                                   | 未采集 `:focus-visible` 状态，不能推断焦点标记被移除                                         |
 
 **判定**：在“按既定顺序对应三个不同页面”的前提下，静态计算样式为 **0 差异（维护者 JSON）**；之前的真实 tarball / Vite+ 生产构建已 3/3 PASS。当前 **不能**据此判定完整 `BROWSER_PASS` 或确认 CSS 规则胜出来源。未发现需要修改 `src/normalize.css` 的具体冲突证据。
 
@@ -55,11 +55,11 @@
 
 维护者接着在三个不同的 Chrome 156 本地页面执行 `document.styleSheets` 来源检查，结果如下：
 
-| 页面 URL | 首个样式表 `href` | 首个样式表 `data-vite-dev-id` 后缀 | 与预期模式 |
-| --- | --- | --- | --- |
-| `http://localhost:5180/` | `null` | `adui-reset-UQvmww/baseline/style.css` | 匹配 |
-| `http://localhost:5181/` | `null` | `adui-reset-UQvmww/normalize-first/style.css` | 匹配 |
-| `http://localhost:5182/` | `null` | `adui-reset-UQvmww/normalize-last/style.css` | 匹配 |
+| 页面 URL                 | 首个样式表 `href` | 首个样式表 `data-vite-dev-id` 后缀            | 与预期模式 |
+| ------------------------ | ----------------- | --------------------------------------------- | ---------- |
+| `http://localhost:5180/` | `null`            | `adui-reset-UQvmww/baseline/style.css`        | 匹配       |
+| `http://localhost:5181/` | `null`            | `adui-reset-UQvmww/normalize-first/style.css` | 匹配       |
+| `http://localhost:5182/` | `null`            | `adui-reset-UQvmww/normalize-last/style.css`  | 匹配       |
 
 三页各有第二个 `href:null`、`viteId:null` 的样式表；**其用途尚未识别，不能据此声称已审计所有 CSS 声明或不存在其他动态样式**。首个样式表的 `data-vite-dev-id` 精确匹配先前 `--keep` 输出的 UnoCSS `tailwind-v4` 临时消费者目录及三份模式的 `style.css`，证明三页使用独立 Vite CSS 模块，而非三个端口意外落到同一份 `style.css`。
 
@@ -75,6 +75,7 @@
 ## 2026-11-04 · UnoCSS tailwind-compat 浏览器基线（阶段记录）
 
 维护者提供 Chrome 156 下的三组页面来源：
+
 - 5180：`adui-reset-8TXDC6/baseline/style.css`；已收到 12 个元素、14 个计算样式属性。
 - 5181：`adui-reset-8TXDC6/normalize-first/style.css`；尚未收到计算样式 JSON。
 - 5182：`adui-reset-8TXDC6/normalize-last/style.css`；尚未收到计算样式 JSON。
@@ -89,11 +90,11 @@ compat baseline 与独立的 v4 baseline 相比：默认字体族、按钮背景
 
 维护者补充了 `http://localhost:5181/` 和 `http://localhost:5182/` 的 `window.__aduiResetEvidence` 全量 JSON。与此前 `http://localhost:5180/` 的 baseline 比较，这三份数据的浏览器 UA 相同（Chrome/156.0.0.0 / Windows NT），每份均有相同 12 个元素 ID、每个元素 14 个属性：
 
-| 组别 | 页面/来源（此前已核对） | 采集数量 | 相对于 baseline 的静态差异 | 判定 |
-| --- | --- | --- | --- | --- |
-| baseline | 5180，`adui-reset-8TXDC6/baseline/style.css` | 12 × 14 | 基线 | 已采集 |
-| normalize-first | 5181，`adui-reset-8TXDC6/normalize-first/style.css` | 12 × 14 | **0** | 静态一致 |
-| normalize-last | 5182，`adui-reset-8TXDC6/normalize-last/style.css` | 12 × 14 | **0** | 静态一致 |
+| 组别            | 页面/来源（此前已核对）                             | 采集数量 | 相对于 baseline 的静态差异 | 判定     |
+| --------------- | --------------------------------------------------- | -------- | -------------------------- | -------- |
+| baseline        | 5180，`adui-reset-8TXDC6/baseline/style.css`        | 12 × 14  | 基线                       | 已采集   |
+| normalize-first | 5181，`adui-reset-8TXDC6/normalize-first/style.css` | 12 × 14  | **0**                      | 静态一致 |
+| normalize-last  | 5182，`adui-reset-8TXDC6/normalize-last/style.css`  | 12 × 14  | **0**                      | 静态一致 |
 
 重点计算值：`bold` / `strong` 的 `fontWeight=900`；`code` 的 `fontSize=16px`；`heading` / `paragraph` / `list` 的 `margin=0px`；`button` 背景 `rgb(240,240,240)`、`cursor=pointer`；`input` 背景 `rgb(255,255,255)`；`dialog` 的 `margin=auto`；`[hidden]` 的 `display=none` 与 `[hidden="until-found"]` 的 `display=block`。这些值在三组中均相同。
 
@@ -105,11 +106,11 @@ compat baseline 与独立的 v4 baseline 相比：默认字体族、按钮背景
 
 维护者执行 `npm run test:reset -- tailwind-preflight --keep`，命令输出 `PASS: isolated Reset production builds and tarball resolution`。测试在独立消费者中安装固定的 `tailwindcss@4.3.4`、`@tailwindcss/vite@4.3.4` 与开发期 Normalize tarball，未混合 UnoCSS Reset。三组 Vite+ 构建及 SHA-256 证据：
 
-| 模式 | CSS 字节数 | SHA-256 | hasLayer | 构建 |
-| --- | ---: | --- | --- | --- |
-| baseline | 4586 | `811a10ce2388159ea26f8cba47e6296b6799c402ba3eef8f6e2a8bdafcc977c0` | true | PASS |
-| normalize-first | 4786 | `074b40c42674108e538782ecf766ca501ac0d4bffb912c5dff1b8290a32a3e75` | true | PASS |
-| normalize-last | 4786 | `5299c72db32767f1470cb68c6c492dadedfea5763afbbd0fe966ea1e34a3bff8` | true | PASS |
+| 模式            | CSS 字节数 | SHA-256                                                            | hasLayer | 构建 |
+| --------------- | ---------: | ------------------------------------------------------------------ | -------- | ---- |
+| baseline        |       4586 | `811a10ce2388159ea26f8cba47e6296b6799c402ba3eef8f6e2a8bdafcc977c0` | true     | PASS |
+| normalize-first |       4786 | `074b40c42674108e538782ecf766ca501ac0d4bffb912c5dff1b8290a32a3e75` | true     | PASS |
+| normalize-last  |       4786 | `5299c72db32767f1470cb68c6c492dadedfea5763afbbd0fe966ea1e34a3bff8` | true     | PASS |
 
 保留的消费者：`D:\Workspace\adui-studio\normalize.css\node_modules\.cache\adui-reset-JQcSHX`（`baseline`、`normalize-first`、`normalize-last`）。当前 `hasLayer:true` 为生成 CSS 的正则扫描结果；按现有测试脚本，Tailwind 场景还必须命中 `@layer base` 才会通过。正反顺序 CSS 字节数相同但 SHA-256 不同，表明输出内容不同，**不能据此判定浏览器最终计算值存在差异**。
 
@@ -119,11 +120,11 @@ compat baseline 与独立的 v4 baseline 相比：默认字体族、按钮背景
 
 维护者提供了 Chrome 156（Windows NT UA）三个独立页面的 URL、`window.__aduiResetEvidence` 和 `document.styleSheets` 来源信息；对应先前已构建通过、带 `--keep` 保留的 `adui-reset-JQcSHX` 消费者：
 
-| 模式 | URL | Vite CSS 模块 | 每组属性数 | 对 Baseline 的差异 |
-| --- | --- | --- | ---: | ---: |
-| baseline | `http://localhost:5180/` | `adui-reset-JQcSHX/baseline/style.css` | 12 × 14 = 168 | 基线 |
-| normalize-first | `http://localhost:5181/` | `adui-reset-JQcSHX/normalize-first/style.css` | 168 | **0** |
-| normalize-last | `http://localhost:5182/` | `adui-reset-JQcSHX/normalize-last/style.css` | 168 | **0** |
+| 模式            | URL                      | Vite CSS 模块                                 |    每组属性数 | 对 Baseline 的差异 |
+| --------------- | ------------------------ | --------------------------------------------- | ------------: | -----------------: |
+| baseline        | `http://localhost:5180/` | `adui-reset-JQcSHX/baseline/style.css`        | 12 × 14 = 168 |               基线 |
+| normalize-first | `http://localhost:5181/` | `adui-reset-JQcSHX/normalize-first/style.css` |           168 |              **0** |
+| normalize-last  | `http://localhost:5182/` | `adui-reset-JQcSHX/normalize-last/style.css`  |           168 |              **0** |
 
 三份 JSON 均为相同的 12 个元素 ID 和 14 个计算属性，逐项核对一致；例如 `bold` / `strong` 的 `fontWeight:900`，`code` 的 `fontSize:16px`，标题、段落与列表的 `margin:0px`，按钮与输入框背景透明，普通 `[hidden]` 的 `display:none`，`[hidden="until-found"]` 的 `display:block`，关闭状态 `dialog` 的 `display:none`。三页均报告相应的 Vite CSS 模块路径，并包含第二份没有 `href` 或 `viteId` 标识的样式表；后者的具体来源尚未检查。
 
@@ -137,12 +138,12 @@ compat baseline 与独立的 v4 baseline 相比：默认字体族、按钮背景
 
 维护者提供 `http://localhost:5181/`（`normalize-first`）和 `http://localhost:5182/`（`normalize-last`）的 Chrome 156 DevTools **Elements → Styles** 截图，选中元素均为 `b#bold`，其父级 `section` 设置 `font-weight: 600`。本次记录依据维护者截图及已确认的 `tests/reset-fixtures.mjs` / `src/normalize.css`；截图原文件仅在对话附件中，**未另存为 GitHub 仓库证据文件**。
 
-| 验证项 | 5181：Normalize First | 5182：Normalize Last |
-| --- | --- | --- |
-| 未分层 `b, strong { font-weight: bolder; }` | DevTools 显示有效、未划线 | 有效、未划线 |
-| Tailwind `base` 层的相同规则 | 显示在“级联层 base”，声明被划线覆盖 | 显示在“级联层 base”，声明被划线覆盖 |
-| 最终计算字重 | 先前 JSON 为 `900` | 先前 JSON 为 `900` |
-| 交换 CSS 导入顺序是否改变胜出规则 | 否 | 否 |
+| 验证项                                      | 5181：Normalize First               | 5182：Normalize Last                |
+| ------------------------------------------- | ----------------------------------- | ----------------------------------- |
+| 未分层 `b, strong { font-weight: bolder; }` | DevTools 显示有效、未划线           | 有效、未划线                        |
+| Tailwind `base` 层的相同规则                | 显示在“级联层 base”，声明被划线覆盖 | 显示在“级联层 base”，声明被划线覆盖 |
+| 最终计算字重                                | 先前 JSON 为 `900`                  | 先前 JSON 为 `900`                  |
+| 交换 CSS 导入顺序是否改变胜出规则           | 否                                  | 否                                  |
 
 **归因**：当前产品 CSS 只包含 R-003 的未分层 `b, strong { font-weight: bolder; }`，Tailwind Preflight 在 `base` 层中也包含同选择器/同值的普通声明。依据此组 Fixture 的隔离导入及截图，两页均是**未分层的普通作者声明胜出**，层内声明被覆盖。对于相同来源、相同重要性的普通作者规则，CSS Layer 优先级先于特异性和源码顺序比较，未分层规则优先于具名层的普通规则；这不适用于所有来源和 `!important` 场景。
 
@@ -201,18 +202,18 @@ compat baseline 与独立的 v4 baseline 相比：默认字体族、按钮背景
       boxShadow: style.boxShadow,
     });
   });
-  watch(byId("button"), "click", (event) =>
-    push("button-click", { trusted: event.isTrusted }));
+  watch(byId("button"), "click", (event) => push("button-click", { trusted: event.isTrusted }));
   watch(byId("input"), "input", (event) =>
-    push("input", { trusted: event.isTrusted, length: event.target.value.length }));
+    push("input", { trusted: event.isTrusted, length: event.target.value.length }),
+  );
   watch(byId("details"), "toggle", (event) =>
-    push("details-toggle", { open: event.target.open, trusted: event.isTrusted }));
+    push("details-toggle", { open: event.target.open, trusted: event.isTrusted }),
+  );
   watch(byId("until-found"), "beforematch", (event) =>
-    push("beforematch", { trusted: event.isTrusted }));
-  watch(byId("dialog"), "cancel", (event) =>
-    push("dialog-cancel", { trusted: event.isTrusted }));
-  watch(byId("dialog"), "close", (event) =>
-    push("dialog-close", { trusted: event.isTrusted }));
+    push("beforematch", { trusted: event.isTrusted }),
+  );
+  watch(byId("dialog"), "cancel", (event) => push("dialog-cancel", { trusted: event.isTrusted }));
+  watch(byId("dialog"), "close", (event) => push("dialog-close", { trusted: event.isTrusted }));
   window.__aduiF010 = {
     openDialog() {
       const dialog = byId("dialog");
@@ -223,8 +224,9 @@ compat baseline 与独立的 v4 baseline 相比：默认字体族、按钮背景
       return {
         url: location.href,
         userAgent: navigator.userAgent,
-        styleIds: [...document.styleSheets].map((sheet) =>
-          sheet.ownerNode?.getAttribute("data-vite-dev-id") ?? null),
+        styleIds: [...document.styleSheets].map(
+          (sheet) => sheet.ownerNode?.getAttribute("data-vite-dev-id") ?? null,
+        ),
         detailsOpen: byId("details").open,
         dialogOpen: byId("dialog").open,
         hiddenDisplay: getComputedStyle(byId("hidden")).display,
@@ -238,7 +240,9 @@ compat baseline 与独立的 v4 baseline 相比：默认字体族、按钮背景
       delete window.__aduiF010;
     },
   };
-  console.info("F-010 已启动。请手动操作，结束后执行 copy(JSON.stringify(window.__aduiF010.report(), null, 2))");
+  console.info(
+    "F-010 已启动。请手动操作，结束后执行 copy(JSON.stringify(window.__aduiF010.report(), null, 2))",
+  );
 })();
 ```
 
@@ -255,9 +259,9 @@ copy(JSON.stringify(window.__aduiF010.report(), null, 2));
 请在当前页面 Console 依次执行：
 
 ```javascript
-location.href
-document.getElementById("button") !== null
-typeof window.__aduiF010
+location.href;
+document.getElementById("button") !== null;
+typeof window.__aduiF010;
 ```
 
 应分别确认是目标端口、`true`，以及已初始化时的 `"object"`。若为 `"undefined"`，**先完整执行上方“Console 临时采集代码”代码块**（不是下方的 `copy(...)` 结果采集语句），看到“F-010 已启动”后再进行物理键盘/鼠标测试。若仍未初始化，保留 Console 第一条异常供诊断；不要立即改动项目源代码。所有页面均需单独初始化，刷新会清空变量及事件日志。
@@ -266,15 +270,15 @@ typeof window.__aduiF010
 
 ### 验收标准及不确定性
 
-| 维度 | 目标证据 | 当前状态 |
-| --- | --- | --- |
-| CSS/页面来源 | 正确 URL、`styleIds` 指向对应 Reset 与模式 | 静态三组已核对；交互采集待执行 |
-| 键盘焦点 | 物理 Tab 产生 `focusin`，焦点环/焦点可见行为符合原生预期 | NOT_RUN |
-| 按钮、输入框 | 真实点击/输入，事件 `trusted:true`，输入长度变化 | NOT_RUN |
-| details | summary 键盘操作使 `open` 正常切换 | NOT_RUN |
-| dialog | `showModal()` 后真实 Esc 触发原生取消/关闭 | NOT_RUN |
-| until-found | 浏览器查找能揭示隐藏内容，必要时记录 beforematch 与属性变化 | NOT_RUN |
-| 跨引擎、系统偏好 | Firefox、WebKit、最低目标版本和系统强制色/减少动效 | NOT_RUN |
+| 维度             | 目标证据                                                    | 当前状态                       |
+| ---------------- | ----------------------------------------------------------- | ------------------------------ |
+| CSS/页面来源     | 正确 URL、`styleIds` 指向对应 Reset 与模式                  | 静态三组已核对；交互采集待执行 |
+| 键盘焦点         | 物理 Tab 产生 `focusin`，焦点环/焦点可见行为符合原生预期    | NOT_RUN                        |
+| 按钮、输入框     | 真实点击/输入，事件 `trusted:true`，输入长度变化            | NOT_RUN                        |
+| details          | summary 键盘操作使 `open` 正常切换                          | NOT_RUN                        |
+| dialog           | `showModal()` 后真实 Esc 触发原生取消/关闭                  | NOT_RUN                        |
+| until-found      | 浏览器查找能揭示隐藏内容，必要时记录 beforematch 与属性变化 | NOT_RUN                        |
+| 跨引擎、系统偏好 | Firefox、WebKit、最低目标版本和系统强制色/减少动效          | NOT_RUN                        |
 
 此代码为 DevTools 手动取证工具，**不是自动化测试结果或交互质量结论**。事件有时会因开发者工具焦点、浏览器默认行为或元素当前状态而缺失；要记录阻塞而非凭空填 PASS。CSS 只含 R-003，若观察到差异先比对同一 Reset 的 Baseline，不能把不同 Reset 的默认视觉差异归咎本库。所有手动测试依然不能替代未来真实跨浏览器回归；**不增 CI，不发布或合并 main**。
 
@@ -282,15 +286,15 @@ typeof window.__aduiF010
 
 维护者依次提供三份 `window.__aduiF010.report()`，其中 `normalize-last` 后续**补发最新日志**（替代其首次不含点击和输入事件的记录）。最终三份均为同一 Chrome/156.0.0.0 UA，CSS 来源分别命中 `adui-reset-JQcSHX/baseline/style.css`、`normalize-first/style.css`、`normalize-last/style.css`，对应 `localhost:5180/5181/5182/`；日志来源和模式关系已确认。
 
-| 检查项 | Baseline 5180 | Normalize First 5181 | Normalize Last 5182（最新日志） |
-| --- | --- | --- | --- |
-| Button 点击 | 有 `button-click`，`trusted:true` | 有 `button-click`，`trusted:true` | **补齐 3 次** `button-click`，均 `trusted:true` |
-| Input 输入 | 有可信 `input`，最终长度 9 | 有可信 `input`，最终长度 9 | **补齐**可信 `input` 长度 1 至 9，最终长度 9 |
-| `details` | 可信事件包含 `open:false` 和 `open:true`，最终 true | 可信事件包含 true 和 false，最终 true | 可信事件包含 true 和 false，最终 false |
-| `dialog` Esc 取消与关闭 | `dialog-cancel`、`dialog-close` 可信；最终关闭 | 同左 | 同左 |
-| 焦点 | button/input/summary 均有 `focusVisible:true` 与 `outlineStyle:auto`、`outlineWidth:1px` | 同左 | 同左 |
-| 普通 `hidden` | `display:none` | `display:none` | `display:none` |
-| `hidden="until-found"` 查找揭示 | 无 `beforematch`，属性仍 `until-found` | 同左 | 同左 |
+| 检查项                          | Baseline 5180                                                                            | Normalize First 5181                  | Normalize Last 5182（最新日志）                 |
+| ------------------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------- | ----------------------------------------------- |
+| Button 点击                     | 有 `button-click`，`trusted:true`                                                        | 有 `button-click`，`trusted:true`     | **补齐 3 次** `button-click`，均 `trusted:true` |
+| Input 输入                      | 有可信 `input`，最终长度 9                                                               | 有可信 `input`，最终长度 9            | **补齐**可信 `input` 长度 1 至 9，最终长度 9    |
+| `details`                       | 可信事件包含 `open:false` 和 `open:true`，最终 true                                      | 可信事件包含 true 和 false，最终 true | 可信事件包含 true 和 false，最终 false          |
+| `dialog` Esc 取消与关闭         | `dialog-cancel`、`dialog-close` 可信；最终关闭                                           | 同左                                  | 同左                                            |
+| 焦点                            | button/input/summary 均有 `focusVisible:true` 与 `outlineStyle:auto`、`outlineWidth:1px` | 同左                                  | 同左                                            |
+| 普通 `hidden`                   | `display:none`                                                                           | `display:none`                        | `display:none`                                  |
+| `hidden="until-found"` 查找揭示 | 无 `beforematch`，属性仍 `until-found`                                                   | 同左                                  | 同左                                            |
 
 **范围内结果**：Chrome 156 的 Tailwind Preflight 三个模式均已取得可信 Button/Input/Details/Dialog 事件、可见焦点及普通 hidden 状态证据；**没有发现当前测试中 Normalize 引入顺序导致的上述行为差异**。需注意 `focusVisible:false` 亦出现在真实鼠标聚焦时，不能自动判断焦点功能损坏。三个页面 `detailsOpen` 末态不同但所有模式均有双向 toggle，不是 CSS 回归。
 
@@ -302,11 +306,11 @@ typeof window.__aduiF010
 
 维护者在此前 Tailwind 三模式 Button/Input/Details/Dialog/焦点交互日志后，再次提供 **三份更新的原始 `window.__aduiF010.report()`**。三份报告中的 Vite CSS 模块来源仍与 `adui-reset-JQcSHX` 完全对应，浏览器 UA 均为 Windows Chrome/156.0.0.0。**本节是本组最新查找揭示证据，取代本文件前面“未发现 beforematch / until-found 未确认”的历史阶段状态。**
 
-| 测试模式 | URL | `beforematch` | `trusted` | 最终 `untilFoundAttribute` | 阶段结果 |
-| --- | --- | --- | --- | --- | --- |
-| baseline | `http://localhost:5180/` | 已出现 | `true` | `null` | PASS |
-| normalize-first | `http://localhost:5181/` | 已出现 | `true` | `null` | PASS |
-| normalize-last | `http://localhost:5182/` | 已出现 | `true` | `null` | PASS |
+| 测试模式        | URL                      | `beforematch` | `trusted` | 最终 `untilFoundAttribute` | 阶段结果 |
+| --------------- | ------------------------ | ------------- | --------- | -------------------------- | -------- |
+| baseline        | `http://localhost:5180/` | 已出现        | `true`    | `null`                     | PASS     |
+| normalize-first | `http://localhost:5181/` | 已出现        | `true`    | `null`                     | PASS     |
+| normalize-last  | `http://localhost:5182/` | 已出现        | `true`    | `null`                     | PASS     |
 
 在当前 Fixture 的 `<div hidden="until-found">` 上，可信 `beforematch` 事件与 `hidden` 属性被移除相互支持，说明 **Chrome 156 的浏览器查找揭示路径已实际触发**。这是有明确浏览器事件和 DOM 状态的实测，不再只是 `display:block` 的间接推测。三个模式下普通 `#hidden` 的计算显示依旧为 `display:none`，没有观察到独立隐藏属性受到影响。
 
@@ -318,11 +322,11 @@ typeof window.__aduiF010
 
 维护者在执行 Tailwind Preflight 原生交互后，继续完成 `@unocss/reset/tailwind-v4.css` 和 `@unocss/reset/tailwind-compat.css` 的独立本地验证，并明确反馈：**“全部验证通过了”**。结合上一轮明确安排的两个独立 UnoCSS 消费目录及三个加载模式，此次反馈按 **Chrome 156、此前约定的原生交互检查范围** 归档，不重新要求重复已完成的操作。
 
-| 单独测试场景 | 真实 tarball + Vite+ 三模式构建 | Chrome 156 三模式静态样式 | 本次原生交互结论 | 证据等级 |
-| --- | --- | --- | --- | --- |
-| Tailwind v4 Preflight | 3/3 PASS | 12 × 14 项零差异 | 已验证 Button、Input、Details、Dialog、焦点和 `beforematch` 三页表现 | 维护者逐页原始 JSON、URL 与 DevTools 截图 |
-| UnoCSS tailwind-v4 | 3/3 PASS | 12 × 14 项零差异 | **维护者反馈所约定项目全部通过** | 人工完成反馈；未收到此批交互 JSON |
-| UnoCSS tailwind-compat | 3/3 PASS | 12 × 14 项零差异 | **维护者反馈所约定项目全部通过** | 人工完成反馈；未收到此批交互 JSON |
+| 单独测试场景           | 真实 tarball + Vite+ 三模式构建 | Chrome 156 三模式静态样式 | 本次原生交互结论                                                     | 证据等级                                  |
+| ---------------------- | ------------------------------- | ------------------------- | -------------------------------------------------------------------- | ----------------------------------------- |
+| Tailwind v4 Preflight  | 3/3 PASS                        | 12 × 14 项零差异          | 已验证 Button、Input、Details、Dialog、焦点和 `beforematch` 三页表现 | 维护者逐页原始 JSON、URL 与 DevTools 截图 |
+| UnoCSS tailwind-v4     | 3/3 PASS                        | 12 × 14 项零差异          | **维护者反馈所约定项目全部通过**                                     | 人工完成反馈；未收到此批交互 JSON         |
+| UnoCSS tailwind-compat | 3/3 PASS                        | 12 × 14 项零差异          | **维护者反馈所约定项目全部通过**                                     | 人工完成反馈；未收到此批交互 JSON         |
 
 **范围内决策**：F-010 的三个独立 Reset 场景在 **Chrome 156 当前 Fixture** 上的构建、静态对照与约定原生交互检查可记录为 **“本地验证阶段完成”**，目前没有观察到需要修改 `src/normalize.css` 的冲突证据。不要据此声明 UnoCSS 的逐页可信事件已经通过本助手审阅，更不能将它们归入自动化测试通过数量。
 

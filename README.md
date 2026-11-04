@@ -167,7 +167,7 @@ pnpm exec vp check --no-fmt  # 仅隔离格式问题排查 lint，不等于完�
 | [文档校验](docs/DOCUMENTATION_VALIDATION.md)                                  | 文档一致性审查策略                                                                                |
 | [ADR-0001](docs/adr/0001-css-base-strategy.md)                                | 初始 CSS 基础策略（Accepted）                                                                     |
 | [ADR-0002](docs/adr/0002-cascade-layers.md)                                   | CSS Cascade Layers 已批准策略                                                                     |
-| [规则候选研究](docs/research/RULE_REVIEW.md)                                  | 36 条首版去留已审定，唯一准入 R-003 已实现；其余未加入默认入口                                      |
+| [规则候选研究](docs/research/RULE_REVIEW.md)                                  | 36 条首版去留已审定，唯一准入 R-003 已实现；其余未加入默认入口                                    |
 | [首批规则证据审查](docs/research/RULE_EVIDENCE_BATCH1.md)                     | 11 条候选的规范依据、历史修复及复现门槛                                                           |
 | [第二批表单规则研究](docs/research/FORM_CONTROLS_REVIEW.md)                   | 原生表单、文件按钮与占位符的证据审查                                                              |
 | [第三批规则证据研究](docs/research/RULE_EVIDENCE_BATCH3.md)                   | 剩余 17 条排版、Reset 和系统偏好候选规则                                                          |

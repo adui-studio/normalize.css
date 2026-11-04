@@ -8,18 +8,18 @@
 
 ## 1. 已保留、可追溯的验证证据
 
-| 验证范围 | 可追溯事实 | 证据形式 |
-| --- | --- | --- |
-| Tailwind v4 Preflight | `baseline`、`normalize-first`、`normalize-last` 三组真实 CSS tarball + Vite+ 构建成功；Chrome 156 三模式 12 元素 × 14 属性静态计算值零差异 | 维护者构建终端日志、三份 JSON |
-| UnoCSS Reset `tailwind-v4` | 三组真实构建通过；Chrome 156 三模式静态计算值零差异 | 维护者构建终端日志、三份 JSON 和页面 CSS 来源 |
-| UnoCSS Reset `tailwind-compat` | 三组真实构建通过；Chrome 156 三模式静态计算值零差异 | 维护者构建终端日志、三份 JSON 和页面 CSS 来源 |
-| 三个独立 Reset 合计 | **9/9 生产构建通过**，彼此隔离、未混用 Reset | [Reset 实测记录](W06_RESET_LOCAL_VERIFICATION.md) |
-| Tailwind Cascade Layers | Chrome 156 的两个加载顺序下，`b#bold` 未分层普通声明生效，Tailwind `base` 层同名规则被划线覆盖 | 维护者 DevTools Styles 截图与既有计算样式 JSON |
-| Tailwind 原生交互 | Chrome 156 三模式可信 Button/Input/Details/Dialog 事件、焦点采样，以及可信 `beforematch` 和 `hidden` 属性移除 | 维护者逐页 Console JSON |
-| UnoCSS 两套原生交互 | 维护者确认两套均按约定完成并通过 | **人工验收反馈**；当前未附逐模式原始事件 JSON |
-| Vue/React 生态消费者 | Vue + Element Plus、React + Ant Design 真实 tarball 构建及 Chrome 156 静态 UI 对照既有通过记录 | [生态验证记录](W06_ECOSYSTEM_LOCAL_VERIFICATION.md) |
-| TDesign 对照 | 维护者此前确认已完成 | **人工完成反馈**；详细浏览器矩阵未在本次提供 |
-| 其他浏览器的回归执行 | 维护者确认回归完成并已正式验收归档 | **管理验收反馈**；当前会话未附逐目标 UA、OS、设备、版本、结果清单 |
+| 验证范围                       | 可追溯事实                                                                                                                                 | 证据形式                                                          |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------- |
+| Tailwind v4 Preflight          | `baseline`、`normalize-first`、`normalize-last` 三组真实 CSS tarball + Vite+ 构建成功；Chrome 156 三模式 12 元素 × 14 属性静态计算值零差异 | 维护者构建终端日志、三份 JSON                                     |
+| UnoCSS Reset `tailwind-v4`     | 三组真实构建通过；Chrome 156 三模式静态计算值零差异                                                                                        | 维护者构建终端日志、三份 JSON 和页面 CSS 来源                     |
+| UnoCSS Reset `tailwind-compat` | 三组真实构建通过；Chrome 156 三模式静态计算值零差异                                                                                        | 维护者构建终端日志、三份 JSON 和页面 CSS 来源                     |
+| 三个独立 Reset 合计            | **9/9 生产构建通过**，彼此隔离、未混用 Reset                                                                                               | [Reset 实测记录](W06_RESET_LOCAL_VERIFICATION.md)                 |
+| Tailwind Cascade Layers        | Chrome 156 的两个加载顺序下，`b#bold` 未分层普通声明生效，Tailwind `base` 层同名规则被划线覆盖                                             | 维护者 DevTools Styles 截图与既有计算样式 JSON                    |
+| Tailwind 原生交互              | Chrome 156 三模式可信 Button/Input/Details/Dialog 事件、焦点采样，以及可信 `beforematch` 和 `hidden` 属性移除                              | 维护者逐页 Console JSON                                           |
+| UnoCSS 两套原生交互            | 维护者确认两套均按约定完成并通过                                                                                                           | **人工验收反馈**；当前未附逐模式原始事件 JSON                     |
+| Vue/React 生态消费者           | Vue + Element Plus、React + Ant Design 真实 tarball 构建及 Chrome 156 静态 UI 对照既有通过记录                                             | [生态验证记录](W06_ECOSYSTEM_LOCAL_VERIFICATION.md)               |
+| TDesign 对照                   | 维护者此前确认已完成                                                                                                                       | **人工完成反馈**；详细浏览器矩阵未在本次提供                      |
+| 其他浏览器的回归执行           | 维护者确认回归完成并已正式验收归档                                                                                                         | **管理验收反馈**；当前会话未附逐目标 UA、OS、设备、版本、结果清单 |
 
 ## 2. 浏览器支持声明的证据边界
 
