@@ -20,7 +20,7 @@
 | LICENSE                      | 已存在             | MIT，Copyright © 2026 ADui Studio                                                                           |
 | 八类工程资产                 | 文档初始化         | [AGENTS](../AGENTS.md)、需求、SDD、架构、上下文、代码地图、Skills、Harness                                  |
 | CSS 源码                     | **首条已实现**     | 开发分支 `src/normalize.css` 仅包含 R-003；R-004 保留原生默认                                               |
-| package.json、依赖、构建脚本 | **部分实现**       | 开发分支已有 `exports["."]`、静态 CSS 构建脚本；Vite+ 1.4.0 仅开发依赖，仍 private                          |
+| package.json、依赖、构建脚本 | **部分实现**       | 开发分支已有 `exports["."]`、Vite+ `vp build/pack` 配置；构建命令待实测，仍 private                          |
 | 自动化测试、浏览器回归       | **部分实现**       | 本机检查与 29 项测试通过；Chrome 120 四组差异；Firefox 121、Chrome 156 均零差异；其余未测                   |
 | CI                           | **明确不规划**     | 项目约束：不增加任何 CI                                                                                     |
 | npm 包发布、版本号           | **未发布/未确定**  | 不能将先前讨论的草案版本当成仓库发布事实                                                                    |
@@ -95,7 +95,9 @@
 
 **R-004 Chrome 120 补充（2026-11-04）**：维护者从现有三个 Fixture 的本地 JSON 读取到四元素相同结果：T0/T1 为 13px、T1b 为 16px，与 Chrome 156 一致；Firefox 121 的三页均为 16px。Chrome 120 原始三份 JSON 未上传，记录为终端实测而非助手独立文件复核。该对照不证明用户主动修改字体偏好的结果，R-004 继续排除默认 CSS。详见[运行记录 §3.2.2](research/LOCAL_BROWSER_RUN_20261104.md)。
 
-**首批产品代码开发（2026-11-04）**：维护者明确要求按浏览器默认使用并停止额外字体偏好专项测试。开发分支新增 `src/normalize.css`（唯一 R-003 的 `b, strong { font-weight: bolder; }`）、`scripts/build.mjs`、单一 CSS 根 `exports`，保持 `private: true`、`0.0.0`、无新增依赖及 CI。定向 Node 测试 5/5、静态 CSS 输出字节检查、离线本地 tarball 安装/根路径解析/未公开子路径拒绝已在独立 Linux Node 22.16.0 复刻目录实测通过；该运行时低于项目要求，Windows 上最新 `vp check`、完整 Node/Vitest 与实际 Vite+/Webpack 消费端验证仍待执行。R-004 不进入产品 CSS，Chrome 120/Firefox 121/Safari 等完整发布兼容范围未验收。详见[SDD](SDD.md)、[包方案](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)与[代码地图](CODEBASE_MAP.md)。
+**首批产品代码开发（2026-11-04）**：维护者明确要求按浏览器默认使用并停止额外字体偏好专项测试。开发分支新增 `src/normalize.css`（唯一 R-003 的 `b, strong { font-weight: bolder; }`）、最初的 Node 复制脚本（后续已移除）、单一 CSS 根 `exports`，保持 `private: true`、`0.0.0`、无新增依赖及 CI。定向 Node 测试 5/5、静态 CSS 输出字节检查、离线本地 tarball 安装/根路径解析/未公开子路径拒绝已在独立 Linux Node 22.16.0 复刻目录实测通过；该运行时低于项目要求，Windows 上最新 `vp check`、完整 Node/Vitest 与实际 Vite+/Webpack 消费端验证仍待执行。R-004 不进入产品 CSS，Chrome 120/Firefox 121/Safari 等完整发布兼容范围未验收。详见[SDD](SDD.md)、[包方案](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)与[代码地图](CODEBASE_MAP.md)。
+
+**Vite+ 构建命令迁移（2026-11-04）**：维护者确认旧版 `npm run build` 运行成功、离线 Node 25/25 PASS，并要求直接使用 `vp dev`、`vp build`、`vp pack`。已移除 `scripts/build.mjs` 及旧 build script，`vite.config.ts` 新增 Vite CSS-only 库构建配置（目标 `dist/normalize.css`）和独立 tsdown CSS-only 试验配置（`dist-pack/`，不覆盖包根导出），Git 忽略该试验目录。新定向 Node 契约测试在独立 Node 22.16.0 环境 5/5 PASS；尚未在 Windows Vite+ 1.4.0 执行迁移后的 build/pack/check/test。仍保持 private、无新依赖、无 CI、无发布。详见[W-04 记录 §7.2](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)。
 
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与下一阶段变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
