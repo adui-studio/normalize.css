@@ -107,6 +107,24 @@ fmt: {
 
 建议在维护者本地先执行 `pnpm exec vp fmt --check` 和 `pnpm exec vp check`，核对剩余第一方文件；可单独执行 `pnpm exec vp check --no-fmt` 判断 lint 部分，但该命令通过**不等于完整 check 通过**。对于需要格式化的自有文件，另行按最小范围处理并检查 Git diff，不对上游 Skills 执行批量 `--fix`。
 
+## 3.4 第二轮本机回归：上游 Skills 隔离生效（2026-11-04）
+
+维护者提供 Windows PowerShell 最新完整命令输出；以下均为**维护者本地执行结果**，助手尚未在同一 Windows 环境独立复跑：
+
+| 操作 | 最新结果 | 结论 |
+| --- | --- | --- |
+| `vp fmt --check` | 检查列出 54 个第一方文件，报告 `Format issues found` | **FAIL**；尚未执行格式修复 |
+| `vp check` | 仍因格式问题失败，报告 54 个文件 | **FAIL**；不能视为完整 lint/type-check 通过 |
+| `vp test:offline` | Vite+ 返回 `Command 'test:offline' not found` | **调用方式错误**；该名称属于 npm script 而非 Vite+ 内置子命令 |
+| `npm run test:offline` | Node `tests 23 / pass 23 / fail 0` | **PASS 23/23**；离线包测试仍出现 Node `DEP0190` 警告 |
+| `vp test` | Vitest 5.0.5，`tests/fixtures.test.ts` 共 6 项 | **PASS 6/6** |
+
+与此前 66 个文件的格式报告相比，本轮不再列出 `.agents/skills/**`，与已提交的忽略配置相符；**但 54 是本轮输出列出的文件集合，不能以数量变化证明每一个被排除文件的具体格式状态**。项目自有文件仍应保持格式检查，不应通过扩大忽略范围规避问题。
+
+下一步维护者需先检查 `git status --short`，运行 `vp fmt` 格式化第一方文件，复核 `git diff --stat` / `git diff --check`，再执行 `vp fmt --check` 与 `vp check`。如需隔离格式以诊断 lint，可单独使用 `vp check --no-fmt`，但它的通过不等于完整 `vp check` 通过。
+
+**DEP0190 代码定位**：`tests/package-smoke.node.test.mjs` 的 `npm()` 辅助函数在 Windows 下以 `spawnSync('npm.cmd', args, { shell: true })` 启动 npm。警告与 Node 对 `shell: true` 携带参数数组的弃用提示一致；目前未修改。后续修复需保证 Windows `npm.cmd` 启动、参数安全传递与离线打包测试均通过，禁止仅靠屏蔽警告视为修复。
+
 ## 4. 下一步与关闭条件
 
 1. 保留此次 Chrome 156 的 R-003 **局部无差异**观察；优先收集目标 **Chrome 120 / Edge 120 / Firefox 121 / Safari 17.2** 的原始 T0/T1 JSON、真实构建号、DevTools UA 声明。
