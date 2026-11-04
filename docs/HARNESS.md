@@ -155,6 +155,8 @@ npm pack --dry-run --json --ignore-scripts --offline .
 
 **2026-11-04 · UnoCSS 双 Reset 原生交互维护者完成反馈（最新）**：维护者在 Tailwind Chrome 156 的逐页交互报告与 beforematch 事件已通过后，确认两套独立 UnoCSS Reset 的原生交互“全部验证通过”。按已约定的 Chrome 156 三种独立加载模式记为 **人工反馈 PASS**，目前没有附带两套 UnoCSS 的逐页 JSON，证据等级与 Tailwind 的原始事件报告不同。三个 Reset 的 9/9 真实生产构建与静态样式对照已通过；**此处完成的是 Chrome 156 本地子范围**，并非 F-010 的全平台或 W-06 全部验收。后续仅推进尚未覆盖的 Firefox/WebKit/低版本及系统无障碍偏好，不重新要求维护者做已通过的 Chrome 测试。详见 [Reset 记录](research/W06_RESET_LOCAL_VERIFICATION.md)；不新增 CI。
 
+**2026-11-04 · 跨浏览器回归执行完成反馈（最新）**：维护者已明确反馈“回归完成”。此前三个互相隔离的 Reset Chrome 156 本地测试子范围已完成，其中 Tailwind 具有原始交互日志和层叠截图、两套 UnoCSS 交互为维护者人工完成反馈。新增跨浏览器回归的**执行状态**记为“维护者反馈完成”；但尚无本轮完整逐 UA/OS/版本/设备的结果清单，不能逐项认定 Firefox/WebKit/真实 Safari/移动端或系统偏好通过，**W-06 仍待证据归档后正式验收**。不要重复组织已完成的测试，不因本条反馈新增 CI、产品 CSS 或公开支持声明。详见 [浏览器支持边界](research/BROWSER_REVIEW.md) 和 [W-06 实测记录](research/W06_RESET_LOCAL_VERIFICATION.md)。
+
 ## 6. 安全和发布门禁（规划）
 
 - 审核第三方规则的许可证及改写过程；不引入未经审批的远程字体、图片或跟踪请求。
