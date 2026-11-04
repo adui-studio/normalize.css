@@ -52,7 +52,7 @@ npm run test:ecosystem -- vue-element # 可选：隔离 Vue + Element Plus 真�
 npm run test:ecosystem -- react-antd   # 可选：隔离 React + Ant Design 真实消费
 ```
 
-本机已验证 Vite+ 1.4.0 的 `vp pack` 能直接以 CSS 作为唯一入口、输出一个样式文件（测试时约 200 字节、无 JS）。因此现在由 **`vp pack` 生成 npm 根导出的 `dist/normalize.css`**。原先把 CSS 作为 `vp build` 库入口会触发 `cssCodeSplit: false` 与 CSS input 冲突，已改成 **`vp build` 负责构建现有六张 Fixture HTML**，结果隔离在 `dist-fixtures/`，不进入 npm 包。修订后的两项命令均已在维护者 Windows Vite+ 1.4.0 环境实测通过。如需在本地 HTML 试用，可直接用 `<link rel="stylesheet" href="/dist/normalize.css">`（前提是你的静态服务器确实提供该 URL）。若从本地构建的 npm tarball 安装到支持 CSS 导入的构建工具，可测试 `import "@adui/normalize.css";`，其中 Vite+ 生产构建已经验证 CSS 保留，Webpack 5 以及浏览器页面实际生效仍未验收。**不执行 npm publish**。
+本机已验证 Vite+ 1.4.0 的 `vp pack` 能直接以 CSS 作为唯一入口、输出一个样式文件（测试时约 200 字节、无 JS）。因此现在由 **`vp pack` 生成 npm 根导出的 `dist/normalize.css`**。原先把 CSS 作为 `vp build` 库入口会触发 `cssCodeSplit: false` 与 CSS input 冲突，已改成 **`vp build` 负责构建 HTML Fixture**，结果隔离在 `dist-fixtures/`，不进入 npm 包。最初六张页面的配置已在维护者 Windows Vite+ 1.4.0 实测通过；W-06 后续扩展为八张页面，更新后的完整构建仍待复验。如需在本地 HTML 试用，可直接用 `<link rel="stylesheet" href="/dist/normalize.css">`（前提是你的静态服务器确实提供该 URL）。若从本地构建的 npm tarball 安装到支持 CSS 导入的构建工具，可测试 `import "@adui/normalize.css";`，其中 Vite+ 生产构建已经验证 CSS 保留，Webpack 已取消首版必测要求；Chrome 156 本地 T0/T2 页面及部分原生交互已有维护者验证反馈，其他浏览器与组件库仍待验收。**不执行 npm publish**。
 
 默认 Normalize 不覆盖 `code/kbd/samp/pre` 的原生字体字号，不包含 Reset/Forms/A11y/组合入口，也不内建 `@layer`。
 
