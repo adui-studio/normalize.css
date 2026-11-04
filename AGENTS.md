@@ -4,7 +4,7 @@
 
 **W-06 当前补充（2026-11-04）**：已建立 Vue 3 + Element Plus、React + Ant Design 两个真实 tarball 生态消费者的独立 Vite+ 测试脚本，根依赖未增加；本轮仅检查源代码隔离与静态语法，实际 npm 安装、生产构建与 UI 浏览器回归仍 NOT_RUN。TDesign、Reset 生态留后续，不因脚本存在而宣布支持。
 
-**W-06 最新本机实测（2026-11-04）**：维护者已运行 Vue + Element Plus、React + Ant Design 两组真实 tarball **Vite+ 生产构建 PASS**，并保留 Vue 的临时 T0/T2 工程。`test:offline` 本轮为 **29/30 PASS、1 FAIL**，仅因旧清单断言未包括新增第七项生态测试；已同步更新 `tests/package.node.test.mjs`，最新离线重跑仍待确认。Vue + Element Plus 已有维护者 Chrome 156 的 T0/T2 页面截图：Button/Input 均挂载且静态视觉一致，五个字重/字号探针相同，**该浏览器静态 UI PASS**；Vue 键盘/输入交互及 React 浏览器对照仍待测。**不增加 CI、根依赖或产品 CSS**。
+**W-06 最新本机实测（2026-11-04）**：维护者已运行 Vue + Element Plus、React + Ant Design 两组真实 tarball **Vite+ 生产构建 PASS**，并保留 Vue 的临时 T0/T2 工程。`test:offline` 本轮为 **29/30 PASS、1 FAIL**，仅因旧清单断言未包括新增第七项生态测试；已同步更新 `tests/package.node.test.mjs`，最新离线重跑仍待确认。Vue + Element Plus 已有维护者 Chrome 156 的 T0/T2 页面截图：Button/Input 均挂载且静态视觉一致，五个字重/字号探针相同，**该浏览器静态 UI PASS**；React + Ant Design 也有维护者 Chrome 156 的 T0/T2 页面截图：Button/Input 正常挂载且五项计算样式一致，**两组生态静态 UI 均 PASS**；两组交互、其他浏览器和 TDesign/Reset 生态仍待测。**不增加 CI、根依赖或产品 CSS**。
 
 ## 1. 项目事实
 
