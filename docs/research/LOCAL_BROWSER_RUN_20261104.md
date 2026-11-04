@@ -174,6 +174,22 @@ T0/T1 均报告 `font-family: monospace`。仓库 T1 HTML 明确包含 `code, kb
 
 **规则决策不变**：R-004 保留浏览器原生等宽字号偏好；默认 Normalize 不添加 `font-size: 1em`、重复的 `monospace` 字体族或固定代码字体栈。下一步建议在 Chrome for Testing 120 上运行同样三个 R-004 Fixture，继续区分引擎/版本与本地字体设置因素。
 
+### 3.2.2 Chrome for Testing 120.0.6099.109 三组 R-004 Fixture（2026-11-04）
+
+维护者使用 Browser Workshop 已准备的 Chrome for Testing **120.0.6099.109 / Windows 11**，在 `r004-native.html`（T0）、`r004-risk-review.html`（T1）、`r004-family-review.html`（T1b）分别导出计算样式探针 JSON，并通过 Windows PowerShell `Get-Content -Raw | ConvertFrom-Json` 读取。维护者提供了三个页面完整的四元素表格输出。每页 `code`、`kbd`、`samp`、`pre` 各自结果一致：
+
+| 页面对照                                            | 父级字号 | 元素计算字号 | 计算字体族             |
+| --------------------------------------------------- | -------- | ------------ | ---------------------- |
+| T0（无 Normalize）                                  | `16px`   | `13px`       | `monospace`            |
+| T1（额外 `font-size: 1em`）                         | `16px`   | `13px`       | `monospace`            |
+| T1b（在 T1 基础上追加 `monospace, monospace`）      | `16px`   | `16px`       | `monospace, monospace` |
+
+**观察结果**：本次 Chrome 120 的 T0/T1 计算字号均为 13px，T1b 为 16px；与先前 Chrome 156 的 T0/T1/T1b 局部观察一致。T1b 的差异与 Firefox 121 本轮三页均为 16px 的结果不同。T1b 相对于 T1 只新增作者字体族声明，因此这组数据支持研究独立等宽字号偏好与字体族选择行为；**不能仅由计算值认定具体内部机制或是否渲染了匹配的物理字体**。
+
+**证据层级**：以上数值是维护者运行 PowerShell 读取本地 JSON 后提供的终端输出；本轮未收到三份 R-004 JSON 原始附件，助手没有独立验证文件内容、校验和、完整 UA、CSS 获胜规则与当时字体设置。浏览器精确版本沿用此前同一 BWS Chrome 120 环境的版本页截图，未针对本轮页面单独读取新版本信息。不可据此声称用户主动修改等宽字体字号偏好、实际字形、无障碍、组件库、Edge 120 或 Safari 已通过测试。
+
+**产品结论不变**：R-004 默认 Normalize 不强制 `font-size: 1em`，不重复 `monospace`，不覆盖默认代码字体栈。后续若补充浏览器字体偏好手动设置验证，应使用**独立的设置测试 Profile**，与原生基准样本隔离。
+
 ## 3.3 Vite+ 格式检查的来源文件隔离（2026-11-04，配置已提交／未重测）
 
 维护者最初执行 `npm exec -- vp check` 时有 66 个格式错误，涉及仓库自有文件与固定来源的第三方 `.agents/skills/` 文件。根据 [Vite+ 官方格式配置](https://viteplus.dev/config/fmt)，在开发分支的根 `vite.config.ts` **仅**新增：
