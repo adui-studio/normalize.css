@@ -6,7 +6,7 @@
 
 - 仓库：[adui-studio/normalize.css](https://github.com/adui-studio/normalize.css)，npm 包目标名：`@adui/normalize.css`。
 - 当前已确认：GitHub 仓库已建立并包含 MIT LICENSE；五项 ADR 已接受，首版只规划默认 Normalize 入口；Chrome/Edge 120、Firefox 121、Safari 17.2（及对应核心移动版本）已确定为**最低测试目标而非已验证兼容范围**，参见 [MVP 计划](docs/plans/MVP_IMPLEMENTATION_PLAN.md)。
-- W-03 开发分支已增加 `package.json`、`vite.config.ts`、`fixtures/` 与 `tests/`；**真正 Normalize CSS 源码、npm 导出、可安装发布包尚未实现**。Vite+ 已在清单中固定到 1.4.0；维护者的 Windows 本地环境已完成 `vp check`（54 文件格式和 11 文件 Lint 通过）、`vp test`（6/6）及 `npm run test:offline`（23/23），历史浏览器仍未测；`DEP0190` 的代码修复已提交，待 Windows 本机重新验证。本执行容器仍未安装 Vite+。见 [首次本机运行记录](docs/research/LOCAL_BROWSER_RUN_20261104.md)。
+- W-03 开发分支已增加 `package.json`、`vite.config.ts`、`fixtures/` 与 `tests/`；**真正 Normalize CSS 源码、npm 导出、可安装发布包尚未实现**。Vite+ 已在清单中固定到 1.4.0；维护者的 Windows 本地环境已完成 `vp check`（54 文件格式和 11 文件 Lint 通过）、`vp test`（6/6）及 `npm run test:offline`（23/23），`DEP0190` 在修复后的 Windows 回归中未再出现；R-003 已取得 Chrome 156 的 T0/T1 原始 JSON 比较结果，但历史最低目标浏览器仍未测。本执行容器仍未安装 Vite+。见 [首次本机运行记录](docs/research/LOCAL_BROWSER_RUN_20261104.md)。
 - 目标：低侵入 CSS 标准化基础库；Reset、A11y、Forms 是已接受的长期可选模块方向，**首版延期**；默认不内置 `@layer`，固定 Baseline 2023 作为特性参考。
 - **工具链决策**：后续开发统一 Vite+，参见 [ADR-0005](docs/adr/0005-viteplus-toolchain.md)。工具链已选定不构成开始编写 CSS 或安装依赖的授权。
 
