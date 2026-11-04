@@ -19,7 +19,8 @@ normalize.css/
 │   ├── r003-native.html
 │   ├── r003-candidate.html
 │   ├── r004-native.html
-│   └── r004-risk-review.html
+│   ├── r004-risk-review.html
+│   └── r004-family-review.html  # T1b：仅增加重复 monospace 字体族的风险对照
 ├── tests/                    # W-03 已存在：契约和 Node 内置单测
 │   ├── fixtures.test.ts
 │   ├── fixtures.node.test.mjs

@@ -53,6 +53,25 @@
 
 **产品决策不变**：首版默认入口不添加 R-004 的统一字号或强制字体栈，不应仅凭这些候选在竞品中存在而将其准入。
 
+## 3.1 2026-11-04 追加诊断：单一等宽字体族与独立字号偏好
+
+维护者在 Chrome 156、Windows 的 R-004 T1 DevTools 中核验：`document.readyState === "complete"`、`#risk-review-only` 存在、其 CSSOM 确实含 `code, kbd, samp, pre { font-size: 1em; }`；父级字号为 `16px`，当前计算字号与探针记录均为 `13px`。因此**已排除“样式节点不存在”和“探针读取后字号才变更”这两种解释**；尚未核验 DevTools Styles 的获胜声明及各设置的具体原因。
+
+外部依据：
+
+- [MDN font-family — Monospace font size](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/font-family#monospace_font_size)：浏览器常使用不同的普通文字和等宽文字默认字号；单独指定 `monospace` 可触发等宽字号偏好，`monospace, monospace` 会绕过这项机制。**绕过用户偏好是风险，不是默认 Normalize 的当然目标。**
+- [Chromium Blink FontBuilder](https://chromium.googlesource.com/chromium/src/+/HEAD/third_party/blink/renderer/core/css/resolver/font_builder.cc)：字体族切换及等宽字体尺寸存在专门的计算路径；不能仅凭源码推断所有浏览器版本的确切数值。
+
+为避免同时更改多个变量，新增三个明确分离的对照：
+
+| 页面 | 测试 CSS | 作用 |
+| --- | --- | --- |
+| `r004-native.html`（T0） | 无作者字号/字体族规则 | 原生对照 |
+| `r004-risk-review.html`（T1） | `font-size: 1em` | 原有单声明风险对照 |
+| `r004-family-review.html`（T1b） | 与 T1 相同的 `font-size: 1em`，**额外** `font-family: monospace, monospace` | 隔离重复字体族的影响 |
+
+T1b **不属于已批准的发布规则、不改变 R-004 默认排除决定**。检查各页 `code/kbd/samp/pre` 的计算字号、字体族和 Chrome 的独立等宽字体大小设置；结果需要由维护者在真实浏览器另行采集。
+
 ## 4. 逐次执行记录模板（开发后使用）
 
 | 字段 | 必填内容 |

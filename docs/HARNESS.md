@@ -4,6 +4,8 @@
 
 **本机实测更新（2026-11-04）**：维护者在 Windows 上用 pnpm 11.24.0 安装了 Vite+ 1.4.0，`npm run test:offline` **22/22 PASS**，`npm exec -- vp test` **5/5 PASS**，`npm exec -- vp dev` 启动成功并访问四个 Fixture；`npm exec -- vp check` **FAIL**（66 个文件格式问题）。Chrome 156 的 R-003 T0/T1 字重无差异；R-004 T1 声明效果不符合预期，待诊断。完整记录见 [首次本地运行](research/LOCAL_BROWSER_RUN_20261104.md)。上述结果**来自维护者提供的本地截图/终端日志**，不是本执行容器独立重跑。
 
+**R-004 补充测试**：维护者的 DevTools Console 已验证 T1 中作者 CSS 规则存在于 CSSOM，当前与探针记录均为 13px；依据 [字体族字号偏好研究](research/R003_R004_LOCAL_VERIFICATION.md)，新增独立 T1b 页面 `/fixtures/r004-family-review.html`，仅相对于 T1 增加 `font-family: monospace, monospace`；**T1b 浏览器结果与新增 Node/Vitest 契约回归尚未执行**，不能将机制解释当成实测通过。
+
 ## 1. Harness 目标
 
 形成可重复的闭环：理解需求 → 影响分析 → 制定验证矩阵 → 最小修改 → 检查 → 定位失败 → 修复重验 → 记录结果。未来仅考虑维护者本地运行可复现检查并记录结果；项目明确**不增加任何 CI**，避免仅凭经验声称跨浏览器兼容。

@@ -69,6 +69,12 @@ T0/T1 均报告 `font-family: monospace`。仓库 T1 HTML 明确包含 `code, kb
 - 若两者均为 `13px` 且 CSSOM 中存在声明，使用 DevTools **Styles** 查看获胜声明/覆盖来源；在确认前不得改动产品 Normalize。
 - 如果样式已经正常应用，才开始比较系统独立等宽字体字号偏好。当前 R-004 默认**不强制字号**的低侵入决策不变。
 
+## 3.1 Console 复核结果与下一项独立实验
+
+维护者补充的 T1 Console 截图确认：`readyState: "complete"`、`stylePresent: true`，CSSOM 可读出 `code, kbd, samp, pre { font-size: 1em; }`，`currentFontSize: "13px"` 与 `capturedFontSize: "13px"` 一致，`parentFontSize: "16px"`。这排除了“样式元素不存在”或“探针采样后最终字号已变化”的假设，**但不代表已完整确认 CSS 层叠中的获胜声明**。
+
+参考 [MDN 对浏览器独立等宽字号偏好的说明](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/font-family#monospace_font_size)，单独的 `monospace` 字体族与重复的 `monospace, monospace` 对独立等宽字号偏好的处理可能不同。已设计 T1b `/fixtures/r004-family-review.html`：保留 T1 的 `font-size: 1em`，只额外添加 `font-family: monospace, monospace`；其**真实计算结果尚未执行/提供**，不得凭机制推断为 PASS。
+
 ## 4. 下一步与关闭条件
 
 1. 保留此次 Chrome 156 的 R-003 **局部无差异**观察；优先收集目标 **Chrome 120 / Edge 120 / Firefox 121 / Safari 17.2** 的原始 T0/T1 JSON、真实构建号、DevTools UA 声明。

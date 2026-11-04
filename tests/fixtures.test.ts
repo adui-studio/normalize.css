@@ -35,8 +35,21 @@ describe('规则复现 Fixture 契约', () => {
     expect(source).toMatch(/code,\s*kbd,\s*samp,\s*pre\s*\{\s*font-size:\s*1em;/);
   });
 
+  it('R-004 T1b 只额外添加重复等宽字体族', () => {
+    const baseline = readFixture('r004-risk-review.html');
+    const familyReview = readFixture('r004-family-review.html');
+    expect(baseline).not.toContain('id="family-review-only"');
+    expect(familyReview).toContain('id="family-review-only"');
+    expect(familyReview).toMatch(/font-family:\s*monospace,\s*monospace;/);
+    expect(familyReview).toMatch(/font-size:\s*1em;/);
+    for (const id of ['code', 'kbd', 'samp', 'pre']) {
+      expect(baseline).toContain(`id="${id}" data-probe`);
+      expect(familyReview).toContain(`id="${id}" data-probe`);
+    }
+  });
+
   it('所有 Fixture 只读取数据，不依赖远程资源', () => {
-    const files = ['r003-native.html', 'r003-candidate.html', 'r004-native.html', 'r004-risk-review.html'];
+    const files = ['r003-native.html', 'r003-candidate.html', 'r004-native.html', 'r004-risk-review.html', 'r004-family-review.html'];
     for (const name of files) {
       const source = readFixture(name);
       expect(source).toContain('src="./probe.js"');
