@@ -1,6 +1,6 @@
 # W-04 — 纯 CSS npm 包导出与副作用验收方案
 
-- **状态**：**W-04 已实现开发期首批 CSS 静态构建与单根 exports**，保留 `private: true`，不发布 npm；Vite+/Webpack 生产消费者与完整发布门槛未验收。已有真实 R-003 源码和独立环境中的构建、定向测试、离线包安装结果。
+- **状态**：**W-04 当前约定的 CSS 包交付门槛已满足**：`vp pack` 唯一 CSS、真实 tarball/离线安装和 Vite+ 生产消费均已实测通过。根据维护者最新决定只将 Vite+ 列为本项目的构建与必测消费者；不要求或安装 Webpack。当前仍 `private: true`、`0.0.0`，尚未合并或发布。
 - **日期**：2026-11-03
 - **关联**：[Issue #5](https://github.com/adui-studio/normalize.css/issues/5) · [ADR-0003](../adr/0003-mvp-package-contract.md) · [ADR-0005](../adr/0005-viteplus-toolchain.md) · [W-03 Harness 设计](VITEPLUS_LOCAL_HARNESS_DESIGN.md) · [MVP 计划](MVP_IMPLEMENTATION_PLAN.md)
 - **范围**：只验证已接受的 `@adui/normalize.css` **根 CSS 入口**，无运行时 JavaScript 依赖，不发布任何可选 CSS 子路径。
@@ -41,13 +41,13 @@
 
 **重要区别**：`exports` 指向 CSS 是文件路径契约，不等于 Node.js 执行 CSS。由于 `exports` 会限制子路径，不能让消费者通过未批准的 `/dist/normalize.css` 路径来“补救”根路径解析失败；根入口若无法满足目标消费端，必须记录阻塞，并经 ADR 再评审是否改变公共 API，**不能偷偷追加子路径**。
 
-## 4. 最小消费端验收矩阵（持续更新）
+## 4. 最小消费端验收矩阵（以 §7.7 最新范围为准）
 
 | ID   | 情形                                                              | 预期验收                                                                                                | 当前状态              |
 | ---- | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | --------------------- |
 | P-01 | 检查实际 tarball 的 root CSS 文件                                 | `exports` 指向的 CSS 在 tarball 中存在、能正常解析                                                      | PASS · 真实 tarball   |
 | P-02 | Vite+ 消费应用中使用 JS 副作用导入 `import "@adui/normalize.css"` | 开发和生产均真正应用样式，产物中可追踪到该 CSS                                                          | 生产 PASS；开发态待测 |
-| P-03 | Webpack 5 消费应用中使用同样的 JS 副作用导入                      | 生产 tree shaking 后 CSS 仍保留，并确实影响页面                                                         | NOT_RUN               |
+| P-03 | Webpack 5 消费应用（非本项目必测工具链）                          | 第三方项目可能使用自己的构建工具；本项目不以 Webpack 验证作为交付门槛                                   | 范围外 · 不要求       |
 | P-04 | 消费端 CSS 使用 `@import "@adui/normalize.css";`                  | **仅在支持该 npm 解析语义的构建工具中**验证；若不支持，记录为该调用方式不受支持，不得误称原生浏览器可用 | NOT_RUN               |
 | P-05 | 直接在浏览器加载**真实部署后的 CSS URL**                          | 无需 JS 即可被加载，样式仅影响预期范围；浏览器原生 `@import` 需要 URL，不解析 npm 裸包名                | NOT_RUN               |
 | P-06 | 负向子路径：`/reset.css`、`/forms.css`、`/a11y.css`、`/all.css`   | 不允许成为包的公开 exports；在严守 exports 的工具链中应被阻止                                           | PASS · 私有子路径拒绝 |
@@ -56,13 +56,13 @@
 | P-09 | 安装实际 tarball 到独立消费项目                                   | CSS 根入口能从发布包解析，不依赖仓库相对路径、源码别名或未发布文件                                      | PASS · 独立离线安装   |
 | P-10 | 浏览器原生表现与组件库回归                                        | 仅在 W-05 证明必要且实现规则后执行；不能从“打包成功”推定兼容                                            | NOT_RUN               |
 
-**W-04 DoD**：至少 P-01、P-02、P-03、P-06、P-07、P-09 必须有实际产物和可复现记录；P-04/P-05 根据声明的使用方式决定是否纳入公开承诺，其他测试用于排查副作用及行为风险。任何阻塞必须在公开文档中说明，不得借测试不充分额外扩大入口。
+**W-04 当前 DoD（2026-11-04 维护者修订）**：必须具备 P-01、P-06、P-07、P-09 真实 npm 包与唯一 CSS 导出证据，以及 P-02 的 **Vite+ 生产 CSS 保留**证据；以上已实测通过。**P-03 Webpack 消费构建不属于本项目必测范围**，不作为阻塞或兼容承诺。P-02 的开发态/页面计算样式、P-05 浏览器真实 URL 加载、P-10 组件库和浏览器回归移交 W-06；P-04 只有在正式文档承诺 CSS 裸包 `@import` 时才另行验证。保持 CSS-only、`private: true`、不新增 CI 或发布行为。
 
 ## 5. 实施顺序与禁止事项
 
 1. 在 W-03 获准并可运行后，用**未包含真正 Normalize 修复的中性测试 CSS**检验工具链/导出行为；不得把中性测试样式当作库功能。
 2. 优先探索 `vp pack`，实际记录 CSS-only 产物清单；如无法满足纯 CSS 契约，再按最小原则评估备用方案。
-3. 将实际 `package.json` 与 tarball 安装到两个**独立**的消费者（Vite+ 与 Webpack），检查解析、生产保留、导入顺序和最终样式。
+3. 将真实 tarball 安装到独立的 **Vite+ 消费项目**，验证唯一根入口、生产构建 CSS 保留和导出封装；不为了测试而引入第二套构建工具。
 4. 再审查 LICENSE、README、`files`、`sideEffects`、零运行时 JS 等发布门槛；npm 包签发和 Release 仍需单独许可。
 5. **本项目不增加任何 CI / GitHub Actions / 自动发布**，不使用仅靠脚本名便无法复现的虚假“测试通过”。
 
@@ -174,22 +174,24 @@
 
 **Windows 行尾处理**：维护者说明多次 `vp check --fix` 仅针对 CRLF → LF。经确认仓库此前不存在 `.gitattributes`、`.editorconfig`；本轮添加 `* text=auto eol=lf` 的 Git 属性与 EditorConfig 的 `end_of_line = lf`，统一新检出与新保存的文本。此配置尚未在维护者 Windows 检出环境中复验，不自动修改上游固定 Skills 或批量重写已跟踪文件。
 
-## 7.7 P-03：独立 Webpack 5 生产 CSS 消费测试（2026-11-04，脚本已提交／待 Windows 执行）
+## 7.7 最新范围决策：只使用 Vite+，撤销 Webpack 强制验收（2026-11-04）
 
-维护者完成 LF 规则复验（`git check-attr text eol` 均为 `auto/lf`），并执行 `vp check --fix`：格式修复成功、13 个文件 Lint 无警告。仓库已出现该次修复的提交。提交差异证明本轮 3 个 Markdown 文件变更是**表格列宽与空格对齐**，并不是 Git 中的 CRLF → LF 变更；因此换行规则与 Vite+ Markdown 自动格式化须分别对待。修复后完整 `vp check` 仍需再执行，不能将 `--fix` 的输出当作无格式问题的完整复验。
+维护者明确要求项目仅使用 Vite+。Webpack 是某些第三方消费者自己的构建工具，不是 CSS 文件的运行依赖，也不是本项目生成或安装 npm 包所需的工具。因此撤销上轮尚未执行的 Webpack 5 测试：**删除** `tests/package-webpack-consumer.node.test.mjs` 和 `package.json` 中的 `test:webpack`，不再下载 Webpack，且不将 P-03 作为 W-04 的验收或发布阻塞。
 
-针对仍处于 `NOT_RUN` 的 P-03，新增独立本机命令 `npm run test:webpack`：
+**已取得并可复现的 W-04 证据**：
 
-- 必须先运行 `vp pack`；使用**真实完整仓库** `npm pack --json --offline --ignore-scripts` 在系统临时目录生成 tarball。
-- 在系统临时消费项目中安装真实包及明确固定的 `webpack@5.112.2`。Webpack 5 仅在主动执行 `test:webpack` 时下载；首次执行需要 npm 网络或本地 npm 缓存。安装禁用生命周期脚本，不修改根项目依赖、锁文件及 `node_modules`。临时消费者由测试结束钩子自动清理。
-- 消费端入口只有 `import "@adui/normalize.css"`，用 Webpack Node API 执行 `mode: "production"`、`experiments.css: true`（Webpack 5 官方原生 CSS 功能）、`optimization.sideEffects: true` 和 `usedExports: true`，校验唯一 CSS 输出中 R-003 的 `b,strong { font-weight: bolder }` 声明。
-- 该路径不需要 `webpack-cli`、`css-loader` 或 `style-loader`。参考 [Webpack 原生 CSS 官方文档](https://webpack.js.org/guides/native-css/)：`experiments.css` 仍属于实验能力。本测试只证明这一种 Webpack 5 消费构建方式，不自动覆盖传统 loader 链、所有 Webpack 5 版本或实际浏览器渲染。
+- `vp pack` 实际生成唯一 `dist/normalize.css`（约 200 字节，无发布用 JS）；
+- `npm run test:package`：真实包文件白名单、许可证/README、零运行时依赖、根导出与私有子路径、离线独立安装 **1/1 PASS**；
+- `npm run test:consumer`：独立 Vite+ 1.4.0 **生产构建**通过，`import "@adui/normalize.css"` 的 CSS 保留 **1/1 PASS**；
+- `sideEffects: ["**/*.css"]`、`files: ["dist"]` 和唯一 `exports["."]` 已与实际 tarball 对照。
 
-**验证事实**：已确认提交文件 Git blob 与本地执行 `node --check` 的文件一致，语法检查通过；当前执行容器无法解析 npm registry，**没有安装 Webpack、没有执行 Webpack 生产构建**，P-03 继续 `NOT_RUN`。待维护者 Windows 实测后再更新证据、决定是否满足 W-04 退出门槛。**禁止 CI / npm 发布**；WebPack 验证只在明确运行独立测试时安装到临时目录。
+**W-04 交付验收完成（开发分支范围）**：P-01、P-06、P-07、P-09，以及 P-02 的生产构建子项均已通过。P-03 状态改为“**范围外 / 不要求**”，不是“测试通过”。P-02 开发态/浏览器计算样式、P-05 真实 CSS URL 页面应用、P-10 组件库回归作为 **W-06** 集成/浏览器验收，当前仍未测试；包正式发布仍须 **W-07** 单独审批。不得将本地 CSS 产物可用偷换为 npm 已发布或所有工具链均兼容。
+
+§1～§7.6 中关于 Webpack 的文字保留为**当时的研究及阶段记录**，不再代表当前必测范围；如与本节冲突，以本节和当前用户要求为准。全程不增加 CI、运行时 JS 或依赖。
 
 ## 8. 研究与事实边界
 
 - **已核对**：Vite+ CSS bundling 能力、Node `exports` 的路径与封装规则、Webpack CSS 副作用/打包行为、npm tarball 过滤机制。
-- **已实测**：CSS 直接作为 Vite+ 1.4.0 `vp pack` 唯一入口成功；**尚未确认**：调整至 `dist/` 后的实际产物、Vite+ HTML 预览构建、根入口对 CSS/JS 消费端的兼容性、`style` 元数据的消费者支持、完整仓库真实 tarball 与副作用测试。
-- **尚未实施**：源码、包配置、依赖、浏览器、构建、发布、CI。
+- **当前已实测**：真实 `vp build` 六张 HTML Fixture、`vp pack` 唯一 CSS、真实 npm tarball 与独立 Vite+ 生产消费者均已通过；开发态页面样式、其他浏览器/组件库和正式发布仍未验收。
+- **已实现但未发布**：首条 R-003 CSS、包配置和本地构建；浏览器/组件库完整回归及发布未完成。项目明确不增加 CI。
 - **对 ADR-0003 的关系**：该 ADR 的“首版唯一根 CSS 入口”仍为 Accepted；**本文不是新增 ADR，也不擅自改变已接受的公共接口**。
