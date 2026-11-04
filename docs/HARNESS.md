@@ -52,6 +52,8 @@
 
 **W-06 Vue/React 真实消费端本机结果（2026-11-04）**：维护者 Windows 运行 `npm run test:ecosystem -- vue-element` **PASS**（T0 静态 CSS 360171 字节、T2 360362 字节）、`npm run test:ecosystem -- react-antd` **PASS**（T0 静态 CSS 0 字节、T2 192 字节）；`vue-element --keep` 再次 PASS，并保留 `node_modules/.cache/adui-ecosystem-tLDzuZ` 临时消费者供浏览器对照。React/Ant Design 的 0 字节仅是**静态 CSS 输出**，不能推断组件运行时无 CSS。维护者同轮 `npm run test:offline` 结果 **29/30 PASS，1 FAIL**，唯一失败源于 `tests/package.node.test.mjs` 固定的旧六项离线脚本清单，与新增第七项 `ecosystem-contract.node.test.mjs` 不一致；现已对该断言实施最小修复，**修复后的完整离线测试未重新运行**。生态构建 PASS 不等于组件渲染、焦点、样式冲突测试 PASS，F-009 仍部分完成。见[完整验证记录](research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)。无产品 CSS/CI 修改。
 
+**W-06 Vue + Element Plus / Chrome 156 浏览器对照（2026-11-04）**：维护者提交 T0 `localhost:5174` 与 T2 `localhost:5175` 的页面/DevTools 截图，两组 Element Plus Button/Input 均成功挂载（`buttonMounted`、`inputMounted` 都为 `true`），组件静态外观一致，`b-600`、`strong-600`、`b-700`、`strong-700` 的计算字重均 `900`，`code` 字号均 `13px`，两组五个探针相同；据此确认该 Chrome 156 环境的**静态 UI 及计算样式对照 PASS（截图）**。两页共同的 Vue feature flags 警告及 favicon.ico 404 不构成 CSS 冲突证据。Vue 实际键盘/输入行为、React+Ant Design 浏览器对照、其他浏览器仍待测。修复后的离线 Node 全套 30 项尚未取得最新运行结果。[详见 W-06 生态记录](research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)。
+
 ## 1. Harness 目标
 
 形成可重复的闭环：理解需求 → 影响分析 → 制定验证矩阵 → 最小修改 → 检查 → 定位失败 → 修复重验 → 记录结果。未来仅考虑维护者本地运行可复现检查并记录结果；项目明确**不增加任何 CI**，避免仅凭经验声称跨浏览器兼容。
