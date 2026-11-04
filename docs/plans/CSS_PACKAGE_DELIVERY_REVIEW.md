@@ -174,6 +174,19 @@
 
 **Windows 行尾处理**：维护者说明多次 `vp check --fix` 仅针对 CRLF → LF。经确认仓库此前不存在 `.gitattributes`、`.editorconfig`；本轮添加 `* text=auto eol=lf` 的 Git 属性与 EditorConfig 的 `end_of_line = lf`，统一新检出与新保存的文本。此配置尚未在维护者 Windows 检出环境中复验，不自动修改上游固定 Skills 或批量重写已跟踪文件。
 
+## 7.7 P-03：独立 Webpack 5 生产 CSS 消费测试（2026-11-04，脚本已提交／待 Windows 执行）
+
+维护者完成 LF 规则复验（`git check-attr text eol` 均为 `auto/lf`），并执行 `vp check --fix`：格式修复成功、13 个文件 Lint 无警告。仓库已出现该次修复的提交。提交差异证明本轮 3 个 Markdown 文件变更是**表格列宽与空格对齐**，并不是 Git 中的 CRLF → LF 变更；因此换行规则与 Vite+ Markdown 自动格式化须分别对待。修复后完整 `vp check` 仍需再执行，不能将 `--fix` 的输出当作无格式问题的完整复验。
+
+针对仍处于 `NOT_RUN` 的 P-03，新增独立本机命令 `npm run test:webpack`：
+
+- 必须先运行 `vp pack`；使用**真实完整仓库** `npm pack --json --offline --ignore-scripts` 在系统临时目录生成 tarball。
+- 在系统临时消费项目中安装真实包及明确固定的 `webpack@5.112.2`。Webpack 5 仅在主动执行 `test:webpack` 时下载；首次执行需要 npm 网络或本地 npm 缓存。安装禁用生命周期脚本，不修改根项目依赖、锁文件及 `node_modules`。临时消费者由测试结束钩子自动清理。
+- 消费端入口只有 `import "@adui/normalize.css"`，用 Webpack Node API 执行 `mode: "production"`、`experiments.css: true`（Webpack 5 官方原生 CSS 功能）、`optimization.sideEffects: true` 和 `usedExports: true`，校验唯一 CSS 输出中 R-003 的 `b,strong { font-weight: bolder }` 声明。
+- 该路径不需要 `webpack-cli`、`css-loader` 或 `style-loader`。参考 [Webpack 原生 CSS 官方文档](https://webpack.js.org/guides/native-css/)：`experiments.css` 仍属于实验能力。本测试只证明这一种 Webpack 5 消费构建方式，不自动覆盖传统 loader 链、所有 Webpack 5 版本或实际浏览器渲染。
+
+**验证事实**：已确认提交文件 Git blob 与本地执行 `node --check` 的文件一致，语法检查通过；当前执行容器无法解析 npm registry，**没有安装 Webpack、没有执行 Webpack 生产构建**，P-03 继续 `NOT_RUN`。待维护者 Windows 实测后再更新证据、决定是否满足 W-04 退出门槛。**禁止 CI / npm 发布**；WebPack 验证只在明确运行独立测试时安装到临时目录。
+
 ## 8. 研究与事实边界
 
 - **已核对**：Vite+ CSS bundling 能力、Node `exports` 的路径与封装规则、Webpack CSS 副作用/打包行为、npm tarball 过滤机制。
