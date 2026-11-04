@@ -109,6 +109,8 @@ R-003 已因首版最低目标包含旧版 Blink/WebKit 而列为**优先必测�
 
 **W-06 生态消费本地测试（2026-11-04，脚本已实现，UI 兼容结果未测）**：在原有 Chrome 156 T0/T2 静态样式 PASS 与人工交互子项 PASS 之外，新增 `npm run test:ecosystem -- vue-element`、`-- react-antd`，分别在隔离临时项目里从当前真实 CSS tarball 构建 Vue+Element Plus、React+Ant Design 的原生/T2 对照。依赖严格固定版本、只在人工运行时安装，不修改本库运行时依赖；离线契约纳入 `test:offline`，由源码生成器确保入口仅差一个 CSS 导入。生成代码隔离条件已静态检查，但**尚未在维护者 Windows 实际安装 UI 库或执行浏览器比对**，F-009 生态回归仍为 NOT_RUN，W-06 #7 继续 Open。TDesign、Tailwind Preflight、UnoCSS Reset 留作后续批次。详情见[生态验证指南](../research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)。
 
+**W-06 生态构建本机实测（2026-11-04）**：维护者运行 `npm run test:ecosystem -- vue-element`、`-- react-antd`，真实 CSS tarball 的 Vite+ 双消费者**生产构建均 PASS**（Vue T0/T2 CSS 360171/360362 字节，React T0/T2 0/192 字节）；`vue-element --keep` 再次 PASS，保留本地临时消费项目。`npm run test:offline` 同轮 **29/30 PASS、1 FAIL**，原因是 `tests/package.node.test.mjs` 对 `test:offline` 旧六项脚本清单做全等断言，新增第七项生态离线契约后未同步；现已修正该断言，**最新离线结果仍待本机重跑**。浏览器 UI 组件实际呈现与键盘交互尚未验证，F-009 生态兼容只确认生产构建子项 PASS，W-06 #7 保持 Open。见[本机生态验证记录](../research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)。
+
 ## 7. GitHub Issue 跟踪
 
 已基于仓库原版 [github-issues Skill](../../.agents/skills/github-issues/SKILL.md) 创建以下正式任务，全部为 Open / 未实施；Issue 在 GitHub 仓库可见，而本计划和 Issue/PR 模板仍位于 Draft PR #1 分支。
