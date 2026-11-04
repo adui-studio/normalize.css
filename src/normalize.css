@@ -1,0 +1,10 @@
+/*!
+ * @adui/normalize.css
+ * R-003: Keep the relative emphasis of b and strong in older Blink browsers.
+ * Evidence: docs/research/RULE_EVIDENCE_R003_R004.md
+ */
+
+b,
+strong {
+  font-weight: bolder;
+}
