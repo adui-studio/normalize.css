@@ -1,6 +1,6 @@
 # CODEBASE_MAP — 仓库结构与定位
 
-**状态**：开发分支已包含 Fixture、探针、Vite+、首条 R-003 Normalize CSS、静态构建脚本和包根 exports；发布、生态兼容与完整浏览器矩阵仍未验收。区分开发分支、依赖的文档评审分支与 main。
+**状态**：开发分支已包含 Fixture、探针、Vite+、首条 R-003 Normalize CSS、Vite+ CSS-only 构建配置和包根 exports；发布、生态兼容与完整浏览器矩阵仍未验收。区分开发分支、依赖的文档评审分支与 main。
 
 ## 1. 当前真实文件
 
@@ -14,7 +14,6 @@ normalize.css/
 ├── package.json              # W-03/W-04：private、vite-plus 1.4.0、CSS 文件白名单/副作用元数据、离线测试脚本
 ├── vite.config.ts            # W-03：Vite+ 单元测试与上游 Skills 格式检查排除
 ├── src/normalize.css         # W-05 首批：仅 R-003 的 b/strong 相对字重修正
-├── scripts/build.mjs        # W-04：复制静态 CSS 到 dist/，无 JS 发布产物
 ├── fixtures/                 # W-03 已存在：R-003/R-004 T0/T1 页面与探针
 │   ├── index.html
 │   ├── probe.js
@@ -90,20 +89,20 @@ W-03/W-04/W-05 开发分支基于尚未合并的文档评审分支；已增加�
 | `dist/`                         | CSS 发布产物                | 规划中，**不存在**                                    |
 | `package.json` 的 CSS `exports` | 唯一根 CSS 入口             | **开发分支已实现**；仍 `private: true`                |
 | `tests/`                        | W-03 Fixture 契约与探针测试 | **已存在**；浏览器回归仍未完成                        |
-| `scripts/build.mjs`             | 静态 CSS 构建               | **开发分支已实现**，仅复制 CSS，不增依赖              |
+| `vite.config.ts` 的 `build/pack` | Vite+ CSS-only 构建及隔离打包试验 | **已配置，真实 Vite+ 执行待测** |
 | `.github/workflows/`            | CI/发布工作流               | **明确不规划**，项目禁止增加 CI；当前不存在           |
 | `.agents/skills/`               | 第三方原版 Skills           | 评审分支已纳入，main 尚无；来源见 [SKILLS](SKILLS.md) |
 
 ## 3. 程序入口与依赖调用链
 
-当前开发分支已有供本地使用的 Fixture 与测试入口，以及 `src/normalize.css`、`scripts/build.mjs`、CSS 包根 exports。消费端必须先执行 `npm run build` 生成 `dist/normalize.css`；尚未发布或验证 Vite+/Webpack 生产消费者。项目没有路由、后端 API 或数据库。
+当前开发分支已有供本地使用的 Fixture 与测试入口，以及 `src/normalize.css`、Vite+ `build/pack` 配置、CSS 包根 exports。消费端需先执行 `vp build` 并确认生成 `dist/normalize.css`；尚未发布或验证 Vite+/Webpack 生产消费者。项目没有路由、后端 API 或数据库。
 
 开发期的预期依赖路径（发布前仍需消费端验证）：
 
 ```text
 消费者应用
   -> npm package CSS entry (exports "." -> ./dist/normalize.css)
-     -> src/normalize.css（构建时原样复制，目前只有 R-003）
+     -> src/normalize.css（经 vp build 构建，当前只有 R-003）
         -> 目标浏览器渲染（仅有局部证据）
 ```
 
