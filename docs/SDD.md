@@ -44,6 +44,19 @@
 
 不要增加 JS 业务入口、额外打包依赖、公开子路径或 CI。保留 `private: true`，除非正式产物与消费端均通过审核，否则 `vp pack` 仅是非发布实验。
 
+### 2.3 Vite+ 1.4.0 本机实测后的构建职责修订（2026-11-04）
+
+维护者在 Windows 报告：`vp check` PASS（55 个文件格式、11 个文件 Lint）、`vp test` 6/6、`npm run test:offline` 25/25、`vp dev` 成功启动、`vp pack` **成功生成仅一个** `dist-pack/normalize.css`（约 200 字节，无 JS），唯独 `vp build` 报错：`When "build.cssCodeSplit: false" is set, "rolldownOptions.input" should not include CSS files.`。原 `dist/normalize.css` 时间早于该次失败构建，不能视为 `vp build` 的产物。
+
+根因是 `build.lib` 默认 `cssCodeSplit: false`，与直接作为构建入口的 CSS 文件发生冲突。既然 `vp pack` 的 CSS-only 入口已在真实 Vite+ 1.4.0 上产出准确的单 CSS 文件，**不再将 `vp build` 当作库发布构建命令**：
+
+- `vp dev`：浏览器访问现有 `/fixtures/`，供本地原生对照。
+- `vp build`：使用 Vite 多页面 HTML 输入构建现有六张 Fixture 页面，输出到**私有**的 `dist-fixtures/`，不进入 npm 包；其 HTML/JS 仅用于测试，不属于 CSS 库运行时依赖。
+- `vp pack`：直接以 `src/normalize.css` 为唯一入口，输出到 **`dist/normalize.css`**；开发包 `exports["."]` 保持指向此文件，且不添加 JS 包装和其他公开子路径。
+- `npm pack`：独立的 npm tarball 清单检查，不能与 `vp pack` 混为一谈。
+
+本次 Vite+ 命令配置修订后，仍需维护者重新执行 `vp build`、`vp pack` 和离线测试，核实 HTML 预览与 CSS 发布产物各自只有预期内容；未执行的测试不得记为通过。保留 `private: true` 和禁用 CI、发布的约束。
+
 ## 3. CSS 规则准入流程（拟议）
 
 1. **问题**：列出浏览器/版本、HTML Fixture、原生样式偏差及用户可见问题。
