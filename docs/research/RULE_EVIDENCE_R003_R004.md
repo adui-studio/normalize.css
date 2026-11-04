@@ -1,7 +1,7 @@
 # R-003 / R-004 规则证据卡：粗体语义与等宽字体字号
 
 - **日期**：2026-11-03
-- **状态**：上游标准与 UA 源码研究完成第一轮；**R-003 已取得 Chrome 120 的 4 组差异、Firefox 121 与 Chrome 156 的 0 组差异证据；其余最低目标未测，未批准 CSS 实现**。
+- **状态**：上游标准与 UA 源码研究完成第一轮；**R-003 已取得 Chrome 120 的 4 组差异、Firefox 121 与 Chrome 156 的 0 组差异证据；其余最低目标未测，R-003 已在开发分支实现但未批准发布**。
 - **关联**：FR-001、FR-007、NFR-001/002/007 · [规则总表](RULE_REVIEW.md) · [Baseline 2023 映射](BASELINE_2023_MAPPING.md) · [本地复现执行指南](R003_R004_LOCAL_VERIFICATION.md) · [MVP 实施计划](../plans/MVP_IMPLEMENTATION_PLAN.md) · [Issue #3](https://github.com/adui-studio/normalize.css/issues/3)。
 
 ## 1. 证据状态
@@ -123,7 +123,7 @@ strong {
 
 **证据等级**：Chrome 120 桌面 CfT、单一 Windows 环境、真实计算样式对照；这是对旧版 Blink UA 行为与候选修复效果的**实测支持**。助手随后在独立 Linux Node.js 22.16.0 容器中，根据仓库当前 `tests/r003-evidence.mjs`、`tests/evidence-file.mjs` 的实际内容复制临时模块并执行真实比较，得到 `COMPUTED_DIFFERENCE_OBSERVED`、`differences: 4`、`candidateFailures: 0`、退出码 0（详见[运行记录 §2.3](LOCAL_BROWSER_RUN_20261104.md)）。维护者 Windows 本机运行该批文件的 CLI 日志尚未收到。完整版本以截图而非简化 UA 为准，原始附件的 SHA-256 和详细环境限制见[运行记录 §2.2](LOCAL_BROWSER_RUN_20261104.md)。
 
-**继续准入评审而非直接实现**：需从 DevTools Styles 明确 UA 获胜声明，补充嵌套字重、显式用户样式/焦点与 UI 组件库回归；Edge 120、Firefox 121、Safari 17.2 与移动端不得借用 Chrome 120 的结果。当前正式 Normalize CSS 未实现，R-003 仍是有真实差异证据的条件性候选。
+**继续准入评审而非直接实现**：需从 DevTools Styles 明确 UA 获胜声明，补充嵌套字重、显式用户样式/焦点与 UI 组件库回归；Edge 120、Firefox 121、Safari 17.2 与移动端不得借用 Chrome 120 的结果。当前已在开发分支写入 R-003 的最小 CSS 实现，但仍是未完成生态回归和正式准入验收的开发预览。
 
 ### 2.9 Firefox 121 T0/T1 真实对照（2026-11-04）
 
@@ -233,4 +233,4 @@ console.log(value);</pre>
 3. Chrome 120 的四组差异支持 R-003 进入进一步准入评审，但不足以证明所有最低目标浏览器行为；两个候选均不得因此直接进入正式 CSS。
 4. 本卡引用维护者提供的 **Chrome 156、CfT 120 截图、Firefox 121 CLI 输出及三组 T0/T1 JSON**，不是助手独立执行浏览器；尚无 Safari、Edge 120、真实字体加载回归或完整浏览器矩阵。
 
-**结论**：R-003 是首版已批准最低版本目标下的**必测条件性 Normalize 候选**；R-004 的字号统一会覆盖用户偏好，当前不应进入默认 Normalize。两个候选均未实现正式 Normalize；R-004 已在 Chrome 156 局部实测，但未通过完整浏览器矩阵，Issue #3 保持 Open。
+**结论**：R-003 是首版已批准最低版本目标下的**必测条件性 Normalize 候选**；R-004 的字号统一会覆盖用户偏好，当前不应进入默认 Normalize。R-003 已在开发分支实现唯一产品 CSS 规则但尚未获得正式发布验收；R-004 坚持原生默认行为，不加入 CSS。两者均未通过完整浏览器矩阵，Issue #3 保持 Open。
