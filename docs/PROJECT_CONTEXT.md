@@ -49,6 +49,7 @@
 - 浏览器最低版本及老旧 WebView 是否支持尚未确定。
 - npm `@adui` 作用域的发布权限未验证。
 - CSS Layers 与 UI 组件库存在潜在层优先级冲突，需要实测。
+- 下一阶段验证优先顺序已确认：W-06 TDesign 的 Chromium/Firefox/WebKit 对照 → Tailwind v4 Preflight 独立测试 → UnoCSS Reset 独立测试；不得在同一对照组叠加两套 Reset。完整矩阵与证据门槛记录于 [HARNESS](HARNESS.md) 第 6 节，所有新用例仍为**待执行**。
 - 第三方规则借鉴需独立审查许可证、差异证据和破坏性影响。
 - 本轮只能完成文档一致性检查，不能验证运行时与视觉兼容性。
 
