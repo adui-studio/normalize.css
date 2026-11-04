@@ -125,6 +125,12 @@ W-03 的 T0/T1 只验证浏览器原生值与孤立候选规则；W-04 已证明
 - **手工复测**：提供可选的 `--keep` 保留 Git 忽略的临时工程，通过两个本地 `vp dev` 端口在同一浏览器中观察按钮、输入框、字重、焦点和 UI 样式，并记录精确版本与 T0/T2 对比。临时产物不进入 `files: ["dist"]`，普通 `npm run test:offline` 不触发网络安装。
 - **阶段门槛**：先实现可单独执行的 `npm run test:ecosystem -- vue-element` / `react-antd`，实际运行结果由维护者 Windows 本地决定。需要 npm registry 时如实提示网络依赖，不将 NOT_RUN 说成 PASS。所有新测试均无 CI、无发布行为。
 
+### 2.12 W-06 生态生产构建实测与离线清单修复（2026-11-04）
+
+维护者已经在 Windows 实际执行 Vue 3 + Element Plus 与 React + Ant Design 两组 `test:ecosystem`，均完成真实 tarball 安装与两个隔离 Vite+ **生产构建**：Vue T0/T2 静态 CSS 分别 360171/360362 字节；React T0/T2 分别 0/192 字节。React 的 0 字节是构建时静态 CSS 结果，不能排除 Ant Design 在浏览器运行时生成样式。Vue `--keep` 再次执行通过，临时消费者保留供真实浏览器比较。
+
+同轮离线 Node 29/30 PASS、1 FAIL；原因是旧 `tests/package.node.test.mjs` 严格断言六项测试清单，而 `package.json` 已加入第七项 `ecosystem-contract.node.test.mjs`。仅同步断言的预期字符串，不改执行脚本或产品 CSS。**修复后尚未重跑完整离线测试**；浏览器 UI/交互、其他框架及目标旧版浏览器结果仍待测试，W-06 Issue #7 不结项。
+
 ## 3. CSS 规则准入流程（拟议）
 
 1. **问题**：列出浏览器/版本、HTML Fixture、原生样式偏差及用户可见问题。
