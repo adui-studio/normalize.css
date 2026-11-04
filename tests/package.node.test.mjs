@@ -78,7 +78,7 @@ test("vp pack output, if present, contains only the Normalize CSS", () => {
   const outputDirectory = new URL("dist/", root);
   const built = new URL("dist/normalize.css", root);
   if (existsSync(outputDirectory)) {
-    assert.ok(existsSync(built), "vp build must emit dist/normalize.css");
+    assert.ok(existsSync(built), "vp pack must emit dist/normalize.css");
     assert.deepEqual(
       readdirSync(outputDirectory),
       ["normalize.css"],
