@@ -35,9 +35,7 @@ test("W-06 ecosystem consumers cover Vue/React and TDesign without SFC or JSX", 
   assert.ok(react.source.some((line) => line.includes('from "react-dom/client"')));
   assert.ok(react.source.some((line) => line.includes('from "antd"')));
   assert.ok(tdesign.source.some((line) => line.includes('from "tdesign-vue-next"')));
-  assert.ok(
-    tdesign.source.some((line) => line.includes('tdesign-vue-next/es/style/index.css')),
-  );
+  assert.ok(tdesign.source.some((line) => line.includes("tdesign-vue-next/es/style/index.css")));
   assert.equal(tdesign.packages["tdesign-vue-next"], "1.20.10");
   for (const spec of [vue, react, tdesign]) {
     assert.ok(spec.source.every((line) => !line.includes("https://")));
