@@ -26,6 +26,8 @@
 
 **本机最新 Vite+ 反馈与修复（2026-11-04）**：维护者报告 `vp check` **PASS**（55 文件格式、11 文件 Lint）、`vp test` **6/6 PASS**、`npm run test:offline` **25/25 PASS**、`vp dev` 正常启动、`vp pack` 在旧 `dist-pack/` 成功构建一个 `normalize.css`（200 字节，无 JS），而 CSS-only `vp build` 触发了 `cssCodeSplit: false` 与 CSS input 冲突。项目改为 **`vp build` 打包六张 Fixture HTML 至 `dist-fixtures/`，`vp pack` 将唯一产品 CSS 输出至 `dist/normalize.css`**。修改后的 GitHub `vite.config.ts`、`tests/package.node.test.mjs` 通过独立文件 SHA 校验，Node 定向测试 **6/6 PASS**；但 Vite+ 1.4.0 修订配置的实际 build/pack、完整 Windows 回归尚未执行。没有新增依赖、CI、发布。详见 [W-04 实测结论](plans/CSS_PACKAGE_DELIVERY_REVIEW.md#73-vite-140-实际反馈与构建职责修订2026-11-04)。
 
+**W-03 验收结项（2026-11-04）**：维护者报告修订后的 `vp build` **PASS**，输出六张 HTML Fixture 及一个仅测试用探针 JS 到 `dist-fixtures/`；`vp pack` **PASS**，`dist/normalize.css` 为唯一构建产物（200 字节，无发布 JS）；`npm run test:offline` **26/26 PASS**。此前 `vp check`（55 格式/11 Lint）、`vp test` 6/6、`vp dev` 均已验证，最新构建改动后的 `vp check` / `vp test` 尚未单独提供新日志。按 [W-03 退出门槛](plans/VITEPLUS_LOCAL_HARNESS_DESIGN.md)，本地 T0/T1 测试工具与证据流程已建立，[Issue #4](https://github.com/adui-studio/normalize.css/issues/4) **Closed · Completed**。T2 消费端集成、键盘/系统偏好、组件库与 Safari/移动端等全矩阵回归尚未完成，由 W-06（#7）处理；真实 npm 产物与 CSS 副作用消费验证由 W-04（#5）负责。不合并 PR、不发布、不加 CI。
+
 ## 1. Harness 目标
 
 形成可重复的闭环：理解需求 → 影响分析 → 制定验证矩阵 → 最小修改 → 检查 → 定位失败 → 修复重验 → 记录结果。未来仅考虑维护者本地运行可复现检查并记录结果；项目明确**不增加任何 CI**，避免仅凭经验声称跨浏览器兼容。
