@@ -4,6 +4,8 @@
 
 **W-07 包管理器与锁文件核验（2026-11-04，最新）**：根 `package.json` 已固定 `packageManager: "pnpm@12.15.0"`；**`pnpm-lock.yaml` 已提交**，GitHub 静态核对确认环境文档锁定 pnpm 12.15.0、项目文档锁定 `vite-plus@1.4.0`。冻结安装输出仍待核验。见 [W-07 审核记录](research/W07_RELEASE_READINESS_REVIEW.md)。
 
+**2026-11-05 · W-07 忽略规则与验收同步**：维护者当前 Git 工作区只有未跟踪的 JetBrains `.idea/`。已按最小范围在 `.gitignore` 增加 `.idea/`，供开发分支后续检出时阻止误提交本机 IDE 配置；不会删除或修改本地 `.idea` 内容。最新冻结安装、静态检查、Vitest、离线 Node、CSS 打包、真实包消费及 `npm pack --dry-run` 有实际通过日志，见 [W-07 审核记录](research/W07_RELEASE_READINESS_REVIEW.md)。
+
 ## 1. 当前真实文件
 
 ```text
