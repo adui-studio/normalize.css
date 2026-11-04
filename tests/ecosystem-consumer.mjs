@@ -120,7 +120,9 @@ function main() {
     const resolvedCss = fromConsumer.resolve("@adui/normalize.css");
     assert.equal(readFileSync(resolvedCss, "utf8"), packedCss);
     for (const [name, version] of Object.entries(config.packages)) {
-      const installed = fromConsumer(name + "/package.json");
+      const installed = JSON.parse(
+        readFileSync(join(temp, "node_modules", name, "package.json"), "utf8"),
+      );
       assert.equal(installed.version, version, name + " version mismatch");
     }
 
