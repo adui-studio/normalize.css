@@ -5,7 +5,7 @@ import { runInNewContext } from "node:vm";
 
 const source = readFileSync(new URL("../fixtures/probe.js", import.meta.url), "utf8");
 
-function inspect(computedStyles) {
+function inspect(computedStyles, stylesheet = null) {
   const probes = computedStyles.map(({ id, tagName, style, parentStyle }) => ({
     id,
     tagName: tagName.toUpperCase(),
@@ -16,7 +16,8 @@ function inspect(computedStyles) {
   const root = { dataset: {} };
   const document = {
     querySelectorAll: () => probes,
-    getElementById: (id) => (id === "probe-output" ? output : null),
+    getElementById: (id) =>
+      id === "probe-output" ? output : id === "package-css" ? stylesheet : null,
     documentElement: root,
   };
   const getComputedStyle = (el) => el.style;
@@ -50,4 +51,15 @@ test("probe returns an empty result set safely", () => {
   const { output, root } = inspect([]);
   assert.deepEqual(output.rows, []);
   assert.equal(root.dataset.probeStatus, "complete");
+});
+
+test("T2 probe reports whether the packed CSS link is mounted", () => {
+  const link = { getAttribute: () => "../dist/normalize.css", sheet: {} };
+  const loaded = inspect([], link).output.packageStylesheet;
+  assert.equal(loaded.href, "../dist/normalize.css");
+  assert.equal(loaded.loaded, true);
+
+  const failed = inspect([], { getAttribute: () => "../dist/normalize.css", sheet: null });
+  assert.equal(failed.output.packageStylesheet.loaded, false);
+  assert.equal(inspect([]).output.packageStylesheet, undefined);
 });
