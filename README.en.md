@@ -57,7 +57,7 @@ The new fixtures cover R-003 emphasis weights, unchanged R-004 monospace values,
 
 ## W-06 isolated Vue / React / TDesign ecosystem consumers
 
-Two optional consumer cases have been added: Vue 3 with Element Plus, and React with Ant Design. Both install the actual `vp pack` tarball into an ignored temporary directory and use the project's existing Vite+ 1.4.0 to build independent native/T2 pages. Framework dependencies are **not** added to the package itself. Runs are explicit and may require npm network access.
+Three optional consumer cases are available: Vue 3 with Element Plus, React with Ant Design, and Vue 3 with TDesign Vue Next. All install the actual `vp pack` tarball into an ignored temporary directory and use the project's existing Vite+ 1.4.0 to build independent native/T2 pages. Framework dependencies are **not** added to the package itself. Runs are explicit and may require npm network access.
 
 ```sh
 vp pack
