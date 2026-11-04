@@ -68,6 +68,12 @@ W-03 已验收后，W-04 下一项最小必要检查是 **`vp pack` 的真实 `d
 
 新增测试应当不依赖网络、无新增依赖，且没有生成任何 GitHub Actions 或 CI。实际运行结果以维护者的本机输出为准。
 
+### 2.5 W-04 独立 Vite+ 生产消费者（开发中／尚未执行）
+
+新增独立的 `npm run test:consumer`：在已经 `vp pack` 的前提下，重新对真实仓库 `npm pack --offline`，安装到 `node_modules/.cache/` 下临时隔离的小型 Vite+ 应用；复用项目固定的 `vite-plus@1.4.0`，不安装第二套构建工具。应用的 JS 入口使用 `import "@adui/normalize.css"`，执行真实 `vp build`，再检查 `dist/assets/*.css` 是否包含 R-003 的 `b,strong { font-weight:bolder }`；结束后清理临时目录。该测试用于 P-02 的生产构建 CSS 保留证据，**不证明浏览器渲染和 UI 框架兼容**。
+
+该脚本已通过 Node 语法检查，但当前执行环境没有本项目的 Vite+ 1.4.0，生产构建未运行。W-04 的 P-03 Webpack 5 消费端仍待单独验证，不能因 P-02 实验脚本存在而关闭 Issue。
+
 ## 3. CSS 规则准入流程（拟议）
 
 1. **问题**：列出浏览器/版本、HTML Fixture、原生样式偏差及用户可见问题。
