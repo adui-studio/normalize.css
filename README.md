@@ -48,6 +48,7 @@ vp test            # Vitest 单元测试
 npm run test:offline
 npm run test:package  # vp pack 后，验证真实 npm tarball 与离线安装
 npm run test:consumer # vp pack 后，验证 Vite+ 生产消费者保留 CSS
+npm run test:webpack  # vp pack 后，独立验证 Webpack 5 的生产 CSS 保留
 ```
 
 本机已验证 Vite+ 1.4.0 的 `vp pack` 能直接以 CSS 作为唯一入口、输出一个样式文件（测试时约 200 字节、无 JS）。因此现在由 **`vp pack` 生成 npm 根导出的 `dist/normalize.css`**。原先把 CSS 作为 `vp build` 库入口会触发 `cssCodeSplit: false` 与 CSS input 冲突，已改成 **`vp build` 负责构建现有六张 Fixture HTML**，结果隔离在 `dist-fixtures/`，不进入 npm 包。修订后的两项命令均已在维护者 Windows Vite+ 1.4.0 环境实测通过。如需在本地 HTML 试用，可直接用 `<link rel="stylesheet" href="/dist/normalize.css">`（前提是你的静态服务器确实提供该 URL）。若从本地构建的 npm tarball 安装到支持 CSS 导入的构建工具，可测试 `import "@adui/normalize.css";`，其中 Vite+ 生产构建已经验证 CSS 保留，Webpack 5 以及浏览器页面实际生效仍未验收。**不执行 npm publish**。
@@ -82,6 +83,8 @@ node tests/r003-evidence.mjs r003-native.json r003-candidate.json
 
 **W-04 最新真实验证（2026-11-04）**：维护者在 Windows Vite+ 1.4.0 执行 `vp pack`，生成唯一 `dist/normalize.css`（约 200 字节）；`npm run test:package` **1/1 PASS**（真实 tarball、离线安装、根导出/私有子路径和文件白名单）；`npm run test:consumer` **1/1 PASS**（真实 tarball 安装至独立 Vite+ 生产消费者，CSS 副作用导入保留）。已有本地 `vp build` 六张 Fixture HTML、`vp test` 6/6 和 `npm run test:offline` 26/26 的实际输出。Webpack 5、Vite+ 开发态以及真实浏览器页面/组件库验收仍待完成；项目不发布 npm、不新增 CI。
 
+**W-04 Webpack 5 验证（待执行）**：已提供独立 `npm run test:webpack`，在 `vp pack` 后从真实 tarball 临时安装 CSS 包和**固定 `webpack@5.112.2`**，以 Webpack 原生 `experiments.css: true` 执行生产构建，检查打包后保留 R-003 字重声明。无需 `webpack-cli` / CSS loader，也**不修改项目根依赖和锁文件**；但此命令首次执行可能访问 npm registry 安装 Webpack，且**还未在 Windows 实跑**。它只检验原生 CSS 生产打包，不代表所有 Webpack loader 链或浏览器效果均已验证。[完整方案](docs/plans/CSS_PACKAGE_DELIVERY_REVIEW.md#77-p-03独立-webpack-5-生产-css-消费测试2026-11-04)。
+
 ## Windows 换行符统一（LF）
 
 仓库新增 `.gitattributes` 的 `* text=auto eol=lf`，用于统一 Git 文本文件的换行；`.editorconfig` 要求 UTF-8、LF、文件末尾换行。JetBrains 编辑器应遵循项目 EditorConfig，防止 Windows 的 CRLF 在后续保存中反复触发 `vp check --fix`。**不要**为了此项配置执行 `git reset --hard`、批量 `git add --renormalize .` 或覆盖未提交的本地修改。
@@ -92,6 +95,8 @@ git pull --ff-only origin feat/viteplus-local-harness
 git check-attr text eol -- README.md src/normalize.css
 vp check
 ```
+
+维护者已确认 `git check-attr` 对两个样本返回 `text: auto`、`eol: lf`。上次 `vp check --fix` 的远程 Git diff 是三处 Markdown 表格对齐修正，并非行尾属性失效；在新增或编辑表格后仍需遵循 Vite+ 的表格格式规则。修复完成后再运行一次 `vp check` 才能确认全部格式已 PASS。
 
 如果已有工作区文件仍沿用旧 CRLF，先确认本地修改无冲突，再对项目自有文件执行一次 `vp check --fix`，检查 `git diff` 并按需提交；新配置不保证已检出的所有文件被 Git 自动重写。固定来源的第三方 Skills 不应因换行符配置被批量改写。
 
