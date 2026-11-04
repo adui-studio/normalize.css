@@ -71,7 +71,7 @@ flowchart TD
 | npm 包名 `@adui/normalize.css` | 项目目标已明确             | 与仓库定位一致；发布权限待确认                                            |
 | CSS Cascade Layers             | 首版默认不内置（Accepted） | ADR-0002；逐条评估 `:where()` 和覆盖风险                                  |
 | 开发工具链                     | **Vite+（Accepted）**      | [ADR-0005](adr/0005-viteplus-toolchain.md)；开发期统一 Vite+，无运行时 JS |
-| 纯 CSS 库打包方式              | **暂用静态复制（开发期）**   | 无 JS 入口，不增依赖；已验证产物字节一致，Vite+ pack/消费端另评          |
+| 纯 CSS 库打包方式              | **暂用静态复制（开发期）** | 无 JS 入口，不增依赖；已验证产物字节一致，Vite+ pack/消费端另评           |
 | 具体 Vite+ 版本与包管理器      | 未冻结                     | 获开发授权后核对环境、锁文件与最小依赖                                    |
 | 本地浏览器自动化               | 未选型                     | 定义浏览器与 Fixtures，再选本地执行工具；**不增加 CI**                    |
 | 首版包含哪些增强模块           | 已决定：只含 Normalize     | ADR-0003；Reset/Forms/A11y/all.css 延后                                   |

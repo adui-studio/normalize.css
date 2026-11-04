@@ -178,11 +178,11 @@ T0/T1 均报告 `font-family: monospace`。仓库 T1 HTML 明确包含 `code, kb
 
 维护者使用 Browser Workshop 已准备的 Chrome for Testing **120.0.6099.109 / Windows 11**，在 `r004-native.html`（T0）、`r004-risk-review.html`（T1）、`r004-family-review.html`（T1b）分别导出计算样式探针 JSON，并通过 Windows PowerShell `Get-Content -Raw | ConvertFrom-Json` 读取。维护者提供了三个页面完整的四元素表格输出。每页 `code`、`kbd`、`samp`、`pre` 各自结果一致：
 
-| 页面对照                                            | 父级字号 | 元素计算字号 | 计算字体族             |
-| --------------------------------------------------- | -------- | ------------ | ---------------------- |
-| T0（无 Normalize）                                  | `16px`   | `13px`       | `monospace`            |
-| T1（额外 `font-size: 1em`）                         | `16px`   | `13px`       | `monospace`            |
-| T1b（在 T1 基础上追加 `monospace, monospace`）      | `16px`   | `16px`       | `monospace, monospace` |
+| 页面对照                                       | 父级字号 | 元素计算字号 | 计算字体族             |
+| ---------------------------------------------- | -------- | ------------ | ---------------------- |
+| T0（无 Normalize）                             | `16px`   | `13px`       | `monospace`            |
+| T1（额外 `font-size: 1em`）                    | `16px`   | `13px`       | `monospace`            |
+| T1b（在 T1 基础上追加 `monospace, monospace`） | `16px`   | `16px`       | `monospace, monospace` |
 
 **观察结果**：本次 Chrome 120 的 T0/T1 计算字号均为 13px，T1b 为 16px；与先前 Chrome 156 的 T0/T1/T1b 局部观察一致。T1b 的差异与 Firefox 121 本轮三页均为 16px 的结果不同。T1b 相对于 T1 只新增作者字体族声明，因此这组数据支持研究独立等宽字号偏好与字体族选择行为；**不能仅由计算值认定具体内部机制或是否渲染了匹配的物理字体**。
 
