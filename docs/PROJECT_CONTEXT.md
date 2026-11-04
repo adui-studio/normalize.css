@@ -119,7 +119,9 @@
 
 **W-06 T2 本地反馈与原生交互第二批（2026-11-04）**：维护者表示此前 `vp pack`/T0/T2 本地验证流程通过，但未提供该轮命令日志、浏览器精确版本、T0/T2 导出 JSON 或截图；因此仅登记为**维护者报告 T2 基础验证通过**，不认定完整浏览器 F-001～F-010 通过。继续在两张内容一致的 T0/T2 页面中添加原生 fieldset/select/textarea/checkbox/dialog 观察点，原有 10 个 R003/R004 探针不变，仍没有新产品 CSS、JS runtime、依赖或 CI；新增 F-003～F-007 的键盘、Esc、hidden 和系统偏好手工操作尚未执行。W-06 Issue #7 继续 Open；详见[本地验证指南](research/W06_T2_LOCAL_VERIFICATION.md)。
 
-**更新约定**：重大进度、已完成验证、关键决策、阻塞与下一阶段变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
+**W-06 Chrome 156 T0/T2 截图结果（2026-11-04）**：维护者提交两张相同 Chrome 156 环境下的 T0 原生与 T2 实际 CSS 页面截图，并确认验证通过。T2 探针显示 `packageStylesheet.href = "../dist/normalize.css"`、`loaded = true`，两页 10 个计算样式探针行一致：六组 `b/strong` 字重及四组原生等宽元素（截图显示 `13px`、`monospace`）未发生额外变化；原生表单、details 等在两页可见。该结论仅是 **Chrome 156 本地 CSS 加载与静态样式对照 PASS（用户截图及反馈）**，不是 T2 Chrome 120 的新证据，也不代表 dialog/Esc、键盘焦点、hidden/until-found 查找、系统偏好、Safari/移动端、组件库或 F-001～F-010 全矩阵通过。验证细节已更新至 [W-06 T2 记录](research/W06_T2_LOCAL_VERIFICATION.md)。W-06 Issue #7 仍 Open；不修改产品 CSS、不加 CI、不发布。
+
+**更新约定**：重大进度、已完成验证、关键决策、阻塞与待决策变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源
 
