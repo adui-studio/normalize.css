@@ -23,12 +23,12 @@ R-004 deliberately does **not** normalize the font size or font family of `code`
 
 ## Local build
 
-The project uses Vite+'s built-in commands. `vp build` uses a CSS-only library entry and targets `dist/normalize.css`. `vp pack` is an **experimental tsdown CSS-only build**, isolated in `dist-pack/`; its output is not published or used by the root export until validated on Vite+ 1.4.0.
+The maintainer has verified that **`vp pack` supports a direct CSS-only entry** in Vite+ 1.4.0, producing a single CSS asset and no JS. The first CSS-entry `vp build` failed because library mode defaults to `cssCodeSplit: false`, which rejects a raw CSS input. The config now assigns `vp build` to the six local HTML fixtures (`dist-fixtures/`) and **`vp pack` to the CSS package (`dist/normalize.css`)**. Re-test the updated configuration locally before considering it verified.
 
 ```sh
 vp dev              # Local fixture server
-vp build            # Target: dist/normalize.css
-vp pack             # Experimental output: dist-pack/
+vp build            # HTML fixture preview: dist-fixtures/
+vp pack             # CSS-only package asset: dist/normalize.css
 vp check
 vp test
 npm run test:offline
@@ -43,6 +43,8 @@ import "@adui/normalize.css";
 This import is **not yet production-verified** in Vite+ and Webpack consumers. Build the CSS before packaging, and do not publish the package without explicit release approval.
 
 The previous Node-copy build and packaging contract passed in a standalone Linux Node.js 22.16.0 environment; the migrated Vite+ configuration has **not** yet been executed with the project's supported Node/Vite+ runtime. Five updated dependency-free Node contract tests passed separately, but this does not verify `vp build` or `vp pack`. The maintainer previously reported 25/25 offline tests passing before this migration.
+
+**Maintainer's latest verified results (before the configuration fix)**: `vp check` passed (55 format, 11 lint), `vp test` passed 6/6, offline Node tests passed 25/25, `vp dev` started, and `vp pack` emitted only `dist-pack/normalize.css`. The corrected split of build/pack outputs has not yet been run on Windows.
 
 ## Scope and constraints
 
