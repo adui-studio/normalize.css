@@ -28,6 +28,8 @@
 
 **W-03 验收结项（2026-11-04）**：维护者报告修订后的 `vp build` **PASS**，输出六张 HTML Fixture 及一个仅测试用探针 JS 到 `dist-fixtures/`；`vp pack` **PASS**，`dist/normalize.css` 为唯一构建产物（200 字节，无发布 JS）；`npm run test:offline` **26/26 PASS**。此前 `vp check`（55 格式/11 Lint）、`vp test` 6/6、`vp dev` 均已验证，最新构建改动后的 `vp check` / `vp test` 尚未单独提供新日志。按 [W-03 退出门槛](plans/VITEPLUS_LOCAL_HARNESS_DESIGN.md)，本地 T0/T1 测试工具与证据流程已建立，[Issue #4](https://github.com/adui-studio/normalize.css/issues/4) **Closed · Completed**。T2 消费端集成、键盘/系统偏好、组件库与 Safari/移动端等全矩阵回归尚未完成，由 W-06（#7）处理；真实 npm 产物与 CSS 副作用消费验证由 W-04（#5）负责。不合并 PR、不发布、不加 CI。
 
+**W-04 真实包验收脚本（2026-11-04）**：在合成 npm 烟测之外新增独立 `npm run test:package`，要求先执行 `vp pack`，随后对当前真实 `dist/normalize.css` 执行临时 npm tarball 打包、离线安装、根导出/非公开子路径/文件白名单及副作用元数据检查。测试不上传发布、无需网络或新增依赖，且不进入常规 26 项 `test:offline`。同一源文件的独立 Linux Node 22.16.0 代表性目录运行 **1/1 PASS**，但完整 GitHub 仓库和 Windows 环境尚未执行这一新测试，不能据此宣布 W-04 退出验收。见[W-04 §7.4](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)。
+
 ## 1. Harness 目标
 
 形成可重复的闭环：理解需求 → 影响分析 → 制定验证矩阵 → 最小修改 → 检查 → 定位失败 → 修复重验 → 记录结果。未来仅考虑维护者本地运行可复现检查并记录结果；项目明确**不增加任何 CI**，避免仅凭经验声称跨浏览器兼容。
