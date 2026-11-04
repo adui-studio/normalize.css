@@ -117,6 +117,8 @@
 
 **W-06 首批 T2 开发（2026-11-04）**：在已结项 W-03/W-04 后，开发分支新增 `fixtures/t2-native.html` / `fixtures/t2-package.html`，将 R-003 六组 b/strong 父级字重、R-004 四组原生等宽元素及按钮/搜索/details/hidden 观察点放入一致 DOM。T2 仅引用已存在的 `vp pack` 产物 `../dist/normalize.css`，不复制 T1 候选 CSS，也不安装框架依赖；探针在 T2 记录 CSS 链接是否挂载。`vp build` 增加两张页面，Node/Vitest 契约随之调整。本轮 GitHub 文件静态一致性核对已通过；**尚无最新 Vite+ 命令与真实浏览器 T2 输出**，不得写作浏览器回归通过。仍不修改 R-003 产品规则、不增加 CI、不发布；详见[W-06 T2 验证说明](research/W06_T2_LOCAL_VERIFICATION.md)。
 
+**W-06 T2 本地反馈与原生交互第二批（2026-11-04）**：维护者表示此前 `vp pack`/T0/T2 本地验证流程通过，但未提供该轮命令日志、浏览器精确版本、T0/T2 导出 JSON 或截图；因此仅登记为**维护者报告 T2 基础验证通过**，不认定完整浏览器 F-001～F-010 通过。继续在两张内容一致的 T0/T2 页面中添加原生 fieldset/select/textarea/checkbox/dialog 观察点，原有 10 个 R003/R004 探针不变，仍没有新产品 CSS、JS runtime、依赖或 CI；新增 F-003～F-007 的键盘、Esc、hidden 和系统偏好手工操作尚未执行。W-06 Issue #7 继续 Open；详见[本地验证指南](research/W06_T2_LOCAL_VERIFICATION.md)。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与下一阶段变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源
