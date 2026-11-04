@@ -1,7 +1,7 @@
 # W-06 · Tailwind Preflight 与 UnoCSS Reset 独立回归
 
 **更新日期**：2026-11-04  
-**状态**：维护者已在 Windows 实测 UnoCSS Reset `tailwind-v4` 与 `tailwind-compat` 两个隔离场景的真实 tarball + Vite+ 三模式生产构建，**各 3/3 BUILD_PASS，共 6/6**；**UnoCSS tailwind-v4 与 tailwind-compat 两个独立场景均已取得 Chrome 156 三模式静态计算样式：每组 12 元素 × 14 属性，正反引入顺序相对自身 baseline 均零差异；各组三页的 Vite CSS 来源已核对。CSS Cascade 胜出规则、交互及 Tailwind Preflight 的浏览器对照仍待确认；Tailwind Preflight 三模式构建已收到维护者 3/3 PASS 日志**，F-010 仍是部分完成，不能记整体 PASS。下文既有“待执行”步骤保留用于复现，实际结果以新增记录为准。
+**状态**：维护者已在 Windows 实测 UnoCSS Reset `tailwind-v4` 与 `tailwind-compat` 两个隔离场景的真实 tarball + Vite+ 三模式生产构建，**各 3/3 BUILD_PASS，共 6/6**；**UnoCSS tailwind-v4 与 tailwind-compat 两个独立场景均已取得 Chrome 156 三模式静态计算样式：每组 12 元素 × 14 属性，正反引入顺序相对自身 baseline 均零差异；各组三页的 Vite CSS 来源已核对。Tailwind Preflight 独立场景也已收到 Chrome 156 三模式静态计算样式，168 项属性相对本组 Baseline 均零差异；其真实 Vite+ 构建 3/3 PASS。CSS Cascade 最终胜出声明、交互及跨浏览器验证仍未确认**，F-010 仍是部分完成，不能记整体 PASS。下文既有“待执行”步骤保留用于复现，实际结果以新增记录为准。
 
 **前置**：维护者在本轮对话中确认 TDesign 对照已完成；其具体浏览器、日志、截图、结果尚未同步到 W-06 记录。以下任务直接推进 F-010，**不要求重复 TDesign**。
 
@@ -114,6 +114,24 @@ compat baseline 与独立的 v4 baseline 相比：默认字体族、按钮背景
 保留的消费者：`D:\Workspace\adui-studio\normalize.css\node_modules\.cache\adui-reset-JQcSHX`（`baseline`、`normalize-first`、`normalize-last`）。当前 `hasLayer:true` 为生成 CSS 的正则扫描结果；按现有测试脚本，Tailwind 场景还必须命中 `@layer base` 才会通过。正反顺序 CSS 字节数相同但 SHA-256 不同，表明输出内容不同，**不能据此判定浏览器最终计算值存在差异**。
 
 **阶段结论：BUILD_PASS 3/3（维护者日志）**。尚无本组 Chrome/Firefox/WebKit 页面来源、计算样式、焦点交互或胜出 CSS 声明证据，不能宣布 Tailwind 浏览器兼容 PASS，F-010 仍部分完成。下一步直接复用临时目录，以三端口独立页面采集带 URL 的 `window.__aduiResetEvidence` 与 CSS 来源，不重复已成功的安装和生产构建；不修改产品规则、依赖或 CI。
+
+## 2026-11-04 · Tailwind v4 Preflight 三模式静态对照（Chrome 156）
+
+维护者提供了 Chrome 156（Windows NT UA）三个独立页面的 URL、`window.__aduiResetEvidence` 和 `document.styleSheets` 来源信息；对应先前已构建通过、带 `--keep` 保留的 `adui-reset-JQcSHX` 消费者：
+
+| 模式 | URL | Vite CSS 模块 | 每组属性数 | 对 Baseline 的差异 |
+| --- | --- | --- | ---: | ---: |
+| baseline | `http://localhost:5180/` | `adui-reset-JQcSHX/baseline/style.css` | 12 × 14 = 168 | 基线 |
+| normalize-first | `http://localhost:5181/` | `adui-reset-JQcSHX/normalize-first/style.css` | 168 | **0** |
+| normalize-last | `http://localhost:5182/` | `adui-reset-JQcSHX/normalize-last/style.css` | 168 | **0** |
+
+三份 JSON 均为相同的 12 个元素 ID 和 14 个计算属性，逐项核对一致；例如 `bold` / `strong` 的 `fontWeight:900`，`code` 的 `fontSize:16px`，标题、段落与列表的 `margin:0px`，按钮与输入框背景透明，普通 `[hidden]` 的 `display:none`，`[hidden="until-found"]` 的 `display:block`，关闭状态 `dialog` 的 `display:none`。三页均报告相应的 Vite CSS 模块路径，并包含第二份没有 `href` 或 `viteId` 标识的样式表；后者的具体来源尚未检查。
+
+**阶段结果**：三组真实 tarball / Vite+ 生产构建此前均 **BUILD_PASS（3/3）**，本次 **PAGE_SOURCE_CONFIRMED + COMPUTED_EQUAL**（Chrome 156，当前样本 168 项静态计算样式，两个引入顺序均相对 baseline 零差异）。至此 Tailwind Preflight、UnoCSS tailwind-v4、UnoCSS tailwind-compat **三个互相隔离的方案**，各自三模式构建均已通过（共 9/9），并各自取得 Chrome 156 三页静态采样零差异的证据。
+
+**层级归因边界**：Tailwind 正式产物存在 `@layer base`，而产品 Normalize 的 R-003 是未分层 `b, strong { font-weight: bolder }`；本次 `900` 的相同计算值不能确定浏览器最终胜出声明，亦不能单凭值一致证明 CSS Layers 的先后优先级。需另看 DevTools Styles 或 CSSOM 的匹配声明、重要性和层归属，尤其检查 `b` / `strong`，才可形成“层级胜出”结论。
+
+**仍未验证**：`:focus-visible` 的键盘实际状态，按钮/输入行为，`hidden=until-found` 查找揭示，dialog 打开/Esc 关闭，第二个无来源样式表的声明，以及 Firefox/WebKit/目标旧版浏览器。以上不能从静态 JSON 推定 PASS，**F-010/W-06 均不能整体结项**。暂时没有证据需要修改 `src/normalize.css`；本轮未修改产品 CSS、依赖、CI 或发布配置。
 
 ## 1. 测试边界与版本
 
