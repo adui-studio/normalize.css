@@ -34,6 +34,8 @@ vp test
 npm run test:offline
 npm run test:package   # After vp pack: real tarball + offline installation
 npm run test:consumer  # After vp pack: Vite+ production CSS retention
+npm run test:ecosystem -- vue-element # Optional, isolated Vue + Element Plus
+npm run test:ecosystem -- react-antd   # Optional, isolated React + Ant Design
 ```
 
 The only package export is `@adui/normalize.css` → `./dist/normalize.css`. Consumers can import the stylesheet through an appropriate bundler:
@@ -51,6 +53,19 @@ import "@adui/normalize.css";
 First run `vp pack` to generate `dist/normalize.css`, then `vp build` or `vp dev`. Compare `/fixtures/t2-native.html` (native) with `/fixtures/t2-package.html` (the identical content with a link to the actual packed CSS). The probe reports `packageStylesheet.loaded`; a failed stylesheet load cannot count as a browser compatibility pass.
 
 The new fixtures cover R-003 emphasis weights, unchanged R-004 monospace values, and native form/dialog/focus observation points. **The maintainer reports that the initial T2 local verification passed**, but no per-browser JSON or exact browser versions were provided. The new native form, dialog, focus, and hidden-state interactions are still NOT_RUN. See the [Chinese local verification guide](docs/research/W06_T2_LOCAL_VERIFICATION.md). No new library rules, runtime dependencies, CI, or public exports were added.
+
+## W-06 isolated Vue / React ecosystem consumers
+
+Two optional consumer cases have been added: Vue 3 with Element Plus, and React with Ant Design. Both install the actual `vp pack` tarball into an ignored temporary directory and use the project's existing Vite+ 1.4.0 to build independent native/T2 pages. Framework dependencies are **not** added to the package itself. Runs are explicit and may require npm network access.
+
+```sh
+vp pack
+npm run test:offline
+npm run test:ecosystem -- vue-element
+npm run test:ecosystem -- react-antd
+```
+
+Add `--keep` to retain a temporary native/package pair for manual browser comparison. These cases are **not yet executed**, and a successful production build would not by itself prove UI rendering, keyboard behavior, or cross-browser compatibility. See the [local ecosystem verification guide](docs/research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md).
 
 ## Windows line endings
 
