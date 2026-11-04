@@ -149,6 +149,8 @@ npm pack --dry-run --json --ignore-scripts --offline .
 
 **已核对**：GitHub 中独立生成器的三组模式及 CSS 导入顺序满足源文件隔离关系；`package.json` 与离线套件清单断言同步。**尚未验证**：维护者 Windows 上的新离线全量运行、npm 包下载、真实 Vite+ 构建结果与浏览器交互；不得据此标记 F-010 PASS。详见 [W-06 Reset 验证指南](research/W06_RESET_LOCAL_VERIFICATION.md)。
 
+**2026-11-04 · F-010 最新状态与交互取证入口**：维护者已分别完成 Tailwind Preflight、UnoCSS `tailwind-v4`、`tailwind-compat` 三套独立消费者的三模式真实 tarball + Vite+ 构建，合计 **9/9 PASS**。每套均取得 Chrome 156 三模式 12 元素 × 14 项静态计算样式零差异；Tailwind 中 `b#bold` 的两种顺序均由未分层普通声明胜出，已获 DevTools 截图确认。该事实覆盖上文历史阶段的“尚未实际构建”状态，但**不能证明原生交互或所有目标浏览器通过**。已于 [Reset 本地验证记录](research/W06_RESET_LOCAL_VERIFICATION.md) 增补无需重建的 DevTools 临时采集步骤（Tab / 焦点、按钮、输入、details、dialog、until-found）；采集代码已做语法检查，**本批交互实测仍为 NOT_RUN**。无需更改正式 CSS 或添加 CI。
+
 ## 6. 安全和发布门禁（规划）
 
 - 审核第三方规则的许可证及改写过程；不引入未经审批的远程字体、图片或跟踪请求。
