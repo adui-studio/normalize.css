@@ -2,9 +2,17 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import { consumerHtml, consumerSource, ecosystemCases } from "./ecosystem-fixtures.mjs";
 
-test("W-06 ecosystem fixtures keep T0/T2 DOM identical and isolate only the CSS import", () => {
+test("W-06 ecosystem fixtures keep T0/T2 only CSS import difference", () => {
   const html = consumerHtml();
-  for (const id of ["b-600", "strong-600", "b-700", "strong-700", "code", "app", "probe-output"]) {
+  for (const id of [
+    "b-600",
+    "strong-600",
+    "b-700",
+    "strong-700",
+    "code",
+    "app",
+    "probe-output",
+  ]) {
     assert.ok(html.includes('id="' + id + '"'), "Missing DOM fixture: " + id);
   }
   assert.doesNotMatch(html, /https?:\/\//);
