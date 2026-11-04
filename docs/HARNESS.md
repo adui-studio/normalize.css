@@ -167,6 +167,8 @@ npm pack --dry-run --json --ignore-scripts --offline .
 
 **2026-11-05 · W-07 本机回归新证据（最新）**：维护者 Windows PowerShell 输出：`vp check --fix` 格式完成、19 文件零 Lint 错误/警告；`vp test` 7/7 PASS；`pnpm run test:offline` 33/33 PASS；`vp pack` 输出单一 CSS 文件 0.20 kB；`pnpm run test:package` 1/1 PASS；`pnpm run test:consumer` 1/1 PASS。均归档为**维护者实际执行**，不是本助手独立执行。此前“没有本批检查结果”的段落为历史状态，以上最新结果覆盖。尚无本次 `pnpm install --frozen-lockfile`、`git status --short`（`--fix` 可能修改文件）和 `npm pack --dry-run` 输出，因此这些项保留待核实。参考 [W-07 审核记录](research/W07_RELEASE_READINESS_REVIEW.md)；不新增 CI。
 
+**2026-11-05 · W-07 最新冻结安装和预打包补验（最新）**：维护者提供真实 Windows 日志：`pnpm install --frozen-lockfile` 83ms、pnpm v12.15.0，无需重新解析且符合锁文件供应链策略；`git status --short` 只见未跟踪 `.idea/`，`git diff --check` 无输出；`npm pack --dry-run --json --ignore-scripts` 返回 5 个预期文件，分别为 LICENSE、README.md、README.en.md、dist/normalize.css（200 B）和 package.json，未捆绑任何依赖。结合此前实际 `vp check --fix`、Vitest 7/7、Node 33/33、`vp pack`、真实包安装 1/1 和 Vite+ 生产消费 1/1，**W-07 P-01/P-06 验证 PASS**。已在开发分支 `.gitignore` 新增 `.idea/`，需下次本地拉取后复核不再出现未跟踪提示；修改该 Git 忽略规则不是本次用户提供的本机命令输出。出版元数据与发布授权仍待决策。详见 [W-07 审核报告](research/W07_RELEASE_READINESS_REVIEW.md)。不新增 CI。
+
 ## 6. 安全和发布门禁（规划）
 
 - 审核第三方规则的许可证及改写过程；不引入未经审批的远程字体、图片或跟踪请求。
