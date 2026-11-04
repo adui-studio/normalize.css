@@ -54,6 +54,16 @@ node tests/r003-evidence.mjs r003-native.json r003-candidate.json
 
 **运行状态（2026-11-03）**：Node 内置测试 **18/18 通过**（探针 2、Fixture 4、包契约 3、离线合成包 1、R-003 合成证据/CLI 8），探针与测试文件语法检查通过；因执行环境为 Node 22.16.0 且 npm Registry 不可用，`vp check/test/dev` 尚未运行、没有生成锁文件。容器内 Chromium 144 无头执行超时，**没有获得浏览器计算样式结果**；最低目标 Chrome/Edge 120、Firefox 121、Safari 17.2 和对应移动端均为 NOT_RUN。Fixture 中的候选 CSS **只供测试，不会发布**。已在开发用 `package.json` 设置 `files: ["dist"]` 与 `sideEffects: ["**/*.css"]`，并真实运行 `npm pack --dry-run --json --ignore-scripts --offline .`：当前缺少 `dist`，仅列出 `package.json`，**这不是 CSS 包打包成功**。进一步用 `tests/package-smoke.node.test.mjs` 临时生成合成 CSS 包，在**隔离临时目录**实际执行 npm pack、离线安装、根 CSS 路径解析、未导出子路径拒绝和文件过滤，全部通过；**此测试不使用正式 Normalize CSS，也不能证明 Vite+/Webpack 消费端通过**。真实项目仍未添加 `exports`，保持 `private: true`。本轮补充 `tests/evidence-file.mjs` 保护 R-003 证据文件读取：先验证普通文件和 256 KiB 上限，再解析 JSON；新边界测试 **4/4 PASS**，此前离线套件重新运行 **18/18 PASS**，**更新后完整 22 项尚未同批运行**。不增加 CI。
 
+## Vite+ 格式检查与第三方 Skills
+
+已在根 `vite.config.ts` 的 `fmt.ignorePatterns` 中**仅排除固定来源的 `.agents/skills/**`**，避免批量格式化污染第三方原文。项目自有的 Markdown、Fixture、测试、配置与 GitHub 模板仍接受完整 `vp check` 检查。维护者此前报告 **66 个格式问题**，这是配置修改前的结果；**配置修改后尚未重新运行 Vite+ 检查**，不声称格式检查已通过。可以在本地运行：
+
+```sh
+pnpm exec vp fmt --check
+pnpm exec vp check
+pnpm exec vp check --no-fmt  # 仅隔离格式问题排查 lint，不等于完整通过
+```
+
 ## 设计边界
 
 默认入口不应强制改变根字体大小、页面颜色主题、按钮外观、全局滚动条、所有元素的间距或用户系统交互偏好。对于可能改变现有组件行为的规则，优先使用独立可选模块，并配套回归验证。

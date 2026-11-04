@@ -36,6 +36,10 @@ Use Node.js `^22.18.0 || ^24.11.0 || >=26.0.0`, then install dependencies and ru
 
 See the [first local validation record (2026-11-04)](docs/research/LOCAL_BROWSER_RUN_20261104.md): 22/22 Node tests and 5/5 Vitest tests passed, `vp dev` served the fixtures, while `vp check` failed on 66 formatting issues. Chrome 156 computed weights were identical for R-003 T0/T1; R-004 T1 reports 13px despite an authored 1em rule, while T1b's additional repeated `monospace` family changes all four computed sizes to 16px in Chrome 156. **No minimum-version browser compatibility is established.**
 
+## Vite+ formatting scope
+
+The root `vite.config.ts` now ignores only the pinned upstream `.agents/skills/**` subtree during formatting. First-party documentation, fixtures, tests, configuration and GitHub templates remain checked. The previously reported 66 formatting failures predate this configuration change; **Vite+ has not yet been rerun with the new setting**, so no formatting-pass claim is made. On the maintainer's machine, run `pnpm exec vp fmt --check` and `pnpm exec vp check` to verify the new scope.
+
 ## Design constraints
 
 The default entry must not silently impose a root font-size, page theme, custom global scrollbars, button appearance resets, or broad margin removal. High-impact rules belong in optional, tested modules.

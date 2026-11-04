@@ -83,6 +83,7 @@
 | 2026-11-04 | 维护者本机完成 Vite+ 和 Chrome 156 第一轮执行 | Node 22/22、Vitest 5/5、dev 启动；check 因 66 个格式问题失败；R-003 无差异，R-004 T1 未如预期生效，旧版目标待测。见 [运行记录](research/LOCAL_BROWSER_RUN_20261104.md) |
 | 2026-11-04 | R-004 Console 复核与独立字体族 T1b 对照页面 | T1 CSSOM 已包含 1em 声明、当前与探针均为 13px；新增 T1b 字体族偏好对照 |
 | 2026-11-04 | 维护者提交 Chrome 156 的 T1b 真实截图 | T0/T1 四元素均为 13px；T1b 四元素均为 16px，fontFamily 为 monospace, monospace；仅为当前环境计算样式，R-004 默认不准入，旧版目标仍未实测 |
+| 2026-11-04 | W-03 配置 Vite+ 格式检查隔离上游 Skills | `vite.config.ts` 增加 `fmt.ignorePatterns` 排除 `.agents/skills/**`；第一方仍纳入检查；配置已提交但 `vp check` 尚未重验，66 项为旧基线 |
 
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与下一阶段变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 

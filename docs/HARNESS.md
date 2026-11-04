@@ -33,6 +33,17 @@
 
 ## 4. Vite+ 本机执行与下一步验证
 
+**格式检查范围的最小修复（2026-11-04，待本机重验）**：根目录 `vite.config.ts` 新增 `fmt.ignorePatterns: ['.agents/skills/**']`。参照 [Vite+ 官方 Format Config](https://viteplus.dev/config/fmt)，`vp check` 会读取根配置，因此固定上游原版 Skills（含其 references、来源记录）不应由项目格式化器修改；**其余第一方 Markdown、HTML、JS、TS、package.json 与 GitHub 模板继续接受完整格式检查**。不能为了通过而设置 `check.fmt: false` 或忽略 `docs/**`、`tests/**`、`fixtures/**`。
+
+```sh
+pnpm exec vp fmt --check
+pnpm exec vp check
+# 若只想先单独检查 lint，而不误称完整 check 通过：
+pnpm exec vp check --no-fmt
+```
+
+**未验证的事实边界**：原先 66 个文件的格式失败来自维护者尚未采用此次配置前的运行。本次仅已提交排除第三方 Skills 的配置，**尚未在 Vite+ 1.4.0 环境重新执行上述命令**；不能声称问题文件已全部修复或 `vp check` 已通过。第一方文件的格式问题仍须按检查报告逐项处理。
+
 Vite+ 已根据 [ADR-0005](adr/0005-viteplus-toolchain.md) 选定为统一工具链；已在 `package.json` 固定开发依赖 1.4.0，`vite.config.ts` 配置测试。**本机 `vp test`、`vp dev` 已验证可执行，`vp check` 因格式问题失败；本执行容器尚未安装 Vite+，`vp pack` 仍未验证**。
 
 ```sh

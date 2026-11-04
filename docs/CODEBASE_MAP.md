@@ -12,7 +12,7 @@ normalize.css/
 ├── AGENTS.md                 # Agent 规则入口
 ├── .gitignore                # 本地依赖、构建产物忽略
 ├── package.json              # W-03/W-04：private、vite-plus 1.4.0、CSS 文件白名单/副作用元数据、离线测试脚本
-├── vite.config.ts            # W-03 已存在：Vite+ 单元测试配置
+├── vite.config.ts            # W-03：Vite+ 单元测试与上游 Skills 格式检查排除
 ├── fixtures/                 # W-03 已存在：R-003/R-004 T0/T1 页面与探针
 │   ├── index.html
 │   ├── probe.js

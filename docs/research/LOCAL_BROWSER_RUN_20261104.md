@@ -93,6 +93,20 @@ T0/T1 均报告 `font-family: monospace`。仓库 T1 HTML 明确包含 `code, kb
 - **产品取舍**：保持低侵入原则，R-004 **不准入默认 Normalize**。不添加 `font-size: 1em`、`font-family: monospace, monospace` 或强制字体栈；T1b 只保留为风险验证 Fixture。后续若有可选 Typography 模块需求，再另行评审。
 - 此次不运行新提交后的全部 Node/Vite+ 契约测试，上一轮 **22/22 Node 和 5/5 Vitest** 仅对应 T1b 新增前的提交；T1b 页面由维护者实际浏览器访问，但新测试的全量回归仍待执行。
 
+## 3.3 Vite+ 格式检查的来源文件隔离（2026-11-04，配置已提交／未重测）
+
+维护者最初执行 `npm exec -- vp check` 时有 66 个格式错误，涉及仓库自有文件与固定来源的第三方 `.agents/skills/` 文件。根据 [Vite+ 官方格式配置](https://viteplus.dev/config/fmt)，在开发分支的根 `vite.config.ts` **仅**新增：
+
+```ts
+fmt: {
+  ignorePatterns: ['.agents/skills/**'],
+}
+```
+
+该配置专门保护上游原版 Skills 的文本/许可证来源，不关闭第一方格式检查，不设置 `check.fmt: false`，也不删除检查工具。**当前还没有基于此配置重新运行 Vite+ 1.4.0 的格式或完整检查**；旧的 66 个错误是改动前基线，不能外推改动后还剩多少问题。
+
+建议在维护者本地先执行 `pnpm exec vp fmt --check` 和 `pnpm exec vp check`，核对剩余第一方文件；可单独执行 `pnpm exec vp check --no-fmt` 判断 lint 部分，但该命令通过**不等于完整 check 通过**。对于需要格式化的自有文件，另行按最小范围处理并检查 Git diff，不对上游 Skills 执行批量 `--fix`。
+
 ## 4. 下一步与关闭条件
 
 1. 保留此次 Chrome 156 的 R-003 **局部无差异**观察；优先收集目标 **Chrome 120 / Edge 120 / Firefox 121 / Safari 17.2** 的原始 T0/T1 JSON、真实构建号、DevTools UA 声明。
