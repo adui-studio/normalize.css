@@ -12,7 +12,7 @@
 | B — 浏览器 Bug / 上游提交 | Chromium StrongBolder、WebKit 289297              | 某版本/分支历史默认行为与修复时点            |
 | U — UA 源码快照           | Chromium、Gecko、WebKit 固定版本/提交             | 该源代码快照写明的 UA 样式                   |
 | U — 竞品源代码            | modern-normalize、CSSTools normalize.css 固定 SHA | 上游维护者采用的策略，不能证明当前修复仍必要 |
-| T — 本项目真实测试        | Chrome 156 的 R-003 T0/T1 JSON 与 R-004 截图       | 仅能说明对应环境的计算样式；旧版目标未测     |
+| T — 本项目真实测试        | Chrome 156 的 R-003 T0/T1 JSON 与 R-004 截图      | 仅能说明对应环境的计算样式；旧版目标未测     |
 
 本卡包含 S/B/U 类研究证据和**Chrome 156 的有限 T 类数据**；源码不是浏览器运行结果，Chrome 156 也不能代替首版最低测试目标。
 
