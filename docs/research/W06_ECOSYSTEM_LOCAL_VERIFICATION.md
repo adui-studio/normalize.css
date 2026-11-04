@@ -47,7 +47,7 @@ npm run test:ecosystem -- vue-element --keep
 
 ```powershell
 # 首先替换为测试输出里真实打印的目录
-$consumerDir = 'D:\\Workspace\\adui-studio\\normalize.css\\node_modules\\.cache\\adui-ecosystem-实际目录'
+$consumerDir = 'D:\Workspace\adui-studio\normalize.css\node_modules\.cache\adui-ecosystem-实际目录'
 
 # 终端 A：T0，不加载 @adui/normalize.css
 Set-Location (Join-Path $consumerDir 'native')
