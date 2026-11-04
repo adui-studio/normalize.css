@@ -105,6 +105,8 @@
 
 **W-04 真实 tarball 验收补充（2026-11-04）**：在既有合成包烟测之外新增独立 `tests/package-real.node.test.mjs` 和 `npm run test:package`，要求先 `vp pack`。脚本对真实 `dist/normalize.css` 执行当前仓库 `npm pack --offline`、临时消费者安装、文件白名单、根导出和子路径封装验证；不会写入或发布正式 tarball，不新增依赖/CI。提交的脚本 Git blob SHA 与独立 Linux Node 22.16.0 代表性包目录运行的文件完全一致，**代表性目录 1/1 PASS**；真实 Windows 仓库测试尚未执行，故 W-04 #5 继续 Open，Vite+/Webpack 生产消费与 CSS tree shaking 仍未通过。详见[W-04 §7.4](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)。
 
+**W-04 生产消费者补充（2026-11-04）**：新增 `tests/package-vite-consumer.node.test.mjs` 和 `npm run test:consumer`，在 `vp pack` 后将真实 CSS tarball 离线安装到临时独立 Vite+ 1.4.0 消费项目，以 JS 副作用导入 `@adui/normalize.css` 并执行生产构建，再检查 CSS 产物保留。新增脚本已通过 Node 语法检查和 Git blob 指纹核对，但当前环境没有 Vite+ 1.4.0，**尚未获得真实生产构建输出**；P-02 继续待实测，P-03 Webpack 5 未测。`test:consumer` 与 `test:package` 均独立于 26 项普通离线测试，不引入额外依赖/CI。详见[W-04 §7.5](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与下一阶段变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源
