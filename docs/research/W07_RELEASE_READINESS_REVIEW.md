@@ -7,7 +7,24 @@
 - **审核判断**：**部分通过，发布准备尚未就绪；Issue #8 保持 Open**。
 - **红线**：不修改产品 CSS 或既定包根入口；不新增依赖/CI、GitHub Actions、自动发布；不执行 npm publish、GitHub Release、`main` 合并。
 
-## 2026-11-05 · P-06 本地质量回归（最新）
+## 2026-11-05 · P-01 / P-06 补充验收完成（最新）
+
+维护者提供新一批 Windows PowerShell **实际命令输出**，完成上一批质量回归剩余四项：
+
+| 检查项目 | 维护者提供的实际结果 | 当前判定 |
+| --- | --- | --- |
+| `pnpm install --frozen-lockfile` | `Lockfile passes supply-chain policies (verified 13h ago)`；`Lockfile is up to date, resolution step is skipped`；`Done in 83ms using pnpm v12.15.0` | **PASS：冻结安装成功，版本匹配锁文件**；供应链策略的时效以 pnpm 输出为准 |
+| `git status --short` | 仅显示 `?? .idea/` | **已跟踪文件无待提交修改**；IDE 本地目录未跟踪，应忽略，不将其误写为“Git 工作区完全干净” |
+| `git diff --check` | 命令无任何输出 | **PASS：当前已跟踪工作树差异未报告空白错误**；不检查未跟踪文件 |
+| `npm pack --dry-run --json --ignore-scripts` | 返回有效 JSON；`@adui/normalize.css@0.0.0`；`entryCount:5`；`bundled:[]`；`size:13562` bytes；`unpackedSize:32922` bytes | **PASS：正式包文件白名单匹配，未执行 npm publish** |
+
+**npm 预打包五文件清单（从用户实际输出逐项核对）**：`LICENSE`（1089 B）、`README.en.md`（9595 B）、`README.md`（21096 B）、`dist/normalize.css`（200 B）、`package.json`（942 B）。没有 `src`、`tests`、`fixtures`、`.agents`、`.idea` 或开发依赖；`CHANGELOG.md` 未在当前包白名单中，符合前述文件契约。整个预打包体积约 **13.56 kB**（并非 CSS 文件大小）。`npm pack --dry-run` 是文件清单/打包模拟，不等于真实发布，也不是新一次 tarball 离线安装；真实 tarball 测试已在上一批日志中 **1/1 PASS**。
+
+**本轮仓库最小修正**：为避免 JetBrains 用户的本地配置误提交，已在 `.gitignore` 仅新增 `.idea/`。不会删除本地目录，不改代码风格或编辑器共享配置；这是本次仅有的非文档文件更改。该远端忽略规则需维护者下一次 `git pull --ff-only` 后生效；用户这次 `git status` 截图是在新增忽略规则**之前**获得的，因此不得声称已验证其生效。
+
+**阶段结论**：W-07 **P-01 依赖锁定/冻结安装 PASS**；**P-06 当前本地质量回归 PASS**（此前 `vp check --fix`、Vitest 7/7、Node 离线 33/33、`vp pack` 0.20 kB、真实包 1/1、消费构建 1/1，以及本次 Git/预打包检查均有维护者实际输出）。当前审核仍保留 **P-02 首版正式版本及 private 发布开关、P-03 npm 包公开元数据、P-04 npm scope 授权、P-05 公开最低浏览器版本支持声明、P-07 单独发布授权**。这些不随 P-01/P-06 自动完成；Issue #8 保持 Open。
+
+## 2026-11-05 · P-06 本地质量回归（已通过；详见上方最新补验）
 
 维护者提供 Windows PowerShell 真实终端输出，项目目录 `D:\Workspace\adui-studio\normalize.css`。本条证据来自**用户实际运行的日志**，本助手未远程执行命令，也没有独立获取终端状态或 `git diff`。
 
@@ -122,12 +139,12 @@ git push origin feat/viteplus-local-harness
 
 | 编号 | 事项                     | 当前证据                                                                                                                                       | 风险/决定                                                                                                                                                       |
 | ---- | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| P-01 | **锁文件与包管理器策略** | **pnpm 12.15.0 已固定；`pnpm-lock.yaml` 已真实提交**。GitHub 当前分支唯一根锁文件；含 pnpm 环境锁定与 `vite-plus@1.4.0` 项目依赖及完整性元数据 | **静态 PASS / 冻结安装待验**：版本与 importer 一致；本轮未获得 `pnpm install --frozen-lockfile` 实际退出码、`vp check` 与测试输出，不能等同可复现安装已运行通过 |
+| P-01 | **锁文件与包管理器策略** | pnpm 12.15.0、唯一 `pnpm-lock.yaml` 已入库；维护者 Windows `pnpm install --frozen-lockfile` 83ms 成功且依赖解析跳过 | **PASS（真实冻结安装 + GitHub 静态核对）** |
 | P-02 | **版本和 npm 发布开关**  | `version:"0.0.0"`、`private:true`                                                                                                              | **预期发布阻断**：保持现状直到维护者正式指定首个语义化版本并授权公开发布；**不提前清除 `private`**                                                              |
 | P-03 | **包元数据**             | 当前 `package.json` 没有 `license`、`description`、`repository`、`homepage`、`bugs` 等字段；仓库 `LICENSE` 文件真实存在                        | **待补充审核**：优先 `license: "MIT"` 与明确的仓库 URL；其它字段按必要性补齐；修改 manifest 需另行批准并复测包契约                                              |
 | P-04 | **npm 组织/作用域权限**  | 无已验证的 `@adui` npm scope 发布授权、包名可用性或维护者身份资料                                                                              | **NOT_VERIFIED**：发布前由维护者自行核验；不读取令牌、不登录、不尝试发布                                                                                        |
 | P-05 | **公开兼容性范围**       | [W-06](W06_ACCEPTANCE_INDEX.md) 已获维护者管理验收；缺少本次逐目标 UA/OS/设备原始附件                                                          | **文案门槛**：不得把目标最低版本清单直接写成已经可复核 PASS 的公开支持承诺                                                                                      |
-| P-06 | **最终本机复核** | **维护者 2026-11-05 Windows 原始输出**：`vp check --fix` 格式化完成、19 文件零 Lint 警告/错误；Vitest 7/7；离线 Node 33/33；`vp pack` 仅输出 `dist/normalize.css` 0.20 kB；真实 npm 包安装 1/1；Vite+ 生产消费 1/1 | **本轮上述 6 项 PASS（基于维护者实际终端日志）**；冻结安装输出、`git status`/格式修订是否已提交、`npm pack --dry-run` 和后续 manifest 改动后的回归尚待核实 |
+| P-06 | **最终本机复核** | 维护者 Windows 实际日志：19 文件格式/Lint 正常，Vitest 7/7、Node 33/33、唯一 CSS 打包、真实 tarball 1/1、Vite+ 消费 1/1、冻结安装成功、`git diff --check` 无输出、npm 预打包五文件白名单完全匹配 | **PASS（真实执行日志；`.idea/` 已在后续仓库规则中忽略，生效待下一次拉取确认）** |
 | P-07 | **最终发行准许**         | W-07 当前只获授权执行质量审核，**未授权发布、Release、合并或改生产配置**                                                                       | **BLOCKER**：发布需维护者新的明确指令                                                                                                                           |
 
 **许可证细节**：`LICENSE` 文件已经存在并在历史 tarball 测试的允许清单中，但 `package.json` 尚未显式声明 `license:"MIT"`。这不是“缺少许可证文件”，而是 npm 元数据与仓库许可证描述尚未同步。
@@ -136,7 +153,7 @@ git push origin feat/viteplus-local-harness
 
 ## 4. 下一次仅在维护者本机执行的只读或测试命令
 
-**注意：以下命令为待运行验证步骤，本文未声称已执行。**
+**历史命令清单**：下列大部分检查已经由维护者在 2026-11-05 提供真实 PASS 日志；以本文顶部最新结果为准，勿重复执行已通过的项目。今后如果包元数据或发布配置发生变化，再针对新内容复验。
 
 ```powershell
 # 在 feat/viteplus-local-harness 工作树根目录
@@ -163,8 +180,8 @@ npm pack --dry-run --json --ignore-scripts
 
 ## 5. 本轮结论与后续决策
 
-**当前判断：W-07 审核已启动，基础包契约/许可证/证据索引符合已有设计；发布前门槛未全部满足，Issue #8 继续 Open。**
+**当前判断（2026-11-05）**：P-01 和 P-06 已由维护者真实本机日志通过，包契约、锁文件、文档及开发工具测试基础就绪；但 P-02～P-05 的公开发行决策与 P-07 发布授权仍未完成。**Issue #8 继续 Open，禁止在此阶段 npm 发布、合并 main 或新增 CI。**
 
-优先级建议：**锁文件已提交且通过结构核对；下一步是冻结安装及本机测试复核（P-01/P-06），然后处理公开包元数据与正式版本审核（P-02/03），最后由维护者另行决定发布授权（P-07）**。
+优先级建议：**P-01/P-06 已完成，下一项进入 P-03 公开包元数据的最小修改与针对性复验；P-02 首版版本、P-04 npm scope、P-05 兼容性声明及 P-07 发布授权仍需独立决策。**
 
 本轮已补建 `CHANGELOG.md`、更新中英文 README 的当前状态，并同步文档/Issue。未修订生产 CSS、未运行新的本地测试、未执行 CI、未变更包导出、未发布软件包、未创建 Release、未合并主分支。
