@@ -20,6 +20,8 @@
 
 **R-004 Chrome 120 本机观测（2026-11-04）**：维护者以 PowerShell 读取三个已下载 Fixture JSON，四个等宽元素的 T0/T1 计算字号均为 13px、T1b 均为 16px；T0/T1 的 `fontFamily` 是 `monospace`，T1b 为 `monospace, monospace`。结果与先前 Chrome 156 一致，而 Firefox 121 的三页均为 16px。此项为维护者终端实际输出，三份 Chrome 120 原始 JSON 本轮未上传；没有独立解析或字体用户设置回归。R-004 默认不准入 CSS；见[本机记录 §3.2.2](research/LOCAL_BROWSER_RUN_20261104.md)。
 
+**首批产品 CSS 构建与定向测试（2026-11-04）**：`src/normalize.css` 当前只包含 R-003；`scripts/build.mjs` 直接复制静态 CSS，`package.json` 只导出 CSS 根入口并保持 private。独立 Linux Node 22.16.0 复刻目录新增定向 Node **5/5 PASS**；CSS 字节一致、离线 tarball 安装、根路径解析与私有子路径封装通过。复刻文件的 Git blob SHA 与远程提交完全一致，但 **Node 低于项目 engine 下限**，不是维护者 Windows 上 Vite+ 全量测试通过。见[W-04 交付记录](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)。
+
 ## 1. Harness 目标
 
 形成可重复的闭环：理解需求 → 影响分析 → 制定验证矩阵 → 最小修改 → 检查 → 定位失败 → 修复重验 → 记录结果。未来仅考虑维护者本地运行可复现检查并记录结果；项目明确**不增加任何 CI**，避免仅凭经验声称跨浏览器兼容。
