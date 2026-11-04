@@ -147,6 +147,8 @@
 
 **2026-11-04 · Tailwind v4 Preflight 生产构建回填**：维护者 Windows 实际运行 `npm run test:reset -- tailwind-preflight --keep`，在独立 `adui-reset-JQcSHX` 消费者目录完成 `baseline`、`normalize-first`、`normalize-last` 三组真实 Normalize tarball + Vite+ 构建，均 **BUILD_PASS（3/3）**。CSS 字节数为 4586/4786/4786，三份 SHA-256 不同，均有 `hasLayer:true`；脚本针对 Tailwind 还验证了产物存在 `@layer base`。详见 [W-06 Reset 记录](research/W06_RESET_LOCAL_VERIFICATION.md)。**本轮没有浏览器计算样式、交互或 CSS 最终胜出声明证据**，不能将 F-010 标为完整 PASS；UnoCSS 两套独立静态采样的既有结果仍有效。无产品 CSS、根依赖、CI 或发布变更。
 
+**2026-11-04 · Tailwind Preflight Chrome 156 静态对照完成**：维护者提供 `http://localhost:5180/`、`:5181/`、`:5182/` 三页的完整计算样式 JSON 与 Vite CSS 来源，分别对应 `adui-reset-JQcSHX/baseline/style.css`、`normalize-first/style.css`、`normalize-last/style.css`。三页每页均为 12 元素 × 14 项属性，与 baseline 比较正反顺序均 **0 项静态计算值差异**；此前真实 tarball + Vite+ 三模式构建已 3/3 PASS。至此 **Tailwind Preflight、UnoCSS tailwind-v4、UnoCSS tailwind-compat** 三种互相隔离的 Reset 测试共 **9/9 生产构建通过**，各自 Chrome 156 三模式静态采样均一致；仍未验证 CSS 最终胜出声明、焦点/交互和完整浏览器矩阵，**F-010/W-06 不整体标记 PASS**。详见 [W-06 Reset 记录](research/W06_RESET_LOCAL_VERIFICATION.md)，暂无产品 CSS 修改依据，不新增 CI 或发布。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与待决策变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源
