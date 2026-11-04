@@ -36,6 +36,9 @@ normalize.css/
 │   ├── ecosystem-fixtures.mjs       # W-06 Vue/React/TDesign T0/T2 同源 JS/HTML 生成器
 │   ├── ecosystem-consumer.mjs       # W-06 隔离真实 tarball + 组件库 Vite+ 构建 CLI
 │   ├── ecosystem-contract.node.test.mjs # W-06 无网络隔离与依赖版本契约
+│   ├── reset-fixtures.mjs       # W-06 F-010：Tailwind / UnoCSS 独立组页面和 CSS 顺序生成
+│   ├── reset-consumer.mjs       # W-06 F-010：真实 tarball + Vite+ 三组构建命令
+│   ├── reset-contract.node.test.mjs # W-06 F-010：无网络隔离契约
 │   ├── probe.node.test.mjs
 │   ├── r003-evidence.mjs             # R-003 JSON 比较 CLI
 │   ├── r003-evidence.node.test.mjs   # 合成数据与 CLI 测试
@@ -60,6 +63,7 @@ normalize.css/
     ├── SDD.md               # 本轮文档：详细设计草案
     ├── PROJECT_CONTEXT.md   # 本轮文档：阶段事实
     ├── research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md # W-06 生态对照本地执行与验收边界
+    ├── research/W06_RESET_LOCAL_VERIFICATION.md # W-06 F-010 三组 Reset 分离验证执行说明
     ├── CODEBASE_MAP.md      # 本轮文档：代码地图
     ├── SKILLS.md            # 本轮文档：Skill 索引
     ├── HARNESS.md           # 本轮文档：验证机制规划
