@@ -150,6 +150,118 @@ compat baseline 与独立的 v4 baseline 相比：默认字体族、按钮背景
 
 **剩余验收**：键盘 `:focus-visible`、真实表单交互、`hidden="until-found"` 查找揭示、dialog 行为以及 Firefox/WebKit/最低目标版本仍待分别取得证据；`F-010` / `W-06` 保持部分完成。未增加 CI、未修改源码或发布设置。
 
+## 2026-11-04 · F-010 原生交互与无障碍手动验收（待执行）
+
+**状态：测试步骤与临时采集代码已制定，尚无本批实测结果。** 这一步紧接三套 Reset 已完成的 9/9 生产构建、Chrome 156 三模式静态样式及 Tailwind `b#bold` 层叠归因。**不需要重新 `vp pack` 或 `npm run test:reset`，也不需要改动已保留消费者的代码。**
+
+### 目标与边界
+
+一次只验证一个独立 Reset 方案，不能把 Tailwind Preflight、UnoCSS tailwind-v4、UnoCSS tailwind-compat 混在同一个消费者。每组分别使用 `baseline`、`normalize-first`、`normalize-last` 三页，均保留相同 HTML 和系统设置；先从当前 Tailwind 消费目录 `adui-reset-JQcSHX` 开始。后续 UnoCSS v4（`adui-reset-UQvmww`）、compat（`adui-reset-8TXDC6`）可使用相同步骤，但需要分别归档。
+
+现有 `tests/reset-fixtures.mjs` 有 `#button`、`#input`、`#details > summary`、`#hidden`、`#until-found` 与 `#dialog`；**没有 dialog 打开按钮、表单提交、按钮业务处理器，也没有 select/textarea/checkbox**。因此只能验证这些 DOM 的原生行为，不能凭本 Fixture 宣称复杂表单、业务处理器或完整无障碍覆盖。
+
+### 操作步骤（Chrome 156，先测 Tailwind 三页）
+
+1. 关闭旧服务或避免端口冲突，三个终端分别进入 `adui-reset-JQcSHX/baseline`、`normalize-first`、`normalize-last`，运行 `vp dev --port 5180`、`5181`、`5182`。确认三个页面 URL 和 Vite `styleIds` 分别对应三种模式。
+2. **每个页面刷新后**，在 DevTools Console 粘贴下方代码一次。该代码仅向当前页面注册临时事件监听器，记录信任来源、焦点可见性、输入长度与原生控件状态；不会记录输入内容，不提交网络数据，不修改产品 CSS。刷新页面会清空临时监听。
+3. 把焦点从 DevTools 切回页面，使用**物理键盘 Tab / Shift+Tab** 焦点遍历按钮、输入框与 `summary`，观察焦点环，并在采集日志中核查 `focusVisible`、`outlineStyle` / `outlineWidth` / `boxShadow`。仅 `outlineStyle:none`（未聚焦状态）不构成失败；某元素不匹配 `:focus-visible` 也必须结合实际输入方式和视觉反馈判断。
+4. 真实鼠标点击 `#button`，确认有 `button-click` 且 `trusted:true`；按钮无业务事件，所以**不要求发生页面跳转或文本变化**。在 `#input` 手工输入测试字符（如 `adui-test`），确认 `input` 事件由可信操作触发，`inputLength > 0`。
+5. 以键盘在 `summary` 上按 Enter 或 Space 打开/关闭 `details`，确认 `details-toggle` 和最终 `detailsOpen`；不要用 `element.click()` 冒充用户键盘操作。
+6. 在 Console 执行 `window.__aduiF010.openDialog()` **仅用于打开**现有空原生 `dialog`，然后切回页面按物理 Esc，检查 `dialog-cancel`、`dialog-close` 与最终 `dialogOpen:false`。JS 伪造 `KeyboardEvent` 不等于可信 Esc，也不能证明默认关闭行为。
+7. 确保测试前 `#until-found` 的 `hidden` 属性值为 `until-found`，使用浏览器自带 Ctrl+F 搜索该元素的文本 `查找时显示`；观察查找揭示，记录 `beforematch`（若浏览器支持）与 `untilFoundAttribute`。`getComputedStyle(...).display === "block"` 本身**不能**证明查找揭示。若已提前揭示，刷新后重测。
+8. 每页操作结束执行 `copy(JSON.stringify(window.__aduiF010.report(), null, 2))`，将三份带 `url` 和 `styleIds` 的结果与必要截图归档。实际操作顺序和结果必须明确；不能把未出现的事件补写为 PASS。
+
+**Console 临时采集代码（逐页复制）**：
+
+```javascript
+(() => {
+  if (window.__aduiF010) {
+    console.warn("F-010 采集器已存在；刷新页面后重新开始");
+    return;
+  }
+  const byId = (id) => document.getElementById(id);
+  const events = [];
+  const removers = [];
+  const watch = (target, type, handler) => {
+    if (!target) throw new Error("缺少 Fixture 元素: " + type);
+    target.addEventListener(type, handler, true);
+    removers.push(() => target.removeEventListener(type, handler, true));
+  };
+  const push = (type, data = {}) => events.push({ type, ...data });
+  watch(document, "focusin", (event) => {
+    const element = event.target;
+    if (!(element instanceof HTMLElement)) return;
+    const style = getComputedStyle(element);
+    push("focusin", {
+      target: element.id || element.tagName.toLowerCase(),
+      trusted: event.isTrusted,
+      focusVisible: element.matches(":focus-visible"),
+      outlineStyle: style.outlineStyle,
+      outlineWidth: style.outlineWidth,
+      boxShadow: style.boxShadow,
+    });
+  });
+  watch(byId("button"), "click", (event) =>
+    push("button-click", { trusted: event.isTrusted }));
+  watch(byId("input"), "input", (event) =>
+    push("input", { trusted: event.isTrusted, length: event.target.value.length }));
+  watch(byId("details"), "toggle", (event) =>
+    push("details-toggle", { open: event.target.open, trusted: event.isTrusted }));
+  watch(byId("until-found"), "beforematch", (event) =>
+    push("beforematch", { trusted: event.isTrusted }));
+  watch(byId("dialog"), "cancel", (event) =>
+    push("dialog-cancel", { trusted: event.isTrusted }));
+  watch(byId("dialog"), "close", (event) =>
+    push("dialog-close", { trusted: event.isTrusted }));
+  window.__aduiF010 = {
+    openDialog() {
+      const dialog = byId("dialog");
+      if (dialog.open) dialog.close();
+      dialog.showModal();
+    },
+    report() {
+      return {
+        url: location.href,
+        userAgent: navigator.userAgent,
+        styleIds: [...document.styleSheets].map((sheet) =>
+          sheet.ownerNode?.getAttribute("data-vite-dev-id") ?? null),
+        detailsOpen: byId("details").open,
+        dialogOpen: byId("dialog").open,
+        hiddenDisplay: getComputedStyle(byId("hidden")).display,
+        untilFoundAttribute: byId("until-found").getAttribute("hidden"),
+        inputLength: byId("input").value.length,
+        events: events.slice(),
+      };
+    },
+    stop() {
+      removers.forEach((remove) => remove());
+      delete window.__aduiF010;
+    },
+  };
+  console.info("F-010 已启动。请手动操作，结束后执行 copy(JSON.stringify(window.__aduiF010.report(), null, 2))");
+})();
+```
+
+**采集结果**：
+
+```javascript
+copy(JSON.stringify(window.__aduiF010.report(), null, 2));
+```
+
+### 验收标准及不确定性
+
+| 维度 | 目标证据 | 当前状态 |
+| --- | --- | --- |
+| CSS/页面来源 | 正确 URL、`styleIds` 指向对应 Reset 与模式 | 静态三组已核对；交互采集待执行 |
+| 键盘焦点 | 物理 Tab 产生 `focusin`，焦点环/焦点可见行为符合原生预期 | NOT_RUN |
+| 按钮、输入框 | 真实点击/输入，事件 `trusted:true`，输入长度变化 | NOT_RUN |
+| details | summary 键盘操作使 `open` 正常切换 | NOT_RUN |
+| dialog | `showModal()` 后真实 Esc 触发原生取消/关闭 | NOT_RUN |
+| until-found | 浏览器查找能揭示隐藏内容，必要时记录 beforematch 与属性变化 | NOT_RUN |
+| 跨引擎、系统偏好 | Firefox、WebKit、最低目标版本和系统强制色/减少动效 | NOT_RUN |
+
+此代码为 DevTools 手动取证工具，**不是自动化测试结果或交互质量结论**。事件有时会因开发者工具焦点、浏览器默认行为或元素当前状态而缺失；要记录阻塞而非凭空填 PASS。CSS 只含 R-003，若观察到差异先比对同一 Reset 的 Baseline，不能把不同 Reset 的默认视觉差异归咎本库。所有手动测试依然不能替代未来真实跨浏览器回归；**不增 CI，不发布或合并 main**。
+
 ## 1. 测试边界与版本
 
 | 独立场景                 | 仅安装在临时消费者中的固定直接依赖             | 实际加载的唯一第三方 Reset                                                                              |
