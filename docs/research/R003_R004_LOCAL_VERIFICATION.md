@@ -9,7 +9,7 @@
 
 | 目标环境                                 | 官方路径与版本依据                                                                                                                                                                                                               | 本次验证状态                       | 使用限制                                                                     |
 | ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- | ---------------------------------------------------------------------------- |
-| Chrome 120（桌面）                       | [Chrome for Testing 官方版本目录](https://github.com/GoogleChromeLabs/chrome-for-testing/blob/main/data/latest-versions-per-milestone-with-downloads.json) 的 milestone 120 提供 `120.0.6099.109`，含 Windows、macOS、Linux 构建 | **仅核对索引，未下载/运行**        | 记录实际完整版本；CfT 不等于已经覆盖普通 Chrome 用户配置                     |
+| Chrome 120（桌面）                       | [Chrome for Testing 官方版本目录](https://github.com/GoogleChromeLabs/chrome-for-testing/blob/main/data/latest-versions-per-milestone-with-downloads.json) 的 milestone 120 提供 `120.0.6099.109`，含 Windows、macOS、Linux 构建 | **已取得 T0/T1 JSON；差异 4 组**   | 记录实际完整版本；CfT 不等于已经覆盖普通 Chrome 用户配置                     |
 | Edge 120（桌面）                         | 已接受最低测试目标 120；当前**没有验证可用的官方旧版 Edge 离线发行物**                                                                                                                                                           | **环境待确认**                     | 不能直接把 CfT 120 的结果当成 Edge 120 实测                                  |
 | Firefox 121（桌面）                      | [Mozilla 官方 Firefox 121.0 发行归档](https://archive.mozilla.org/pub/firefox/releases/121.0/) 提供各系统目录与校验清单                                                                                                          | **仅核对归档目录，未下载/运行**    | 历史安装包应核对来源与校验值，不覆盖正常浏览器用户配置                       |
 | Safari 17.2（macOS）                     | [Apple 官方发布说明](https://developer.apple.com/documentation/safari-release-notes/safari-17_2-release-notes) 记载 2023-12-11，版本 `17.2 (19617.1.17)`；适用 Sonoma、Ventura、Monterey                                         | **无真实 Safari 17.2 测试记录**    | 必须记录真实 Safari 完整版本、macOS 版本及构建号；Playwright WebKit 不能替代 |
@@ -97,7 +97,7 @@ node tests/r003-evidence.mjs $native $candidate
 
 ### 1.2 Browser Workshop v1.0.0 实测注意事项
 
-维护者在 Windows 上使用 `E:\bws\bws.exe` 导入并启动 Chrome for Testing 120.0.6099.109，版本页截图确认独立 BWS Profile；R-003 T0/T1 已成功访问，原始 JSON 已交付（[结果与指纹](LOCAL_BROWSER_RUN_20261104.md#22-chrome-for-testing-12006099109r-003-真实差异已复现2026-11-04)）。
+维护者在 Windows 上使用 `E:\bws\bws.exe` 导入并启动 Chrome for Testing 120.0.6099.109，版本页截图确认独立 BWS Profile；R-003 T0/T1 已成功访问，原始 JSON 已交付（[结果与指纹](LOCAL_BROWSER_RUN_20261104.md)）。
 
 **命令行问题**：本次截图顶部出现 `--disable-extensions`、`--disable-background-networking`、`--proxy-server=...` 三个浏览器标签；版本页的命令行也有 URL 后跟 `--` 的痕迹。它们似乎被 BWS 作为**网页地址**传递，不能据此认为这些开关已生效。后续优先使用最简单、可复现的 BWS 启动命令，不传原生开关：
 
