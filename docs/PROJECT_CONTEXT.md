@@ -99,6 +99,8 @@
 
 **Vite+ 构建命令迁移（2026-11-04）**：维护者确认旧版 `npm run build` 运行成功、离线 Node 25/25 PASS，并要求直接使用 `vp dev`、`vp build`、`vp pack`。已移除 `scripts/build.mjs` 及旧 build script，`vite.config.ts` 新增 Vite CSS-only 库构建配置（目标 `dist/normalize.css`）和独立 tsdown CSS-only 试验配置（`dist-pack/`，不覆盖包根导出），Git 忽略该试验目录。新定向 Node 契约测试在独立 Node 22.16.0 环境 5/5 PASS；尚未在 Windows Vite+ 1.4.0 执行迁移后的 build/pack/check/test。仍保持 private、无新依赖、无 CI、无发布。详见[W-04 记录 §7.2](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)。
 
+**Vite+ 本机实测与后续修正（2026-11-04）**：维护者执行 `vp check` 55 文件格式与 11 Lint PASS，`vp test` 6/6，离线 Node 25/25，`vp dev` 成功；`vp pack` 生成仅一个 `dist-pack/normalize.css`（约 200 字节，无 JS），但 `vp build` 以 CSS 作为 Vite 库输入时触发 `cssCodeSplit: false` 错误。确认原 `dist/normalize.css` 的时间早于失败构建。开发分支已据此修改 `vite.config.ts`：`vp build` 只构建现有六张 Fixture HTML 到 `dist-fixtures/`，`vp pack` 使用实测的 CSS-only 入口生成 `dist/normalize.css`，包根导出不变。新配置在独立 Linux Node 22.16.0 中完成 Git blob 指纹匹配、定向契约测试 **6/6 PASS**，尚未重新执行 Windows 版 Vite+ build/pack。仍保持 `private: true`、无 CI、无 npm 发布。详见[W-04 记录 §7.3](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与下一阶段变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源
