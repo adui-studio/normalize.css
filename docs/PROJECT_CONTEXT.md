@@ -91,6 +91,8 @@
 
 **最新补充（2026-11-04，Firefox 121）**：维护者 Windows Firefox 121 的 R-003 T0/T1 CLI 结果为 `NO_COMPUTED_DIFFERENCE`、0 差异/0 候选失败；两份原始 JSON 已独立解析核对。具体指纹与六组数值见[本机记录 §2.4](research/LOCAL_BROWSER_RUN_20261104.md)。Chrome 120 与 Firefox 121 的局部真实测试并不等于所有目标浏览器兼容性已通过；R-003 继续评审，不准入发布 CSS。
 
+**Firefox 121 的 R-004 补充（2026-11-04）**：维护者使用 PowerShell 读取 T0/T1/T1b 三组 JSON，四个等宽元素在三页的父级和自身计算字号均为 16px；T1b 仅计算字体族变为 `monospace, monospace`。原始三份 JSON 本轮未上传，助手没有独立校验。另从 Firefox `about:support` JSON 核实正式 release `121.0`、Build ID `20231211174248`、Windows OS build `26200`；完整报告不公开。见[运行记录 §3.2.1](research/LOCAL_BROWSER_RUN_20261104.md)。R-004 继续不准入默认 CSS，Chrome 120/Edge 120/Safari 17.2 的 R-004 同类实验及用户偏好模拟仍缺。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与下一阶段变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源
