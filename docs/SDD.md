@@ -80,6 +80,17 @@ W-03 已验收后，W-04 下一项最小必要检查是 **`vp pack` 的真实 `d
 
 维护者反映 Windows 上反复 `vp check --fix` 是 CRLF→LF 行尾纠正。新增 `.gitattributes` 的 `* text=auto eol=lf` 与 `.editorconfig` 的 `end_of_line = lf`、UTF-8 和末尾换行规定，**不修改产品 CSS**。这解决后续 Git 检出与编辑器保存的统一策略，但是否消除既有工作区行尾问题，仍待维护者拉取后执行 `vp check` 核对；不对第三方 Skills 执行大规模 renormalize。
 
+### 2.7 W-04 Webpack 5 生产消费者最小验证（2026-11-04，设计）
+
+为覆盖尚未完成的 P-03，增加独立 `npm run test:webpack`。该命令**不参与** `vp check`、`vp test`、常规 `npm run test:offline`、`test:package` 或 `test:consumer`，避免日常本地开发隐式安装第三方工具。
+
+- 先 `vp pack` 生成唯一 `dist/normalize.css`；再用当前完整仓库的 `npm pack --offline --ignore-scripts` 生成真实 tarball，放在操作系统临时目录。
+- 在**独立临时消费者**安装真实 tarball 和固定版本 `webpack@5.112.2`，禁止运行安装脚本；该网络安装只发生在明确执行 `test:webpack` 时，不修改本仓库的 `package.json`、锁文件或根 `node_modules`，结束自动清理。没有 npm 网络或缓存时应如实报错，不能标为测试通过。
+- 通过 Webpack Node API（无需 `webpack-cli`）在 `mode: "production"`、`experiments.css: true`、`optimization.sideEffects: true` 下构建 JS 入口中的 `import "@adui/normalize.css"`；核对真实输出里有且只有预期的 R-003 CSS 内容，并确认从包导出的 CSS 源文件成功解析。Webpack 原生 CSS 能力在 5.x 仍属于实验接口，不以该场景通过就声称旧版 `css-loader` 链或所有 Webpack 5 项目完全兼容。
+- 本测试检验 **Webpack 5 生产产物保留 CSS**，不是页面实际计算样式或组件库回归；后者仍留给 W-06。基于 webpack 当前文档 <https://webpack.js.org/guides/native-css/>，严格区分已确认官方能力和本地待运行结论。
+
+仅有维护者 Windows 实际构建成功后，才能更新 P-03 状态；不安装额外项目依赖、不增加 CI、不提前关闭 Issue #5。
+
 ## 3. CSS 规则准入流程（拟议）
 
 1. **问题**：列出浏览器/版本、HTML Fixture、原生样式偏差及用户可见问题。
