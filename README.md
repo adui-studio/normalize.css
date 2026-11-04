@@ -115,6 +115,8 @@ npm run test:ecosystem -- react-antd
 
 两项生态构建首次运行可能需要 npm 网络。构建成功**不等于 UI 实际渲染兼容通过**；如需保留临时对照项目供浏览器人工测试，添加 `--keep`。详细步骤见 [W-06 生态对照指南](docs/research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)。TDesign、UnoCSS Reset 与 Tailwind Preflight 仍待后续独立测试。
 
+**最新 Windows 实测（2026-11-04）**：Vue + Element Plus 与 React + Ant Design 两组真实 tarball 的 Vite+ 生产构建均已 PASS；Vue `--keep` 已保留临时 T0/T2 项目用于浏览器对照。原 `npm run test:offline` 为 29/30 PASS：`tests/package.node.test.mjs` 仍断言旧六项清单，遗漏新增的第七项生态契约。该断言现已修正，**修复后的完整离线回归还需重新执行**。生产构建通过不等于浏览器组件外观或交互 PASS。
+
 ## Windows 换行符统一（LF）
 
 仓库新增 `.gitattributes` 的 `* text=auto eol=lf`，用于统一 Git 文本文件的换行；`.editorconfig` 要求 UTF-8、LF、文件末尾换行。JetBrains 编辑器应遵循项目 EditorConfig，防止 Windows 的 CRLF 在后续保存中反复触发 `vp check --fix`。**不要**为了此项配置执行 `git reset --hard`、批量 `git add --renormalize .` 或覆盖未提交的本地修改。
