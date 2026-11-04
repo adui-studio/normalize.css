@@ -1,6 +1,6 @@
 # CODEBASE_MAP — 仓库结构与定位
 
-**状态**：独立 W-03 开发分支已包含 Fixture、探针和 Vite+ 配置；Normalize CSS 正式入口未实现，首版最低浏览器版本尚未实测。区分开发分支、依赖的文档评审分支与 main。
+**状态**：开发分支已包含 Fixture、探针、Vite+、首条 R-003 Normalize CSS、静态构建脚本和包根 exports；发布、生态兼容与完整浏览器矩阵仍未验收。区分开发分支、依赖的文档评审分支与 main。
 
 ## 1. 当前真实文件
 
@@ -13,6 +13,8 @@ normalize.css/
 ├── .gitignore                # 本地依赖、构建产物忽略
 ├── package.json              # W-03/W-04：private、vite-plus 1.4.0、CSS 文件白名单/副作用元数据、离线测试脚本
 ├── vite.config.ts            # W-03：Vite+ 单元测试与上游 Skills 格式检查排除
+├── src/normalize.css         # W-05 首批：仅 R-003 的 b/strong 相对字重修正
+├── scripts/build.mjs        # W-04：复制静态 CSS 到 dist/，无 JS 发布产物
 ├── fixtures/                 # W-03 已存在：R-003/R-004 T0/T1 页面与探针
 │   ├── index.html
 │   ├── probe.js
@@ -78,31 +80,31 @@ normalize.css/
         └── 0005-viteplus-toolchain.md # Accepted
 ```
 
-W-03/W-04 开发分支基于尚未合并的文档评审分支；已增加测试 Fixture、离线 Node 测试、Vite+ 开发依赖**声明**以及 `files` / `sideEffects` 元数据，尚未安装依赖。以上内容在合并前均不能描述为 main 已存在；没有新增正式 Normalize CSS、运行时依赖或 CI。
+W-03/W-04/W-05 开发分支基于尚未合并的文档评审分支；已增加测试 Fixture、离线 Node 测试、Vite+ 开发配置、首条 R-003 CSS 和单一包根导出。`dist/` 仍为本机构建生成、Git 忽略目录，尚无发布包。以上内容在合并前均不能描述为 main 已存在；没有新增运行时依赖或 CI。
 
 ## 2. 尚不存在的路径（不据此创建占位）
 
 | 候选路径                        | 拟承担职责                  | 状态                                                  |
 | ------------------------------- | --------------------------- | ----------------------------------------------------- |
-| `src/`                          | CSS 源码分模块              | 规划中，**不存在**                                    |
+| `src/normalize.css`             | 默认 Normalize 唯一源码     | **开发分支已实现：仅 R-003**                          |
 | `dist/`                         | CSS 发布产物                | 规划中，**不存在**                                    |
-| `package.json` 的 CSS `exports` | 唯一根 CSS 入口             | **未实现**；当前仅开发工具声明，`private: true`       |
+| `package.json` 的 CSS `exports` | 唯一根 CSS 入口             | **开发分支已实现**；仍 `private: true`                |
 | `tests/`                        | W-03 Fixture 契约与探针测试 | **已存在**；浏览器回归仍未完成                        |
-| `scripts/`                      | 文档校验、构建与质量脚本    | 规划中，**不存在**                                    |
+| `scripts/build.mjs`             | 静态 CSS 构建               | **开发分支已实现**，仅复制 CSS，不增依赖              |
 | `.github/workflows/`            | CI/发布工作流               | **明确不规划**，项目禁止增加 CI；当前不存在           |
 | `.agents/skills/`               | 第三方原版 Skills           | 评审分支已纳入，main 尚无；来源见 [SKILLS](SKILLS.md) |
 
 ## 3. 程序入口与依赖调用链
 
-当前已有供本地使用的 Fixture HTML 页面、`fixtures/probe.js` 和测试入口；**没有**供消费者使用的 Normalize CSS 根入口、路由、后端 API、数据库或打包产物。
+当前开发分支已有供本地使用的 Fixture 与测试入口，以及 `src/normalize.css`、`scripts/build.mjs`、CSS 包根 exports。消费端必须先执行 `npm run build` 生成 `dist/normalize.css`；尚未发布或验证 Vite+/Webpack 生产消费者。项目没有路由、后端 API 或数据库。
 
-未来拟议的依赖路径（不可执行）：
+开发期的预期依赖路径（发布前仍需消费端验证）：
 
 ```text
 消费者应用
-  -> npm package CSS entry (待实现)
-     -> 默认 Normalize（MVP 唯一入口，待实现）
-        -> 目标浏览器渲染 (待测试)
+  -> npm package CSS entry (exports "." -> ./dist/normalize.css)
+     -> src/normalize.css（构建时原样复制，目前只有 R-003）
+        -> 目标浏览器渲染（仅有局部证据）
 ```
 
 ## 4. 常见任务从哪里开始
