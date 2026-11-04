@@ -33,7 +33,7 @@ normalize.css/
 │   ├── package-smoke.node.test.mjs  # 合成包烟测（普通 test:offline）
 │   ├── package-real.node.test.mjs   # W-04 真实包打包/安装（先 vp pack，再 test:package）
 │   ├── package-vite-consumer.node.test.mjs # W-04 Vite+ 生产 CSS 副作用消费检查（test:consumer）
-│   ├── ecosystem-fixtures.mjs       # W-06 Vue/React T0/T2 同源 JS/HTML 生成器
+│   ├── ecosystem-fixtures.mjs       # W-06 Vue/React/TDesign T0/T2 同源 JS/HTML 生成器
 │   ├── ecosystem-consumer.mjs       # W-06 隔离真实 tarball + 组件库 Vite+ 构建 CLI
 │   ├── ecosystem-contract.node.test.mjs # W-06 无网络隔离与依赖版本契约
 │   ├── probe.node.test.mjs
