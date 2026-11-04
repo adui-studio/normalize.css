@@ -5,7 +5,7 @@
 - **关联**：[W-02 / Issue #3](https://github.com/adui-studio/normalize.css/issues/3)、[W-03 / Issue #4](https://github.com/adui-studio/normalize.css/issues/4)、[验证指南](R003_R004_LOCAL_VERIFICATION.md)
 - **测试场景**：开发分支 `feat/viteplus-local-harness`，Vite+ 1.4.0，本地服务 `http://localhost:5173/`，Chrome UA 所示 `Chrome/156.0.0.0`、`Windows NT 10.0; Win64; x64`。
 - **重要限制**：UA 中的 `Windows NT 10.0` 不足以区分 Windows 10 与 Windows 11；`Chrome/156.0.0.0` 是简化 UA，**不是完整发行构建号**，需要使用 `chrome://version` 补充。未检查 DevTools UA 获胜声明和原始文件的完整性。原始截图未纳入仓库。
-- **当前仅完成 Chrome 120 桌面版一项最低版本的局部差异复现**：Chrome for Testing 120.0.6099.109 的 R-003 T0/T1 已实测；Edge 120、Firefox 121、Safari 17.2 及移动端仍然 `NOT_RUN`，尚未完成完整兼容性验收。
+- **当前已完成两种桌面引擎的部分最低版本 R-003 计算样式验证**：Chrome for Testing 120.0.6099.109 复现四组差异；Firefox 121 的 T0/T1 为零差异；Edge 120、Safari 17.2 及移动端仍为 `NOT_RUN`，尚未完成完整兼容性验收。
 
 ## 1. 本机实际命令结果
 
@@ -82,6 +82,19 @@ exit_code: 0
 六组详细结果与 §2.2 的原始 JSON 对照完全一致：`b-400` / `strong-400` 不变，`b-600` / `strong-600` / `b-700` / `strong-700` 由 `700` 变为 `900`。两份文件的 SHA-256 重新计算后，与 §2.2 的登记值一致。
 
 **证据边界**：这是基于仓库文件内容在独立容器复制运行比较器的结果，不是维护者 Windows 本机执行记录，也不等于在该容器重新启动 Chrome 120；尚未运行项目完整的 `vp check` / `vp test`。继续保留 DevTools UA 获胜声明、Firefox 121 等其他版本及组件库回归的待验证状态。
+
+## 2.4 Firefox 121.0：R-003 真实 T0/T1 字重无差异（2026-11-04）
+
+维护者通过 Windows PowerShell 使用仓库现有 `node tests/r003-evidence.mjs $native $candidate` 比较 Firefox 121 的 T0/T1 原始 JSON；**终端实际输出** `status: "NO_COMPUTED_DIFFERENCE"`、`differences: 0`、`candidateFailures: 0`，六行 `candidateMatches: true`。浏览器 UA 为 `Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0`；这可证明 UA 宣称 Firefox 121，但不是独立核验完整发行构建号或操作系统版本。
+
+用户上传的 `r003-native-ff121.json` 和 `r003-candidate-ff121.json` 经助手独立读取、结构与数据逐行核对：六个唯一 ID 相同；父级 400 下 `b`、`strong` 计算值均为 700，父级 600/700 下均为 900；T0/T1 的父级字重、父级与元素字号（16px）以及字体族（`sans-serif`）完全一致。当前 JSON 不证明 UA 默认声明来源或实际字体字形渲染。
+
+| 文件（仅本次对话附件，未提交公开仓库） | SHA-256 |
+| --- | --- |
+| `r003-native-ff121.json` | `3f10c15f8421580f936f758c4828a883bbda44f1e7cfe95030de0ce599214a48` |
+| `r003-candidate-ff121.json` | `39a42afee64a26ebc6432ed82a40f0c84e68f69c5d412d67a31f4b6c64603dc3` |
+
+**解释及边界**：与 Chrome for Testing 120.0.6099.109 的四组差异形成真实 Gecko/Blink 对照；本次 Firefox 121 计算样式未受额外候选规则影响，不代表所有 Firefox 版本、Firefox Android、真实字体渲染、正式 Normalize 包或 UI 框架均已通过。Firefox 121 的 `about:support` 完整构建 ID、DevTools UA 来源、嵌套字重与组件库回归仍待补充。R-003 保持条件性候选，不直接写入 CSS。
 
 ## 3. R-004：T1 有候选声明，但截图计算值没有变化（待诊断）
 
