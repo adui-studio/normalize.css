@@ -26,7 +26,7 @@ test("W-06 ecosystem fixtures keep T0/T2 only CSS import difference", () => {
   }
 });
 
-test("W-06 ecosystem consumer cases use Vue and React without SFC or JSX plugins", () => {
+test("W-06 ecosystem consumers cover Vue/React and TDesign without SFC or JSX", () => {
   const vue = ecosystemCases["vue-element"];
   const react = ecosystemCases["react-antd"];
   assert.ok(vue.source.some((line) => line.includes('from "vue"')));
