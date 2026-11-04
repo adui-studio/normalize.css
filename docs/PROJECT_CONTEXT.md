@@ -1,7 +1,7 @@
 # PROJECT_CONTEXT — 项目长期上下文
 
 **最近更新**：2026-11-04  
-**当前阶段**：五项 ADR 已接受／W-03 本地 Harness 已验收／W-04 包交付验收已结项（Issue #5 Closed）／W-05 36 条规则首版评审通过（Issue #6 结项同步中）／W-06 已正式验收归档（Issue #7 Closed）／W-07 发行前审核待完成／尚未发布
+**当前阶段**：五项 ADR 已接受／W-03 本地 Harness 已验收／W-04 包交付验收已结项（Issue #5 Closed）／W-05 36 条规则首版评审通过（Issue #6 Closed — completed）／W-06 已正式验收归档（Issue #7 Closed）／W-07 发行前审核待完成／尚未发布
 
 ## 1. 项目概况
 
