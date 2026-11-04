@@ -61,14 +61,16 @@ npm run test:ecosystem -- vue-tdesign # 可选：隔离 Vue + TDesign 真实消�
 
 ## 本地开发与复现（W-03）
 
-本分支已配置 Vite+ 1.4.0 作为**开发依赖**；维护者本机已成功执行 `pnpm install`，但**尚未核对提交到 Git 的锁文件**。Node.js 需满足 `^22.18.0 || ^24.11.0 || >=26.0.0`；具体安装完成后请生成并提交所选包管理器的锁文件。
+本分支已配置 Vite+ 1.4.0 作为**开发依赖**，并根据 W-07 决议统一使用 **pnpm 12.15.0**（`package.json#packageManager`）。Node.js 需满足 `^22.18.0 || ^24.11.0 || >=26.0.0`。**`pnpm-lock.yaml` 尚未在 GitHub 开发分支中生成或提交**，需由维护者在可访问 npm Registry 的 Windows 本机使用对应 pnpm 版本生成并验证，不得凭空填写依赖校验值。
 
 ```sh
-# 在有 npm 网络访问且 Node 版本满足要求时
-npm install
-npm exec -- vp check
-npm exec -- vp test
-npm exec -- vp dev
+# 在有 npm 网络访问、Node 满足要求且 pnpm 版本为 12.15.0 时
+pnpm --version
+pnpm install --lockfile-only  # 首次生成 pnpm-lock.yaml，提交到 Git
+pnpm install --frozen-lockfile
+pnpm exec vp check
+pnpm exec vp test
+pnpm exec vp dev
 ```
 
 打开本地 Vite+ 服务器提示的地址下的 `/fixtures/`，选择 R-003 的 T0 原生与 T1 候选页面；R-004 提供 T0 原生、T1 单独 `font-size: 1em`、T1b 只额外添加 `monospace, monospace` 字体族的风险对照。T1b **只用于调查 Chrome 的等宽字体偏好，不能作为正式 Normalize 规则**。维护者已在 Chrome 156 实测四个元素的计算字号为 T0 13px、T1 13px、T1b **16px**；完整目标浏览器与用户设置验证未完成。每页会展示可复制的计算样式 JSON。无需 Vite+ 安装也可以使用**内置 Node 测试**检验探针逻辑：
