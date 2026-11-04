@@ -4,10 +4,10 @@
 
 ## 验证范围
 
-| 组合               | 固定版本                                 | 页面元素                              | 实际结果              |
-| ------------------ | ---------------------------------------- | ------------------------------------- | --------------------- |
-| Vue + Element Plus | Vue 3.5.44、Element Plus 2.14.7          | 原生 b/strong/code、ElButton、ElInput | 构建 PASS；UI NOT_RUN |
-| React + Ant Design | React/React DOM 19.3.1、Ant Design 6.6.8 | 原生 b/strong/code、Button、Input     | 构建 PASS；UI NOT_RUN |
+| 组合               | 固定版本                                 | 页面元素                              | 实际结果                                     |
+| ------------------ | ---------------------------------------- | ------------------------------------- | -------------------------------------------- |
+| Vue + Element Plus | Vue 3.5.44、Element Plus 2.14.7          | 原生 b/strong/code、ElButton、ElInput | 构建 PASS；Chrome 156 静态 UI PASS；交互未测 |
+| React + Ant Design | React/React DOM 19.3.1、Ant Design 6.6.8 | 原生 b/strong/code、Button、Input     | 构建 PASS；UI NOT_RUN                        |
 
 版本仅用于**测试复现**，不是对用户项目的最低或最高兼容承诺。分别从官方 npm 公开包的稳定发布记录选取；不依赖 CDN，不使用未固定的 `latest`。TDesign / Tailwind Preflight / UnoCSS Reset 属 W-06 后续批次，不在本次宣布通过。
 
