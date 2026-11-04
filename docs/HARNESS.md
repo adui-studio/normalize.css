@@ -30,6 +30,8 @@
 
 **W-04 真实包验收脚本（2026-11-04）**：在合成 npm 烟测之外新增独立 `npm run test:package`，要求先执行 `vp pack`，随后对当前真实 `dist/normalize.css` 执行临时 npm tarball 打包、离线安装、根导出/非公开子路径/文件白名单及副作用元数据检查。测试不上传发布、无需网络或新增依赖，且不进入常规 26 项 `test:offline`。同一源文件的独立 Linux Node 22.16.0 代表性目录运行 **1/1 PASS**，但完整 GitHub 仓库和 Windows 环境尚未执行这一新测试，不能据此宣布 W-04 退出验收。见[W-04 §7.4](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)。
 
+**W-04 独立 Vite+ 生产消费脚本（2026-11-04）**：新增 `npm run test:consumer`，使用**真实 `vp pack` 产物和临时 npm tarball**安装到独立消费者，通过 `import "@adui/normalize.css"` 构建生产应用，检查 Vite+ 1.4.0 的 CSS 产物未被 tree shaking 丢弃。不额外安装 Vite+，消费端位于 Git 忽略的 `node_modules/.cache/` 中，结束后清理；该脚本**仅做过 Node 语法检查，尚未实际运行 Vite+ 构建**。P-02 待 Windows 实测，P-03 Webpack 5 仍待测。详见[W-04 §7.5](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)。
+
 ## 1. Harness 目标
 
 形成可重复的闭环：理解需求 → 影响分析 → 制定验证矩阵 → 最小修改 → 检查 → 定位失败 → 修复重验 → 记录结果。未来仅考虑维护者本地运行可复现检查并记录结果；项目明确**不增加任何 CI**，避免仅凭经验声称跨浏览器兼容。
