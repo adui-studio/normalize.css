@@ -100,6 +100,17 @@
 
 开发阶段不增加 CI，不创建 Release，不将测试包发布到 npm。
 
+## 7.2 Vite+ 内置命令迁移（2026-11-04）
+
+维护者提供迁移前本机结果：`npm run build` 的 Node 复制构建执行成功，`npm run test:offline` **25/25 PASS**。随后明确要求使用 **`vp dev`、`vp build`、`vp pack`**。当前开发分支已执行**代码配置迁移**，尚无这三个命令在迁移后的本机结果：
+
+- 删除旧 `scripts/build.mjs` 与 package script `build`，不再依赖 `npm run build`。**Vite+ 内置的 `vp build` 不会调用同名 package script**。
+- `vite.config.ts` 使用 `build.lib.entry: "src/normalize.css"`、`formats: ["es"]`、`cssFileName: "normalize"`、`cssMinify: false`，目标为 `dist/normalize.css`，不创建额外 JS 入口。是否仅有 CSS、输出名和规则内容准确，需以 Vite+ 1.4.0 的真实输出和更新后的 Node 契约测试确认。
+- `vp dev` 仍供现有 Fixture 页面使用。
+- `vite.config.ts` 中的 `pack.entry: ["src/normalize.css"]` 与 `css.fileName: "normalize.css"` 是对 tsdown CSS-only 唯一入口的**试验性配置**，结果隔离到 `dist-pack/` 并从 Git 忽略，`package.json` 的根导出仍指向 `dist/normalize.css`。如果 `vp pack` 失败或产生 JS，不应修改现有 npm 根导出强行适配；保留报错与产物列表，单独评审。
+- 修改后的 `tests/package.node.test.mjs` 在不依赖 Vite+ 的独立 Linux Node 22.16.0 环境执行 **5/5 PASS**；这是配置/源码和已存在 CSS 文件的契约检查，**不是** Vite+ 命令实际构建成功，也不是 Windows 完整测试通过。
+- `vp pack` 是 tsdown 库构建命令，**不是** `npm pack`；后者仍用于最终 tarball 的文件和导出边界检查。项目保持 `private: true`、零运行时 JS、无新增依赖或 CI。
+
 ## 8. 研究与事实边界
 
 - **已核对**：Vite+ CSS bundling 能力、Node `exports` 的路径与封装规则、Webpack CSS 副作用/打包行为、npm tarball 过滤机制。
