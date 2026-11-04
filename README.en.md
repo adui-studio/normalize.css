@@ -65,7 +65,7 @@ npm run test:ecosystem -- vue-element
 npm run test:ecosystem -- react-antd
 ```
 
-Add `--keep` to retain a temporary native/package pair for manual browser comparison. These cases are **not yet executed**, and a successful production build would not by itself prove UI rendering, keyboard behavior, or cross-browser compatibility. See the [local ecosystem verification guide](docs/research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md).
+Add `--keep` to retain a temporary native/package pair for manual browser comparison. **Both Vite+ production consumers have passed.** The maintainer also supplied Chrome 156 native/package screenshots for Vue + Element Plus: Button/Input mount in both, their static appearance matches, and all five computed-style samples are identical. This is a **Chrome 156 static UI comparison PASS**, not a keyboard interaction or broader browser compatibility guarantee. React + Ant Design still needs browser comparison. The offline test's outdated expected command was corrected, but the full suite has not been rerun after that fix. See the [local ecosystem verification guide](docs/research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md).
 
 ## Windows line endings
 
