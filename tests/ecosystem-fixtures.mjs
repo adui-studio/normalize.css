@@ -96,8 +96,12 @@ export function consumerSource(caseName, withNormalize) {
     "    userAgent: navigator.userAgent,",
     '    rows: ["b-600", "strong-600", "b-700", "strong-700", "code"].map(measure),',
     "    ui: {",
-    "      buttonMounted: Boolean(document.querySelector(" + JSON.stringify(config.buttonSelector) + ")),",
-    "      inputMounted: Boolean(document.querySelector(" + JSON.stringify(config.inputSelector) + ")),",
+    "      buttonMounted: Boolean(document.querySelector(" +
+      JSON.stringify(config.buttonSelector) +
+      ")),",
+    "      inputMounted: Boolean(document.querySelector(" +
+      JSON.stringify(config.inputSelector) +
+      ")),",
     "    },",
     "  };",
     "  window.__aduiEcosystemEvidence = evidence;",
