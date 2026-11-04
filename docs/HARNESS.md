@@ -16,6 +16,8 @@
 
 **R-003 Firefox 121 实测（2026-11-04）**：维护者在 Windows Firefox 121 真实页面中导出 T0/T1 JSON 并执行仓库 CLI，得到 `NO_COMPUTED_DIFFERENCE`、`differences: 0`、`candidateFailures: 0`。本次上传的原始两份 JSON 已独立解析，六组测量值与字体上下文一致；此为 Gecko 121 单环境计算样式证据，非 UA 声明来源、实际字体渲染、精确构建 ID 或完整发布兼容性证明。见[本机记录 §2.4](research/LOCAL_BROWSER_RUN_20261104.md)。
 
+**R-004 Firefox 121 本机观测（2026-11-04）**：维护者使用 PowerShell 读取三个已下载 Fixture JSON，报告 T0/T1/T1b 的四个等宽元素字号均为 16px；T0/T1 的计算字体族为 `monospace`，T1b 为 `monospace, monospace`。这是维护者终端输出，三份原始 R-004 JSON 尚未由助手独立解析。Firefox `about:support` 另提供 release Build ID `20231211174248`，文件包含环境敏感信息，公开文档只记录最小版本字段。R-004 默认不准入 CSS，详见[本机记录 §3.2.1](research/LOCAL_BROWSER_RUN_20261104.md)。
+
 ## 1. Harness 目标
 
 形成可重复的闭环：理解需求 → 影响分析 → 制定验证矩阵 → 最小修改 → 检查 → 定位失败 → 修复重验 → 记录结果。未来仅考虑维护者本地运行可复现检查并记录结果；项目明确**不增加任何 CI**，避免仅凭经验声称跨浏览器兼容。
