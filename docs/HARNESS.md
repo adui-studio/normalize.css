@@ -38,6 +38,8 @@
 
 **Windows 格式检查说明**：维护者 `git check-attr` 已确认 `auto/lf`，随后 `vp check --fix` 格式修复与 13 文件 Lint 通过。已提交的该次 diff 主要是 3 个 Markdown 表格列宽对齐，而非 CRLF→LF，不能将表格布局问题归因于 Git 属性失效；还需再执行一次 `vp check` 确认格式检查完全 PASS。
 
+**最新完整本地回归与任务清理（2026-11-04）**：维护者在 Windows 运行 `vp check`，**57 个文件格式 PASS / 13 个文件 Lint PASS**；`vp test` **6/6 PASS**；`vp pack` 单个 CSS PASS；`npm run test:offline` **26/26 PASS**；`npm run test:package` 真实 tarball **1/1 PASS**、`npm run test:consumer` Vite+ 生产消费 **1/1 PASS**。已核对 GitHub 关闭的 W-03 #4 和 W-04 #5 进度条源自历史阶段记录里的 Markdown `[ ]`；现把历史状态保留为普通文字，顶部当前阶段清单各 4/4，未完成的 T2、浏览器和组件库回归移交 W-06 #7，锁文件/包管理器策略核对移交 W-07 #8。**这不是把未执行的测试改为通过**。不新增 CI、不发布 npm。
+
 ## 1. Harness 目标
 
 形成可重复的闭环：理解需求 → 影响分析 → 制定验证矩阵 → 最小修改 → 检查 → 定位失败 → 修复重验 → 记录结果。未来仅考虑维护者本地运行可复现检查并记录结果；项目明确**不增加任何 CI**，避免仅凭经验声称跨浏览器兼容。
