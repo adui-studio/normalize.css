@@ -193,7 +193,7 @@ node tests/r003-evidence.mjs $native $candidate
 | `r004-risk-review.html`（T1）    | `font-size: 1em`                                                            | 原有单声明风险对照   |
 | `r004-family-review.html`（T1b） | 与 T1 相同的 `font-size: 1em`，**额外** `font-family: monospace, monospace` | 隔离重复字体族的影响 |
 
-T1b **不属于已批准的发布规则、不改变 R-004 默认排除决定**。维护者已在 **Chrome 156** 实测并提供截图：T0/T1 中四个元素均为 **13px**，T1b 均为 **16px**，`fontFamily` 为 `monospace, monospace`。**Firefox 121** 的 PowerShell JSON 表格进一步显示 T0/T1/T1b 四元素均为 **16px**，T1b 仅字体族发生变化；三个 Firefox 原始 JSON 尚未上传。见[运行记录 §3.2 与 §3.2.1](LOCAL_BROWSER_RUN_20261104.md)。这些结果只证明各自环境的计算样式；用户独立等宽字号配置、Chrome 120、Safari、移动端及 CJK 字形回归仍未验证。
+T1b **不属于已批准的发布规则、不改变 R-004 默认排除决定**。维护者已在 **Chrome 156** 实测并提供截图：T0/T1 中四个元素均为 **13px**，T1b 均为 **16px**，`fontFamily` 为 `monospace, monospace`。**Firefox 121** 的 PowerShell JSON 表格进一步显示 T0/T1/T1b 四元素均为 **16px**，T1b 仅字体族发生变化；三个 Firefox 原始 JSON 尚未上传。见[运行记录 §3.2 与 §3.2.1](LOCAL_BROWSER_RUN_20261104.md)。**Chrome 120** 随后也完成三组页面实测，四元素的 T0/T1 均为 **13px**、T1b 均为 **16px**，与 Chrome 156 相同；这批 Chrome 120 数据来自维护者读取本地 JSON 的终端输出，三份原始文件尚未上传。见[运行记录 §3.2.2](LOCAL_BROWSER_RUN_20261104.md)。这些结果只证明各自环境的计算样式；用户主动修改等宽字号偏好、Edge 120、Safari、移动端及 CJK 字形回归仍未验证。
 
 ## 4. 逐次执行记录模板（开发后使用）
 
