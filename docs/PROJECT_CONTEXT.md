@@ -171,6 +171,8 @@
 
 **2026-11-04 · W-07 P-01 已提交锁文件的静态复核（最新）**：维护者确认已提交；经 GitHub 开发分支读取，`pnpm-lock.yaml` 确实已入库（blob SHA `b2a572124b5434bc10fdf91c4f2c4aefcf426520`），为唯一根锁文件。文件采用 pnpm 12 的**双 YAML 文档**格式：环境文档的 `packageManagerDependencies.pnpm` 锁定 **12.15.0**，项目依赖文档的 root importer 锁定 **`vite-plus@1.4.0`**，与 `package.json` 一致，且包含 sha512 完整性记录。**P-01 的缺锁文件阻塞已解除（GitHub 静态 PASS）**；当前对话尚未附本次 `pnpm install --frozen-lockfile`、`vp check`、`vp test`、`test:offline`、真实包与消费测试日志，因此冻结安装与最终 P-06 复核均未宣称 PASS。已同步 [W-07 审核记录](research/W07_RELEASE_READINESS_REVIEW.md) 与双语 README；W-07 Issue #8 保持 Open，正式版本、npm metadata、scope 授权和公开浏览器兼容声明仍需审查。无产品 CSS、依赖、CI、发布或主分支变更。
 
+**2026-11-05 · W-07 P-06 最新 Windows 本地质量回归**：维护者提供完整 PowerShell 输出：`vp check --fix` 格式化完成、19 个文件 Lint 无警告错误；`vp test` **7/7 PASS**；`pnpm run test:offline` **33/33 PASS**；`vp pack` 输出唯一 `dist/normalize.css`（0.20 kB，gzip 0.18 kB）；`pnpm run test:package` **1/1 PASS**；`pnpm run test:consumer` **1/1 PASS**。这些均是维护者实际日志，不是助手独立运行，已纳入 [W-07 最新审核记录](research/W07_RELEASE_READINESS_REVIEW.md)。**尚无本轮 `pnpm install --frozen-lockfile` 输出、`git status`（`vp check --fix` 可能修改文件）和 `npm pack --dry-run` 日志**；W-07 Issue #8 不关闭。包元数据、正式版本、npm scope 及对外兼容性声明仍待单独核实；未修改产品 CSS、CI、发布开关或合并 main。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与待决策变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源
