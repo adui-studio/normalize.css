@@ -1,7 +1,7 @@
 # R-003 / R-004 规则证据卡：粗体语义与等宽字体字号
 
 - **日期**：2026-11-03
-- **状态**：上游标准与 UA 源码研究完成第一轮；**R-003 已取得 Chrome 120 真实 T0/T1 计算字重差异证据与 Chrome 156 零差异对照；其他最低目标未测，未批准 CSS 实现**。
+- **状态**：上游标准与 UA 源码研究完成第一轮；**R-003 已取得 Chrome 120 的 4 组差异、Firefox 121 与 Chrome 156 的 0 组差异证据；其余最低目标未测，未批准 CSS 实现**。
 - **关联**：FR-001、FR-007、NFR-001/002/007 · [规则总表](RULE_REVIEW.md) · [Baseline 2023 映射](BASELINE_2023_MAPPING.md) · [本地复现执行指南](R003_R004_LOCAL_VERIFICATION.md) · [MVP 实施计划](../plans/MVP_IMPLEMENTATION_PLAN.md) · [Issue #3](https://github.com/adui-studio/normalize.css/issues/3)。
 
 ## 1. 证据状态
@@ -12,9 +12,9 @@
 | B — 浏览器 Bug / 上游提交 | Chromium StrongBolder、WebKit 289297              | 某版本/分支历史默认行为与修复时点            |
 | U — UA 源码快照           | Chromium、Gecko、WebKit 固定版本/提交             | 该源代码快照写明的 UA 样式                   |
 | U — 竞品源代码            | modern-normalize、CSSTools normalize.css 固定 SHA | 上游维护者采用的策略，不能证明当前修复仍必要 |
-| T — 本项目真实测试        | Chrome 120/156 的 R-003 JSON、R-004 截图          | CfT 120 四组差异；其他旧版仍未测             |
+| T — 本项目真实测试        | Chrome 120/156、Firefox 121 R-003 JSON            | Chrome 120 有差异；Gecko 121 无差异          |
 
-本卡包含 S/B/U 类研究证据，以及**Chrome 120 与 Chrome 156 的有限 T 类实际计算样式数据**；源码不是浏览器运行结果，Chrome 120 也不等于其他引擎或平台已验收。
+本卡包含 S/B/U 类研究证据，以及**Chrome 120、Firefox 121、Chrome 156 的有限 T 类实际计算样式数据**；源码不是浏览器运行结果，这些单环境结果也不等于全部目标平台已验收。
 
 ## 2. R-003 — `b` / `strong` 字重
 
@@ -48,10 +48,10 @@ strong {
 
 ### 2.3 与本项目 Baseline 2023 的关系
 
-维护者已经批准 Baseline 2023 映射的 Chrome/Edge 120、Firefox 121、Safari 17.2（含相应移动核心家族）作为**首版最低测试目标**，详见 [BASELINE_2023_MAPPING](BASELINE_2023_MAPPING.md)。本项目**仍没有**上述版本的真实浏览器验证或正式兼容性声明。
+维护者已经批准 Baseline 2023 映射的 Chrome/Edge 120、Firefox 121、Safari 17.2（含相应移动核心家族）作为**首版最低测试目标**，详见 [BASELINE_2023_MAPPING](BASELINE_2023_MAPPING.md)。Chrome 120 与 Firefox 121 已获得 R-003 的真实计算样式证据，**仍没有**完整目标矩阵或正式兼容性声明。
 
 - Chromium 120 的 UA 源码确实使用固定 `bold`，与 HTML 标准的 `bolder` 有差别。
-- [Firefox 121 官方发布日为 2023-12-19](https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/121)。原先引用 2023-12-22 的 Gecko 快照晚于发行日；已改用**更早的 2023-10-19 源码**（使用 `bolder`）作为历史依据。**两者都不能替代 Firefox 121 精确发行版的实测**。
+- [Firefox 121 官方发布日为 2023-12-19](https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/121)。原先引用 2023-12-22 的 Gecko 快照晚于发行日；已改用**更早的 2023-10-19 源码**（使用 `bolder`）作为历史依据。**此源码证据不能替代浏览器实测；Firefox 121 现已有 T0/T1 实际计算样式数据（见 §2.9），但完整构建 ID 与 UA 样式来源仍待核对**。
 - [WebKit 2023-12-10 固定提交](https://github.com/WebKit/WebKit/blob/e9d3bfd635935ca09fd161b9bccba90c413a1602/Source/WebCore/css/html.css) 也明确写为 `font-weight: bold`，这增强了 Safari 17.2 时期旧行为的源码证据；**它不是 Safari 17.2 精确发行标签或实机运行结果**。2025 年 WebKit Bug 又提供了该历史行为的修复时间线。
 - W-01 已把七项版本定为**最低测试目标**，因此 R-003 不能仅因 2025 年浏览器已修复就排除，必须在最低目标版本中优先验证；是否进入默认 CSS 仍以真实复现、低侵入与组件库回归为门槛。
 
@@ -87,7 +87,7 @@ strong {
 4. 同时记录无库 Baseline、仅单条候选声明、实际包入口三种状态。
 5. 真实 Safari/iOS 与 Playwright WebKit 分开记录。
 
-### 2.5 首版最低目标下的复现验收矩阵（Chrome 120 桌面已实测，其余未测）
+### 2.5 首版最低目标下的复现验收矩阵（Chrome 120、Firefox 121 桌面已实测）
 
 | 测试环境                                   | UA 源码预期（不是实测）           | parent=400 | parent=600                  | parent=700                  | 阻塞条件                                                                    |
 | ------------------------------------------ | --------------------------------- | ---------- | --------------------------- | --------------------------- | --------------------------------------------------------------------------- |
@@ -124,6 +124,12 @@ strong {
 **证据等级**：Chrome 120 桌面 CfT、单一 Windows 环境、真实计算样式对照；这是对旧版 Blink UA 行为与候选修复效果的**实测支持**。助手随后在独立 Linux Node.js 22.16.0 容器中，根据仓库当前 `tests/r003-evidence.mjs`、`tests/evidence-file.mjs` 的实际内容复制临时模块并执行真实比较，得到 `COMPUTED_DIFFERENCE_OBSERVED`、`differences: 4`、`candidateFailures: 0`、退出码 0（详见[运行记录 §2.3](LOCAL_BROWSER_RUN_20261104.md)）。维护者 Windows 本机运行该批文件的 CLI 日志尚未收到。完整版本以截图而非简化 UA 为准，原始附件的 SHA-256 和详细环境限制见[运行记录 §2.2](LOCAL_BROWSER_RUN_20261104.md)。
 
 **继续准入评审而非直接实现**：需从 DevTools Styles 明确 UA 获胜声明，补充嵌套字重、显式用户样式/焦点与 UI 组件库回归；Edge 120、Firefox 121、Safari 17.2 与移动端不得借用 Chrome 120 的结果。当前正式 Normalize CSS 未实现，R-003 仍是有真实差异证据的条件性候选。
+
+### 2.9 Firefox 121 T0/T1 真实对照（2026-11-04）
+
+维护者已在 Windows 执行 `node tests/r003-evidence.mjs` 对 Firefox 121 两份 JSON 进行比较，终端返回 `NO_COMPUTED_DIFFERENCE`、`differences: 0`、`candidateFailures: 0`。助手独立读取两份原始附件，核对六组数据：父级 400 时 `b`、`strong` 的 T0/T1 均为 700；父级 600 和 700 时两页均为 900。T0/T1 的字体上下文完全一致，字体族为 `sans-serif`，字号 16px。原始文件 SHA-256 见[运行记录 §2.4](LOCAL_BROWSER_RUN_20261104.md)。
+
+**证据边界**：Firefox 121 的 UA 字符串与页面角色一致，真实计算样式结果符合旧 Gecko 源码预期；尚未提供 `about:support` 完整构建 ID、UA 规则获胜声明、真实字体渲染及 UI 组件库回归。R-003 是否加入产品默认 CSS 仍需单独准入评审；当前不实施。
 
 ## 3. R-004 — `code` / `kbd` / `samp` / `pre` 等宽字体与字号
 
@@ -209,8 +215,8 @@ console.log(value);</pre>
 ## 4. 当前决策对 W-01 / W-02 的影响
 
 1. W-01 已将 Baseline 2023 的七项映射版本确认为**首版最低测试目标**；Chrome for Testing 120 已取得真实差异证据，其余目标浏览器仍需各自发行版本的运行证据。
-2. W-02 的 R-003 已取得 CfT 120 与 Chrome 156 的真实浏览器计算样式对照，但仍需 Edge 120、Firefox 121、Safari 17.2 与移动端；R-004 已在 Chrome 156 观察到 T1b 计算字号变化，仍须测试用户 monospace 字号偏好是否保留。
+2. W-02 的 R-003 已取得 CfT 120、Firefox 121 与 Chrome 156 的真实计算样式对照；仍需 Edge 120、Safari 17.2 与移动端。R-004 已在 Chrome 156 观察到 T1b 计算字号变化，仍须测试用户 monospace 字号偏好是否保留。
 3. Chrome 120 的四组差异支持 R-003 进入进一步准入评审，但不足以证明所有最低目标浏览器行为；两个候选均不得因此直接进入正式 CSS。
-4. 本卡引用维护者提供的 **Chrome 156 与 CfT 120 截图、Console 计算样式及 R-003 两组原始 T0/T1 JSON**，不是助手独立执行浏览器；尚无 Safari、Firefox、Edge 120、真实字体加载回归或完整浏览器矩阵。
+4. 本卡引用维护者提供的 **Chrome 156、CfT 120 截图、Firefox 121 CLI 输出及三组 T0/T1 JSON**，不是助手独立执行浏览器；尚无 Safari、Edge 120、真实字体加载回归或完整浏览器矩阵。
 
 **结论**：R-003 是首版已批准最低版本目标下的**必测条件性 Normalize 候选**；R-004 的字号统一会覆盖用户偏好，当前不应进入默认 Normalize。两个候选均未实现正式 Normalize；R-004 已在 Chrome 156 局部实测，但未通过完整浏览器矩阵，Issue #3 保持 Open。
