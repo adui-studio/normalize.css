@@ -29,11 +29,17 @@ test("W-06 ecosystem fixtures keep T0/T2 only CSS import difference", () => {
 test("W-06 ecosystem consumers cover Vue/React and TDesign without SFC or JSX", () => {
   const vue = ecosystemCases["vue-element"];
   const react = ecosystemCases["react-antd"];
+  const tdesign = ecosystemCases["vue-tdesign"];
   assert.ok(vue.source.some((line) => line.includes('from "vue"')));
   assert.ok(vue.source.some((line) => line.includes('from "element-plus"')));
   assert.ok(react.source.some((line) => line.includes('from "react-dom/client"')));
   assert.ok(react.source.some((line) => line.includes('from "antd"')));
-  for (const spec of [vue, react]) {
+  assert.ok(tdesign.source.some((line) => line.includes('from "tdesign-vue-next"')));
+  assert.ok(
+    tdesign.source.some((line) => line.includes('tdesign-vue-next/es/style/index.css')),
+  );
+  assert.equal(tdesign.packages["tdesign-vue-next"], "1.20.10");
+  for (const spec of [vue, react, tdesign]) {
     assert.ok(spec.source.every((line) => !line.includes("https://")));
   }
   assert.throws(() => consumerSource("unsupported", true), /Unknown ecosystem case/);
