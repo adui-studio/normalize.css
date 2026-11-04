@@ -93,6 +93,8 @@
 
 **Firefox 121 的 R-004 补充（2026-11-04）**：维护者使用 PowerShell 读取 T0/T1/T1b 三组 JSON，四个等宽元素在三页的父级和自身计算字号均为 16px；T1b 仅计算字体族变为 `monospace, monospace`。原始三份 JSON 本轮未上传，助手没有独立校验。另从 Firefox `about:support` JSON 核实正式 release `121.0`、Build ID `20231211174248`、Windows OS build `26200`；完整报告不公开。见[运行记录 §3.2.1](research/LOCAL_BROWSER_RUN_20261104.md)。R-004 继续不准入默认 CSS，Chrome 120/Edge 120/Safari 17.2 的 R-004 同类实验及用户偏好模拟仍缺。
 
+**R-004 Chrome 120 补充（2026-11-04）**：维护者从现有三个 Fixture 的本地 JSON 读取到四元素相同结果：T0/T1 为 13px、T1b 为 16px，与 Chrome 156 一致；Firefox 121 的三页均为 16px。Chrome 120 原始三份 JSON 未上传，记录为终端实测而非助手独立文件复核。该对照不证明用户主动修改字体偏好的结果，R-004 继续排除默认 CSS。详见[运行记录 §3.2.2](research/LOCAL_BROWSER_RUN_20261104.md)。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与下一阶段变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源
