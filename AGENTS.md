@@ -6,6 +6,8 @@
 
 **W-06 最新本机实测（2026-11-04）**：维护者已运行 Vue + Element Plus、React + Ant Design 两组真实 tarball **Vite+ 生产构建 PASS**，并保留 Vue 的临时 T0/T2 工程。`test:offline` 本轮为 **29/30 PASS、1 FAIL**，仅因旧清单断言未包括新增第七项生态测试；已同步更新 `tests/package.node.test.mjs`，最新离线重跑仍待确认。Vue + Element Plus 已有维护者 Chrome 156 的 T0/T2 页面截图：Button/Input 均挂载且静态视觉一致，五个字重/字号探针相同，**该浏览器静态 UI PASS**；React + Ant Design 也有维护者 Chrome 156 的 T0/T2 页面截图：Button/Input 正常挂载且五项计算样式一致，**两组生态静态 UI 均 PASS**；两组交互、其他浏览器和 TDesign/Reset 生态仍待测。**不增加 CI、根依赖或产品 CSS**。
 
+**W-06 最新状态（2026-11-04）**：维护者已在 Windows 重新运行 `npm run test:offline`，真实输出 **30/30 PASS、0 FAIL**，此前六项/七项离线测试清单的断言问题已解决。新增第三个隔离生态场景 `vue-tdesign`（Vue 3.5.44 + TDesign Vue Next 1.20.10），复用现有 Vite+、真实 tarball、T0/T2 生成器，不安装根项目依赖、不修改产品 CSS、CI 或发布配置。新生成器和三组 JS 来源隔离已静态检查通过；**新增场景的完整 Node/Vite+ 构建和浏览器测试尚未在 Windows 执行**。此前 Vue+Element Plus、React+Ant Design 生产构建及 Chrome 156 静态对照 PASS 记录继续有效。
+
 ## 1. 项目事实
 
 - 仓库：[adui-studio/normalize.css](https://github.com/adui-studio/normalize.css)，npm 包目标名：`@adui/normalize.css`。
