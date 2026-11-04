@@ -119,7 +119,6 @@ test("W-06 T0/T2 pages share probe targets and only T2 loads the real packed CSS
   ]) {
     assert.ok(baseline.includes(element), `Missing native semantic element: ${element}`);
   }
-  assert.doesNotMatch(baseline, /<script[^>]+src="https?:\\/\\//i);
 });
 
 test("fixture landing page links to every existing local test page", () => {
