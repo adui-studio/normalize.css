@@ -147,6 +147,12 @@ W-03 的 T0/T1 只验证浏览器原生值与孤立候选规则；W-04 已证明
 
 自动构建门槛是两组 Vite+ 构建与真实 CSS 保留；浏览器门槛是相同 Chrome/系统环境的 T0/T2 Button/Input 成功挂载、R-003/R-004 五个计算样式点以及实际焦点/输入表现单独核验。测试场景以官方包的实际导出为准，错误不得解释成 Normalize 兼容失败。此测试脚本在开发分支提交后状态为 **NOT_RUN**，直到维护者 Windows 实际执行。未来 Tailwind Preflight 与 UnoCSS Reset 仍按各自引入顺序独立研究，不与 UI 库混合测试。
 
+### 2.16 W-06 / F-010 双 Reset 互不污染的实际测试资产（2026-11-04）
+
+TDesign 对照已获维护者完成反馈，后续直接验证第三方 Reset。开发分支新增 `tests/reset-fixtures.mjs`、`tests/reset-consumer.mjs`、`tests/reset-contract.node.test.mjs`，并在 `package.json` 中添加手动 `test:reset` 与离线测试引用。每个被测 Reset 在 Git 忽略的独立临时消费者中使用真实 `vp pack` tarball，仅以 CSS 导入顺序区分 `baseline`、`normalize-first` 和 `normalize-last`；Tailwind Preflight、UnoCSS v4、UnoCSS compat **互不同时加载**。继续复用 Vite+ 1.4.0 和当前唯一 CSS 根导出；默认 Normalize CSS 仍只有 R-003，未增加 Layer、Reset 或其他产品规则。
+
+**测试结果边界**：代码及生成隔离关系已静态核对；维护者 Windows 上的第三方依赖安装、生产构建与浏览器渲染/交互未运行。后续依据 [F-010 独立执行指南](research/W06_RESET_LOCAL_VERIFICATION.md) 保存实际产物哈希、计算样式和 CSS Cascade 胜出规则，不能将 `b,strong` 重复的 `bolder` 声明自动视为破坏性冲突。
+
 ## 3. CSS 规则准入流程（拟议）
 
 1. **问题**：列出浏览器/版本、HTML Fixture、原生样式偏差及用户可见问题。
