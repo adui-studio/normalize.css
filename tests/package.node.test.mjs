@@ -30,17 +30,51 @@ test("R-003 is the only product rule; browser-default monospace remains untouche
   assert.equal(stylesheet.includes("https://"), false);
 });
 
-test("Vite+ config separates vp dev, vp build and experimental vp pack", () => {
+test("Vite+ config builds local HTML fixtures and packs only CSS", () => {
   const source = readFileSync(new URL("vite.config.ts", root), "utf8");
-  assert.match(source, /lib:\s*\{\s*entry:\s*"src\/normalize\.css"/);
-  assert.match(source, /cssFileName:\s*"normalize"/);
-  assert.match(source, /cssMinify:\s*false/);
-  assert.match(source, /pack:\s*\{/);
-  assert.match(source, /outDir:\s*"dist-pack"/);
+  assert.match(source, /rolldownOptions:\s*\{/);
+  assert.match(source, /input:\s*fixtures/);
+  assert.match(source, /outDir:\s*"dist-fixtures"/);
+  assert.match(source, /entry:\s*\["src\/normalize\.css"\]/);
+  assert.match(source, /outDir:\s*"dist"/);
+  assert.doesNotMatch(source, /lib:\s*\{/);
   assert.doesNotMatch(source, /scripts\/build\.mjs/);
+
+  for (const name of [
+    "index",
+    "r003-native",
+    "r003-candidate",
+    "r004-native",
+    "r004-risk-review",
+    "r004-family-review",
+  ]) {
+    assert.ok(source.includes(`"${name}"`), `Missing fixture input: ${name}`);
+  }
 });
 
-test("vp build output, if present, contains only the Normalize CSS", () => {
+test("vp build preview, if present, includes all six fixture HTML pages", () => {
+  const directory = new URL("dist-fixtures/", root);
+  if (existsSync(directory)) {
+    const outputs = readdirSync(directory, { recursive: true }).map((name) =>
+      name.replaceAll("\\", "/"),
+    );
+    for (const name of [
+      "index",
+      "r003-native",
+      "r003-candidate",
+      "r004-native",
+      "r004-risk-review",
+      "r004-family-review",
+    ]) {
+      assert.ok(
+        outputs.some((output) => output.endsWith(`/${name}.html`) || output === `${name}.html`),
+        `Missing preview HTML: ${name}.html`,
+      );
+    }
+  }
+});
+
+test("vp pack output, if present, contains only the Normalize CSS", () => {
   const outputDirectory = new URL("dist/", root);
   const built = new URL("dist/normalize.css", root);
   if (existsSync(outputDirectory)) {
