@@ -113,6 +113,8 @@
 
 **W-04 范围收敛与结项决策（2026-11-04）**：维护者明确 Vite+ 为唯一开发与打包工具链，Webpack 不参与本库 CSS 生成与使用，亦不作为 W-04 必须测试的生产消费者。已删除 `tests/package-webpack-consumer.node.test.mjs` 和 `test:webpack` 命令，修订[包验收矩阵](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)和 ADR-0005 后续实施说明。既有真实结果：`vp pack` 唯一 CSS、`test:package` 1/1 PASS、`test:consumer` 1/1 PASS，满足当前包交付 DoD；P-03 记为**范围外**，不伪装成测试通过。开发态/浏览器直接引用/无障碍/组件库回归留 W-06，公开 npm 发布/Release 留 W-07；保持 `private: true`、`0.0.0`，不改产品 CSS、不新增依赖或 CI。前文有关 Webpack 阶段计划与待测的记录属于历史事实，以本条决策为当前状态。GitHub [Issue #5](https://github.com/adui-studio/normalize.css/issues/5) 已以 Completed 关闭；不等于 W-06/W-07 通过。**本轮更改后最新 Windows `vp check` 和全套测试尚待执行**。
 
+**最新 Windows 回归与 GitHub 任务列表清理（2026-11-04）**：维护者提供 `vp check` 57 文件格式与 13 文件 Lint PASS、`vp test` 6/6 PASS、`vp pack` 单 CSS PASS、离线 Node 26/26、真实包 1/1、独立 Vite+ 生产消费 1/1 PASS。原已 Closed 的 Issue #4 仍显示 23/48、Issue #5 仍显示 9/14，是因为历史阶段中的 `[ ]` Markdown 清单也被 GitHub 累计。现保留全部历史状态文本但退出当前待办统计，两个已结项 Issue 顶部当前验收清单分别 4/4、4/4；尚未验证的 T2、系统偏好、浏览器/组件库回归明确转交 W-06 #7，开发环境锁文件策略核对转交 W-07 #8。PR 仍未合并，包仍 private，未发布、无 CI。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与下一阶段变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源
