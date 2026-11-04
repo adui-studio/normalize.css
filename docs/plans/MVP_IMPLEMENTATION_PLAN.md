@@ -89,6 +89,8 @@ R-003 已因首版最低目标包含旧版 Blink/WebKit 而列为**优先必测�
 
 **已有部分研究结果**：W-01 的 [Baseline 2023 最低目标](../research/BASELINE_2023_MAPPING.md) 已批准且源数据/时间线一致；W-02 的 [R-003/R-004 专项证据卡](../research/RULE_EVIDENCE_R003_R004.md) 已补充 Blink 120/WebKit 2023 快照，R-003 最低目标必测；Vite+ 工具链已按 ADR-0005 选定。
 
+**W-04 近期补充（2026-11-04）**：维护者已真实执行修订后的 `vp build`（六张 Fixture HTML 与探针 JS）、`vp pack`（仅 `dist/normalize.css` 200 字节）和离线 Node 26/26，W-03 已以完成关闭 #4；W-04 已增加独立 `npm run test:package`（真实 tarball/安装）和 `npm run test:consumer`（真实 Vite+ 生产 CSS 保留）的本地脚本，**尚待 Windows 本机实跑**。P-03 Webpack 5、组件库和正式发布检查仍未完成。详见[W-04 记录 §7.4～§7.5](CSS_PACKAGE_DELIVERY_REVIEW.md)。
+
 **未完成**：完整最低浏览器 UA/OS/设备测试、正式发行兼容性声明、WebView/Safari/组件库回归、锁文件提交确认、Windows 最新全量检查、Vite+/Webpack 生产消费者和实际完整仓库 npm tarball 验收。维护者本机 `vp check` 已通过、Chrome 156 的 R-003 原始 JSON 比较已完成；W-03 已获取 Chrome 120 桌面版 R-003 四组真实 JSON 差异、Firefox 121 零差异证据，Edge 120、Safari 17.2、移动端及组件库仍未测；W-04 已有真实 CSS 根导出、静态构建与独立环境的局部打包验证，但正式交付验收未完成；W-05 首条 R-003 规则已开发，后续规则与 W-06/W-07 尚未完成。
 
 **授权区分**：维护者已明确允许开始开发，当前优先实施 W-03 本地 Harness。**仍不推定**已授权合并 PR、发布 npm、创建 Release 或新增任何 CI。真正 CSS 规则须先完成证据准入。
