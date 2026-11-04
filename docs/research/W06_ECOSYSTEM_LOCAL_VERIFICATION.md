@@ -1,6 +1,6 @@
 # W-06 · Vue / React / TDesign 实际生态消费对照
 
-**状态（2026-11-04）**：维护者 Windows 最新 `npm run test:offline` 已实测 **30/30 PASS、0 FAIL**，确认此前旧清单断言错误已修复。Vue 3 + Element Plus、React + Ant Design 的真实 tarball Vite+ 生产构建以及 Chrome 156 T0/T2 静态 UI 对照均已 PASS（终端日志和截图），其组件完整键盘/输入交互与其他浏览器仍待验证。新增 **Vue 3 + TDesign Vue Next 1.20.10** 独立消费脚本，已核对生成 JavaScript 语法及 T0/T2 仅差 Normalize CSS 导入；**TDesign 实际安装、生产构建和浏览器 UI 仍 NOT_RUN**。本轮代码变更后的完整离线测试也尚待重新执行。
+**状态（2026-11-04）**：维护者 Windows 最新 `npm run test:offline` 已实测 **30/30 PASS、0 FAIL**，确认此前旧清单断言错误已修复。Vue 3 + Element Plus、React + Ant Design 的真实 tarball Vite+ 生产构建以及 Chrome 156 T0/T2 静态 UI 对照均已 PASS（终端日志和截图），其组件完整键盘/输入交互与其他浏览器仍待验证。新增 **Vue 3 + TDesign Vue Next 1.20.10** 独立消费脚本，已核对生成 JavaScript 语法及 T0/T2 仅差 Normalize CSS 导入；**该句为新增场景时的历史状态**；维护者现已反馈 TDesign 对照完成，待整理最新执行证据。本轮代码变更后的完整离线测试也尚待重新执行。
 
 ## 验证范围
 
@@ -8,9 +8,15 @@
 | ---------------------- | ---------------------------------------- | ---------------------------------------- | -------------------------------------------- |
 | Vue + Element Plus     | Vue 3.5.44、Element Plus 2.14.7          | 原生 b/strong/code、ElButton、ElInput    | 构建 PASS；Chrome 156 静态 UI PASS；交互未测 |
 | React + Ant Design     | React/React DOM 19.3.1、Ant Design 6.6.8 | 原生 b/strong/code、Button、Input        | 构建 PASS；Chrome 156 静态 UI PASS；交互未测 |
-| Vue + TDesign Vue Next | Vue 3.5.44、TDesign Vue Next 1.20.10     | 原生 b/strong/code、TDesign Button/Input | 构建 NOT_RUN；浏览器 NOT_RUN                 |
+| Vue + TDesign Vue Next | Vue 3.5.44、TDesign Vue Next 1.20.10     | 原生 b/strong/code、TDesign Button/Input | 维护者反馈对照已完成；待归档实测环境/证据    |
 
 版本仅用于**测试复现**，不是对用户项目的最低或最高兼容承诺。分别从官方 npm 公开包的稳定发布记录选取；不依赖 CDN，不使用未固定的 `latest`。TDesign 已加入本地生态消费脚本但仍未实际运行；Tailwind Preflight、UnoCSS Reset 仍属后续独立批次，均不得宣布兼容通过。
+
+## 2026-11-04 · TDesign 对照完成反馈与 F-010 接续
+
+维护者在当前对话中明确说明：**TDesign 对照已经完成**。该反馈作为 W-06 / F-009 当前阶段状态记录，不要求再次重复测试。由于本轮未新提供 TDesign 消费构建日志、T0/T2 JSON、浏览器截图或实际操作表，当前只能登记 **“维护者报告完成，证据尚待归档”**，不能把所有目标浏览器、全组件交互与无障碍细项自动标为 PASS。
+
+接下来直接转向 [Tailwind Preflight 与 UnoCSS Reset 的独立 F-010 验证](W06_RESET_LOCAL_VERIFICATION.md)：已建立三种独立场景的 Vite+ 真实 tarball 验证命令与离线契约；代码写入不等于已实测。W-06 Issue #7 保持 Open，F-009 的既有 Vue/React 静态证据保持有效。
 
 ## 一、生产构建验证
 
