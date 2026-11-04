@@ -115,7 +115,7 @@ npm run test:ecosystem -- react-antd
 
 两项生态构建首次运行可能需要 npm 网络。构建成功**不等于 UI 实际渲染兼容通过**；如需保留临时对照项目供浏览器人工测试，添加 `--keep`。详细步骤见 [W-06 生态对照指南](docs/research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)。TDesign、UnoCSS Reset 与 Tailwind Preflight 仍待后续独立测试。
 
-**最新 Windows 实测（2026-11-04）**：Vue + Element Plus 与 React + Ant Design 两组真实 tarball 的 Vite+ 生产构建均已 PASS；Vue `--keep` 已保留临时 T0/T2 项目用于浏览器对照。原 `npm run test:offline` 为 29/30 PASS：`tests/package.node.test.mjs` 仍断言旧六项清单，遗漏新增的第七项生态契约。该断言现已修正，**修复后的完整离线回归还需重新执行**。Vue + Element Plus 已在 Chrome 156 的 T0/T2 浏览器截图中确认 Button/Input 挂载正常、静态外观及五项计算样式一致，**静态 UI 对照 PASS**。两页的 Vue feature flags 警告和 favicon 404 相同，未发现可归因于 Normalize 的样式冲突。**Vue 交互及 React + Ant Design 浏览器对照仍未完成**；生产构建通过不自动等于键盘/输入兼容 PASS。
+**最新 Windows 实测（2026-11-04）**：Vue + Element Plus 与 React + Ant Design 两组真实 tarball 的 Vite+ 生产构建均已 PASS；Vue `--keep` 已保留临时 T0/T2 项目用于浏览器对照。原 `npm run test:offline` 为 29/30 PASS：`tests/package.node.test.mjs` 仍断言旧六项清单，遗漏新增的第七项生态契约。该断言现已修正，**修复后的完整离线回归还需重新执行**。Vue + Element Plus 已在 Chrome 156 的 T0/T2 浏览器截图中确认 Button/Input 挂载正常、静态外观及五项计算样式一致，**静态 UI 对照 PASS**。两页的 Vue feature flags 警告和 favicon 404 相同，未发现可归因于 Normalize 的样式冲突。**React + Ant Design 也已提供 Chrome 156 的 T0/T2 截图**：Button/Input 均挂载成功，静态外观一致，五项计算样式与原生组相同，因此其静态 UI 对照亦为 PASS。**两组的键盘、输入行为、其他浏览器及 TDesign/Reset 生态仍未完成**；构建或静态截图不能自动代表交互兼容 PASS。
 
 ## Windows 换行符统一（LF）
 
