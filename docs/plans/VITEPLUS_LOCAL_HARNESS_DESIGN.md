@@ -1,6 +1,6 @@
 # Vite+ 本地 Harness：开发前设计与准入规范
 
-- **状态**：W-03 正在开发；维护者本机已安装并执行 Vite+ 与 Chrome 156 Fixture，**格式检查未通过、最低目标浏览器未测、包构建未进行**；详见 [首轮运行](../research/LOCAL_BROWSER_RUN_20261104.md)。
+- **状态**：W-03 本地 Harness 已在维护者 Windows 环境完成格式、Lint、单测及 Chrome 156 R-003 T0/T1 JSON 比较；**最低目标浏览器未测、正式 CSS 包未构建**。详见[本机运行记录](../research/LOCAL_BROWSER_RUN_20261104.md)。
 - **日期**：2026-11-03
 - **任务**：[W-03 / Issue #4](https://github.com/adui-studio/normalize.css/issues/4)
 - **正式依据**：[ADR-0005](../adr/0005-viteplus-toolchain.md)、[MVP 计划](MVP_IMPLEMENTATION_PLAN.md)、[W-02 复现指南](../research/R003_R004_LOCAL_VERIFICATION.md)
@@ -49,6 +49,8 @@ tests/
 旧版浏览器只建议使用隔离的本地离线环境；不要登录真实账号或将其替换为日常默认浏览器。真实 Safari/iOS 与 Playwright WebKit 不可混为一谈。
 
 **2026-11-04 本机结果补充**：`pnpm install` 成功（peer warning 待核查），`npm run test:offline` 22/22、`npm exec -- vp test` 5/5、`npm exec -- vp dev` 正常；`npm exec -- vp check` 有 66 个格式失败，旧 Chrome/Firefox/Safari 版本仍未实测，锁文件未提供。不要将原执行容器的历史阻塞描述覆盖为本机结果。
+
+**2026-11-04 最新执行补充**：维护者确认 `vp check` PASS（54 个文件格式、11 个文件 Lint），`vp test` 6/6、`npm run test:offline` 23/23、单独包烟测 1/1 均通过，且 Windows `DEP0190` 警告不再出现。Chrome 156 的 R-003 原始 T0/T1 JSON 比较器返回 `NO_COMPUTED_DIFFERENCE`，六组计算字重一致。这是本机真实测试，不等于 Chrome/Edge 120、Firefox 121、Safari 17.2 及移动端已通过。历史阶段记录保留，不将早期失败作为当前结果。
 
 ## 4. 执行结果的记录格式（规划）
 
