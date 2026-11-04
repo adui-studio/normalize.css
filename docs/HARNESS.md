@@ -12,6 +12,8 @@
 
 **本机第四轮验证与真实 JSON 比较（2026-11-04）**：维护者在 Windows 上重新执行 `vp check`（54 文件格式/11 文件 Lint PASS）、`vp test`（6/6 PASS）、`npm run test:offline`（23/23 PASS），并单独运行合成 npm 包烟测（1/1 PASS）；两次 Node 测试均不再出现 `DEP0190`。维护者随后运行 R-003 原始 T0/T1 JSON 比较器，得到 `NO_COMPUTED_DIFFERENCE`、`differences: 0`、`candidateFailures: 0`；本次对话附件也已被独立解析核对。完整构建号和旧版浏览器矩阵仍未验证。详见[本机运行记录](research/LOCAL_BROWSER_RUN_20261104.md)。
 
+**R-003 Chrome 120 独立复核（2026-11-04）**：维护者已上传官方 Chrome for Testing 120.0.6099.109 / Windows 11 的 T0/T1 JSON，六组中有四组从计算字重 700 变为 900。助手使用当前仓库比较器内容的独立临时副本，在 Linux Node 22.16.0 实际运行得到 `COMPUTED_DIFFERENCE_OBSERVED`、`differences: 4`、`candidateFailures: 0`、退出码 0；这不是 Windows 本机的 CLI 执行，也不等于 Chrome 120 以外浏览器已验证。Firefox 121 的独立 Profile 测试流程已列入[验证指南](research/R003_R004_LOCAL_VERIFICATION.md)，尚未执行。
+
 ## 1. Harness 目标
 
 形成可重复的闭环：理解需求 → 影响分析 → 制定验证矩阵 → 最小修改 → 检查 → 定位失败 → 修复重验 → 记录结果。未来仅考虑维护者本地运行可复现检查并记录结果；项目明确**不增加任何 CI**，避免仅凭经验声称跨浏览器兼容。
