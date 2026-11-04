@@ -11,6 +11,8 @@ normalize.css/
 ├── README.en.md              # 本轮文档：英文概览
 ├── AGENTS.md                 # Agent 规则入口
 ├── .gitignore                # 本地依赖、构建产物忽略
+├── .gitattributes            # Git 对所有文本统一检出 LF，不依赖 Windows autocrlf
+├── .editorconfig             # 编辑器 UTF-8、LF 与文件末尾换行约定
 ├── package.json              # W-03/W-04：private、vite-plus 1.4.0、CSS 文件白名单/副作用元数据、离线测试脚本
 ├── vite.config.ts            # W-03：Vite+ 单元测试与上游 Skills 格式检查排除
 ├── src/normalize.css         # W-05 首批：仅 R-003 的 b/strong 相对字重修正
