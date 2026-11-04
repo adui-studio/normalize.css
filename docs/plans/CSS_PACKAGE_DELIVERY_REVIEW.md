@@ -111,9 +111,33 @@
 - 修改后的 `tests/package.node.test.mjs` 在不依赖 Vite+ 的独立 Linux Node 22.16.0 环境执行 **5/5 PASS**；这是配置/源码和已存在 CSS 文件的契约检查，**不是** Vite+ 命令实际构建成功，也不是 Windows 完整测试通过。
 - `vp pack` 是 tsdown 库构建命令，**不是** `npm pack`；后者仍用于最终 tarball 的文件和导出边界检查。项目保持 `private: true`、零运行时 JS、无新增依赖或 CI。
 
+## 7.3 Vite+ 1.4.0 实际反馈与构建职责修订（2026-11-04）
+
+维护者的 Windows PowerShell 实测证据：
+
+| 命令 | 本机结果 | 证据边界 |
+| --- | --- | --- |
+| `vp check` | PASS：55 文件格式、11 文件 Lint | 修订构建配置前 |
+| `vp test` | PASS：6/6 | 修订构建配置前 |
+| `npm run test:offline` | PASS：25/25 | 修订构建配置前 |
+| `vp dev` | PASS：Vite+ 1.4.0 本地服务就绪 | 原 Fixture 页面开发服务 |
+| `vp build` | **FAIL**：`cssCodeSplit: false` 与 CSS 输入冲突 | 此前 `build.lib.entry = "src/normalize.css"` 的配置不适用 |
+| `vp pack` | **PASS**：只生成 `dist-pack/normalize.css`，200 字节，无 JS | 证明 Vite+ 1.4.0 已能原生直接打包 CSS-only 入口 |
+
+**纠正旧方案**：Vite 的 library mode 默认 `cssCodeSplit: false`，当前 Rolldown 拒绝将 CSS 文件直接作为这种模式的输入。鉴于 `vp pack` 已真实验证，**不通过制造 JS 入口或强制修改 Vite 的 CSS 拆分行为来绕过错误**。
+
+已修改开发分支：
+
+- `vp build`：使用 `build.rolldownOptions.input` 指向仓库已有的六张原生 HTML Fixture，输出 **`dist-fixtures/`**。这属于本地测试预览，可能包含 HTML/JS，绝不进入 npm 的 `files: ["dist"]`。
+- `vp pack`：保留实测成功的 `pack.entry = ["src/normalize.css"]` 和 `pack.css.fileName = "normalize.css"`，输出从 `dist-pack/` 调整为 **`dist/`**，与唯一根 `exports["."] = "./dist/normalize.css"` 一致；`private: true`、零运行时 JS、不增依赖均保持。
+- `tests/package.node.test.mjs` 现在独立验证两类产物：预览 HTML 六页与单一 CSS。修订代码文件在独立 Linux Node 22.16.0 环境通过 Git blob SHA 匹配及 **6/6 Node 定向契约测试**。本环境没有 Vite+ 1.4.0，**修订后的 `vp build` 和 `vp pack` 尚未实跑**，完整 Windows 离线套件也尚未重跑。
+- 原来 `dist/normalize.css` 的文件时间为 10:37，早于失败的 `vp build`；不能把旧产物当作当前构建通过证据。旧 `dist-pack/` 产物与 `dist-fixtures/` 均不作为发布内容。
+
+下一步维护者只需 `vp check`、`vp build`、`vp pack`、`npm run test:offline`（需要时再执行 `vp test`）；观察 `dist-fixtures/` 的六个 HTML 与 `dist/` 唯一 CSS。真正 npm tarball 与 Vite+/Webpack 消费端仍需独立验证，当前不发布。
+
 ## 8. 研究与事实边界
 
 - **已核对**：Vite+ CSS bundling 能力、Node `exports` 的路径与封装规则、Webpack CSS 副作用/打包行为、npm tarball 过滤机制。
-- **尚未确认**：纯 CSS `vp pack` 的实际输出、根入口对 CSS / JS 导入的兼容性、`style` 元数据的消费者支持、真实 tarball 与副作用测试。
+- **已实测**：CSS 直接作为 Vite+ 1.4.0 `vp pack` 唯一入口成功；**尚未确认**：调整至 `dist/` 后的实际产物、Vite+ HTML 预览构建、根入口对 CSS/JS 消费端的兼容性、`style` 元数据的消费者支持、完整仓库真实 tarball 与副作用测试。
 - **尚未实施**：源码、包配置、依赖、浏览器、构建、发布、CI。
 - **对 ADR-0003 的关系**：该 ADR 的“首版唯一根 CSS 入口”仍为 Accepted；**本文不是新增 ADR，也不擅自改变已接受的公共接口**。
