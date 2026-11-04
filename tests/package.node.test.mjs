@@ -47,12 +47,14 @@ test("Vite+ config builds local HTML fixtures and packs only CSS", () => {
     "r004-native",
     "r004-risk-review",
     "r004-family-review",
+    "t2-native",
+    "t2-package",
   ]) {
     assert.ok(source.includes(`"${name}"`), `Missing fixture input: ${name}`);
   }
 });
 
-test("vp build preview, if present, includes all six fixture HTML pages", () => {
+test("vp build preview, if present, includes all eight fixture HTML pages", () => {
   const directory = new URL("dist-fixtures/", root);
   if (existsSync(directory)) {
     const outputs = readdirSync(directory, { recursive: true }).map((name) =>
@@ -65,6 +67,8 @@ test("vp build preview, if present, includes all six fixture HTML pages", () => 
       "r004-native",
       "r004-risk-review",
       "r004-family-review",
+      "t2-native",
+      "t2-package",
     ]) {
       assert.ok(
         outputs.some((output) => output.endsWith(`/${name}.html`) || output === `${name}.html`),
