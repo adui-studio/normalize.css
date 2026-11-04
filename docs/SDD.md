@@ -57,6 +57,17 @@
 
 本次 Vite+ 命令配置修订后，仍需维护者重新执行 `vp build`、`vp pack` 和离线测试，核实 HTML 预览与 CSS 发布产物各自只有预期内容；未执行的测试不得记为通过。保留 `private: true` 和禁用 CI、发布的约束。
 
+### 2.4 W-04 真实包离线安装检查（2026-11-04）
+
+W-03 已验收后，W-04 下一项最小必要检查是 **`vp pack` 的真实 `dist/normalize.css`，而非合成 CSS 烟测**。为不打断普通单测，在 `npm run test:offline` 之外提供单独的 `npm run test:package`（先运行 `vp pack`）：
+
+- 对完整当前仓库执行 `npm pack --offline --ignore-scripts --json`，将临时 tarball 定向到系统临时目录；不调用 `npm publish`。
+- 核对真实包的 `LICENSE`、`README.md`、`dist/normalize.css`、`package.json`，拒绝发布测试资产、源码和 JS 包装文件。
+- 从临时 tarball 离线安装到新的独立临时消费目录，对照实际构建 CSS 的字节、根 `exports`、`sideEffects` 和未公开子路径限制；清理全部临时内容。
+- 此项**仅覆盖实际打包、安装和文件解析**，并不等于 Vite+/Webpack 生产消费者的 CSS 副作用保留和页面视觉效果已通过。后两项仍需独立验证。
+
+新增测试应当不依赖网络、无新增依赖，且没有生成任何 GitHub Actions 或 CI。实际运行结果以维护者的本机输出为准。
+
 ## 3. CSS 规则准入流程（拟议）
 
 1. **问题**：列出浏览器/版本、HTML Fixture、原生样式偏差及用户可见问题。
