@@ -159,6 +159,8 @@
 
 **2026-11-04 · UnoCSS 双 Reset 原生交互完成反馈（最新）**：维护者在前述 Tailwind 原生交互逐页 JSON 验证通过后，对接下来的 UnoCSS `tailwind-v4` 和 `tailwind-compat` 两套独立方案明确反馈“全部验证通过了”。按既定 Chrome 156 / baseline、normalize-first、normalize-last 原生交互验收范围登记为 **维护者人工反馈 PASS**；此轮并未附带 UnoCSS 三页逐项事件 JSON，不能把该反馈写作助手已独立核查的 `trusted:true` 或 `beforematch` 原始记录。两套 UnoCSS 此前各自 3/3 真实构建及三模式 168 项静态零差异证据保持有效；三套独立 Reset 在 Chrome 156 的本地阶段可记已完成，未发现 R-003 引入顺序问题。**W-06 Issue #7 仍 Open**：Firefox/WebKit/目标旧版、系统偏好和完整表单/无障碍仍未获本批证据，不将单一 Chrome 环境的完成扩大为全平台 PASS。见 [W-06 Reset 验证记录](research/W06_RESET_LOCAL_VERIFICATION.md)，未修改产品 CSS、依赖或 CI。
 
+**2026-11-04 · W-06 跨浏览器回归已完成（维护者反馈）**：维护者在三套独立 Reset 的 Chrome 156 构建、静态对照和原生交互验证后，进一步确认“回归完成”。按最新反馈记录为 **“回归操作已完成，逐环境报告待归档”**，不安排重复已完成的本机操作。既有 Chrome 156 的 9/9 生产构建、三方案静态采样零差异、Tailwind Styles/原生交互日志以及 UnoCSS 人工交互 PASS 均保持有效。由于本轮未提供跨引擎回归的完整浏览器版本、OS/设备、Fixture、测试结果和豁免清单，**不擅自声明 Edge 120、Firefox 121、Safari 17.2、移动端、强制色与减少动效等逐项验收 PASS**；此前 Chrome 120 和 Firefox 121 的早期 R-003 数据仍按原记录看待。详见 [浏览器回归状态](research/BROWSER_REVIEW.md) 与 [Reset 验证记录](research/W06_RESET_LOCAL_VERIFICATION.md)。W-06 #7 保持 Open，下一步为正式验收材料归档与覆盖缺口裁定，暂不修改 CSS 或增加 CI/依赖/发布。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与待决策变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源
