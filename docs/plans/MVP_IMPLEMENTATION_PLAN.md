@@ -97,6 +97,8 @@ R-003 已因首版最低目标包含旧版 Blink/WebKit 而列为**优先必测�
 
 **W-04 最新本机结果（2026-11-04）**：维护者已运行 `vp pack`（单个 CSS）、`npm run test:package`（真实 tarball / 离线安装 **1/1 PASS**）、`npm run test:consumer`（独立 Vite+ 1.4.0 生产 CSS 导入 **1/1 PASS**）。P-01/06/07/09 达到当前包契约，P-02 的生产构建保留 CSS 子项通过；但 P-02 开发态/页面实际表现、P-03 Webpack 5 生产消费者未完成。另新增 Git `.gitattributes` 与 EditorConfig LF 统一配置，防止 Windows CRLF 反复触发格式修复；在维护者机器上的新配置仍待验证。W-04 #5 继续 Open；不合并或发布 npm、不增加 CI。
 
+**W-04 Webpack 5 待测补充（2026-11-04）**：已开发独立 `npm run test:webpack`，用真实 CSS tarball 和临时安装的固定 `webpack@5.112.2` 执行 Webpack 原生 CSS 生产打包检查；仅在显式运行时可能请求 npm 网络，不修改根依赖/锁文件或增加 CI。脚本已通过 Node 语法校验，但当前环境无法获取 Webpack，**P-03 仍 NOT_RUN**，W-04 #5 不关闭。另维护者 `git check-attr` 样本确认 LF；`vp check --fix` 提交差异为三处 Markdown 表格对齐，而非单纯 CRLF，完整 `vp check` 重跑仍待确认。
+
 ## 7. GitHub Issue 跟踪
 
 已基于仓库原版 [github-issues Skill](../../.agents/skills/github-issues/SKILL.md) 创建以下正式任务，全部为 Open / 未实施；Issue 在 GitHub 仓库可见，而本计划和 Issue/PR 模板仍位于 Draft PR #1 分支。
