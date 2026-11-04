@@ -34,7 +34,7 @@ normalize.css/
 | `package.json` | 包导出、开发命令、依赖 | 规划中，**不存在** |
 | `tests/` | Fixtures、静态与浏览器测试 | 规划中，**不存在** |
 | `scripts/` | 文档校验、构建与质量脚本 | 规划中，**不存在** |
-| `.github/workflows/` | CI/发布工作流 | 规划中，**不存在** |
+| `.github/workflows/` | CI 工作流 | **不规划、不新增 CI**；当前不存在 |
 | `.agents/skills/` | 经审核、确有价值的项目技能 | 尚无已安装 Skill |
 
 ## 3. 程序入口与依赖调用链
