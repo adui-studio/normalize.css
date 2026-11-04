@@ -157,6 +157,8 @@
 
 **2026-11-04 · Tailwind Preflight 三模式 `hidden="until-found"` 补验通过**：维护者补充 Chrome 156 的三个独立消费者（`localhost:5180/5181/5182`）最新 `window.__aduiF010.report()`；三份均出现 `beforematch` 且 `trusted:true`，最终 `untilFoundAttribute:null`，证明当前 Fixture 的浏览器查找揭示路径已触发，普通 `#hidden` 仍保持 `display:none`。这一**最新证据替代**上一条“查找揭示尚未确认”的历史阶段状态。结合已有可信按钮点击/输入、details 展开收起、dialog 取消关闭和焦点可见性记录，**Tailwind Preflight 在 Chrome 156 下三模式已覆盖的原生交互子项全部通过**，未发现 Normalize 引入顺序造成的回归。仍不能扩展为 Firefox/WebKit、系统偏好、复杂表单或 UnoCSS 独立交互的通过结论，F-010/W-06 保持部分完成。见 [W-06 Reset 验证记录](research/W06_RESET_LOCAL_VERIFICATION.md)；无产品 CSS、依赖、CI、发布或主分支合并变更。
 
+**2026-11-04 · UnoCSS 双 Reset 原生交互完成反馈（最新）**：维护者在前述 Tailwind 原生交互逐页 JSON 验证通过后，对接下来的 UnoCSS `tailwind-v4` 和 `tailwind-compat` 两套独立方案明确反馈“全部验证通过了”。按既定 Chrome 156 / baseline、normalize-first、normalize-last 原生交互验收范围登记为 **维护者人工反馈 PASS**；此轮并未附带 UnoCSS 三页逐项事件 JSON，不能把该反馈写作助手已独立核查的 `trusted:true` 或 `beforematch` 原始记录。两套 UnoCSS 此前各自 3/3 真实构建及三模式 168 项静态零差异证据保持有效；三套独立 Reset 在 Chrome 156 的本地阶段可记已完成，未发现 R-003 引入顺序问题。**W-06 Issue #7 仍 Open**：Firefox/WebKit/目标旧版、系统偏好和完整表单/无障碍仍未获本批证据，不将单一 Chrome 环境的完成扩大为全平台 PASS。见 [W-06 Reset 验证记录](research/W06_RESET_LOCAL_VERIFICATION.md)，未修改产品 CSS、依赖或 CI。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与待决策变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源
