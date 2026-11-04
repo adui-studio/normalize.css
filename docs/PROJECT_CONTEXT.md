@@ -1,6 +1,6 @@
 # PROJECT_CONTEXT — 项目长期上下文
 
-**最近更新**：2026-11-03  
+**最近更新**：2026-11-04  
 **当前阶段**：文档已迁移到 ADui Studio / 未开发
 
 ## 1. 项目概况
@@ -51,7 +51,8 @@
 - CSS Layers 与 UI 组件库存在潜在层优先级冲突，需要实测。
 - 下一阶段验证优先顺序已确认：W-06 TDesign 的 Chromium/Firefox/WebKit 对照 → Tailwind v4 Preflight 独立测试 → UnoCSS Reset 独立测试；不得在同一对照组叠加两套 Reset。完整矩阵与证据门槛记录于 [HARNESS](HARNESS.md) 第 6 节，所有新用例仍为**待执行**。
 - 第三方规则借鉴需独立审查许可证、差异证据和破坏性影响。
-- 本轮只能完成文档一致性检查，不能验证运行时与视觉兼容性。
+- 已补充 TDesign 的样式来源检查（含独立 `dist/reset.css`）、交互回归步骤、Chromium/Firefox/WebKit 记录方式，以及 Tailwind/UnoCSS 真实产物与层级归因条件，详见 [HARNESS](HARNESS.md) 第 6.6/6.7 节；**仍未运行实际浏览器测试**。
+- 本阶段只能完成文档一致性检查，不能验证运行时与视觉兼容性。
 
 ## 6. 文档索引和变更记录
 
@@ -61,6 +62,7 @@
 | --- | --- | --- |
 | 2026-11-03 | 初始工程文档创建于 adui-dev/normalize.css | 仅文档，无 CSS 或 CI |
 | 2026-11-03 | 迁移文档到 adui-studio/normalize.css | 保留目标仓库原有 LICENSE；原仓库未删除，Git 历史独立 |
+| 2026-11-04 | 扩展 W-06/Tailwind/UnoCSS 隔离验证设计 | 完善可复现步骤与 CSS 归因；未执行浏览器测试，无 CI |
 
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与下一阶段变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
