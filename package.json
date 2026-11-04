@@ -13,7 +13,8 @@
     ".": "./dist/normalize.css"
   },
   "scripts": {
-    "test:offline": "node --test tests/fixtures.node.test.mjs tests/package.node.test.mjs tests/package-smoke.node.test.mjs tests/probe.node.test.mjs tests/r003-evidence.node.test.mjs tests/evidence-file.node.test.mjs"
+    "test:offline": "node --test tests/fixtures.node.test.mjs tests/package.node.test.mjs tests/package-smoke.node.test.mjs tests/probe.node.test.mjs tests/r003-evidence.node.test.mjs tests/evidence-file.node.test.mjs",
+    "test:package": "node --test tests/package-real.node.test.mjs"
   },
   "devDependencies": {
     "vite-plus": "1.4.0"
