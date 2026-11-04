@@ -5,7 +5,7 @@
 - **关联**：[W-02 / Issue #3](https://github.com/adui-studio/normalize.css/issues/3)、[W-03 / Issue #4](https://github.com/adui-studio/normalize.css/issues/4)、[验证指南](R003_R004_LOCAL_VERIFICATION.md)
 - **测试场景**：开发分支 `feat/viteplus-local-harness`，Vite+ 1.4.0，本地服务 `http://localhost:5173/`，Chrome UA 所示 `Chrome/156.0.0.0`、`Windows NT 10.0; Win64; x64`。
 - **重要限制**：UA 中的 `Windows NT 10.0` 不足以区分 Windows 10 与 Windows 11；`Chrome/156.0.0.0` 是简化 UA，**不是完整发行构建号**，需要使用 `chrome://version` 补充。未检查 DevTools UA 获胜声明和原始文件的完整性。原始截图未纳入仓库。
-- **当前不是最低版本兼容性验收**：目标 Chrome/Edge 120、Firefox 121、Safari 17.2 及移动端仍然 `NOT_RUN`。
+- **当前仅完成 Chrome 120 桌面版一项最低版本的局部差异复现**：Chrome for Testing 120.0.6099.109 的 R-003 T0/T1 已实测；Edge 120、Firefox 121、Safari 17.2 及移动端仍然 `NOT_RUN`，尚未完成完整兼容性验收。
 
 ## 1. 本机实际命令结果
 
