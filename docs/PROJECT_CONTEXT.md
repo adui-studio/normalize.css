@@ -20,8 +20,8 @@
 | LICENSE                      | 已存在             | MIT，Copyright © 2026 ADui Studio                                                                           |
 | 八类工程资产                 | 文档初始化         | [AGENTS](../AGENTS.md)、需求、SDD、架构、上下文、代码地图、Skills、Harness                                  |
 | CSS 源码                     | **首条已实现**     | 开发分支 `src/normalize.css` 仅包含 R-003；R-004 保留原生默认                                               |
-| package.json、依赖、构建脚本 | **部分实现**       | 开发分支已有 `exports["."]`、Vite+ `vp build/pack` 配置；构建命令待实测，仍 private                         |
-| 自动化测试、浏览器回归       | **部分实现**       | 本机检查与 29 项测试通过；Chrome 120 四组差异；Firefox 121、Chrome 156 均零差异；其余未测                   |
+| package.json、依赖、构建脚本 | **部分实现**       | 单根 CSS、Vite+ 打包已实测；真实包与生产消费者测试均通过；仍 private                                        |
+| 自动化测试、浏览器回归       | **部分实现**       | 离线 Node 26/26、真实包 1/1、Vite+ 消费 1/1；浏览器仅部分完成                                               |
 | CI                           | **明确不规划**     | 项目约束：不增加任何 CI                                                                                     |
 | npm 包发布、版本号           | **未发布/未确定**  | 不能将先前讨论的草案版本当成仓库发布事实                                                                    |
 | 架构方案                     | **已接受／未实现** | ADR-0001～0005 均 Accepted；[MVP 实施计划](plans/MVP_IMPLEMENTATION_PLAN.md) 已建立，浏览器兼容承诺仍待验证 |
@@ -106,6 +106,8 @@
 **W-04 真实 tarball 验收补充（2026-11-04）**：在既有合成包烟测之外新增独立 `tests/package-real.node.test.mjs` 和 `npm run test:package`，要求先 `vp pack`。脚本对真实 `dist/normalize.css` 执行当前仓库 `npm pack --offline`、临时消费者安装、文件白名单、根导出和子路径封装验证；不会写入或发布正式 tarball，不新增依赖/CI。提交的脚本 Git blob SHA 与独立 Linux Node 22.16.0 代表性包目录运行的文件完全一致，**代表性目录 1/1 PASS**；真实 Windows 仓库测试尚未执行，故 W-04 #5 继续 Open，Vite+/Webpack 生产消费与 CSS tree shaking 仍未通过。详见[W-04 §7.4](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)。
 
 **W-04 生产消费者补充（2026-11-04）**：新增 `tests/package-vite-consumer.node.test.mjs` 和 `npm run test:consumer`，在 `vp pack` 后将真实 CSS tarball 离线安装到临时独立 Vite+ 1.4.0 消费项目，以 JS 副作用导入 `@adui/normalize.css` 并执行生产构建，再检查 CSS 产物保留。新增脚本已通过 Node 语法检查和 Git blob 指纹核对，但当前环境没有 Vite+ 1.4.0，**尚未获得真实生产构建输出**；P-02 继续待实测，P-03 Webpack 5 未测。`test:consumer` 与 `test:package` 均独立于 26 项普通离线测试，不引入额外依赖/CI。详见[W-04 §7.5](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)。
+
+**W-04 Windows 验收与 LF 规范（2026-11-04）**：维护者提供真实终端日志：`vp pack` 仅生成单个 `dist/normalize.css`（约 200 字节）；`npm run test:package` **1/1 PASS**，验证真实 tarball 清单、离线安装与根入口/私有子路径；`npm run test:consumer` **1/1 PASS**，验证独立 Vite+ 1.4.0 生产构建保留 CSS。P-01/P-06/P-07/P-09 已通过，P-02 生产打包子项通过（开发态及页面渲染待测），P-03 Webpack 5 尚未执行，W-04 [Issue #5](https://github.com/adui-studio/normalize.css/issues/5) 保持 Open。用户说明反复运行 `vp check --fix` 是为解决 Windows CRLF → LF；开发分支新增 `.gitattributes`（`* text=auto eol=lf`）与 `.editorconfig`（UTF-8、LF、末尾换行），配置需在维护者 Windows 本机复核，未批量重写追踪文件、不改变产品 CSS。没有新增依赖/CI、未发布 npm。见[W-04 §7.6](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)。
 
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与下一阶段变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
