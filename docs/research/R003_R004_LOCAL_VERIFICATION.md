@@ -28,14 +28,14 @@
 
 ```powershell
 $version = "120.0.6099.109"
-$root = Join-Path $env:LOCALAPPDATA "adui-normalize-browser-tests\\chrome-120"
+$root = Join-Path $env:LOCALAPPDATA "adui-normalize-browser-tests\chrome-120"
 $zip = Join-Path $root "chrome-win64.zip"
 New-Item -ItemType Directory -Force -Path $root | Out-Null
 
 Invoke-WebRequest -Uri "https://storage.googleapis.com/chrome-for-testing-public/$version/win64/chrome-win64.zip" -OutFile $zip
 Expand-Archive -Path $zip -DestinationPath $root -Force
 
-$chrome = Join-Path $root "chrome-win64\\chrome.exe"
+$chrome = Join-Path $root "chrome-win64\chrome.exe"
 if (-not (Test-Path $chrome)) { throw "Chrome for Testing executable not found" }
 Get-FileHash -Path $zip -Algorithm SHA256
 & $chrome --version
@@ -46,8 +46,8 @@ Get-FileHash -Path $zip -Algorithm SHA256
 在已启动 `vp dev`、外网已暂时断开后，从另一终端执行：
 
 ```powershell
-$root = Join-Path $env:LOCALAPPDATA "adui-normalize-browser-tests\\chrome-120"
-$chrome = Join-Path $root "chrome-win64\\chrome.exe"
+$root = Join-Path $env:LOCALAPPDATA "adui-normalize-browser-tests\chrome-120"
+$chrome = Join-Path $root "chrome-win64\chrome.exe"
 if (-not (Test-Path $chrome)) { throw "Chrome for Testing executable not found" }
 $profile = Join-Path $root "r003-profile"
 $args = @(
@@ -88,8 +88,8 @@ $args = @(
 T1 地址：`http://localhost:5173/fixtures/r003-candidate.html`。文件放在本机 Downloads 或临时目录，不加入公开仓库。浏览器关闭后恢复电脑网络，再运行现有比较器（路径按实际下载位置调整）：
 
 ```powershell
-$native = Join-Path $HOME "Downloads\\r003-native-120.json"
-$candidate = Join-Path $HOME "Downloads\\r003-candidate-120.json"
+$native = Join-Path $HOME "Downloads\r003-native-120.json"
+$candidate = Join-Path $HOME "Downloads\r003-candidate-120.json"
 node tests/r003-evidence.mjs $native $candidate
 ```
 
