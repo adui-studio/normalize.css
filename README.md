@@ -46,6 +46,7 @@ vp pack            # 构建唯一 CSS 包，输出 dist/normalize.css
 vp check           # 格式与 Lint 检查
 vp test            # Vitest 单元测试
 npm run test:offline
+npm run test:package  # vp pack 后，验证真实 npm tarball 与离线安装
 ```
 
 本机已验证 Vite+ 1.4.0 的 `vp pack` 能直接以 CSS 作为唯一入口、输出一个样式文件（测试时约 200 字节、无 JS）。因此现在由 **`vp pack` 生成 npm 根导出的 `dist/normalize.css`**。原先把 CSS 作为 `vp build` 库入口会触发 `cssCodeSplit: false` 与 CSS input 冲突，已改成 **`vp build` 负责构建现有六张 Fixture HTML**，结果隔离在 `dist-fixtures/`，不进入 npm 包。修订后的两项命令需要本机重新执行确认。如需在本地 HTML 试用，可直接用 `<link rel="stylesheet" href="/dist/normalize.css">`（前提是你的静态服务器确实提供该 URL）。若从本地构建的 npm tarball 安装到支持 CSS 导入的构建工具，可测试 `import "@adui/normalize.css";`，但 Vite+/Webpack 生产消费端兼容尚未正式验收。**不执行 npm publish**。
@@ -77,6 +78,8 @@ node tests/r003-evidence.mjs r003-native.json r003-candidate.json
 ```
 
 输出会区分 `COMPUTED_DIFFERENCE_OBSERVED`、`NO_COMPUTED_DIFFERENCE` 与 `CANDIDATE_MISMATCH`，但**不会自动证明 UA 缺陷、具体发行版本或实际字体渲染**。见 [R-003/R-004 本地验证指南](docs/research/R003_R004_LOCAL_VERIFICATION.md)。
+
+**W-04 新增真实包检查**：常规 `npm run test:offline` 使用合成 tarball 验证通用逻辑；新命令 `npm run test:package` 在 `vp pack` 之后执行，使用当前真实 `dist/normalize.css` 创建临时 tarball 并离线安装到独立消费者，检查根导出、CSS 字节、LICENSE/README、文件白名单、未公开子路径、`sideEffects` 和零运行时依赖，完成后自动清理。新脚本已在代表性独立目录验证 1/1 PASS，但**尚未收到维护者对当前完整仓库的执行结果**，不能把它等同 Vite+/Webpack 生产消费端验收。
 
 **本轮最新反馈**：维护者在 Windows 报告 `vp check` PASS（55 文件格式、11 文件 Lint），`vp test` **6/6 PASS**、`npm run test:offline` **25/25 PASS**、`vp dev` 启动成功；`vp pack` 成功生成单一 `dist-pack/normalize.css`，此前 CSS-entry `vp build` 因 `cssCodeSplit: false` 失败。已据此修订职责：`vp build` 生成 Fixture 预览、`vp pack` 生成正式候选 `dist/normalize.css`。**修订后的命令尚未复测**，不发布、不增加 CI。
 
