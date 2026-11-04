@@ -165,6 +165,8 @@ npm pack --dry-run --json --ignore-scripts --offline .
 
 **2026-11-04 · W-07 pnpm 锁文件已入库（最新）**：维护者提交的 `pnpm-lock.yaml` 已在 GitHub 开发分支核实，具有 pnpm 12.15.0 环境锁定、`vite-plus@1.4.0` 项目 importer 与 sha512 完整性记录；双 YAML 文档是 pnpm 12 正常格式。**锁文件存在及静态一致性 PASS**，但本轮未收到 Windows `pnpm install --frozen-lockfile`、`pnpm exec vp check`、`pnpm exec vp test`、`pnpm run test:offline`、`pnpm exec vp pack`、真实包及消费测试的最新输出，均按待核实处理。此前“未生成锁文件”的阶段记录已被本条覆盖，不要据此要求再次生成，也不要把静态核对当成命令测试通过。详见 [W-07 审核报告](research/W07_RELEASE_READINESS_REVIEW.md)，不新增 CI。
 
+**2026-11-05 · W-07 本机回归新证据（最新）**：维护者 Windows PowerShell 输出：`vp check --fix` 格式完成、19 文件零 Lint 错误/警告；`vp test` 7/7 PASS；`pnpm run test:offline` 33/33 PASS；`vp pack` 输出单一 CSS 文件 0.20 kB；`pnpm run test:package` 1/1 PASS；`pnpm run test:consumer` 1/1 PASS。均归档为**维护者实际执行**，不是本助手独立执行。此前“没有本批检查结果”的段落为历史状态，以上最新结果覆盖。尚无本次 `pnpm install --frozen-lockfile`、`git status --short`（`--fix` 可能修改文件）和 `npm pack --dry-run` 输出，因此这些项保留待核实。参考 [W-07 审核记录](research/W07_RELEASE_READINESS_REVIEW.md)；不新增 CI。
+
 ## 6. 安全和发布门禁（规划）
 
 - 审核第三方规则的许可证及改写过程；不引入未经审批的远程字体、图片或跟踪请求。
