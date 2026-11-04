@@ -8,6 +8,8 @@ const fixtures = [
   "r004-native",
   "r004-risk-review",
   "r004-family-review",
+  "t2-native",
+  "t2-package",
 ].map((name) => fileURLToPath(new URL(`./fixtures/${name}.html`, import.meta.url)));
 
 export default defineConfig({
