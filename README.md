@@ -102,7 +102,7 @@ vp dev
 
 详细步骤见 [W-06 T2 验证说明](docs/research/W06_T2_LOCAL_VERIFICATION.md)。`dist-fixtures/` 仅供本地测试，绝不会进入只包含 `dist/` 的 npm 包。本轮不修改产品 CSS、不新增依赖或 CI。
 
-## W-06：Vue / React 组件库独立消费（Vue 静态回归已验证）
+## W-06：Vue / React 组件库独立消费（Chrome 156 静态回归均已验证）
 
 继 Chrome 156 原生页面静态对照与部分交互人工验证通过后，已新增隔离的 Vue 3 + Element Plus、React + Ant Design 测试。使用本仓库 `vp pack` 的**真实 tarball**，由 Vite+ 1.4.0 分别构建 T0（不加载本库）与 T2（加载 `@adui/normalize.css`）；只在显式运行时向 Git 忽略的临时目录安装固定版本组件库，**不会增加正式项目依赖或发布文件**。
 
