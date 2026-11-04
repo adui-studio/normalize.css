@@ -150,6 +150,14 @@
 
 **仍未完成**：P-02 Vite+ 和 P-03 Webpack 5 的真实生产构建（包括 CSS 副作用与 tree shaking）、必要时 P-04/P-05、组件库集成及发布批准。W-04 Issue #5 继续 Open；不增加 CI、不执行 npm publish。
 
+## 7.5 Vite+ 1.4.0 生产消费者检查（2026-11-04，脚本已提交／待实跑）
+
+在上述真实 tarball 验证之外，新增 `tests/package-vite-consumer.node.test.mjs` 与 `npm run test:consumer`。其流程为：先以当前项目的 `vp pack` 产物创建实际临时 tarball，再安装到 `node_modules/.cache/` 下一个独立临时消费者；使用 `import "@adui/normalize.css"` 作为 JS 副作用 CSS 导入，调用**项目已安装的** Vite+ 1.4.0 内置 CLI 执行**该消费者自己的** `vp build`，检查生产产物 HTML 和单一 CSS 文件是否保留 `b, strong { font-weight: bolder; }`。整个消费者位于 Git 已忽略的 `node_modules/` 目录下，测试结束自动清理，不增加仓库运行时依赖，不访问外网。
+
+该文件已通过 Node `--check` 与 Git blob SHA 核对；**由于当前执行容器不存在 Vite+ 1.4.0，未执行消费端构建**。只有维护者真实运行 `npm run test:consumer` 通过后，才能将 P-02 的生产构建标记为已验证；CSS 真实页面生效还需浏览器或后续 W-06 证据。P-03 Webpack 5 仍为 `NOT_RUN`，不以 Vite+ 替代，也不为此擅自安装 webpack。
+
+推荐顺序：`vp pack` → `npm run test:package` → `npm run test:consumer`。常规 `npm run test:offline` 仍独立运行，无需事先构建。
+
 ## 8. 研究与事实边界
 
 - **已核对**：Vite+ CSS bundling 能力、Node `exports` 的路径与封装规则、Webpack CSS 副作用/打包行为、npm tarball 过滤机制。
