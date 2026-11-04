@@ -43,9 +43,7 @@ function npm(args, cwd) {
   }
   const fromRunner = process.env.npm_execpath;
   const cli =
-    fromRunner &&
-    basename(fromRunner).toLowerCase() === "npm-cli.js" &&
-    existsSync(fromRunner)
+    fromRunner && basename(fromRunner).toLowerCase() === "npm-cli.js" && existsSync(fromRunner)
       ? fromRunner
       : join(dirname(process.execPath), "node_modules", "npm", "bin", "npm-cli.js");
   assert.ok(existsSync(cli), "npm CLI not found: " + cli);
@@ -69,9 +67,7 @@ function main() {
     !Object.hasOwn(ecosystemCases, caseNames[0]) ||
     args.some((arg) => arg.startsWith("--") && arg !== "--keep")
   ) {
-    throw new Error(
-      "Usage: npm run test:ecosystem -- <vue-element|react-antd> [--keep]",
-    );
+    throw new Error("Usage: npm run test:ecosystem -- <vue-element|react-antd> [--keep]");
   }
 
   const caseName = caseNames[0];
@@ -100,8 +96,7 @@ function main() {
 
     writeFileSync(
       join(temp, "package.json"),
-      JSON.stringify({ name: "adui-ecosystem-consumer", private: true, type: "module" }) +
-        "\n",
+      JSON.stringify({ name: "adui-ecosystem-consumer", private: true, type: "module" }) + "\n",
     );
     console.info(
       "Installing isolated " + config.title + " dependencies (npm network/cache may be needed)",
@@ -136,7 +131,10 @@ function main() {
     assert.equal(withPackage.replace('import "@adui/normalize.css";\n', ""), native);
 
     const output = {};
-    for (const [mode, entry] of [["native", native], ["package", withPackage]]) {
+    for (const [mode, entry] of [
+      ["native", native],
+      ["package", withPackage],
+    ]) {
       const directory = join(temp, mode);
       mkdirSync(directory);
       writeFileSync(join(directory, "package.json"), '{"private":true,"type":"module"}\n');
@@ -160,9 +158,7 @@ function main() {
         );
       }
       output[mode] = { directory, cssBytes: Buffer.byteLength(css) };
-      console.info(
-        mode + " production build passed (" + output[mode].cssBytes + " CSS bytes)",
-      );
+      console.info(mode + " production build passed (" + output[mode].cssBytes + " CSS bytes)");
       if (process.env.ADUI_DEBUG_ECOSYSTEM === "1") console.info(log);
     }
 

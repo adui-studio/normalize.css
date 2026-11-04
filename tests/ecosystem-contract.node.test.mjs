@@ -4,15 +4,7 @@ import { consumerHtml, consumerSource, ecosystemCases } from "./ecosystem-fixtur
 
 test("W-06 ecosystem fixtures keep T0/T2 only CSS import difference", () => {
   const html = consumerHtml();
-  for (const id of [
-    "b-600",
-    "strong-600",
-    "b-700",
-    "strong-700",
-    "code",
-    "app",
-    "probe-output",
-  ]) {
+  for (const id of ["b-600", "strong-600", "b-700", "strong-700", "code", "app", "probe-output"]) {
     assert.ok(html.includes('id="' + id + '"'), "Missing DOM fixture: " + id);
   }
   assert.doesNotMatch(html, /https?:\/\//);

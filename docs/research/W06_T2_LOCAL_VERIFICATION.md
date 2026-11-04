@@ -59,7 +59,7 @@ vp dev
    ```js
    console.table({
      reducedMotion: matchMedia("(prefers-reduced-motion: reduce)").matches,
-     forcedColors: matchMedia("(forced-colors: active)").matches
+     forcedColors: matchMedia("(forced-colors: active)").matches,
    });
    ```
    读取媒体查询值只记录当前偏好，**不是已经验证模式切换的证据**。

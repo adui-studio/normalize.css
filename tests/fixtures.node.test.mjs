@@ -88,9 +88,7 @@ test("W-06 T0/T2 pages share probe targets and only T2 loads the real packed CSS
   );
   assert.doesNotMatch(integrated, /id="candidate-rule"|font-size:\s*1em|monospace,\s*monospace/);
 
-  const packageJson = JSON.parse(
-    readFileSync(new URL("../package.json", import.meta.url), "utf8"),
-  );
+  const packageJson = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8"));
   assert.deepEqual(packageJson.exports, { ".": "./dist/normalize.css" });
 
   for (const id of [
