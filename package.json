@@ -13,7 +13,6 @@
     ".": "./dist/normalize.css"
   },
   "scripts": {
-    "build": "node scripts/build.mjs",
     "test:offline": "node --test tests/fixtures.node.test.mjs tests/package.node.test.mjs tests/package-smoke.node.test.mjs tests/probe.node.test.mjs tests/r003-evidence.node.test.mjs tests/evidence-file.node.test.mjs"
   },
   "devDependencies": {
