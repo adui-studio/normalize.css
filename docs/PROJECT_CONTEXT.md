@@ -52,6 +52,7 @@
 - 下一阶段验证优先顺序已确认：W-06 TDesign 的 Chromium/Firefox/WebKit 对照 → Tailwind v4 Preflight 独立测试 → UnoCSS Reset 独立测试；不得在同一对照组叠加两套 Reset。完整矩阵与证据门槛记录于 [HARNESS](HARNESS.md) 第 6 节，所有新用例仍为**待执行**。
 - 第三方规则借鉴需独立审查许可证、差异证据和破坏性影响。
 - 已补充 TDesign 的样式来源检查（含独立 `dist/reset.css`）、交互回归步骤、Chromium/Firefox/WebKit 记录方式，以及 Tailwind/UnoCSS 真实产物与层级归因条件，详见 [HARNESS](HARNESS.md) 第 6.6/6.7 节；**仍未运行实际浏览器测试**。
+- 2026-11-04 已核对并固定 Tailwind、UnoCSS、TDesign 上游源码快照，识别 CSS 层、全局盒模型/表单、`[hidden]`、按钮光标及占位符等**待验证冲突候选**。详见 [源码审查](research/2026-11-04-reset-source-audit.md)。这不是 npm 包或浏览器测试结果。
 - 本阶段只能完成文档一致性检查，不能验证运行时与视觉兼容性。
 
 ## 6. 文档索引和变更记录
