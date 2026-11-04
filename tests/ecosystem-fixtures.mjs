@@ -93,7 +93,6 @@ export function consumerSource(caseName, withNormalize) {
     "requestAnimationFrame(() => requestAnimationFrame(() => {",
     "  const evidence = {",
     "    caseName: " + JSON.stringify(caseName) + ",",
-    "    mode: " + JSON.stringify(withNormalize ? "package" : "native") + ",",
     "    userAgent: navigator.userAgent,",
     '    rows: ["b-600", "strong-600", "b-700", "strong-700", "code"].map(measure),',
     "    ui: {",
