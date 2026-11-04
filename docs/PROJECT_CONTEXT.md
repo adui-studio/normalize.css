@@ -103,6 +103,8 @@
 
 **W-03 本地 Harness 结项（2026-11-04）**：维护者提供最终 Vite+ 1.4.0 终端结果：`vp build` 正常构建六张 HTML Fixture 与一个探针 JS 至 `dist-fixtures/`；`vp pack` 成功生成 `dist/normalize.css` 单文件（200 字节），无发布 JS；`npm run test:offline` **26/26 PASS**。此前同轮 `vp check` 55 文件格式/11 Lint PASS、`vp test` 6/6 PASS、`vp dev` 启动成功。依据[W-03 退出门槛](plans/VITEPLUS_LOCAL_HARNESS_DESIGN.md)，GitHub [Issue #4](https://github.com/adui-studio/normalize.css/issues/4) 已以 `completed` 关闭并记录范围：T0/T1 本地复现 Harness 已具备，但 T2 真实包集成、键盘焦点、hidden/dialog、移动端/真实 Safari、组件库等完整测试仍归 W-06（#7），不因关闭 W-03 视作通过。W-04（#5）仍缺 Vite+/Webpack 生产消费者和正式 npm tarball 验收；开发 Draft PR #9 依赖未合并的文档 Draft PR #1，本次不关闭/合并任一 PR、不发布 npm 或新增 CI。
 
+**W-04 真实 tarball 验收补充（2026-11-04）**：在既有合成包烟测之外新增独立 `tests/package-real.node.test.mjs` 和 `npm run test:package`，要求先 `vp pack`。脚本对真实 `dist/normalize.css` 执行当前仓库 `npm pack --offline`、临时消费者安装、文件白名单、根导出和子路径封装验证；不会写入或发布正式 tarball，不新增依赖/CI。提交的脚本 Git blob SHA 与独立 Linux Node 22.16.0 代表性包目录运行的文件完全一致，**代表性目录 1/1 PASS**；真实 Windows 仓库测试尚未执行，故 W-04 #5 继续 Open，Vite+/Webpack 生产消费与 CSS tree shaking 仍未通过。详见[W-04 §7.4](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与下一阶段变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源
