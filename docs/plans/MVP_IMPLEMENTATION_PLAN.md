@@ -113,6 +113,8 @@ R-003 已因首版最低目标包含旧版 Blink/WebKit 而列为**优先必测�
 
 **W-06 Vue + Element Plus 浏览器对照（2026-11-04）**：维护者提供 Chrome 156 在 `localhost:5174`（T0）和 `localhost:5175`（T2）的页面/DevTools 截图。Element Plus Button/Input 均挂载且静态外观一致，五组 R-003/R-004 代表性计算样式完全一致（b/strong 父级 600/700 计算字重 `900`，code `13px`）。在既有真实 npm tarball 生产构建通过的基础上，**Vue 3.5.44 + Element Plus 2.14.7 的 Chrome 156 静态 UI 对照 PASS（截图）**；组件键盘/输入交互、React+Ant Design 浏览器对照和其他浏览器仍待验收。双方共有的 Vue feature flags 警告及 favicon 404 不当作 Normalize 样式冲突。W-06 #7 保持 Open；修复后的 `test:offline` 全套回归仍待本机重跑。[证据](../research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)。
 
+**W-06 React + Ant Design Chrome 156 浏览器静态回归（2026-11-04）**：维护者已提供 React+Ant Design T0/T2 页面与 DevTools 截图，两组 Ant Design Button/Input 均成功挂载、静态外观相同，四组 b/strong 的计算字重皆为 900、code 字号 13px，五个探针值一致。继实际 npm tarball 的生产构建 PASS 后，**React+Ant Design 在 Chrome 156 的静态样式对照 PASS（截图）**。至此 Vue+Element Plus 与 React+Ant Design 两个样本均取得 Chrome 156 静态证据；完整组件交互、TDesign、Tailwind Preflight、UnoCSS Reset、其他目标浏览器及 `test:offline` 修复后重跑结果仍未完成，F-009 仅部分通过，W-06 #7 不关闭。见[验证记录](../research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)。
+
 ## 7. GitHub Issue 跟踪
 
 已基于仓库原版 [github-issues Skill](../../.agents/skills/github-issues/SKILL.md) 创建以下正式任务，全部为 Open / 未实施；Issue 在 GitHub 仓库可见，而本计划和 Issue/PR 模板仍位于 Draft PR #1 分支。
