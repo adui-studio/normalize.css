@@ -30,8 +30,19 @@
 
 - **首批源文件**：`src/normalize.css`，只纳入 R-003：`b, strong { font-weight: bolder; }`。依据真实 Chrome for Testing 120.0.6099.109 T0/T1 对照（父级 600/700 时四组计算字重由 700 → 900），Firefox 121 / Chrome 156 中候选无额外计算值变化；[证据卡](research/RULE_EVIDENCE_R003_R004.md)。
 - **明确不纳入**：R-004 `font-size: 1em`、重复 `monospace`、统一代码字体栈；不添加 Reset、Forms、A11y、全局视觉规则、`@layer`、`!important`。
-- **开发期根入口**：`package.json` 的唯一 `exports["."]` 指向 `./dist/normalize.css`；仍 `private: true`、版本 `0.0.0`，不能公开发布。Vite+ 继续承担开发与本机检查；静态 CSS 直接复制为 `dist/normalize.css`，不创建 JS 入口，不增加额外打包依赖。构建前根导出目标尚不存在，应先运行 `npm run build`。
+- **开发期根入口**：`package.json` 的唯一 `exports["."]` 指向 `./dist/normalize.css`；仍 `private: true`、版本 `0.0.0`，不能公开发布。Vite+ 继续承担开发与本机检查；维护者后续要求以 `vp build` 直接构建 CSS，取代早期 Node 原样复制方案。该方案以真实 Vite+ 运行结果为准；构建前根导出目标尚不存在。
 - **验证边界**：构建字节完整性、文件封装、离线 npm smoke 可以本地验证；实际消费端的 Vite+/Webpack 生产构建、WebKit/Safari、Edge/移动端、组件库及最终 CSS 准入仍应在发布前单独审核。维护者当前要求停止额外字体偏好专项测试，按浏览器原生行为使用。
+
+### 2.2 统一 Vite+ 命令与 CSS-only 构建（2026-11-04）
+
+维护者明确要求使用 Vite+ 原生命令 `vp dev`、`vp build`、`vp pack`，替代 `npm run build` 调用 Node 文件复制脚本。三条命令功能不同（[Vite+ Build](https://viteplus.dev/guide/build)、[Dev](https://viteplus.dev/guide/dev)、[Pack](https://viteplus.dev/guide/pack)）：
+
+- `vp dev`：仍从项目根目录启动本地 Vite 开发服务器，访问现有 `/fixtures/`；不发布 CSS。
+- `vp build`：以 `src/normalize.css` 为 Vite 库构建输入，只输出 `dist/normalize.css`。开发期不压缩 CSS，避免无意改变维护者源码；离线测试校验构建结果仅有预期 CSS 规则且不包含 JS 包装。
+- `vp pack`：使用 Vite+ 集成的 tsdown 尝试 CSS-only 打包。官方明确支持从 JS/TS 入口提取 CSS，但尚未确认直接将 CSS 文件用作唯一 entry 时的具体行为；先输出到单独的 `dist-pack/` 验证，**不覆盖 `vp build` 的 `dist/` 或 npm 根 exports**。实际能否成功及是否产生 JS，必须使用维护者安装的 Vite+ 1.4.0 验证，不能预先声称三个命令全部通过。
+- `vp pack` 不是 `npm pack`：真正检查 npm tarball 应使用 `npm pack --dry-run`，任何发布仍需维护者单独授权。
+
+不要增加 JS 业务入口、额外打包依赖、公开子路径或 CI。保留 `private: true`，除非正式产物与消费端均通过审核，否则 `vp pack` 仅是非发布实验。
 
 ## 3. CSS 规则准入流程（拟议）
 
