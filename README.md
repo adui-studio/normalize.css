@@ -37,15 +37,18 @@ strong {
 }
 ```
 
-先生成静态 CSS 产物（Vite+ 仍用于开发检查，无额外运行时 JS 或构建依赖）：
+使用 Vite+ 的内置命令（无需旧版 Node 复制脚本）：
 
 ```sh
-npm run build
+vp dev             # 启动本地 Fixture 服务；另一个终端执行后续命令
+vp build           # Vite CSS-only 库构建，目标 dist/normalize.css
+vp pack            # 试验 tsdown CSS-only 输入，仅输出到 dist-pack/
+vp check           # 格式与 Lint 检查
+vp test            # Vitest 单元测试
 npm run test:offline
-vp check
 ```
 
-构建会把 `src/normalize.css` 原样复制为 `dist/normalize.css`。如需在本地 HTML 试用，可直接用 `<link rel="stylesheet" href="/dist/normalize.css">`（前提是你的静态服务器确实提供该 URL）。若从本地构建的 npm tarball 安装到支持 CSS 导入的构建工具，可测试 `import "@adui/normalize.css";`，但 Vite+/Webpack 生产消费端兼容尚未正式验收。**不执行 npm publish**。
+`vp build` 的目标产物是 `dist/normalize.css`；本次已改用 Vite 库构建配置，而非 Node 原样复制。`vp pack` 是库构建命令、不是 npm tarball 打包命令；由于纯 CSS 直接作为 tsdown 唯一入口尚未本机验证，它的输出隔离在 `dist-pack/`，**不会作为包根导出或发布产物**。后续以真实 Vite+ 1.4.0 运行结果判定是否适用。如需在本地 HTML 试用，可直接用 `<link rel="stylesheet" href="/dist/normalize.css">`（前提是你的静态服务器确实提供该 URL）。若从本地构建的 npm tarball 安装到支持 CSS 导入的构建工具，可测试 `import "@adui/normalize.css";`，但 Vite+/Webpack 生产消费端兼容尚未正式验收。**不执行 npm publish**。
 
 默认 Normalize 不覆盖 `code/kbd/samp/pre` 的原生字体字号，不包含 Reset/Forms/A11y/组合入口，也不内建 `@layer`。
 
@@ -75,7 +78,7 @@ node tests/r003-evidence.mjs r003-native.json r003-candidate.json
 
 输出会区分 `COMPUTED_DIFFERENCE_OBSERVED`、`NO_COMPUTED_DIFFERENCE` 与 `CANDIDATE_MISMATCH`，但**不会自动证明 UA 缺陷、具体发行版本或实际字体渲染**。见 [R-003/R-004 本地验证指南](docs/research/R003_R004_LOCAL_VERIFICATION.md)。
 
-**截至 2026-11-04 的验证范围**：维护者此前在 Windows 完成 `vp check`、Vitest 6/6、Node 23/23 以及 Chrome 120 / Firefox 121 / Chrome 156 的局部 R-003、R-004 对照。本次新增 CSS 和打包脚本在独立 Linux Node 22.16.0 环境中完成构建、5 项定向测试及离线 tarball 安装与入口封装验证；**该 Node 版本低于仓库 Vite+ 引擎下限，尚未在维护者 Windows 上重新执行完整检查**。Chrome 120 的 R-003 原生计算字重与候选有四组差异，Firefox 121 / Chrome 156 无差异；R-004 按浏览器默认行为，不再进行额外字体偏好专项测试。Safari/Edge/移动端、UI 组件库和 Vite+/Webpack 生产消费验证仍未完成。项目不增加 CI、不发布 npm。
+**截至 2026-11-04 的验证范围（补充 Vite+ 迁移）**：维护者此前在 Windows 完成 `vp check`、Vitest 6/6、Node 23/23 以及 Chrome 120 / Firefox 121 / Chrome 156 的局部 R-003、R-004 对照。上一版 Node 静态复制构建、5 项定向测试和离线 tarball 解析已在独立 Linux Node 22.16.0 环境中完成验证；**当前切换为 `vp build` 后，尚未在支持版本的 Windows 环境真正执行 `vp build`、`vp pack`，也未完成最新的 `vp check` / `vp test` 全量回归**。本次仅在隔离目录执行了更新后的 5 项 Node 契约测试（5/5 PASS），不能将其视作 Vite 构建产物验证。Chrome 120 的 R-003 原生计算字重与候选有四组差异，Firefox 121 / Chrome 156 无差异；R-004 按浏览器默认行为，不再进行额外字体偏好专项测试。Safari/Edge/移动端、UI 组件库和 Vite+/Webpack 生产消费验证仍未完成。项目不增加 CI、不发布 npm。
 
 ## Vite+ 格式检查与第三方 Skills
 
