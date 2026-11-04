@@ -159,6 +159,8 @@ npm pack --dry-run --json --ignore-scripts --offline .
 
 **2026-11-04 · W-06 正式验收归档（最新）**：维护者明确确认已经正式验收归档。W-06 工作项按维护者签收结项，已有实测、人工完成反馈及缺少逐 UA/OS/设备日志的证据边界均纳入 [W-06 验收归档索引](research/W06_ACCEPTANCE_INDEX.md)。结项不自动宣称所有最低浏览器、系统偏好或完整无障碍均有原始 PASS 记录，也不代表发布批准。没有新的产品 CSS、CI、依赖或发布操作。
 
+**2026-11-04 · W-07 首轮审核与待执行本机复核**：GitHub 开发分支已确认 `package.json` 的唯一 CSS 根导出、历史真实 tarball/消费端测试文件、MIT 与第三方 Skill 许可证；双语 README 已校正当前状态，根目录补建仅 Unreleased 的更新日志，核对核心文档 252 个本地 Markdown 链接均有提交树路径对应。上述是**远程仓库静态检查**，本轮未实际运行 `vp check`、`vp test`、`npm run test:offline`、`vp pack`、`npm run test:package`、`npm run test:consumer` 或 `npm pack --dry-run --json`。包管理器锁文件、release manifest 元数据与正式版本尚待维护者决策，W-07 Issue #8 保持 Open。详情见 [发布前审核记录](research/W07_RELEASE_READINESS_REVIEW.md)，禁止新增 CI 或自动发布。
+
 ## 6. 安全和发布门禁（规划）
 
 - 审核第三方规则的许可证及改写过程；不引入未经审批的远程字体、图片或跟踪请求。
