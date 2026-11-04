@@ -1,6 +1,6 @@
 # SDD — 详细设计草案
 
-**状态：首版公开 CSS 契约已批准，正在实施最小开发版本**。ADR-0001～0005 已 Accepted；基于 Chrome 120 的真实 R-003 字重差异，首批实现仅加入 `b`/`strong` 的 `bolder` 修正，并明确排除 R-004 的等宽字体字号调整。开发包继续保持 `private: true`，不等于已发布或完成兼容验收。
+**最新状态（2026-11-04）**：首版公开 CSS 契约与 ADR-0001～0005 已批准，**W-05 的 36 条规则首版评审结论已由维护者全部确认**；唯一默认准入 R-003（`b, strong { font-weight: bolder; }`）已实现，R-004 和其他 34 条按暂缓、可选或排除决定不进入首版默认 CSS。W-06 已正式验收归档（证据等级见归档索引）；开发包仍保持 `private: true`，尚未 npm 发布，公开支持范围属于后续发行审核。详见 [W-05 规则评审归档](research/W05_RULE_ACCEPTANCE.md)。
 
 ## 1. 设计范围与需求映射
 
@@ -152,6 +152,8 @@ W-03 的 T0/T1 只验证浏览器原生值与孤立候选规则；W-04 已证明
 TDesign 对照已获维护者完成反馈，后续直接验证第三方 Reset。开发分支新增 `tests/reset-fixtures.mjs`、`tests/reset-consumer.mjs`、`tests/reset-contract.node.test.mjs`，并在 `package.json` 中添加手动 `test:reset` 与离线测试引用。每个被测 Reset 在 Git 忽略的独立临时消费者中使用真实 `vp pack` tarball，仅以 CSS 导入顺序区分 `baseline`、`normalize-first` 和 `normalize-last`；Tailwind Preflight、UnoCSS v4、UnoCSS compat **互不同时加载**。继续复用 Vite+ 1.4.0 和当前唯一 CSS 根导出；默认 Normalize CSS 仍只有 R-003，未增加 Layer、Reset 或其他产品规则。
 
 **测试结果边界**：代码及生成隔离关系已静态核对；维护者 Windows 上的第三方依赖安装、生产构建与浏览器渲染/交互未运行。后续依据 [F-010 独立执行指南](research/W06_RESET_LOCAL_VERIFICATION.md) 保存实际产物哈希、计算样式和 CSS Cascade 胜出规则，不能将 `b,strong` 重复的 `bolder` 声明自动视为破坏性冲突。
+
+**W-05 首版准入结果（2026-11-04）**：36 条候选的**评审决定**已获得维护者批准；本章后续规则准入流程只用于未来新增或重新提出的候选，不代表需要继续向首版补足 36 条 CSS。已实现且唯一准入 R-003；R-004 继续保留原生等宽字体字号，其他候选不进入默认入口。具体分组及测试证据见 [W-05 结项索引](research/W05_RULE_ACCEPTANCE.md)。
 
 ## 3. CSS 规则准入流程（拟议）
 
