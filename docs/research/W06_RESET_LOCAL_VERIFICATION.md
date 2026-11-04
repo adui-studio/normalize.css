@@ -1,7 +1,7 @@
 # W-06 · Tailwind Preflight 与 UnoCSS Reset 独立回归
 
 **更新日期**：2026-11-04  
-**状态**：维护者已在 Windows 实测 UnoCSS Reset `tailwind-v4` 与 `tailwind-compat` 两个隔离场景的真实 tarball + Vite+ 三模式生产构建，**各 3/3 BUILD_PASS，共 6/6**；**UnoCSS tailwind-v4 与 tailwind-compat 两个独立场景均已取得 Chrome 156 三模式静态计算样式：每组 12 元素 × 14 属性，正反引入顺序相对自身 baseline 均零差异；各组三页的 Vite CSS 来源已核对。Tailwind Preflight 独立场景也已收到 Chrome 156 三模式静态计算样式，168 项属性相对本组 Baseline 均零差异；其真实 Vite+ 构建 3/3 PASS。Tailwind 场景的 `b#bold` CSS Cascade 胜出声明已由 DevTools 截图确认；三个模式的按钮、输入、Details、Dialog、焦点及 `until-found` 查找揭示均已取得可信 Chrome 156 原生交互证据；UnoCSS 的交互与跨浏览器验证仍待确认**，F-010 仍是部分完成，不能记整体 PASS。下文既有“待执行”步骤保留用于复现，实际结果以新增记录为准。
+**状态（最新）**：三个互相隔离的 Reset 场景（Tailwind v4 Preflight、UnoCSS tailwind-v4、UnoCSS tailwind-compat）已取得 **9/9 真实 tarball + Vite+ 生产构建 PASS**，各自的 Chrome 156 三模式 12 元素 × 14 属性静态采样均零差异；Tailwind 另有两种加载顺序下的 CSS Layer 胜出截图、完整原生交互事件日志及 beforematch 证据。**维护者本轮确认剩余 UnoCSS 两套 Reset 的交互验证也全部通过**，记录为「维护者人工反馈 PASS（具体逐页原始交互日志尚未提供）」；不将该反馈伪装为工具独立复验或原始日志。F-010 的 Chrome 156 本轮三个 Reset 场景可记为已完成所约定的本地对照；Firefox/WebKit、最低目标浏览器、系统偏好和更完整的表单无障碍场景仍待验证，**W-06 不能整体结项**。
 
 **前置**：维护者在本轮对话中确认 TDesign 对照已完成；其具体浏览器、日志、截图、结果尚未同步到 W-06 记录。以下任务直接推进 F-010，**不要求重复 TDesign**。
 
@@ -313,6 +313,20 @@ typeof window.__aduiF010
 结合维护者前几次已提供并已归档的同组交互日志，当前 Tailwind Preflight 三页对 **按钮可信点击、输入框可信输入、键盘焦点可见（已采样元素）、details 可信展开和收起、dialog 可信取消和关闭、普通隐藏属性，以及 `hidden="until-found"` 浏览器查找揭示**均有 Chrome 156 证据。三个模式均完成了本 Fixture 的这些原生交互子项，**未观察到因 Normalize 前置/后置而产生的行为回归**。
 
 **范围限制**：以上仅为 Chrome 156 当前 Fixture 和人工操作的原生交互覆盖，不包含复杂表单、完整键盘遍历/可访问名称检查、系统无障碍偏好、Firefox/WebKit、目标低版本或 UnoCSS 两套独立 Reset 的交互实测，不能将 F-010 或 W-06 整体结项。产品 CSS 不需修改；不增加 CI、依赖或发布配置。
+
+## 2026-11-04 · UnoCSS 双 Reset 原生交互验证完成反馈（维护者确认）
+
+维护者在执行 Tailwind Preflight 原生交互后，继续完成 `@unocss/reset/tailwind-v4.css` 和 `@unocss/reset/tailwind-compat.css` 的独立本地验证，并明确反馈：**“全部验证通过了”**。结合上一轮明确安排的两个独立 UnoCSS 消费目录及三个加载模式，此次反馈按 **Chrome 156、此前约定的原生交互检查范围** 归档，不重新要求重复已完成的操作。
+
+| 单独测试场景 | 真实 tarball + Vite+ 三模式构建 | Chrome 156 三模式静态样式 | 本次原生交互结论 | 证据等级 |
+| --- | --- | --- | --- | --- |
+| Tailwind v4 Preflight | 3/3 PASS | 12 × 14 项零差异 | 已验证 Button、Input、Details、Dialog、焦点和 `beforematch` 三页表现 | 维护者逐页原始 JSON、URL 与 DevTools 截图 |
+| UnoCSS tailwind-v4 | 3/3 PASS | 12 × 14 项零差异 | **维护者反馈所约定项目全部通过** | 人工完成反馈；未收到此批交互 JSON |
+| UnoCSS tailwind-compat | 3/3 PASS | 12 × 14 项零差异 | **维护者反馈所约定项目全部通过** | 人工完成反馈；未收到此批交互 JSON |
+
+**范围内决策**：F-010 的三个独立 Reset 场景在 **Chrome 156 当前 Fixture** 上的构建、静态对照与约定原生交互检查可记录为 **“本地验证阶段完成”**，目前没有观察到需要修改 `src/normalize.css` 的冲突证据。不要据此声明 UnoCSS 的逐页可信事件已经通过本助手审阅，更不能将它们归入自动化测试通过数量。
+
+**保留的开放范围**：Firefox、WebKit、Chrome/Edge 最低目标版本、真实 Safari/移动端、系统强制色与减少动效、复杂表单和完整键盘可访问性尚无此批证据；W-06 Issue #7 原有覆盖目标仍继续 **Open**。不自动勾选其完整 F-001～F-010/浏览器矩阵清单，不合并 main、不新增 CI、不发布包或更改产品规则。
 
 ## 1. 测试边界与版本
 
