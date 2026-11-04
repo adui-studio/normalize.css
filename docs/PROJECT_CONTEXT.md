@@ -20,7 +20,7 @@
 | LICENSE                      | 已存在             | MIT，Copyright © 2026 ADui Studio                                                                           |
 | 八类工程资产                 | 文档初始化         | [AGENTS](../AGENTS.md)、需求、SDD、架构、上下文、代码地图、Skills、Harness                                  |
 | CSS 源码                     | **首条已实现**     | 开发分支 `src/normalize.css` 仅包含 R-003；R-004 保留原生默认                                               |
-| package.json、依赖、构建脚本 | **部分实现**       | 开发分支已有 `exports["."]`、Vite+ `vp build/pack` 配置；构建命令待实测，仍 private                          |
+| package.json、依赖、构建脚本 | **部分实现**       | 开发分支已有 `exports["."]`、Vite+ `vp build/pack` 配置；构建命令待实测，仍 private                         |
 | 自动化测试、浏览器回归       | **部分实现**       | 本机检查与 29 项测试通过；Chrome 120 四组差异；Firefox 121、Chrome 156 均零差异；其余未测                   |
 | CI                           | **明确不规划**     | 项目约束：不增加任何 CI                                                                                     |
 | npm 包发布、版本号           | **未发布/未确定**  | 不能将先前讨论的草案版本当成仓库发布事实                                                                    |
