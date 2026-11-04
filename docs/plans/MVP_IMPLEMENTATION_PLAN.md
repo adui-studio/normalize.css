@@ -1,6 +1,6 @@
 # @adui/normalize.css — MVP v0 实施计划
 
-- **状态**：五项 ADR Accepted，维护者已批准进入开发；**W-03 初步实现，真正 Normalize CSS 与发行包尚未实现**。
+- **状态**：五项 ADR Accepted；W-03 本机 Harness 已建立，W-04 已实现开发期 CSS 根导出与静态构建，W-05 已实现首条 R-003 规则；正式发布、浏览器矩阵与消费端回归未验收。
 - **日期**：2026-11-03
 - **范围**：只为首版默认 Normalize 入口建立真实、可测试、可审计的交付能力。已接受 [ADR-0005](../adr/0005-viteplus-toolchain.md)：开发时统一使用 Vite+，维护者 Windows 本机已完成静态检查、单测和部分 Chrome 156 Fixture 运行。
 - **关联**：[需求](../REQUIREMENTS.md) · [架构](../ARCHITECTURE.md) · [SDD](../SDD.md) · [规则总表](../research/RULE_REVIEW.md) · [浏览器矩阵](../research/BROWSER_REVIEW.md) · [准入审查](../research/REVIEW_GATE.md)
@@ -31,8 +31,8 @@
 | W-01 | 第一阶段 | 冻结浏览器最低测试目标和验证边界      | 七项 [最低测试目标](../research/BASELINE_2023_MAPPING.md) 已批准，固定时间线核对通过；仍需 OS/设备/发行版证据                                                                                                                                                                | 取得真实版本测试结果后才可在发行说明承诺支持，不自动覆盖 WebView                                                                                                                          | **版本目标已批准，实测待进行**                           |
 | W-02 | 第一阶段 | 最小规则证据卡与原生 Fixture 设计     | [R-003/R-004 证据卡](../research/RULE_EVIDENCE_R003_R004.md) 和 [本地验证执行指南](../research/R003_R004_LOCAL_VERIFICATION.md) 已包含旧版官方环境获取线索、T0/T1/T2 与记录模板                                                                                              | 必测父级 400/600/700、Chrome/Edge 120、Firefox 121、Safari 17.2 与对应移动端；不以源码当实测                                                                                              | **Chrome 120 差异4组、Firefox 121 无差异；其他目标待测** |
 | W-03 | 第二阶段 | Vite+ 本地 Harness 与验证规范         | 已创建 `package.json`、`vite.config.ts`、R-003/004 T0/T1 HTML、计算样式探针和测试；[设计](VITEPLUS_LOCAL_HARNESS_DESIGN.md) 持续跟踪                                                                                                                                         | 本机 `vp check` PASS（54 格式、11 Lint）、Vitest 6/6、Node 23/23、独立包烟测 1/1；`DEP0190` 未再出现；Chrome 156 R-003 JSON 六组无差异，R-004 13/13/16px；最低目标与锁文件仍待核实，无 CI | **Harness 本地验证通过；旧版浏览器矩阵未完成**           |
-| W-04 | 第二阶段 | Vite+ 下的单一 CSS 包导出与副作用验证 | 已落实 `files: ["dist"]`、`sideEffects: ["**/*.css"]`；离线 dry-run 验证白名单，另以 [独立临时合成 CSS 包测试](CSS_PACKAGE_DELIVERY_REVIEW.md) 真实打包、离线安装并验证 root exports / 非公开子路径封装；[验收研究](CSS_PACKAGE_DELIVERY_REVIEW.md) 提供 P-01～P-10 后续步骤 | **尚无 dist、exports、真实 CSS tarball 和消费端验证**；保持私有，不发布额外入口                                                                                                           | **合成包离线验证通过／真实包导出未完成**                 |
-| W-05 | 第三阶段 | 逐条最小 Normalize 修复               | 按证据准入的最小 CSS、R-ID → 来源 → 测试映射及变更说明                                                                                                                                                                                                                       | 有证据才实现；不内建 `@layer`，不加默认 Reset/Forms/A11y；视觉回归无新增重大问题                                                                                                          | 未开始（需开发授权）                                     |
+| W-04 | 第二阶段 | Vite+ 下的单一 CSS 包导出与副作用验证 | 已落实 `files: ["dist"]`、`sideEffects: ["**/*.css"]`；离线 dry-run 验证白名单，另以 [独立临时合成 CSS 包测试](CSS_PACKAGE_DELIVERY_REVIEW.md) 真实打包、离线安装并验证 root exports / 非公开子路径封装；[验收研究](CSS_PACKAGE_DELIVERY_REVIEW.md) 提供 P-01～P-10 后续步骤 | **尚无 dist、exports、真实 CSS tarball 和消费端验证**；保持私有，不发布额外入口                                                                                                           | **CSS 根导出/静态构建已实现；消费端待测**                |
+| W-05 | 第三阶段 | 逐条最小 Normalize 修复               | 按证据准入的最小 CSS、R-ID → 来源 → 测试映射及变更说明                                                                                                                                                                                                                       | 有证据才实现；不内建 `@layer`，不加默认 Reset/Forms/A11y；视觉回归无新增重大问题                                                                                                          | **首批仅 R-003 已开发；发布前仍待审查**                  |
 | W-06 | 第四阶段 | 跨浏览器、无障碍、生态与发布前验收    | Chromium/Firefox/真实 Safari/iOS、组件库/Reset 对照、npm tarball 与 LICENSE 记录                                                                                                                                                                                             | 逐项列出通过/失败/未运行及可重现信息；阻塞项不得宣传为通过                                                                                                                                | 未开始（需开发授权）                                     |
 | W-07 | 第五阶段 | 文档、许可证与版本发布评审            | README 中文/英文、兼容矩阵、迁移/风险说明、发布前检查表                                                                                                                                                                                                                      | 包入口、实际功能、浏览器声明与证据一致；Release 与 npm 发布仍须单独授权                                                                                                                   | 未开始                                                   |
 
@@ -53,7 +53,7 @@
                          通过 -> 才能纳入默认 Normalize
 ```
 
-R-003 已因首版最低目标包含旧版 Blink/WebKit 而列为**优先必测候选**；R-004 默认保留等宽字体字号偏好，不采纳统一字号。两项仍没有完成现代目标版本的实际复现，不表示代码必然包含规则。其他历史 Bug（如 R-007/008）必须先证实现代目标浏览器仍有问题。
+R-003 已因首版最低目标包含旧版 Blink/WebKit 而列为**优先必测候选**；R-004 默认保留等宽字体字号偏好，不采纳统一字号。R-003 现已在开发分支实现单条产品 CSS，Chrome 120 的四组计算差异是首批依据；R-004 已决定保留浏览器默认字号，**不会**写入产品 CSS。前述有限实测不等于完整发布兼容性验收。其他历史 Bug（如 R-007/008）必须先证实现代目标浏览器仍有问题。
 
 ## 4. 最小 Fixture 验收矩阵（规划，不是测试结果）
 
@@ -89,7 +89,7 @@ R-003 已因首版最低目标包含旧版 Blink/WebKit 而列为**优先必测�
 
 **已有部分研究结果**：W-01 的 [Baseline 2023 最低目标](../research/BASELINE_2023_MAPPING.md) 已批准且源数据/时间线一致；W-02 的 [R-003/R-004 专项证据卡](../research/RULE_EVIDENCE_R003_R004.md) 已补充 Blink 120/WebKit 2023 快照，R-003 最低目标必测；Vite+ 工具链已按 ADR-0005 选定。
 
-**未完成**：最低目标浏览器实际 UA/OS/设备测试、正式发行兼容性声明、WebView/Safari/组件库回归、锁文件提交确认、CSS 正式导出/npm 打包与真实浏览器/组件库测试。维护者本机 `vp check` 已通过、Chrome 156 的 R-003 原始 JSON 比较已完成；W-03 已获取 Chrome 120 桌面版 R-003 四组真实 JSON 差异、Firefox 121 零差异证据，Edge 120、Safari 17.2、移动端及组件库仍未测；W-04 合成包预检已完成但正式交付未完成，W-05～W-07 未实施。
+**未完成**：完整最低浏览器 UA/OS/设备测试、正式发行兼容性声明、WebView/Safari/组件库回归、锁文件提交确认、Windows 最新全量检查、Vite+/Webpack 生产消费者和实际完整仓库 npm tarball 验收。维护者本机 `vp check` 已通过、Chrome 156 的 R-003 原始 JSON 比较已完成；W-03 已获取 Chrome 120 桌面版 R-003 四组真实 JSON 差异、Firefox 121 零差异证据，Edge 120、Safari 17.2、移动端及组件库仍未测；W-04 已有真实 CSS 根导出、静态构建与独立环境的局部打包验证，但正式交付验收未完成；W-05 首条 R-003 规则已开发，后续规则与 W-06/W-07 尚未完成。
 
 **授权区分**：维护者已明确允许开始开发，当前优先实施 W-03 本地 Harness。**仍不推定**已授权合并 PR、发布 npm、创建 Release 或新增任何 CI。真正 CSS 规则须先完成证据准入。
 
