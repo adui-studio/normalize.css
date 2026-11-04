@@ -36,6 +36,7 @@ npm run test:package   # After vp pack: real tarball + offline installation
 npm run test:consumer  # After vp pack: Vite+ production CSS retention
 npm run test:ecosystem -- vue-element # Optional, isolated Vue + Element Plus
 npm run test:ecosystem -- react-antd   # Optional, isolated React + Ant Design
+npm run test:ecosystem -- vue-tdesign # Optional, isolated Vue + TDesign
 ```
 
 The only package export is `@adui/normalize.css` → `./dist/normalize.css`. Consumers can import the stylesheet through an appropriate bundler:
@@ -54,7 +55,7 @@ First run `vp pack` to generate `dist/normalize.css`, then `vp build` or `vp dev
 
 The new fixtures cover R-003 emphasis weights, unchanged R-004 monospace values, and native form/dialog/focus observation points. **The maintainer provided Chrome 156 T0/T2 screenshots and confirmed a local PASS.** Dialog opening/Esc, keyboard focus and hidden-until-found behavior also passed manual checks; exact event logs and complete browser/UI framework matrices are still unavailable. See the [Chinese local verification guide](docs/research/W06_T2_LOCAL_VERIFICATION.md). No new library rules, runtime dependencies, CI, or public exports were added.
 
-## W-06 isolated Vue / React ecosystem consumers
+## W-06 isolated Vue / React / TDesign ecosystem consumers
 
 Two optional consumer cases have been added: Vue 3 with Element Plus, and React with Ant Design. Both install the actual `vp pack` tarball into an ignored temporary directory and use the project's existing Vite+ 1.4.0 to build independent native/T2 pages. Framework dependencies are **not** added to the package itself. Runs are explicit and may require npm network access.
 
@@ -63,9 +64,10 @@ vp pack
 npm run test:offline
 npm run test:ecosystem -- vue-element
 npm run test:ecosystem -- react-antd
+npm run test:ecosystem -- vue-tdesign
 ```
 
-Add `--keep` to retain a temporary native/package pair for manual browser comparison. **Both Vite+ production consumers have passed.** The maintainer also supplied Chrome 156 native/package screenshots for Vue + Element Plus: Button/Input mount in both, their static appearance matches, and all five computed-style samples are identical. This is a **Chrome 156 static UI comparison PASS**, not a keyboard interaction or broader browser compatibility guarantee. React + Ant Design also has Chrome 156 native/package browser screenshots: Button/Input mount in both, visible styling matches, and all five computed-style samples are identical. Both Vue+Element Plus and React+Ant Design have now passed this Chrome 156 static comparison; keyboard/input interactions and other browsers remain unverified. The offline test's outdated expected command was corrected, but the full suite has not been rerun after that fix. See the [local ecosystem verification guide](docs/research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md).
+Add `--keep` to retain a temporary native/package pair for manual browser comparison. **Both Vite+ production consumers have passed.** The maintainer also supplied Chrome 156 native/package screenshots for Vue + Element Plus: Button/Input mount in both, their static appearance matches, and all five computed-style samples are identical. This is a **Chrome 156 static UI comparison PASS**, not a keyboard interaction or broader browser compatibility guarantee. React + Ant Design also has Chrome 156 native/package browser screenshots: Button/Input mount in both, visible styling matches, and all five computed-style samples are identical. Both Vue+Element Plus and React+Ant Design have now passed this Chrome 156 static comparison; keyboard/input interactions and other browsers remain unverified. The maintainer has since rerun the original full offline suite with **30/30 PASS**. The newly added TDesign case is not included in that previously executed result and still needs local validation. TDesign Vue Next 1.20.10 is now available as a separate optional test case, **NOT_RUN** for installation/build/browser behavior. See the [local ecosystem verification guide](docs/research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md).
 
 ## Windows line endings
 
