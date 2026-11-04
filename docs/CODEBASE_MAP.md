@@ -19,6 +19,8 @@ normalize.css/
     ├── SKILLS.md            # 本轮文档：Skill 索引
     ├── HARNESS.md           # 本轮文档：验证机制规划
     ├── DOCUMENTATION_VALIDATION.md # 本轮文档：校验计划
+    ├── research/
+    │   └── 2026-11-04-reset-source-audit.md # 已存在：上游源码核查与待测风险
     └── adr/
         └── 0001-css-base-strategy.md # 本轮文档：Proposed
 ```
