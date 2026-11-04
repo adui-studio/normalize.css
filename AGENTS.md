@@ -1,12 +1,12 @@
 # AGENTS.md — @adui/normalize.css
 
-> 本文件是项目 Agent 的简明规则入口。**维护者已批准继续首批实现；当前开发分支已有 Vite+ Harness、首条 R-003 Normalize CSS、静态构建和包根导出。未经明确许可不合并、发布或增加 CI。** 以用户最新要求为准。
+> 本文件是项目 Agent 的简明规则入口。**维护者已批准首批实现并要求统一使用 `vp dev`、`vp build`、`vp pack`；R-003 CSS 和包根导出已存在，Vite+ CSS-only build/pack 配置待本机验证。未经明确许可不合并、发布或增加 CI。** 以用户最新要求为准。
 
 ## 1. 项目事实
 
 - 仓库：[adui-studio/normalize.css](https://github.com/adui-studio/normalize.css)，npm 包目标名：`@adui/normalize.css`。
 - 当前已确认：GitHub 仓库已建立并包含 MIT LICENSE；五项 ADR 已接受，首版只规划默认 Normalize 入口；Chrome/Edge 120、Firefox 121、Safari 17.2（及对应核心移动版本）已确定为**最低测试目标而非已验证兼容范围**，参见 [MVP 计划](docs/plans/MVP_IMPLEMENTATION_PLAN.md)。
-- W-03 开发分支已增加 `package.json`、`vite.config.ts`、`fixtures/` 与 `tests/`；**R-003 产品 CSS 源码、单一 CSS 根导出及静态构建已实现；仍没有发布包或完整消费端验收**。Vite+ 已在清单中固定到 1.4.0；维护者的 Windows 本地环境已完成 `vp check`（54 文件格式和 11 文件 Lint 通过）、`vp test`（6/6）及 `npm run test:offline`（23/23），`DEP0190` 在修复后的 Windows 回归中未再出现；R-003 已取得 Chrome 156 零差异、Chrome for Testing 120.0.6099.109 四组差异和 Firefox 121 零差异的 T0/T1 原始 JSON 证据；Edge 120、Safari 17.2 与移动端仍未测，正式 CSS 仍未准入。本执行容器仍未安装 Vite+。见 [首次本机运行记录](docs/research/LOCAL_BROWSER_RUN_20261104.md)。
+- W-03 开发分支已增加 `package.json`、`vite.config.ts`、`fixtures/` 与 `tests/`；**R-003 产品 CSS 源码和单一 CSS 根导出已实现，已由旧 Node 复制脚本切换为 Vite+ 内置构建配置；仍没有发布包或完整消费端验收**。Vite+ 已在清单中固定到 1.4.0；维护者的 Windows 本地环境已完成 `vp check`（54 文件格式和 11 文件 Lint 通过）、`vp test`（6/6）及 `npm run test:offline`（23/23），`DEP0190` 在修复后的 Windows 回归中未再出现；R-003 已取得 Chrome 156 零差异、Chrome for Testing 120.0.6099.109 四组差异和 Firefox 121 零差异的 T0/T1 原始 JSON 证据；Edge 120、Safari 17.2 与移动端仍未测，正式 CSS 仍未准入。本执行容器仍未安装 Vite+。见 [首次本机运行记录](docs/research/LOCAL_BROWSER_RUN_20261104.md)。
 - 目标：低侵入 CSS 标准化基础库；Reset、A11y、Forms 是已接受的长期可选模块方向，**首版延期**；默认不内置 `@layer`，固定 Baseline 2023 作为特性参考。
 - **工具链决策**：后续开发统一 Vite+，参见 [ADR-0005](docs/adr/0005-viteplus-toolchain.md)。工具链保持 Vite+；本次已明确授权首批 CSS 开发，不据此推定 npm 发布、引入新依赖或增加 CI 的权限。
 
