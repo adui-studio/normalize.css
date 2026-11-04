@@ -143,7 +143,7 @@ pnpm exec vp check --no-fmt  # 仅隔离格式问题排查 lint，不等于完�
 | [开发准入清单](docs/research/REVIEW_GATE.md)                                  | 四份已接受 ADR 与剩余验证门槛                                                                     |
 | [MVP 实施计划](docs/plans/MVP_IMPLEMENTATION_PLAN.md)                         | W-01～W-07 的任务分解、依赖、测试与发布前验收                                                     |
 | [Vite+ 本地 Harness 设计](docs/plans/VITEPLUS_LOCAL_HARNESS_DESIGN.md)        | 本机 `vp test` / `vp dev` 已运行；`vp check` 格式失败，旧版实测未完成                             |
-| [纯 CSS npm 包交付研究](docs/plans/CSS_PACKAGE_DELIVERY_REVIEW.md)            | W-04 已通过真实包安装、单一 CSS 导出和 Vite+ 生产消费端测试                          |
+| [纯 CSS npm 包交付研究](docs/plans/CSS_PACKAGE_DELIVERY_REVIEW.md)            | W-04 已通过真实包安装、单一 CSS 导出和 Vite+ 生产消费端测试                                       |
 | [浏览器矩阵](docs/research/BROWSER_REVIEW.md)                                 | 支持范围与测试策略草案                                                                            |
 | [竞品对照](docs/research/COMPETITOR_REVIEW.md)                                | 六类 Normalize/Reset 方案源码研究                                                                 |
 
