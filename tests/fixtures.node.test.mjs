@@ -73,20 +73,20 @@ test("R-004 T1b only adds the font-family change to T1", () => {
 test("W-06 T0/T2 pages share probe targets and only T2 loads the real packed CSS", () => {
   const baseline = read("t2-native.html");
   const integrated = read("t2-package.html");
-  const bodyOf = (markup) => markup.match(/<body>[\\s\\S]*?<\\/body>/)?.[0];
-  const firstStyle = (markup) => markup.match(/<style>[\\s\\S]*?<\\/style>/)?.[0];
+  const bodyOf = (markup) => markup.match(/<body>[\s\S]*?<\/body>/)?.[0];
+  const firstStyle = (markup) => markup.match(/<style>[\s\S]*?<\/style>/)?.[0];
 
   assert.ok(bodyOf(baseline), "Missing baseline body");
   assert.equal(bodyOf(baseline), bodyOf(integrated));
   assert.equal(firstStyle(baseline), firstStyle(integrated));
   assert.deepEqual(measuredIds(baseline), measuredIds(integrated));
   assert.equal(measuredIds(baseline).length, 10);
-  assert.doesNotMatch(baseline, /id="package-css"|dist\\/normalize\\.css/);
+  assert.doesNotMatch(baseline, /id="package-css"|dist\/normalize\.css/);
   assert.match(
     integrated,
-    /<link id="package-css" rel="stylesheet" href="\\.\\.\\/dist\\/normalize\\.css" \\/>/,
+    /<link id="package-css" rel="stylesheet" href="\.\.\/dist\/normalize\.css" \/>/,
   );
-  assert.doesNotMatch(integrated, /id="candidate-rule"|font-size:\\s*1em|monospace,\\s*monospace/);
+  assert.doesNotMatch(integrated, /id="candidate-rule"|font-size:\s*1em|monospace,\s*monospace/);
 
   const packageJson = JSON.parse(
     readFileSync(new URL("../package.json", import.meta.url), "utf8"),
