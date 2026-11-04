@@ -1,6 +1,6 @@
 # W-04 — 纯 CSS npm 包导出与副作用验收方案
 
-- **状态**：**W-04 当前约定的 CSS 包交付门槛已满足**：`vp pack` 唯一 CSS、真实 tarball/离线安装和 Vite+ 生产消费均已实测通过。根据维护者最新决定只将 Vite+ 列为本项目的构建与必测消费者；不要求或安装 Webpack。当前仍 `private: true`、`0.0.0`，尚未合并或发布。
+- **状态**：**W-04 当前约定的 CSS 包交付门槛已满足（Issue #5 Closed · Completed）**：`vp pack` 唯一 CSS、真实 tarball/离线安装和 Vite+ 生产消费均已实测通过。根据维护者最新决定只将 Vite+ 列为本项目的构建与必测消费者；不要求或安装 Webpack。当前仍 `private: true`、`0.0.0`，尚未合并或发布。
 - **日期**：2026-11-03
 - **关联**：[Issue #5](https://github.com/adui-studio/normalize.css/issues/5) · [ADR-0003](../adr/0003-mvp-package-contract.md) · [ADR-0005](../adr/0005-viteplus-toolchain.md) · [W-03 Harness 设计](VITEPLUS_LOCAL_HARNESS_DESIGN.md) · [MVP 计划](MVP_IMPLEMENTATION_PLAN.md)
 - **范围**：只验证已接受的 `@adui/normalize.css` **根 CSS 入口**，无运行时 JavaScript 依赖，不发布任何可选 CSS 子路径。
@@ -185,7 +185,7 @@
 - `npm run test:consumer`：独立 Vite+ 1.4.0 **生产构建**通过，`import "@adui/normalize.css"` 的 CSS 保留 **1/1 PASS**；
 - `sideEffects: ["**/*.css"]`、`files: ["dist"]` 和唯一 `exports["."]` 已与实际 tarball 对照。
 
-**W-04 交付验收完成（开发分支范围）**：P-01、P-06、P-07、P-09，以及 P-02 的生产构建子项均已通过。P-03 状态改为“**范围外 / 不要求**”，不是“测试通过”。P-02 开发态/浏览器计算样式、P-05 真实 CSS URL 页面应用、P-10 组件库回归作为 **W-06** 集成/浏览器验收，当前仍未测试；包正式发布仍须 **W-07** 单独审批。不得将本地 CSS 产物可用偷换为 npm 已发布或所有工具链均兼容。
+**W-04 交付验收完成（开发分支范围；Issue #5 已关闭）**：P-01、P-06、P-07、P-09，以及 P-02 的生产构建子项均已通过。P-03 状态改为“**范围外 / 不要求**”，不是“测试通过”。P-02 开发态/浏览器计算样式、P-05 真实 CSS URL 页面应用、P-10 组件库回归作为 **W-06** 集成/浏览器验收，当前仍未测试；包正式发布仍须 **W-07** 单独审批。不得将本地 CSS 产物可用偷换为 npm 已发布或所有工具链均兼容。
 
 §1～§7.6 中关于 Webpack 的文字保留为**当时的研究及阶段记录**，不再代表当前必测范围；如与本节冲突，以本节和当前用户要求为准。全程不增加 CI、运行时 JS 或依赖。
 
