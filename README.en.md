@@ -23,12 +23,15 @@ R-004 deliberately does **not** normalize the font size or font family of `code`
 
 ## Local build
 
-The build copies the authored CSS verbatim to `dist/normalize.css`, with no JS entry or additional build dependency. Vite+ remains the development/testing toolchain.
+The project uses Vite+'s built-in commands. `vp build` uses a CSS-only library entry and targets `dist/normalize.css`. `vp pack` is an **experimental tsdown CSS-only build**, isolated in `dist-pack/`; its output is not published or used by the root export until validated on Vite+ 1.4.0.
 
 ```sh
-npm run build
-npm run test:offline
+vp dev              # Local fixture server
+vp build            # Target: dist/normalize.css
+vp pack             # Experimental output: dist-pack/
 vp check
+vp test
+npm run test:offline
 ```
 
 The only package export is `@adui/normalize.css` → `./dist/normalize.css`. The intended integration with a bundler that supports CSS package imports is:
@@ -39,7 +42,7 @@ import "@adui/normalize.css";
 
 This import is **not yet production-verified** in Vite+ and Webpack consumers. Build the CSS before packaging, and do not publish the package without explicit release approval.
 
-The new CSS-only build and five focused Node tests passed in an isolated Linux Node.js 22.16.0 validation environment, including a local offline tarball install and root-export resolution check. This environment does not meet the package's stated Node/Vite+ version requirement, so these checks do **not** replace the maintainer's supported local Vite+ runs. The earlier Windows tests passed before these latest changes.
+The previous Node-copy build and packaging contract passed in a standalone Linux Node.js 22.16.0 environment; the migrated Vite+ configuration has **not** yet been executed with the project's supported Node/Vite+ runtime. Five updated dependency-free Node contract tests passed separately, but this does not verify `vp build` or `vp pack`. The maintainer previously reported 25/25 offline tests passing before this migration.
 
 ## Scope and constraints
 
