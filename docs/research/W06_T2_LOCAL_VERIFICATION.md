@@ -1,6 +1,6 @@
 # W-06 · T2 真实 CSS 浏览器对照（首批）
 
-- **阶段**：维护者反馈首批 T2 本地验证通过（未提交逐浏览器 UA/JSON/截图）；新增的原生交互观察点仍为 NOT_RUN，不能据此宣称整体兼容性 PASS。
+- **阶段**：维护者已提交 Chrome 156 的 T0/T2 页面截图并确认验证通过；可以确认当前截图中的实际 CSS 加载成功、10 个计算样式测量点一致、原生控件可见。新增的键盘、对话框、系统偏好等交互过程**尚无独立证据**，不得扩展为整套浏览器兼容性 PASS。
 - **范围**：R-003 `b/strong` 与 R-004 默认等宽字号。基础 button/search/details/hidden 只作为手工观察点，不在本阶段宣称无障碍兼容通过。
 - **相关**：[W-06 #7](https://github.com/adui-studio/normalize.css/issues/7) · [W-03](../plans/VITEPLUS_LOCAL_HARNESS_DESIGN.md) · [W-04 包证据](../plans/CSS_PACKAGE_DELIVERY_REVIEW.md)
 
@@ -19,6 +19,17 @@ vp dev
 - T2 实际产物：`http://localhost:5173/fixtures/t2-package.html`
 
 **先执行 `vp pack` 是必要前提**：T2 的 `<link>` 直接引用 `../dist/normalize.css`，对应 npm 包唯一根导出 `./dist/normalize.css`；不是拷贝的 T1 候选 CSS。T0 和 T2 的 body 与测试用父级字重样式相同，唯一增加的是 T2 的 CSS 链接。后续用 `vp build` 生成独立的 `dist-fixtures/` HTML 预览；该目录不进入 npm tarball。
+
+## Chrome 156 · T0/T2 截图验证记录（2026-11-04）
+
+**证据来源**：维护者在本次对话中提交的两张完整页面截图（T0 `/fixtures/t2-native.html`、T2 `/fixtures/t2-package.html`）及“验证通过”的人工确认。截图没有作为原始 JSON 或仓库截图文件上传；以下均为**截图可见事实或维护者反馈**，并非自动化浏览器执行结果。
+
+- 浏览器：截图 UA 为 `Chrome/156.0.0.0`、Windows 平台标识（具体 Windows 发行版未单独核验），两页为相同浏览器环境。
+- T2 计算样式面板显示 `packageStylesheet.href = "../dist/normalize.css"`、`packageStylesheet.loaded = true`；T0 无该字段，说明当前本地 Vite+ 服务中真实 CSS link 已挂载。该字段不替代 Network 200 或 stylesheet 内容校验；它与 W-04 已确认的产品构建证据结合使用。
+- 两页原有 **10 个**探针行均一致：6 组 `b/strong` 计算字重（父级 400/600/700）、4 组 `code/kbd/samp/pre` 字号和字体族。截图中等宽元素字号均为 `13px`、fontFamily 为 `monospace`，符合 R-004 不强制改写默认等宽字号的决定。
+- 两页原生 button、search、fieldset、select、textarea、checkbox 和 details/summary **可见**；静态截图不记录键盘事件、焦点状态、`dialog` 弹出及关闭、`hidden="until-found"` 的查找揭示、系统偏好切换。维护者总体反馈通过，**逐交互 F-003～F-007 的可复现证据仍未收集**。
+
+**本次判定**：Chrome 156 的本地 **T0/T2 样式加载与静态计算样式对照 PASS（截图证据）**。不外推到 Chrome 120、Firefox 121、Safari 17.2、Edge 120、移动端或组件库。W-06 继续 Open；其余功能按 PASS / FAIL / NOT_RUN 逐项记账。
 
 ## 下一批：原生交互最小检查（F-003～F-007）
 
