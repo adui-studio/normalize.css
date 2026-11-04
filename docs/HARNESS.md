@@ -46,6 +46,8 @@
 
 **W-06 Chrome 156 实测截图（2026-11-04）**：维护者提供 T0/T2 两张页面截图并反馈验证通过；T2 实际 CSS link 的 `packageStylesheet.loaded` 为 `true`，T0 与 T2 10 个计算样式测量点一致。已记为该浏览器环境的**静态 CSS 加载与样式对照 PASS**；原生表单控件和 details 可见，但截图不能证明 Tab/键盘、dialog Esc、hidden/until-found、系统偏好、Edge/Safari/移动端及组件库回归通过。研究记录见 [W-06 T2 本地验证说明](research/W06_T2_LOCAL_VERIFICATION.md)。本次仅整理证据，不新增源码规则/依赖/CI。
 
+**W-06 Chrome 156 原生交互人工 PASS 补充（2026-11-04）**：维护者明确确认已在 T0/T2 本地页实际操作并通过：原生 `dialog` 打开与 Esc 关闭、键盘焦点、`hidden="until-found"` 页面查找揭示。将 F-005、F-006、F-007 的这些具体子项标记为**维护者人工验证 PASS**，但本轮没有交互录屏、自动化日志或其他浏览器实测；不推断 dialog 表单关闭按钮、整个键盘遍历、系统减少动效/强制颜色偏好、完整 UI 组件库矩阵已通过。详情见[W-06 本地记录](research/W06_T2_LOCAL_VERIFICATION.md)。W-06 #7 继续 Open，不增加产品 CSS、依赖或 CI。
+
 ## 1. Harness 目标
 
 形成可重复的闭环：理解需求 → 影响分析 → 制定验证矩阵 → 最小修改 → 检查 → 定位失败 → 修复重验 → 记录结果。未来仅考虑维护者本地运行可复现检查并记录结果；项目明确**不增加任何 CI**，避免仅凭经验声称跨浏览器兼容。
