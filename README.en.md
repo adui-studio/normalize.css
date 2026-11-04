@@ -25,17 +25,16 @@ R-004 deliberately does **not** normalize the font size or font family of `code`
 
 ## Package manager policy (W-07)
 
-The project uses **pnpm 12.15.0** as its **only root dependency manager**, pinned by `package.json#packageManager`. Node must satisfy `^22.18.0 || ^24.11.0 || >=26.0.0`. The root `pnpm-lock.yaml` has **not yet been generated and committed**, so reproducible installation is pending maintainer verification on Windows with registry access.
+The project uses **pnpm 12.15.0** as its **only root dependency manager**, pinned by `package.json#packageManager`. Node must satisfy `^22.18.0 || ^24.11.0 || >=26.0.0`. The root `pnpm-lock.yaml` has **now been committed**. Its pnpm version and the project importer's pinned `vite-plus@1.4.0` match the manifest. A successful Windows frozen install still requires real command output before it can be marked verified.
 
 ```sh
 pnpm --version               # Expected: 12.15.0
-pnpm install --lockfile-only # First generate the real pnpm-lock.yaml
-pnpm install --frozen-lockfile
+pnpm install --frozen-lockfile # Use the committed pnpm-lock.yaml
 pnpm exec vp check
 pnpm exec vp test
 ```
 
-Commit the generated lockfile after successful validation. The separate test scripts intentionally invoke npm internally to check **npm tarball behavior**; this does not authorize an additional npm lockfile or change the pnpm-only project policy. See [W-07 review](docs/research/W07_RELEASE_READINESS_REVIEW.md).
+The committed pnpm 12 lockfile contains two YAML documents (environment and project dependency graphs), which is expected. Save frozen-install and test results for verification. The separate test scripts intentionally invoke npm internally to check **npm tarball behavior**; this does not authorize an additional npm lockfile or change the pnpm-only project policy. See [W-07 review](docs/research/W07_RELEASE_READINESS_REVIEW.md).
 
 ## Local build
 
