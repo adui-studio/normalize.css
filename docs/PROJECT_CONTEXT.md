@@ -125,6 +125,8 @@
 
 **W-06 Vue/React 生态消费第一批（2026-11-04）**：依据当前 Issue #7 的生态回归要求，新增两个**隔离、可选执行**的测试消费者：Vue 3.5.44 + Element Plus 2.14.7、React 19.3.1 + Ant Design 6.6.8。实际源码生成器与测试脚本位于 `tests/ecosystem-*.mjs`，先 `vp pack` 再用真实 npm tarball 安装，Vite+ 1.4.0 分别构建 native/T2，T2 独有 CSS 根导入。框架与组件库仅在用户显式运行命令时安装到被 Git 忽略的临时目录，根 `package.json` 只增加无依赖的 `test:ecosystem` 脚本，并将两项离线契约加入 `test:offline`；未修改产品 CSS、根运行时依赖、CI 或 npm 发布。已用 Code Mode 检查生成器语法、T0/T2 仅差一个 CSS import，**尚无真实依赖安装/Vite+ 生产消费者构建或浏览器 UI 比对结果**，状态 NOT_RUN。TDesign、Tailwind Preflight、UnoCSS Reset 留到后续范围；详见[W-06 生态本地验证说明](research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)。
 
+**W-06 Vue/React 实际构建与离线测试修复（2026-11-04）**：维护者 Windows 实测 `npm run test:ecosystem -- vue-element` **PASS**（T0 CSS 360171 字节，T2 360362 字节）、`npm run test:ecosystem -- react-antd` **PASS**（T0 静态 CSS 0，T2 192 字节；Ant Design 可在运行时注入样式）；再次执行 `vue-element --keep` PASS，并保留真实 tarball 临时消费者目录用于浏览器 T0/T2 对照。同期 `npm run test:offline` **29/30 PASS、1 FAIL**，唯一失败在 `tests/package.node.test.mjs:95`：新增第七项 `ecosystem-contract.node.test.mjs` 后，脚本全等断言仍要求旧六项列表。已只更新该断言使其与 `package.json` 对齐，未改生态构建逻辑或产品 CSS；**修复后 30/30 尚待维护者本机复验**。Vue/React 真实生产构建验证已通过，但组件实际挂载、UI 外观、键盘焦点仍为 NOT_RUN，W-06 #7 保持 Open。详情见[生态记录](research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)。无新增根依赖或 CI。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与待决策变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源
