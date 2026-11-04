@@ -50,6 +50,8 @@
 
 **W-06 首批生态消费脚本（2026-11-04，待真实安装/运行）**：新增 `tests/ecosystem-fixtures.mjs`、`tests/ecosystem-consumer.mjs` 与 `tests/ecosystem-contract.node.test.mjs`。通过真实 `vp pack` CSS tarball、现有 Vite+ 1.4.0，在 Git 忽略的临时目录隔离构建 Vue 3 + Element Plus 与 React + Ant Design 的 T0/T2；测试入口只差 `import "@adui/normalize.css"`，各有独立生产构建，以排除共享 CSS 污染。`npm run test:offline` 新增纯 Node 静态契约，不下载依赖；`npm run test:ecosystem -- vue-element` / `react-antd` 仅在人工执行时安装对应固定版本至临时消费者（禁用安装脚本），不修改正式 npm 包、项目依赖或 CI。已在 Code Mode 对新生成器执行 JavaScript 解析及 T0/T2 来源隔离检查，**真实 Node 离线套件和 Vite+ UI 库构建在本轮仍 NOT_RUN**，不宣称视觉兼容通过。见[生态验证指南](research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)。
 
+**W-06 Vue/React 真实消费端本机结果（2026-11-04）**：维护者 Windows 运行 `npm run test:ecosystem -- vue-element` **PASS**（T0 静态 CSS 360171 字节、T2 360362 字节）、`npm run test:ecosystem -- react-antd` **PASS**（T0 静态 CSS 0 字节、T2 192 字节）；`vue-element --keep` 再次 PASS，并保留 `node_modules/.cache/adui-ecosystem-tLDzuZ` 临时消费者供浏览器对照。React/Ant Design 的 0 字节仅是**静态 CSS 输出**，不能推断组件运行时无 CSS。维护者同轮 `npm run test:offline` 结果 **29/30 PASS，1 FAIL**，唯一失败源于 `tests/package.node.test.mjs` 固定的旧六项离线脚本清单，与新增第七项 `ecosystem-contract.node.test.mjs` 不一致；现已对该断言实施最小修复，**修复后的完整离线测试未重新运行**。生态构建 PASS 不等于组件渲染、焦点、样式冲突测试 PASS，F-009 仍部分完成。见[完整验证记录](research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)。无产品 CSS/CI 修改。
+
 ## 1. Harness 目标
 
 形成可重复的闭环：理解需求 → 影响分析 → 制定验证矩阵 → 最小修改 → 检查 → 定位失败 → 修复重验 → 记录结果。未来仅考虑维护者本地运行可复现检查并记录结果；项目明确**不增加任何 CI**，避免仅凭经验声称跨浏览器兼容。
