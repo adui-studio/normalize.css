@@ -133,6 +133,8 @@
 
 **W-06 离线 Node 30/30 与 TDesign 生态场景（2026-11-04）**：维护者 Windows 最新 `npm run test:offline` 实际 **30/30 PASS、0 FAIL**（1101.97ms），证明此前 `test:offline` 的旧清单断言已修复；此结论针对**新增 TDesign 代码之前**的实际版本。当前开发分支已在原 `tests/ecosystem-fixtures.mjs` 中增加 `vue-tdesign`，固定 Vue 3.5.44 + TDesign Vue Next 1.20.10，使用官方 `tdesign-vue-next/es/style/index.css`，保留真实 npm tarball + Vite+ 1.4.0 的 T0/T2 独立构建模式，无根项目新增依赖。离线契约测试扩充组件导入及样式路径核查；通过源生成器静态确认三组案例仅 CSS 导入不同，**新代码的 `vp check`、完整 Node 测试、TDesign 安装/生产构建/浏览器测试仍未取得维护者结果**。Vue+Element Plus、React+Ant Design 的既有 Chrome 156 静态回归 PASS 继续有效；Tailwind/UnoCSS Reset 仍未实现，W-06 #7 继续 Open。详细见 [W-06 生态本地验证](research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)。不改产品 CSS、不增加 CI、不发布 npm。
 
+**2026-11-04 · W-06 最新推进**：维护者反馈 TDesign 对照已完成；本轮未新提供逐浏览器 JSON、交互日志及截图，记录为“维护者报告完成，证据待归档”，不擅自扩展为全部平台 PASS。已在 `feat/viteplus-local-harness` 建立 F-010 的三个独立 Reset 测试场景与 `npm run test:reset` 命令，新增 [本地执行指南](research/W06_RESET_LOCAL_VERIFICATION.md)。目前仅完成代码/隔离逻辑的静态核对；**尚未安装 Reset、运行新 Vite+ 构建、采集浏览器结果或更新产品 CSS**。保持 W-06 #7 Open、禁止新增 CI、禁止发布及合并 main。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与待决策变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源
