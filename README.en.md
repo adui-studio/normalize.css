@@ -2,68 +2,55 @@
 
 [简体中文](README.md) · **English**
 
-A planned, modern CSS normalization foundation emphasizing **minimal defaults, optional enhancements, predictable behavior, and verifiable compatibility**.
+A minimal, evidence-driven CSS Normalize library. It aims to preserve native browser defaults while correcting demonstrated inconsistencies, without runtime JavaScript.
 
-> **Status: W-03 development started on a separate branch.** ADR-0001 through ADR-0005 are Accepted. Vite+ configuration, standalone HTML fixtures and local tests now exist. No distributable Normalize stylesheet, npm export, or verified minimum-browser compatibility claim exists yet.
+> **Development preview; not published.** The feature branch now contains one Normalize rule (R-003), one CSS root export and a dependency-free static CSS build. The package remains `private: true` at version `0.0.0`. Browser support and UI-framework integration have not completed release validation.
 
-## Goals
+## First implementation
 
-- Normalize demonstrable cross-browser differences while preserving useful native HTML semantics.
-- Keep the default normalization entry low-impact; make reset, accessibility and form enhancements opt-in.
-- Evaluate individual rules instead of copying another project's stylesheet wholesale.
-- Design for plain HTML, Vue, React and component libraries such as Element Plus, Ant Design and TDesign.
-- Aim for no runtime JavaScript dependency and reproducible CSS validation.
+Only R-003 is included in `src/normalize.css`:
 
-## Approved MVP scope (not implemented)
+```css
+b,
+strong {
+  font-weight: bolder;
+}
+```
 
-| Entry                           | Purpose                              | MVP status                |
-| ------------------------------- | ------------------------------------ | ------------------------- |
-| `@adui/normalize.css`           | Evidence-based browser normalization | Only planned public entry |
-| `@adui/normalize.css/reset.css` | Optional layout reset                | Deferred                  |
-| `@adui/normalize.css/a11y.css`  | Optional focus/preferences           | Deferred                  |
-| `@adui/normalize.css/forms.css` | Optional native forms                | Deferred                  |
-| `@adui/normalize.css/all.css`   | Combined styles                      | Deferred                  |
+Chrome for Testing 120.0.6099.109 showed four computed-weight differences between the native and candidate pages for `b` and `strong` with parent weights 600/700; the candidate changed 700 to 900. Firefox 121 and Chrome 156 showed no additional computed-weight change. These are limited, observed results—not a full compatibility guarantee.
 
-The MVP default entry does not embed `@layer`, CSS feature admission uses fixed **Baseline 2023** as a reference, and **Vite+ 1.4.0** is declared as a development dependency and has now been installed and exercised on the maintainer's local Windows environment. Minimum **test targets** are approved: Chrome/Edge 120, Firefox 121, Safari 17.2 and corresponding core mobile browsers. **The minimum target browser versions remain untested; these are not published support claims.** No installation instructions are available before implementation and release.
+R-004 deliberately does **not** normalize the font size or font family of `code`, `kbd`, `samp` and `pre`. Browser defaults are retained. Reset, Forms, Accessibility and combined styles are deferred.
 
-## Local W-03 harness
+## Local build
 
-The R-004 fixtures now also include an isolated T1b `/fixtures/r004-family-review.html`, keeping T1's `font-size: 1em` and only adding `font-family: monospace, monospace` to study browser fixed-font preferences. This is a test-only experiment, not a product CSS decision. The maintainer's T1 DevTools confirmed that the author CSS rule is present in the CSSOM while both current and captured computed sizes remain 13px. The maintainer has now provided Chrome 156 screenshots showing code/kbd/samp/pre at **13px in T0**, **13px in T1**, and **16px in T1b**; the T1b computed font family is `monospace, monospace`. This is a single-environment computed-style observation, not minimum-browser support evidence.
+The build copies the authored CSS verbatim to `dist/normalize.css`, with no JS entry or additional build dependency. Vite+ remains the development/testing toolchain.
 
-Use Node.js `^22.18.0 || ^24.11.0 || >=26.0.0`, then install dependencies and run `npm exec -- vp dev` to open the `/fixtures/` pages. Use `npm exec -- vp test` for the Vite+ test suite, or `npm run test:offline` for all dependency-free Node tests (including a synthetic offline CSS-package install/resolve smoke test). The fixture-only CSS must never be treated as published normalization rules. After collecting real R-003 T0/T1 JSON from the two HTML pages, run `node tests/r003-evidence.mjs r003-native.json r003-candidate.json` to compare the same browser's six computed-weight samples. The analyzer's 8 new tests use **synthetic data only**, not actual browser observations.
+```sh
+npm run build
+npm run test:offline
+vp check
+```
 
-**Verified here**: all **18/18 dependency-free Node tests pass**. Offline `npm pack --dry-run --json --ignore-scripts --offline .` also runs; with `files: ["dist"]` and no `dist` present, the dry-run includes only `package.json`, **not a functional CSS package**. A separate temporary, synthetic CSS tarball was successfully packed, installed offline, and resolved through its single root export; unexported subpaths were rejected. **This is not a test of the real unpublished Normalize stylesheet or Vite+/Webpack consumers.** CSS side effects are explicitly preserved in staging metadata; `exports` is still absent and the package remains private. **Not verified here**: Vite+ commands, CSS-only packaging or browser results (offline registry, local Node 22.16.0 below requirement; headless Chromium timed out). New evidence-file validation checks regular files and a 256 KiB limit **before reading/parsing**. Its four new tests **4/4 PASS**; the previous offline suite independently passed **18/18**, but the updated complete 22-test command **has not been rerun as a whole**. No CI or npm release.
+The only package export is `@adui/normalize.css` → `./dist/normalize.css`. The intended integration with a bundler that supports CSS package imports is:
 
-See the [first local validation record (2026-11-04)](docs/research/LOCAL_BROWSER_RUN_20261104.md): 22/22 Node tests and 5/5 Vitest tests passed, `vp dev` served the fixtures, while `vp check` failed on 66 formatting issues. Chrome 156 computed weights were identical for R-003 T0/T1; R-004 T1 reports 13px despite an authored 1em rule, while T1b's additional repeated `monospace` family changes all four computed sizes to 16px in Chrome 156. **No minimum-version browser compatibility is established.**
+```js
+import "@adui/normalize.css";
+```
 
-## Vite+ formatting scope
+This import is **not yet production-verified** in Vite+ and Webpack consumers. Build the CSS before packaging, and do not publish the package without explicit release approval.
 
-The root `vite.config.ts` now ignores only the pinned upstream `.agents/skills/**` subtree during formatting. First-party documentation, fixtures, tests, configuration and GitHub templates remain checked. The previously reported 66 formatting failures predate this configuration change; **Vite+ has not yet been rerun with the new setting**, so no formatting-pass claim is made. On the maintainer's machine, run `pnpm exec vp fmt --check` and `pnpm exec vp check` to verify the new scope.
+The new CSS-only build and five focused Node tests passed in an isolated Linux Node.js 22.16.0 validation environment, including a local offline tarball install and root-export resolution check. This environment does not meet the package's stated Node/Vite+ version requirement, so these checks do **not** replace the maintainer's supported local Vite+ runs. The earlier Windows tests passed before these latest changes.
 
-## Design constraints
+## Scope and constraints
 
-The default entry must not silently impose a root font-size, page theme, custom global scrollbars, button appearance resets, or broad margin removal. High-impact rules belong in optional, tested modules.
+- Default Normalize is low-intrusion; no forced root font size, global theme, button reset, general margin reset or `@layer`.
+- Exactly one CSS root export. There are no public `/reset.css`, `/forms.css`, `/a11y.css` or `/all.css` exports in the MVP.
+- Baseline 2023-derived Chrome/Edge 120, Firefox 121 and Safari 17.2 browser targets are **test targets**, not supported-version claims. Edge, Safari, mobile browsers and component-library regressions remain unverified.
+- No CI, no new runtime dependencies, no npm publication.
 
 ## Documentation
 
-- [Agent instructions](AGENTS.md)
-- [Requirements](docs/REQUIREMENTS.md) (Chinese)
-- [Architecture](docs/ARCHITECTURE.md) (Chinese)
-- [Detailed design](docs/SDD.md) (Chinese)
-- [Project context](docs/PROJECT_CONTEXT.md) (Chinese)
-- [Codebase map](docs/CODEBASE_MAP.md) (Chinese)
-- [Skills index](docs/SKILLS.md) (Chinese)
-- [Harness](docs/HARNESS.md) (Chinese)
-- [Documentation validation](docs/DOCUMENTATION_VALIDATION.md) (Chinese)
-- [Accepted ADR-0001: module boundaries](docs/adr/0001-css-base-strategy.md)
-- [Accepted ADR-0002: no default CSS Layers](docs/adr/0002-cascade-layers.md)
-- [Accepted ADR-0003: MVP only default Normalize](docs/adr/0003-mvp-package-contract.md)
-- [Accepted ADR-0004: Baseline 2023 feature reference](docs/adr/0004-browser-support-policy.md)
-- [Accepted ADR-0005: Vite+ development toolchain](docs/adr/0005-viteplus-toolchain.md)
-- [Baseline 2023 browser version mapping (research)](docs/research/BASELINE_2023_MAPPING.md)
-- [MVP implementation plan (Chinese)](docs/plans/MVP_IMPLEMENTATION_PLAN.md)
-
-Chinese documents are the source of truth for now; this README is an English orientation page, not a separately maintained specification.
+Chinese documents are the source of truth: [Requirements](docs/REQUIREMENTS.md), [Detailed design](docs/SDD.md), [Architecture](docs/ARCHITECTURE.md), [Codebase map](docs/CODEBASE_MAP.md), [Harness](docs/HARNESS.md), [R-003/R-004 evidence](docs/research/RULE_EVIDENCE_R003_R004.md), and [project context](docs/PROJECT_CONTEXT.md).
 
 ## License
 
