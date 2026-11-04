@@ -158,6 +158,22 @@ T0/T1 均报告 `font-family: monospace`。仓库 T1 HTML 明确包含 `code, kb
 - **产品取舍**：保持低侵入原则，R-004 **不准入默认 Normalize**。不添加 `font-size: 1em`、`font-family: monospace, monospace` 或强制字体栈；T1b 只保留为风险验证 Fixture。后续若有可选 Typography 模块需求，再另行评审。
 - 此次不运行新提交后的全部 Node/Vite+ 契约测试，上一轮 **22/22 Node 和 5/5 Vitest** 仅对应 T1b 新增前的提交；T1b 页面由维护者实际浏览器访问，但新测试的全量回归仍待执行。
 
+### 3.2.1 Firefox 121.0 三组 R-004 Fixture（2026-11-04）
+
+维护者在 Windows Firefox 121.0 使用现有的 `r004-native.html`（T0）、`r004-risk-review.html`（T1）及 `r004-family-review.html`（T1b），并以 PowerShell `Get-Content | ConvertFrom-Json` 读取三个已下载的探针 JSON，提供了完整表格输出。每个页面的 `code`、`kbd`、`samp`、`pre` **四个元素均相同**：
+
+| 页面对照 | 父级字号 | 元素计算字号 | 计算字体族 |
+| --- | --- | --- | --- |
+| T0（无 Normalize） | `16px` | `16px` | `monospace` |
+| T1（仅额外 `font-size: 1em`） | `16px` | `16px` | `monospace` |
+| T1b（在 T1 基础上额外指定 `monospace, monospace`） | `16px` | `16px` | `monospace, monospace` |
+
+**已验证层级**：以上表格来自维护者实际读取 JSON 的 PowerShell 原始输出；助手尚未收到这三份 R-004 JSON 文件，因此没有独立逐行解析或计算其指纹。数值说明 **当前 Firefox 121 配置下 T0/T1/T1b 字号无差异**，不是用户更改等宽字体偏好、渲染物理字形、所有 Gecko 版本均无影响的证据。与 Chrome 156 的 T0/T1=13px、T1b=16px 形成**不同测试环境**的计算字号观察，不可将环境差异直接定性为浏览器缺陷。
+
+维护者另附独立 BWS Profile 的 Firefox `about:support` JSON；助手对该文件独立解析，核实 `application.version: "121.0"`、`buildID: "20231211174248"`、`updateChannel: "release"`、`osVersion: "Windows_NT 10.0 26200"`。报告的内容进程沙箱等级为 6。完整文件包含本机目录、设备与扩展信息，**不进入公开仓库**；此处仅保留必要版本摘要。此前 R-003 Firefox 121 的发行构建号缺口据此补齐，但 R-003/R-004 的 UA 获胜声明与字体偏好回归仍未验证。
+
+**规则决策不变**：R-004 保留浏览器原生等宽字号偏好；默认 Normalize 不添加 `font-size: 1em`、重复的 `monospace` 字体族或固定代码字体栈。下一步建议在 Chrome for Testing 120 上运行同样三个 R-004 Fixture，继续区分引擎/版本与本地字体设置因素。
+
 ## 3.3 Vite+ 格式检查的来源文件隔离（2026-11-04，配置已提交／未重测）
 
 维护者最初执行 `npm exec -- vp check` 时有 66 个格式错误，涉及仓库自有文件与固定来源的第三方 `.agents/skills/` 文件。根据 [Vite+ 官方格式配置](https://viteplus.dev/config/fmt)，在开发分支的根 `vite.config.ts` **仅**新增：
