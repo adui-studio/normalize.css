@@ -71,7 +71,7 @@ flowchart TD
 | npm 包名 `@adui/normalize.css` | 项目目标已明确             | 与仓库定位一致；发布权限待确认                                            |
 | CSS Cascade Layers             | 首版默认不内置（Accepted） | ADR-0002；逐条评估 `:where()` 和覆盖风险                                  |
 | 开发工具链                     | **Vite+（Accepted）**      | [ADR-0005](adr/0005-viteplus-toolchain.md)；开发期统一 Vite+，无运行时 JS |
-| 纯 CSS 库打包方式              | **已切换 Vite+ 构建方案**  | `vp build` CSS-only 入口待本机验证；`vp pack` 单独试验，消费端未验收      |
+| 纯 CSS 库打包方式              | **已切换 Vite+ 构建方案**  | `vp build` 构建 Fixture；`vp pack` 已实测支持单 CSS，现生成 `dist/`，消费端未验收      |
 | 具体 Vite+ 版本与包管理器      | 未冻结                     | 获开发授权后核对环境、锁文件与最小依赖                                    |
 | 本地浏览器自动化               | 未选型                     | 定义浏览器与 Fixtures，再选本地执行工具；**不增加 CI**                    |
 | 首版包含哪些增强模块           | 已决定：只含 Normalize     | ADR-0003；Reset/Forms/A11y/all.css 延后                                   |
@@ -85,6 +85,6 @@ flowchart TD
 - [ADR-0005：开发工具链统一采用 Vite+](adr/0005-viteplus-toolchain.md) — **Accepted**；尚未安装或运行。
 - [MVP 实施计划](plans/MVP_IMPLEMENTATION_PLAN.md) — 可执行的任务与验收门槛；**尚未开发**。
 
-**2026-11-04 实施说明**：默认 CSS 的首条可追踪规则为 R-003（`b, strong { font-weight: bolder; }`），R-004 不加入；`src/normalize.css` 的开发期产物改为通过 `vp build` 的 CSS-only Vite 库构建生成目标 `dist/normalize.css`，对外仍仅 `exports["."]`。`vp dev` 继续服务 Fixture；`vp pack` 在单独 `dist-pack/` 实验 tsdown 直接 CSS 入口，不能覆盖正式根导出。迁移配置尚未在支持版本的 Windows Vite+ 中验证，不能宣称其已通过。当前保留 `private: true`，WebKit、组件库和生产消费者未做完整验收。
+**2026-11-04 实施说明**：默认 CSS 的首条可追踪规则为 R-003（`b, strong { font-weight: bolder; }`），R-004 不加入；`vp build` 曾尝试把 `src/normalize.css` 作为库输入，但在维护者 Windows Vite+ 1.4.0 因 `cssCodeSplit: false` 与 CSS 入口冲突而失败。`vp pack` 真实成功输出单个 CSS、无 JS，故现改为由 `vp pack` 输出 `dist/normalize.css`、保持唯一根 `exports["."]`；`vp build` 构建六张独立 Fixture HTML 到 `dist-fixtures/`，产物不进入 npm 包；`vp dev` 保持本地 Fixture 服务。新分工尚待本机复测。当前保留 `private: true`，WebKit、组件库和生产消费者未做完整验收。
 
 **更新约定**：模块职责、技术选型、对外依赖和浏览器支持矩阵变化时更新本文件与 ADR，并评估 SDD/需求影响。
