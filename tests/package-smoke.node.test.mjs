@@ -3,7 +3,7 @@ import { spawnSync } from "node:child_process";
 import { existsSync, mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { basename, dirname, join } from "node:path";
 import { test } from "node:test";
 import { pathToFileURL } from "node:url";
 
@@ -13,11 +13,25 @@ const CSS_SAMPLE =
   "/* TEST FIXTURE - NOT A NORMALIZE RULE */\n.__adui_pack_smoke { color: rgb(10, 20, 30); }\n";
 
 function npm(args, cwd, cache) {
-  const cmd = process.platform === "win32" ? "npm.cmd" : "npm";
-  const result = spawnSync(cmd, args, {
+  const isWindows = process.platform === "win32";
+  const npmFromRunner = process.env.npm_execpath;
+  const npmCli =
+    npmFromRunner &&
+    basename(npmFromRunner).toLowerCase() === "npm-cli.js" &&
+    existsSync(npmFromRunner)
+      ? npmFromRunner
+      : join(dirname(process.execPath), "node_modules", "npm", "bin", "npm-cli.js");
+  if (isWindows) {
+    assert.ok(existsSync(npmCli), `Cannot locate npm CLI: ${npmCli}`);
+  }
+
+  // On Windows, invoke the npm JavaScript CLI directly to avoid DEP0190
+  // and keep argv separate from shell command parsing.
+  const command = isWindows ? process.execPath : "npm";
+  const commandArgs = isWindows ? [npmCli, ...args] : args;
+  const result = spawnSync(command, commandArgs, {
     cwd,
     encoding: "utf8",
-    shell: process.platform === "win32",
     timeout: 30_000,
     env: {
       ...process.env,
