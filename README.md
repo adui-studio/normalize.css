@@ -4,7 +4,7 @@
 
 面向现代 Web 应用的 CSS 标准化基础库，目标是**默认克制、按需增强、行为可预测、兼容可验证**。
 
-> **项目状态：已开始 W-03 本地 Harness 开发。** ADR-0001～0005 已通过；本开发分支现有 Vite+ 配置、R-003/R-004 HTML 复现页面和本地单元测试，但**仍无可发布 Normalize CSS、npm 导出或经过最低目标版本实测的兼容性结果**。首版默认入口尚不能安装使用。
+> **项目状态：首批 CSS 源码和根导出已在开发分支实现，尚未发布。** ADR-0001～0005 已通过。当前 `src/normalize.css` 只包含有 Chrome 120 实测支持的 R-003（`b/strong` 相对字重）；R-004 等宽字号保留浏览器默认值。单一 npm CSS 根导出已配置，但包仍为 `private: true`、版本 `0.0.0`，真实生态兼容与完整最低浏览器矩阵尚未验收。
 
 ## 项目目标
 
@@ -14,19 +14,42 @@
 - 优先兼容 Vue、React、原生 HTML，以及 Element Plus、Ant Design、TDesign 等常见组件库。
 - 追求无运行时 JavaScript 依赖、可审计的 CSS 输出和可重复验证流程。
 
-## 已批准的首版入口（尚未实现）
+## 首版入口（开发中，尚未发布）
 
 | 入口（设计约定）                | 责任                         | 首版发布范围             |
 | ------------------------------- | ---------------------------- | ------------------------ |
-| `@adui/normalize.css`           | 仅修复有证据的浏览器 UA 差异 | **首版唯一入口；待实现** |
+| `@adui/normalize.css`           | 仅修复有证据的浏览器 UA 差异 | **开发中，唯一 CSS 根导出** |
 | `@adui/normalize.css/reset.css` | 盒模型与布局重置             | 首版延期；未来单独评审   |
 | `@adui/normalize.css/a11y.css`  | 焦点及系统偏好辅助           | 首版延期；未来单独评审   |
 | `@adui/normalize.css/forms.css` | 原生表单交互增强             | 首版延期；未来单独评审   |
 | `@adui/normalize.css/all.css`   | 显式组合入口                 | 首版延期；未来单独评审   |
 
-长期模块方向已经 [ADR-0001](docs/adr/0001-css-base-strategy.md) 批准，但首版只保留默认入口；默认**不内置 `@layer`**，固定 **Baseline 2023** 为特性准入参考。核心浏览器最低**测试目标**已批准：Chrome/Edge 120、Firefox 121、Safari 17.2（含对应移动浏览器），**尚未实测通过，不能视为已发布支持声明**。npm 导出仍未实现，目前不能执行安装或导入示例。
+长期模块方向已经 [ADR-0001](docs/adr/0001-css-base-strategy.md) 批准，但首版只保留默认入口；默认**不内置 `@layer`**，固定 **Baseline 2023** 为特性准入参考。核心浏览器最低**测试目标**已批准：Chrome/Edge 120、Firefox 121、Safari 17.2（含对应移动浏览器），**尚未完整实测通过，不能视为已发布支持声明**。仓库已实现开发期根导出，但还未发布 npm 包。
 
-## 本地开发与复现（W-03 初始实现）
+## 本地构建与 CSS 使用（未发布）
+
+该开发分支已提供唯一 CSS 根入口，当前只有 R-003：
+
+```css
+b,
+strong {
+  font-weight: bolder;
+}
+```
+
+先生成静态 CSS 产物（Vite+ 仍用于开发检查，无额外运行时 JS 或构建依赖）：
+
+```sh
+npm run build
+npm run test:offline
+vp check
+```
+
+构建会把 `src/normalize.css` 原样复制为 `dist/normalize.css`。如需在本地 HTML 试用，可直接用 `<link rel="stylesheet" href="/dist/normalize.css">`（前提是你的静态服务器确实提供该 URL）。若从本地构建的 npm tarball 安装到支持 CSS 导入的构建工具，可测试 `import "@adui/normalize.css";`，但 Vite+/Webpack 生产消费端兼容尚未正式验收。**不执行 npm publish**。
+
+默认 Normalize 不覆盖 `code/kbd/samp/pre` 的原生字体字号，不包含 Reset/Forms/A11y/组合入口，也不内建 `@layer`。
+
+## 本地开发与复现（W-03）
 
 本分支已配置 Vite+ 1.4.0 作为**开发依赖**；维护者本机已成功执行 `pnpm install`，但**尚未核对提交到 Git 的锁文件**。Node.js 需满足 `^22.18.0 || ^24.11.0 || >=26.0.0`；具体安装完成后请生成并提交所选包管理器的锁文件。
 
@@ -52,11 +75,11 @@ node tests/r003-evidence.mjs r003-native.json r003-candidate.json
 
 输出会区分 `COMPUTED_DIFFERENCE_OBSERVED`、`NO_COMPUTED_DIFFERENCE` 与 `CANDIDATE_MISMATCH`，但**不会自动证明 UA 缺陷、具体发行版本或实际字体渲染**。见 [R-003/R-004 本地验证指南](docs/research/R003_R004_LOCAL_VERIFICATION.md)。
 
-**运行状态（2026-11-03）**：Node 内置测试 **18/18 通过**（探针 2、Fixture 4、包契约 3、离线合成包 1、R-003 合成证据/CLI 8），探针与测试文件语法检查通过；因执行环境为 Node 22.16.0 且 npm Registry 不可用，`vp check/test/dev` 尚未运行、没有生成锁文件。容器内 Chromium 144 无头执行超时，**没有获得浏览器计算样式结果**；最低目标 Chrome/Edge 120、Firefox 121、Safari 17.2 和对应移动端均为 NOT_RUN。Fixture 中的候选 CSS **只供测试，不会发布**。已在开发用 `package.json` 设置 `files: ["dist"]` 与 `sideEffects: ["**/*.css"]`，并真实运行 `npm pack --dry-run --json --ignore-scripts --offline .`：当前缺少 `dist`，仅列出 `package.json`，**这不是 CSS 包打包成功**。进一步用 `tests/package-smoke.node.test.mjs` 临时生成合成 CSS 包，在**隔离临时目录**实际执行 npm pack、离线安装、根 CSS 路径解析、未导出子路径拒绝和文件过滤，全部通过；**此测试不使用正式 Normalize CSS，也不能证明 Vite+/Webpack 消费端通过**。真实项目仍未添加 `exports`，保持 `private: true`。本轮补充 `tests/evidence-file.mjs` 保护 R-003 证据文件读取：先验证普通文件和 256 KiB 上限，再解析 JSON；新边界测试 **4/4 PASS**，此前离线套件重新运行 **18/18 PASS**，**更新后完整 22 项尚未同批运行**。不增加 CI。
+**截至 2026-11-04 的验证范围**：维护者此前在 Windows 完成 `vp check`、Vitest 6/6、Node 23/23 以及 Chrome 120 / Firefox 121 / Chrome 156 的局部 R-003、R-004 对照。本次新增 CSS 和打包脚本在独立 Linux Node 22.16.0 环境中完成构建、5 项定向测试及离线 tarball 安装与入口封装验证；**该 Node 版本低于仓库 Vite+ 引擎下限，尚未在维护者 Windows 上重新执行完整检查**。Chrome 120 的 R-003 原生计算字重与候选有四组差异，Firefox 121 / Chrome 156 无差异；R-004 按浏览器默认行为，不再进行额外字体偏好专项测试。Safari/Edge/移动端、UI 组件库和 Vite+/Webpack 生产消费验证仍未完成。项目不增加 CI、不发布 npm。
 
 ## Vite+ 格式检查与第三方 Skills
 
-已在根 `vite.config.ts` 的 `fmt.ignorePatterns` 中**仅排除固定来源的 `.agents/skills/**`**，避免批量格式化污染第三方原文。项目自有的 Markdown、Fixture、测试、配置与 GitHub 模板仍接受完整 `vp check` 检查。维护者此前报告 **66 个格式问题**，这是配置修改前的结果；**配置修改后尚未重新运行 Vite+ 检查**，不声称格式检查已通过。可以在本地运行：
+已在根 `vite.config.ts` 的 `fmt.ignorePatterns` 中**仅排除固定来源的 `.agents/skills/**`**，避免批量格式化污染第三方原文。项目自有的 Markdown、Fixture、测试、配置与 GitHub 模板仍接受完整 `vp check` 检查。维护者已在 Windows 完成过 `vp check --fix` 并提交推送；当前新增源码和文档仍需在相同环境重验 `vp check`。第三方原版 Skills 保持不变。可以在本地运行：
 
 ```sh
 pnpm exec vp fmt --check
