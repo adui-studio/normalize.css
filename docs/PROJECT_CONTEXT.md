@@ -21,7 +21,7 @@
 | 八类工程资产                 | 文档初始化         | [AGENTS](../AGENTS.md)、需求、SDD、架构、上下文、代码地图、Skills、Harness                                                                        |
 | CSS 源码                     | **未实现**         | 仓库无 src/ 或发布 CSS 文件                                                                                                                       |
 | package.json、依赖、构建脚本 | **部分实现**       | W-03 已有 `package.json` 和 `vite.config.ts`；固定 Vite+ 1.4.0（开发依赖），维护者本机已成功安装并运行 Vite+；锁文件是否提交尚未核实              |
-| 自动化测试、浏览器回归       | **部分实现**       | 维护者本机 Node **23/23 PASS**、Vitest **6/6 PASS**、`vp check` PASS（54 文件格式、11 文件 Lint）；`DEP0190` 修复待本机复测；最低浏览器目标仍未测 |
+| 自动化测试、浏览器回归       | **部分实现**       | 本机 `vp check` PASS、Node **23/23**、Vitest **6/6**；`DEP0190` 未再出现；Chrome 156 R-003 JSON 六组无差异；最低浏览器目标未测                    |
 | CI                           | **明确不规划**     | 项目约束：不增加任何 CI                                                                                                                           |
 | npm 包发布、版本号           | **未发布/未确定**  | 不能将先前讨论的草案版本当成仓库发布事实                                                                                                          |
 | 架构方案                     | **已接受／未实现** | ADR-0001～0005 均 Accepted；[MVP 实施计划](plans/MVP_IMPLEMENTATION_PLAN.md) 已建立，浏览器兼容承诺仍待验证                                       |
@@ -36,7 +36,7 @@
 - **ADR-0003 Accepted**：首版只规划 `@adui/normalize.css` 默认根入口；`all.css` 等路径延期。
 - **ADR-0004 Accepted**：固定 Baseline 2023 作为特性准入参考，七项 [最低浏览器测试目标](research/BASELINE_2023_MAPPING.md) 已批准并依据时间线核对；实际兼容性声明、OS/设备/WebView 仍未实测。
 - **ADR-0005 Accepted**：开发工具链统一使用 Vite+，Vite+ 1.4.0 已在维护者本机运行；纯 CSS 打包方式仍未确定；最近一次本机完整格式/Lint 检查已通过，但新提交的测试改动未重验。
-- **W-02 部分研究**：已批准最低测试目标包含旧 Blink/WebKit，因此 R-003 成为首版必测条件性候选；R-004 不宜在默认 Normalize 中覆盖用户等宽字号偏好；Chrome 156 T0/T1/T1b 已观察到 13px/13px/16px 的局部差异。[专项证据](research/RULE_EVIDENCE_R003_R004.md) 与 [本地执行指南](research/R003_R004_LOCAL_VERIFICATION.md) 已建立，真实浏览器复现未执行。
+- **W-02 部分研究**：已批准最低测试目标包含旧 Blink/WebKit，因此 R-003 成为首版必测条件性候选；R-004 不宜在默认 Normalize 中覆盖用户等宽字号偏好；Chrome 156 T0/T1/T1b 已观察到 13px/13px/16px 的局部差异。[专项证据](research/RULE_EVIDENCE_R003_R004.md) 与 [本地执行指南](research/R003_R004_LOCAL_VERIFICATION.md) 已建立；Chrome 156 已完成 R-003 六组真实 JSON 对照，最低目标版本仍未实测。
 - 仍需实测 Vue/React、Element Plus、Ant Design、TDesign、Tailwind/UnoCSS Reset 兼容性；所有候选规则均未获准实现。
 
 ## 4. 当前工作与后续顺序
@@ -87,7 +87,7 @@
 
 | 2026-11-04 | 维护者第二轮本机静态检查与测试 | `vp fmt --check` / `vp check` 仍 FAIL（报告 54 个第一方文件）；离线 Node 23/23、Vitest 6/6 PASS；Windows `DEP0190` 警告待处理，未执行正式 CSS 打包/旧版浏览器矩阵 |
 
-**最新状态补充（2026-11-04）**：维护者格式化提交后第三轮 Windows 检查已通过：`vp check` 54 文件格式正确、11 文件 Lint 无错误，`vp test` 6/6 与离线 Node 23/23 通过。随后修复 `tests/package-smoke.node.test.mjs` 的 Windows `DEP0190` 子进程风险；该变更已提交但尚未在 Windows 重新跑完整测试。W-03 仍需历史浏览器证据，W-04 仍缺正式 CSS 包与消费端验收，无 CI、无发布。
+**最新状态补充（2026-11-04）**：维护者完成 Windows 修复后回归：`vp check` 54 文件格式正确、11 文件 Lint 无错误，`vp test` 6/6、离线 Node 23/23、独立 npm 烟测 1/1 均通过，`DEP0190` 未再出现。随后真实运行 R-003 T0/T1 JSON 比较器，得到 `NO_COMPUTED_DIFFERENCE`、零差异（Chrome 156，见[记录 §2.1](research/LOCAL_BROWSER_RUN_20261104.md)）。这不是 Chrome/Edge 120、Firefox 121、Safari 17.2 及移动端的兼容验收。W-03 仍需最低浏览器证据，W-04 仍缺正式 CSS 包与消费端验收，无 CI、无发布。
 
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与下一阶段变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
