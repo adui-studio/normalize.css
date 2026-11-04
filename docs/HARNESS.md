@@ -161,6 +161,8 @@ npm pack --dry-run --json --ignore-scripts --offline .
 
 **2026-11-04 · W-07 首轮审核与待执行本机复核**：GitHub 开发分支已确认 `package.json` 的唯一 CSS 根导出、历史真实 tarball/消费端测试文件、MIT 与第三方 Skill 许可证；双语 README 已校正当前状态，根目录补建仅 Unreleased 的更新日志，核对核心文档 252 个本地 Markdown 链接均有提交树路径对应。上述是**远程仓库静态检查**，本轮未实际运行 `vp check`、`vp test`、`npm run test:offline`、`vp pack`、`npm run test:package`、`npm run test:consumer` 或 `npm pack --dry-run --json`。包管理器锁文件、release manifest 元数据与正式版本尚待维护者决策，W-07 Issue #8 保持 Open。详情见 [发布前审核记录](research/W07_RELEASE_READINESS_REVIEW.md)，禁止新增 CI 或自动发布。
 
+**2026-11-04 · W-07 pnpm 锁文件验收门槛（最新）**：已固定唯一根依赖管理器为 `pnpm@12.15.0`，但 `pnpm-lock.yaml` 尚未生成或提交。维护者须在符合 `engines.node` 的 Windows 环境，先核对 `pnpm --version`，再 `pnpm install --lockfile-only`、`pnpm install --frozen-lockfile`，确认无其它根锁文件后提交真实 `pnpm-lock.yaml`。本执行环境 pnpm 不可用、npm Registry DNS 返回 `EAI_AGAIN`，因此**未执行**依赖安装/冻结安装或新一轮 `vp check` / `vp test` / npm tarball 验证；不能标记为 PASS。本仓库 Node 测试内部使用 npm 校验 tarball 格式不改变根项目 pnpm-only 决策。详见 [W-07 审核记录](research/W07_RELEASE_READINESS_REVIEW.md)，不新增 CI。
+
 ## 6. 安全和发布门禁（规划）
 
 - 审核第三方规则的许可证及改写过程；不引入未经审批的远程字体、图片或跟踪请求。
