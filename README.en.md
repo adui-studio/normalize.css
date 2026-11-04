@@ -46,6 +46,12 @@ import "@adui/normalize.css";
 
 **W-04 scope:** Vite+ is the only build and required consumer toolchain for this CSS library. The previously added Webpack-specific smoke test has been removed; standard CSS assets do not require Webpack. The real npm tarball and Vite+ production consumer checks have passed. Browser and framework rendering remain separate release-readiness work. Only syntax validation has been completed so far.
 
+## W-06 real CSS T2 browser comparison
+
+First run `vp pack` to generate `dist/normalize.css`, then `vp build` or `vp dev`. Compare `/fixtures/t2-native.html` (native) with `/fixtures/t2-package.html` (the identical content with a link to the actual packed CSS). The probe reports `packageStylesheet.loaded`; a failed stylesheet load cannot count as a browser compatibility pass.
+
+The new fixtures cover R-003 emphasis weights, unchanged R-004 monospace values, and basic native control observation points. **No actual T2 browser results have been verified yet.** See the [Chinese local verification guide](docs/research/W06_T2_LOCAL_VERIFICATION.md). No new library rules, runtime dependencies, CI, or public exports were added.
+
 ## Windows line endings
 
 `.gitattributes` enforces LF working-tree line endings for Git-detected text, regardless of `core.autocrlf`; `.editorconfig` requests UTF-8, LF, and a final newline in editors (including JetBrains). These prevent repeated CRLF-to-LF formatting on future checkouts and saves but may not rewrite already checked-out files.
