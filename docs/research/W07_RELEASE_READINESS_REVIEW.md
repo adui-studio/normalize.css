@@ -7,6 +7,16 @@
 - **审核判断**：**部分通过，发布准备尚未就绪；Issue #8 保持 Open**。
 - **红线**：不修改产品 CSS 或既定包根入口；不新增依赖/CI、GitHub Actions、自动发布；不执行 npm publish、GitHub Release、`main` 合并。
 
+## 2026-11-05 · P-04 npm 账户与作用域本机核验（最新）
+
+维护者提供 Windows PowerShell 的**真实只读查询**：
+
+- `npm config get registry` → `https://registry.npmjs.org/`，**PASS**。
+- `npm whoami --registry=https://registry.npmjs.org/` → `adui`，**PASS**。依 npm 官方 [About scopes](https://docs.npmjs.com/about-scopes/) 的用户作用域规则，`adui` 账号与 `@adui` **个人作用域归属一致**；GitHub 仓库所在组织 `adui-studio` 不影响此结论。
+- `npm view "@adui/normalize.css" version --registry=https://registry.npmjs.org/` → **E404 Not Found**。Registry 未向本次请求返回可访问的发行版本；可能未发布或不可访问，**无法以 404 单独确认首发包名一定可用、发布权限或认证条件均满足**。
+
+**阶段结论**：P-04 的**官方 Registry、npm 用户身份与个人作用域匹配 PASS**；包名首次可发布性及发布认证/双因素安全要求仍待在账户环境确认，故整体 **PARTIAL PASS，未满足全部发布前门槛**。维护者未运行 `npm publish`；本助手未获取令牌/登录凭据，也不通过试发布验证。不修改 `private:true`、`0.0.0`、CSS 或依赖。详见 [首发决策审核](W07_RELEASE_GATES.md)。
+
 ## 2026-11-05 · P-02/P-04/P-05 首发决策审查（最新）
 
 在不调整产品 CSS 或包配置的前提下，已审查 npm 作用域与 SemVer 官方规范，并对照 ADR-0004 和 W-06 实际验收等级。**发行门槛审核结论**：[W-07 首发决策审核](W07_RELEASE_GATES.md)。
@@ -205,7 +215,7 @@ git push origin feat/viteplus-local-harness
 | P-01 | **锁文件与包管理器策略** | pnpm 12.15.0、唯一 `pnpm-lock.yaml` 已入库；维护者 Windows `pnpm install --frozen-lockfile` 83ms 成功且依赖解析跳过                                                                              | **PASS（真实冻结安装 + GitHub 静态核对）**                                                         |
 | P-02 | **版本和 npm 发布开关**  | `version:"0.0.0"`、`private:true`                                                                                                                                                                | **预期发布阻断**：保持现状直到维护者正式指定首个语义化版本并授权公开发布；**不提前清除 `private`** |
 | P-03 | **npm 公开元数据**       | `author:"ADui"` 等元数据齐全；真实 tarball 1/1、Vite+ 消费 1/1、npm 五文件 dry-run PASS                                                                                                          | **PASS：最终含 author 的 manifest 已通过真实包及消费验证**                                         |
-| P-04 | **npm 组织/作用域权限**  | 无已验证的 `@adui` npm scope 发布授权、包名可用性或维护者身份资料                                                                                                                                | **NOT_VERIFIED**：发布前由维护者自行核验；不读取令牌、不登录、不尝试发布                           |
+| P-04 | **npm 组织/作用域权限**  | 官方 Registry 已核实，`npm whoami=adui`；个人 `@adui` 作用域归属已验证，`npm view` 返回 E404                                                                                                     | **PARTIAL PASS：账户/作用域匹配，首发包名及发布认证待核**                                          |
 | P-05 | **公开兼容性范围**       | [W-06](W06_ACCEPTANCE_INDEX.md) 已获维护者管理验收；缺少本次逐目标 UA/OS/设备原始附件                                                                                                            | **文案门槛**：不得把目标最低版本清单直接写成已经可复核 PASS 的公开支持承诺                         |
 | P-06 | **最终本机复核**         | 维护者 Windows 实际日志：19 文件格式/Lint 正常，Vitest 7/7、Node 33/33、唯一 CSS 打包、真实 tarball 1/1、Vite+ 消费 1/1、冻结安装成功、`git diff --check` 无输出、npm 预打包五文件白名单完全匹配 | **PASS（真实执行日志；`.idea/` 已在后续仓库规则中忽略，生效待下一次拉取确认）**                    |
 | P-07 | **最终发行准许**         | W-07 当前只获授权执行质量审核，**未授权发布、Release、合并或改生产配置**                                                                                                                         | **BLOCKER**：发布需维护者新的明确指令                                                              |

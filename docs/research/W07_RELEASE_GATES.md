@@ -3,7 +3,7 @@
 - **审核日期**：2026-11-05
 - **工作项**：[W-07 / Issue #8](https://github.com/adui-studio/normalize.css/issues/8)
 - **所属分支**：`feat/viteplus-local-harness`
-- **状态**：P-02 形成版本建议，**待维护者正式决策**；P-04 **NOT_VERIFIED**；P-05 文案与证据边界已审核，**正式最低版本支持矩阵未冻结**；P-07 未授权。
+- **状态**：P-02 形成版本建议，**待维护者正式决策**；P-04 **用户身份及个人作用域已核验，首次发布准备仍待确认**；P-05 文案与证据边界已审核，**正式最低版本支持矩阵未冻结**；P-07 未授权。
 - **范围**：这是发行前决策研究及审核记录，**不是批准改变 `package.json`、取消 `private`、发布或合并主分支**。
 
 ## P-02 · 首个公开版本
@@ -22,7 +22,7 @@
 
 ## P-04 · npm `@adui` 发布权限
 
-**仅仓库事实已确认**：包名为 `@adui/normalize.css`；作者是 `ADui`；GitHub 仓库是 `adui-studio/normalize.css`。这些字段**不能证明** `@adui` 是维护者拥有的 npm 用户账户或组织，也无法证明有发布写权限。
+**2026-11-05 最新核验**：包名为 `@adui/normalize.css`，作者是 `ADui`。维护者在 Windows PowerShell 使用 npm 官方 Registry 的现有登录态实际执行 `npm whoami`，返回 **`adui`**。npm 官方 [About scopes](https://docs.npmjs.com/about-scopes/) 明确每个 npm 账户拥有与用户名对应的个人作用域，因此**当前登录账号对 `@adui` 用户作用域的身份归属已确认**；GitHub `adui-studio` 不需要与 npm 用户名相同。**这并非首次发布已经获准/成功的实测证明**。
 
 官方依据：
 
@@ -30,7 +30,7 @@
 - [npm Package scope / access matrix](https://docs.npmjs.com/package-scope-access-level-and-visibility/)：公共包可以被所有人访问，但发布权限取决于包所有者或有写权限的团队/成员。
 - [npm Creating and publishing scoped public packages](https://docs.npmjs.com/creating-and-publishing-scoped-public-packages/)：公开 scoped 包有单独的发布权限、访问级别与账户安全门槛。
 
-**维护者本机只读核对（尚未执行）**：
+**维护者本机只读核对（已执行，真实输出）**：
 
 ```powershell
 # 不显示或提交任何 npm Token，不执行 npm publish
@@ -39,9 +39,20 @@ npm whoami --registry=https://registry.npmjs.org/
 npm view "@adui/normalize.css" version --registry=https://registry.npmjs.org/
 ```
 
-必要时登录 [npmjs.com](https://www.npmjs.com/) 核对 `@adui` 是用户还是组织，并确认当前登录身份对该作用域/包具有相应写权限；如果是组织，可在已授权的账户环境中核对组织成员/团队权限。**公共 `npm view` 返回 404 或无版本，不能单独证明该名称可发布**，也不能证明当前账户有权限；需结合 npm 平台账户的真实授权信息。
+实际输出及判断：
 
-**安全边界**：目前未登录 npm、不读取令牌、不执行任何发布命令。正式发布必须另外批准，并通过 npm 实际认证、权限及双因素安全要求；不得通过新增 CI 或自动发布来绕过。
+| 检查项 | 维护者本机输出 | 审核结论 |
+| --- | --- | --- |
+| `npm config get registry` | `https://registry.npmjs.org/` | **PASS：官方 Registry** |
+| `npm whoami --registry=https://registry.npmjs.org/` | `adui` | **PASS：当前 npm 登录用户及用户作用域匹配** |
+| `npm view "@adui/normalize.css" version --registry=https://registry.npmjs.org/` | `E404 Not Found`，返回不存在或无权访问提示 | **未取得该包可访问的已发布版本**；不能简单视为发布权限测试 |
+
+
+**剩余核验**：`npm whoami=adui` 与 npm 个人 `@adui` 作用域规则已足以确认**账户/用户作用域匹配**。但 `npm view` 返回 E404 不会证明该包已被正式预留或允许立即发布；还需要在 npm 网页的当前账户中检查双因素/发布认证要求、包名及作用域相关异常（如有），并在获得独立发布授权后才可进行实际发布。**不得通过试发、创建一个空包或关闭安全要求来验证**。
+
+**安全边界**：维护者本机已有 npm 登录态；本助手没有登录或获取 Token、没有读取 npm 私密配置，也没有执行任何发布命令。正式发布必须另外批准，并满足 npm 实际认证与双因素/发布安全要求；不得通过新增 CI 或自动发布来绕过。
+
+**P-04 结论**：账户、官方 Registry 和用户作用域**已验证 PASS**；包的首次可发布性与发布认证仍**待验**，所以 P-04 **部分完成，不关闭发行门槛**。
 
 ## P-05 · 最低浏览器兼容性声明
 

@@ -183,6 +183,8 @@
 
 **2026-11-05 · W-07 P-02/P-04/P-05 首发决策审核（最新）**：依据最新 GitHub `package.json`、ADR-0004 与 W-06 正式验收索引，并核对 SemVer 和 npm scopes 官方规范，建立 [首发决策审核文档](research/W07_RELEASE_GATES.md)。**P-02** 建议将 `0.1.0` 作为首个公开版本候选，但维护者尚未批准正式版本，`0.0.0` 与 `private:true` 不变；**P-04** npm `@adui` 的账户/组织归属、包名状态和写权限尚未验证，GitHub `adui-studio` 与作者 `ADui` 不自动证明所有权；**P-05** 公开支持文案已拟定证据边界，但原 Chrome/Edge 120、Firefox 121、Safari 17.2 与核心移动目标缺完整逐 UA/OS/设备矩阵，未冻结兼容性声明。W-06 管理验收不撤销，ADR-0004 的发行前证据要求不因谨慎文案而跳过。P-01/P-03/P-06 真实质量结果继续有效。**未改变版本、private、CSS、CI、依赖或发布/合并状态**，W-07 Issue #8 仍 Open。
 
+**2026-11-05 · W-07 P-04 官方 npm 用户作用域核验（最新）**：维护者在 Windows PowerShell 使用官方 Registry `https://registry.npmjs.org/` 查询，`npm whoami` 返回 `adui`。结合 npm 官方个人 scope 与用户名对应的规则，现可判定 **`@adui` 个人作用域与当前认证账户匹配**，此前“npm scope 归属未确认”的阶段记录已被新证据覆盖。`npm view "@adui/normalize.css" version` 返回 E404 Not Found，只证明本次未取到可访问发行版本，不证明包名可首次发布或发布认证条件全部满足。**P-04 已通过账户身份和作用域检查，整体仍为部分完成**：待 npm 网页确认首发资格与认证/双因素安全要求；未获取 Token、未调用 publish。P-01/P-03/P-06 通过结果继续有效，P-02 首版候选和 P-05 对外浏览器支持范围仍需正式决策。见 [W-07 首发决策审核](research/W07_RELEASE_GATES.md) 与 [总报告](research/W07_RELEASE_READINESS_REVIEW.md)。仍保持 `version:"0.0.0"`、`private:true`，不增加 CI、不合并或发布。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与待决策变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源
