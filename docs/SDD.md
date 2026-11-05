@@ -8,6 +8,8 @@
 
 **2026-11-05 · MVP 本地证据工具设计增量（最新）**：在已证明可运行的 R-003 单规则、CSS-only `exports`、Vite+ 打包及原有 Probe 之上，新增仅用于开发测试的 T0/T2 JSON 对照 CLI（`tests/t2-evidence.mjs`）与合成用例。CLI 依赖现有 `tests/evidence-file.mjs`，只读取本机 JSON、检查 T2 CSS 加载标记、相同 UA、六组 R-003 字重与四组 R-004 等宽字体不变性；它不会进入 npm CSS 包，且不能代替 Network/OS/设备/交互的人工验收。本地 `verify:mvp` 串联既有检查，**不安装新依赖、不运行 CI**。代码已准备，最新整组 Windows 回归待维护者执行，见 [MVP 交付清单](MVP_0_0_1_HANDOFF.md)。
 
+**2026-11-05 · T2 比较器正确性补丁（最新）**：开发测试层发现不能凭 `link.sheet` 存在断言加载了正确的 CSS。T2 探针同源读取 CSSOM 的一条普通 `b,strong` 字重 `bolder` 规则及其声明数、优先级，离线比较器以 `STYLESHEET_CONTENT_MISMATCH` 区分已挂载但内容不匹配（包括 CSSOM 不可读）；缺失新 `rules` 字段则拒绝旧格式数据，不给 PASS。修改只在 `fixtures/`、`tests/` 和证据文档，npm 包内容与 CSS API 完全不变；仍须留存真实 Network 与目标浏览器证据。见 [MVP 交付清单](MVP_0_0_1_HANDOFF.md)。
+
 ## 1. 设计范围与需求映射
 
 | 候选模块  | 需求                    | 拟议接口/职责        | 实现状态 |

@@ -199,6 +199,8 @@
 
 **2026-11-05 · MVP v0.0.1 开发能力收尾（最新）**：维护者明确授权先完成第一个 MVP 工程开发，实机验证随后统一进行。按已接受 ADR-0003 与 W-05 规则准入，产品 `src/normalize.css` 仍只有证据支持的 R-003，**不会为了填充 CSS 擅自加入其他 35 条**。已新增 `tests/t2-evidence.mjs`（真实包 T0/T2 的 10 项计算值/加载标记对照，复用现有证据文件安全读取）和 `tests/t2-evidence.node.test.mjs` 的合成用例；`package.json` 新增本地 `verify:mvp` 脚本并将新测试纳入 `test:offline`，`tests/package.node.test.mjs` 同步严格脚本契约。新增 [MVP 交付与验收清单](MVP_0_0_1_HANDOFF.md)。**本轮仅纯 JS 对照逻辑的局部模拟已检查，新版本完整 Node/Vite+ 命令和真实目标浏览器尚待维护者执行，不宣称整体 PASS**。版本 `0.0.1/private:true`、正式 CSS、包入口、根依赖、pnpm 锁文件、CI 和发布状态不变；W-07 Issue #8 保持 Open。
 
+**2026-11-05 · MVP T0/T2 CSSOM 内容防误判修补（最新）**：复查发现先前 T2 取证以 `link.sheet !== null` 判定正式 CSS 已挂载，存在**空 CSS/错误规则但计算结果恰好一致**时的假阳性风险。仅在本地 Fixture `fixtures/probe.js` 增加同源 CSSOM 规则摘要，`tests/t2-evidence.mjs` 对唯一 R-003 CSS 选择器、声明数量、属性值和优先级进行严格检查；扩充两套 Node 合成测试以覆盖错误 CSSOM/不可读取情况。旧版 T2 JSON 若缺 `rules` 则不可据此判 PASS，需要重新采样。新增的纯 JS 逻辑合成检查 12/12 PASS，但完整 Node/Vite+/Windows 浏览器未重新运行。正式 `src/normalize.css`、包入口、版本 `0.0.1/private:true`、依赖/锁文件/CI 不变；W-07 Issue #8 继续 Open，不合并、不发布。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与待决策变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源

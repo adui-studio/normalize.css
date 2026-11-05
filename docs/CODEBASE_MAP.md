@@ -20,6 +20,8 @@
 
 **2026-11-05 · 首个 MVP 开发收尾（最新）**：新增本地 `verify:mvp` 一键验证脚本、T0/T2 JSON 比较器及合成数据 Node 测试，并新增 [MVP v0.0.1 交付清单](MVP_0_0_1_HANDOFF.md)。正式源码仍仅 R-003，不增加依赖、公开子路径或 CI；本机全套验证需维护者后续执行。
 
+**2026-11-05 · T2 CSSOM 误判防护（最新）**：更新既有 `fixtures/probe.js`、`tests/probe.node.test.mjs`、`tests/t2-evidence.mjs`、`tests/t2-evidence.node.test.mjs`，对已挂载但无正确产品规则的 CSS 单独标记 `STYLESHEET_CONTENT_MISMATCH`；没有增加发布资产或入口。
+
 ## 1. 当前真实文件
 
 ```text

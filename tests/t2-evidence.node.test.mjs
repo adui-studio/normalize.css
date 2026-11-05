@@ -34,7 +34,21 @@ function fixture(role, oldBlink = false) {
     userAgent: "Synthetic Browser/120 (not real evidence)",
     location: "/fixtures/t2-" + role + ".html",
     ...(role === "package"
-      ? { packageStylesheet: { href: "../dist/normalize.css", loaded: true } }
+      ? {
+          packageStylesheet: {
+            href: "../dist/normalize.css",
+            loaded: true,
+            rules: [
+              {
+                type: 1,
+                selector: "b, strong",
+                fontWeight: "bolder",
+                propertyCount: 1,
+                priority: "",
+              },
+            ],
+          },
+        }
       : {}),
     rows,
   };
@@ -58,6 +72,47 @@ test("unloaded packed CSS cannot be reported as passing", () => {
   const packed = fixture("package");
   packed.packageStylesheet.loaded = false;
   assert.equal(compareT2Evidence(fixture("native"), packed).status, "STYLESHEET_NOT_LOADED");
+});
+
+test("an empty or incorrect CSSOM cannot pass even when native weights already match", () => {
+  const packed = fixture("package");
+  packed.packageStylesheet.rules = [];
+  const empty = compareT2Evidence(fixture("native"), packed);
+  assert.equal(empty.status, "STYLESHEET_CONTENT_MISMATCH");
+  assert.equal(empty.stylesheetContentMatches, false);
+
+  packed.packageStylesheet.rules = [
+    {
+      type: 1,
+      selector: "b, strong",
+      fontWeight: "bold",
+      propertyCount: 1,
+      priority: "",
+    },
+  ];
+  assert.equal(compareT2Evidence(fixture("native"), packed).status, "STYLESHEET_CONTENT_MISMATCH");
+});
+
+test("CSSOM rejects an extra rule, a forced priority or an unreadable stylesheet", () => {
+  const packed = fixture("package");
+  packed.packageStylesheet.rules.push({
+    type: 1,
+    selector: "*",
+    fontWeight: "normal",
+    propertyCount: 1,
+    priority: "",
+  });
+  assert.equal(compareT2Evidence(fixture("native"), packed).status, "STYLESHEET_CONTENT_MISMATCH");
+
+  packed.packageStylesheet.rules.pop();
+  packed.packageStylesheet.rules[0].priority = "important";
+  assert.equal(compareT2Evidence(fixture("native"), packed).status, "STYLESHEET_CONTENT_MISMATCH");
+
+  packed.packageStylesheet.rules = null;
+  assert.equal(compareT2Evidence(fixture("native"), packed).status, "STYLESHEET_CONTENT_MISMATCH");
+
+  delete packed.packageStylesheet.rules;
+  assert.throws(() => compareT2Evidence(fixture("native"), packed), /CSSOM rules/);
 });
 
 test("missing bolder normalization is a mismatch", () => {

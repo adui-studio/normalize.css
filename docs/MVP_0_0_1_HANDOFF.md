@@ -63,16 +63,17 @@ vp dev
 node tests/t2-evidence.mjs .\t2-native.json .\t2-package.json
 ```
 
-CLI 仅使用 Node 内置模块，复用现有 **256 KiB 普通文件限长读取**，不会发送环境数据。结果有：
+CLI 仅使用 Node 内置模块，复用现有 **256 KiB 普通文件限长读取**，不会发送环境数据。探针不仅记录 `link.sheet` 是否挂载，还从**同源 CSSOM** 提取 `type`、`selector`、`font-weight`、声明数量和 `!important` 优先级；比较器要求正式产物的 CSSOM **恰好只有 `b,strong {font-weight:bolder}` 一条普通规则**。空样式表、错误规则、多余声明、强制 `!important` 或 CSSOM 不可读，都不能据此宣布静态验证通过。结果有：
 
 | `status`                             | CLI 退出码 | 说明                                                               |
 | ------------------------------------ | ---------: | ------------------------------------------------------------------ |
 | `PROBE_PASS`                         |          0 | 包 CSS link 为已挂载，10 项静态探针满足当前 R-003/R-004 的有限契约 |
 | `STYLE_MISMATCH`                     |          1 | 字重、等宽字体或对照上下文出现不符合预期的变化                     |
-| `STYLESHEET_NOT_LOADED`              |          1 | 真实包 CSS link 未挂载；**不能判通过**                             |
+| `STYLESHEET_NOT_LOADED`              |          1 | 正式 CSS link 未挂载；**不能判通过**                               |
+| `STYLESHEET_CONTENT_MISMATCH`         |          1 | CSSOM 内容与唯一 R-003 规则不一致，或 CSSOM 不可读                 |
 | 输入错误、混合 UA、错误页或非法 JSON |          2 | 证据不可比较，需检查文件/版本/来源                                 |
 
-比较器会输出 R-003 六组字重、R-004 四组等宽元素的值与差异；Chrome 120 的四组**预期修复差异**不属于失败，而 Firefox 121 的零差异也可能是正确结果。**静态 PROBE_PASS 不能证明 Network 中实际加载的文件内容、真实浏览器构建版本、原生交互、无障碍或全七项目标支持范围**；仍需手工版本截图、Network、操作记录。详见 [P-05 浏览器证据矩阵](research/W07_P05_BROWSER_EVIDENCE_MATRIX.md)。
+比较器会输出 R-003 六组字重、R-004 四组等宽元素的值与差异；Chrome 120 的四组**预期修复差异**不属于失败，而 Firefox 121 的零差异也可能是正确结果。**静态 PROBE_PASS 虽已核对本地解析后的 CSSOM，但不能证明 Network 响应原始字节、真实浏览器构建版本、原生交互、无障碍或全七项目标支持范围**；仍需手工版本截图、Network、操作记录。详见 [P-05 浏览器证据矩阵](research/W07_P05_BROWSER_EVIDENCE_MATRIX.md)。
 
 ## 发布前尚需决定
 

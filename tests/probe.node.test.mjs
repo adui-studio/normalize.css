@@ -53,13 +53,48 @@ test("probe returns an empty result set safely", () => {
   assert.equal(root.dataset.probeStatus, "complete");
 });
 
-test("T2 probe reports whether the packed CSS link is mounted", () => {
-  const link = { getAttribute: () => "../dist/normalize.css", sheet: {} };
+test("T2 probe captures the parsed packed CSSOM instead of trusting the link alone", () => {
+  const cssRule = {
+    type: 1,
+    selectorText: "b, strong",
+    style: {
+      length: 1,
+      getPropertyValue: () => "bolder",
+      getPropertyPriority: () => "",
+    },
+  };
+  const link = {
+    getAttribute: () => "../dist/normalize.css",
+    sheet: { cssRules: [cssRule] },
+  };
   const loaded = inspect([], link).output.packageStylesheet;
   assert.equal(loaded.href, "../dist/normalize.css");
   assert.equal(loaded.loaded, true);
+  assert.deepEqual(JSON.parse(JSON.stringify(loaded.rules)), [
+    { type: 1, selector: "b, strong", fontWeight: "bolder", propertyCount: 1, priority: "" },
+  ]);
+
+  const empty = inspect([], {
+    getAttribute: () => "../dist/normalize.css",
+    sheet: { cssRules: [] },
+  });
+  assert.equal(empty.output.packageStylesheet.loaded, true);
+  assert.deepEqual(empty.output.packageStylesheet.rules, []);
 
   const failed = inspect([], { getAttribute: () => "../dist/normalize.css", sheet: null });
   assert.equal(failed.output.packageStylesheet.loaded, false);
+  assert.equal(failed.output.packageStylesheet.rules, null);
   assert.equal(inspect([]).output.packageStylesheet, undefined);
+});
+
+test("T2 probe handles inaccessible CSSOM without falsely marking rules verified", () => {
+  const sheet = {
+    get cssRules() {
+      throw new Error("CSSOM SecurityError");
+    },
+  };
+  const link = { getAttribute: () => "../dist/normalize.css", sheet };
+  const evidence = inspect([], link).output.packageStylesheet;
+  assert.equal(evidence.loaded, true);
+  assert.equal(evidence.rules, null);
 });

@@ -85,6 +85,8 @@
 
 **2026-11-05 · MVP `0.0.1` 本地交付脚本（新增，最新改动待维护者验收）**：为避免需要用户分十次敲命令，`package.json#scripts.verify:mvp` 将 `vp check`、`vp test`、`test:offline`、`vp pack`、`test:package`、`test:consumer` 和 `npm pack --dry-run --json --ignore-scripts` 串联执行；**这是本地命令，不是 CI、发布或自动修复**。离线测试新增 `tests/t2-evidence.node.test.mjs` 的合成数据测试；比较器 `tests/t2-evidence.mjs` 复用 256 KiB JSON 限长读取，检查 T0/T2 页面身份、10 项测量、包 CSS link 加载及字重/等宽字体不变性。**新增命令和新增 Node 测试尚未在维护者 Windows 全套执行**；最近一次旧命令的全部 PASS 不能冒充新改动已通过。详见 [MVP 交付清单](MVP_0_0_1_HANDOFF.md) 与 [P-05 证据矩阵](research/W07_P05_BROWSER_EVIDENCE_MATRIX.md)。
 
+**2026-11-05 · MVP T2 取证防误判补丁**：原有 `link.sheet !== null` 只能说明 CSS 资源挂载，不说明该资源内容正确。已将 `fixtures/probe.js` 的 T2 证据扩展为同源 CSSOM 的规则类型/选择器/属性值/声明数量/优先级；`tests/t2-evidence.mjs` 现在要求与唯一产品 R-003 完全匹配，否则退出码 1（`STYLESHEET_CONTENT_MISMATCH`）；CSSOM 不可读同样不可判 PASS。同步增加空规则/错误值/多规则/`!important`/不可读场景的离线合成测试。本次纯 JS 核心 12 项合成检查 PASS，完整 Node Runner、Vite+、浏览器验收仍待维护者执行，不能宣称实机已验证。详见 [MVP 交付清单](MVP_0_0_1_HANDOFF.md)。
+
 ## 4. Vite+ 本机执行与下一步验证
 
 **格式检查范围的最小修复（2026-11-04，已在本机重验）**：根目录 `vite.config.ts` 新增 `fmt.ignorePatterns: ['.agents/skills/**']`。参照 [Vite+ 官方 Format Config](https://viteplus.dev/config/fmt)，`vp check` 会读取根配置，因此固定上游原版 Skills（含其 references、来源记录）不应由项目格式化器修改；**其余第一方 Markdown、HTML、JS、TS、package.json 与 GitHub 模板继续接受完整格式检查**。不能为了通过而设置 `check.fmt: false` 或忽略 `docs/**`、`tests/**`、`fixtures/**`。

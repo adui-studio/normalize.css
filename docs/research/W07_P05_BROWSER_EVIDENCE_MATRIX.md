@@ -102,6 +102,14 @@ node tests/t2-evidence.mjs ./t2-native.json ./t2-package.json
 
 **限定范围**：静态 JSON 和 `link.sheet` 标记不能代替 Network 的实际响应内容、真实浏览器完整构建版本、OS/设备、键盘/系统偏好实测，也不能单凭静态 PASS 宣称完整浏览器支持。**新比较器与离线测试已编写，尚未经过维护者 Windows 的完整测试**。详见 [MVP 本地交付清单](../MVP_0_0_1_HANDOFF.md)。
 
+### 3.3 CSSOM 内容核验防误判（最新开发补丁）
+
+之前 `packageStylesheet.loaded === true` 仅表示 DOM 中的 `link.sheet` 存在，**空 CSS 或错误 CSS 也可能被标记已挂载**；尤其在浏览器 UA 本身就有正确 `bolder` 时，T0/T2 即使零差异也不足以证明真实 R-003 规则已经进入页面。
+
+现在本地 Fixture 的 T2 探针额外记录从**同源 CSSOM** 读取的规则数组：规则类型、选择器、`font-weight` 值、声明数量、声明优先级。离线比较器要求**恰好一条普通 `b,strong {font-weight:bolder}` 规则，无 `!important` 和额外声明**；如果样式表虽已挂载但规则为空、规则错误或 CSSOM 不可访问，则返回 `STYLESHEET_CONTENT_MISMATCH`（退出码 1），而非 `PROBE_PASS`。旧版未带 CSSOM `rules` 字段的 JSON 会按证据不足拒绝（退出码 2），需要从更新后的 Fixture 重新导出。
+
+这个补丁**不触及产品 CSS 或最终包文件**。CSSOM 可验证浏览器解析后的规则形态，**不能替代 Network 对响应来源和原始字节的核验**，也不代表目标浏览器实机运行已经通过。本轮仍等待维护者最终 Windows/浏览器统一验收。
+
 ## 4. 每个目标环境的证据填写模板
 
 按每个浏览器/设备建立一条记录（可以先在本地维护，确认不包含敏感信息后再归档）：

@@ -37,7 +37,7 @@ pnpm install --frozen-lockfile
 pnpm run verify:mvp
 ```
 
-`verify:mvp` 顺序执行 `vp check`、`vp test`、Node 离线测试、`vp pack`、真实 tarball 安装、Vite+ 消费、`npm pack --dry-run`；**不执行 npm publish、不修改 private、不使用 CI**。浏览器实际取证时，先在 T0/T2 页面复制 JSON，再运行 `node tests/t2-evidence.mjs ./t2-native.json ./t2-package.json`。**完整验收步骤与未完成项**见 [MVP 交付清单](docs/MVP_0_0_1_HANDOFF.md)。
+`verify:mvp` 顺序执行 `vp check`、`vp test`、Node 离线测试、`vp pack`、真实 tarball 安装、Vite+ 消费、`npm pack --dry-run`；**不执行 npm publish、不修改 private、不使用 CI**。浏览器实际取证时，先在 T0/T2 页面复制 JSON，再运行 `node tests/t2-evidence.mjs ./t2-native.json ./t2-package.json`。比较器会同时核验真实 CSSOM 里是否恰好包含唯一的 R-003 规则，避免仅因 `link.sheet` 存在而误判空样式表通过。**完整验收步骤与未完成项**见 [MVP 交付清单](docs/MVP_0_0_1_HANDOFF.md)。
 
 ## 本地构建与 CSS 使用（未发布）
 

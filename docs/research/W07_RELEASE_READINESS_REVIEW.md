@@ -7,6 +7,10 @@
 - **审核判断**：**部分通过，发布准备尚未就绪；Issue #8 保持 Open**。
 - **红线**：不修改产品 CSS 或既定包根入口；不新增依赖/CI、GitHub Actions、自动发布；不执行 npm publish、GitHub Release、`main` 合并。
 
+## 2026-11-05 · MVP T2 已挂载但内容错误的假阳性防护（最新）
+
+复查发现 T2 比较器仅检查 `packageStylesheet.loaded`，在空样式表或加载到非 R-003 的 CSS、且目标 UA 自身已将 `b/strong` 计算为 `bolder` 的情况下可能产生虚假 `PROBE_PASS`。本轮将同源 CSSOM 规则列表加入 T2 JSON，离线校验恰好一条 `b,strong {font-weight:bolder}`、无其他声明/优先级；否则返回 `STYLESHEET_CONTENT_MISMATCH`。新增的静态合成逻辑已检查 12/12，**尚未完成完整本机 Node、Vite+ 和目标浏览器重新验证**。产品 CSS、npm 导出和发布状态无变化；P-05 完整浏览器支持矩阵仍 OPEN。
+
 ## 2026-11-05 · 首个 MVP 验证代码补全（新增开发，待完整回归）
 
 维护者明确授权在实机验证前先完成第一个 MVP 开发。根据 [W-05 已批准的单规则边界](W05_RULE_ACCEPTANCE.md)，本轮**不增加未准入的产品 CSS**；实际新增的是本地工程闭环：`tests/t2-evidence.mjs` 负责真实 T0/T2 静态证据比较、`tests/t2-evidence.node.test.mjs` 覆盖合成差异/异常/CLI，`package.json` 增加人工 `verify:mvp` 并纳入 Node 离线测试；同步更新测试契约和 [MVP 交付清单](../MVP_0_0_1_HANDOFF.md)。

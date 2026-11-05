@@ -113,7 +113,7 @@ pnpm install --frozen-lockfile
 pnpm run verify:mvp
 ```
 
-This runs format/lint, unit and offline tests, CSS-only packing, real tarball installation, Vite+ consumer validation, and a **dry-run-only** npm package inspection. It does not publish, tag, merge or alter `private: true`. A separate T0/T2 JSON comparator is available at `node tests/t2-evidence.mjs ./t2-native.json ./t2-package.json`; its results do not establish cross-browser support. See the [MVP handoff checklist (Chinese)](docs/MVP_0_0_1_HANDOFF.md).
+This runs format/lint, unit and offline tests, CSS-only packing, real tarball installation, Vite+ consumer validation, and a **dry-run-only** npm package inspection. It does not publish, tag, merge or alter `private: true`. A separate T0/T2 JSON comparator is available at `node tests/t2-evidence.mjs ./t2-native.json ./t2-package.json`; it now checks that the locally parsed CSSOM contains exactly the intended R-003 rule, not just a mounted stylesheet link. Its results do not establish cross-browser support. See the [MVP handoff checklist (Chinese)](docs/MVP_0_0_1_HANDOFF.md).
 
 ## Documentation
 
