@@ -12,7 +12,13 @@
 
 **P-02 候选版本配置与包交付验证 PASS**。本轮 `pnpm run test:offline` 中自动输出锁文件供应链核验通过，但没有单独运行冻结安装；`vp test` 本轮也未重新执行（此前 7/7 PASS 继续保留历史记录）。这**不代表** P-04 发布认证、P-05 浏览器兼容范围及 P-07 发布授权已通过。私有安全开关仍保留，尚未发布。
 
-## 2026-11-05 · P-02 private 安全开关恢复（最新决策）
+## 2026-11-05 · P-01/P-02/P-06 完整质量门槛补验（最新）
+
+维护者提供 `0.0.1/private:true` 的 Windows 真机输出：冻结安装 `pnpm install --frozen-lockfile` **PASS**（pnpm 12.15.0，24ms）；`vp check --fix` **PASS**（19 文件无 Lint 错误/警告）；`vp test` **Vitest 7/7 PASS**；`pnpm run test:offline` **Node 33/33 PASS**；`vp pack` 唯一 CSS **200 B PASS**；真实包 `test:package` 与 Vite+ 消费 `test:consumer` 各 **1/1 PASS**；`npm pack --dry-run` 五文件 **PASS**（13871 B，`@adui/normalize.css@0.0.1`）；`git status --short` 无输出。
+
+**P-01/P-02/P-03/P-06 完整本地验收通过**。此前批次所写的“本轮未重跑 Vitest/冻结安装”已被本次完整回归补齐。`vp test` 日志使用 **Vitest 5.0.5**；项目 `vite-plus@1.4.0` 保持锁定，`vp` 提示可升级至 1.5.0，但**未升级**。继续保持 `private:true`，P-04 首次发行认证、P-05 浏览器兼容性声明与 P-07 独立发布授权未完成，不执行发布。
+
+## 2026-11-05 · P-02 private 安全开关恢复（历史批次）
 
 维护者最新明确要求：**首发候选版本保持 `0.0.1`，但 `package.json#private` 恢复为 `true`**。此前将其改为 `false` 的操作只属于历史阶段，现已撤回。这一选择保留 npm 的防误发布保护，更符合 W-07 尚未结束、P-07 尚未获得发布授权的当前状态。
 
@@ -101,4 +107,4 @@ npm view "@adui/normalize.css" version --registry=https://registry.npmjs.org/
 - **仍需单独授权**：更改 `private:true` 的发布保护、`npm publish`、Git Tag、GitHub Release、`main` 分支合并。
 - **始终禁止**：新增 CI、GitHub Actions 发布工作流或提交 Token/OTP/密码。
 
-**总判定（最新）**：W-07 继续 Open；P-02 `0.0.1/private:true` 已配置并通过最新包交付回归，但 P-04/P-05/P-07 发行门槛仍未完成。**首发候选 ≠ 已发布版本**。
+**总判定（最新）**：W-07 继续 Open；P-01/P-02/P-03/P-06 已完成最新 `0.0.1/private:true` 完整本地回归，P-04/P-05/P-07 发行门槛仍未完成。**首发候选 ≠ 已发布版本**。

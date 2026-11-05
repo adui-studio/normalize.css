@@ -181,6 +181,8 @@ npm pack --dry-run --json --ignore-scripts --offline .
 
 **2026-11-05 · W-07 最新私有候选包回归证据**：`0.0.1/private:true` 在维护者 Windows 本机已完成 `vp check --fix`（19 文件零格式/Lint 问题）、`pnpm run test:offline` **33/33 PASS**、`vp pack` 唯一 CSS **200 B**、真实 `pnpm run test:package` **1/1 PASS**、`pnpm run test:consumer` **1/1 PASS**、`npm pack --dry-run --json --ignore-scripts` **5 文件 PASS**（包标识 `@adui/normalize.css@0.0.1`，13871 B）和 `git status --short` 无输出。`pnpm run test:offline` 显示锁文件策略通过，不代表本轮单独执行冻结安装；`vp test` 7/7 为之前独立实测，本轮没有重新执行。当前版本/私有状态的包交付回归 PASS，仍不得宣称未验证的跨浏览器支持矩阵、npm 发布资格或发布成功；不新增 CI、不合并、不发布。见 [W-07 审核](research/W07_RELEASE_READINESS_REVIEW.md)。
 
+**2026-11-05 · W-07 最新 `0.0.1/private:true` 全套 Windows 本地验收**：冻结安装 `pnpm install --frozen-lockfile`（24ms，pnpm 12.15.0）**PASS**；`vp check --fix` 19 文件格式/Lint **PASS**；`vp test` Vitest **7/7 PASS**；`pnpm run test:offline` Node **33/33 PASS**；`vp pack` 仅一份 CSS **200 B PASS**；真实 tarball 安装和 Vite+ 生产消费分别 **1/1 PASS**；`npm pack --dry-run --json --ignore-scripts` **5 文件 PASS**（`@adui/normalize.css@0.0.1`，13871 B）；`git status --short` 无输出。此前版本或前次批次没有单独执行 `vp test`/冻结安装的描述属于历史证据，**本次均已补做**；当前唯一未验证的是发行认证、完整逐浏览器支持矩阵等独立发行门槛。Vite+ 仍锁定 1.4.0，虽提示 1.5.0 可用，不自动升级。不得新增 CI、npm 发布或合并。详见 [W-07 审核报告](research/W07_RELEASE_READINESS_REVIEW.md)。
+
 ## 6. 安全和发布门禁（规划）
 
 - 审核第三方规则的许可证及改写过程；不引入未经审批的远程字体、图片或跟踪请求。

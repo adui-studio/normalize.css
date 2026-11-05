@@ -191,6 +191,8 @@
 
 **2026-11-05 · W-07 `0.0.1/private:true` 真实包验收通过（最新）**：维护者提供新一轮 Windows PowerShell 输出：`vp check --fix` 格式完成、19 个文件无 Lint 错误/警告；`pnpm run test:offline` 在 pnpm 12.15.0 锁文件策略检查通过后 Node **33/33 PASS**；`vp pack` 生成唯一 CSS 200 B；`pnpm run test:package` 真实 tarball 离线安装 **1/1 PASS**；`pnpm run test:consumer` Vite+ 生产消费 **1/1 PASS**；`npm pack --dry-run --json --ignore-scripts` 返回 `@adui/normalize.css@0.0.1`、5 文件（LICENSE、双语 README、dist/normalize.css、package.json）、`size:13871` B、`unpackedSize:33846` B、`bundled:[]`，并且 `git status --short` **无输出**。**P-02 候选版本及此轮包交付验收 PASS，P-06 本轮已执行检查 PASS**。没有单独执行 `vp test` 或 `pnpm install --frozen-lockfile`；其较早阶段 PASS 保留独立证据，不冒充本轮复测。当前 `private:true` 保持防误发布，CHANGELOG 仍 Unreleased。W-07 P-04 首发认证、P-05 浏览器支持声明与 P-07 正式授权未完成，Issue #8 Open；没有新增 CSS、CI、依赖，也未合并或发布。详见 [W-07 审核报告](research/W07_RELEASE_READINESS_REVIEW.md)。
 
+**2026-11-05 · W-07 `0.0.1/private:true` 完整本地回归补验（最新）**：维护者新提供 Windows PowerShell 日志，**`pnpm install --frozen-lockfile` 24ms PASS**，`vp check --fix` 格式完成且 19 文件零 Lint 错误/警告，`vp test` **Vitest 7/7 PASS**，`pnpm run test:offline` **Node 33/33 PASS**，`vp pack` 唯一 CSS 200 B，真实 `test:package`、`test:consumer` 各 **1/1 PASS**，`npm pack --dry-run --json --ignore-scripts` 五文件 13871 B、解包 33846 B，`git status --short` 无输出。当前 `0.0.1/private:true` 的 **P-01/P-02/P-03/P-06 本机质量门槛全部有最新真实执行证据**。先前批次“Vitest/冻结安装未重跑”是历史状态，不再是最新检查缺口。当前开发依赖保持 `vite-plus@1.4.0`，工具仅提示有 1.5.0 可用，未升级。P-04 首发认证、P-05 公开浏览器支持证据及 P-07 发布授权仍未完成；Issue #8 保持 Open。不更改 CSS/根依赖、不新增 CI、不合并或发布。见 [W-07 审核](research/W07_RELEASE_READINESS_REVIEW.md)。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与待决策变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源
