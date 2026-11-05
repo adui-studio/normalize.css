@@ -218,3 +218,5 @@
 ## 7. 迁移来源
 
 本次文档迁移来源于 [adui-dev/normalize.css 的初始化提交](https://github.com/adui-dev/normalize.css/commit/7f9d4a1af3ea7fea6fb978378f93390ecd47271f)。目标仓库已独立存在，因此采用文档内容迁移而非 GitHub 原生 Transfer；两个仓库的 Git 历史没有合并。
+
+**2026-11-05 · MVP 验证顺序与本机验收更新**：维护者提供 `0.0.2` Windows 日志：首次在旧 `dist` 状态运行 `verify:mvp`，离线测试 50/51，失败原因是打包产物只包含 R-003；手动执行 `vp pack` 后再次运行旧命令，Vitest 7/7、Node 51/51、真实包 1/1、Vite+ 消费 1/1、npm dry-run 五文件以及独立 `vp build` 均 PASS。已最小调整 `package.json#scripts.verify:mvp` 为检查、Vitest、**打包**、离线测试、真实包、消费者、dry-run，并更新对应测试断言。修订后的顺序尚待维护者本机复跑，不宣称已验证；版本仍 `0.0.2`，产品 CSS 仍为 R-003/R-007/R-008，不新增 CI、不发布。
