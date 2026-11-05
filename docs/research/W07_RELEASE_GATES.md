@@ -19,6 +19,18 @@
 **本次评审结论**：P-05 的“R-003 必须重复完成七项正式 T0/T2”门槛已由维护者**正式豁免**；不承诺明确最低数字版本时，P-05 **不再单独阻断 v0.0.1 首发审核**。过去缺少原始附件的事实原样保留。
 
 
+## 2026-11-05 · P-04 npm Registry、登录与公开包查询实测归档（维护者提供）
+
+维护者在 Windows PowerShell 的 `D:\Workspace\adui-studio\normalize.css` 中实际提供以下**不执行发布**的终端结果：
+
+| 检查 | 实际结果 | 结论边界 |
+| --- | --- | --- |
+| `npm config get registry` | `https://registry.npmjs.org/` | 官方 npm Registry 配置已核验 |
+| `npm whoami --registry=https://registry.npmjs.org/` | `adui` | 当前 npm CLI 身份核验成功；不等于已通过发布 2FA |
+| `npm view @adui/normalize.css version --registry=https://registry.npmjs.org/` | `E404 Not Found`（公开 Registry GET `/@adui%2fnormalize.css`） | **没有取得公开版本**；与尚未发布状态一致，但也可能受权限影响，不能证明名称可用或首次发布必成功 |
+
+**P-04 最新判定**：上述三项**已按维护者真实输出完成非发布检查**，无需重复要求。仍需维护者**自行确认 npm 账户 2FA 的当前启用状态及首次发布所需权限**；不在聊天或仓库中提交 OTP、Token、恢复码或用户级 `.npmrc`。在 P-07 未获得独立发布授权前，继续保持 `0.0.1/private:true`、不运行 `npm publish`。
+
 ## 2026-11-05 · P-04 npm 官方认证与公开作用域流程复核（规则已查证，账户状态待验）
 
 本次只核对 npm 官方现行文档，**没有登录维护者 npm 账户、读取 Token/OTP、试发或执行发布**。与之前维护者提供的 `npm whoami=adui`、官方 Registry 及公开包版本查询 E404 的本机结果须区分：
