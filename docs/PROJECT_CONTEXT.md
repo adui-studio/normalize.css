@@ -9,7 +9,7 @@
 
 - 名称：`@adui/normalize.css`
 - GitHub：[adui-studio/normalize.css](https://github.com/adui-studio/normalize.css)
-- 类型：计划中的 CSS 标准化 npm 库
+- 类型：开发中的 CSS 标准化 npm 库（MVP 已实现，尚未发布）
 - 目标：吸收主流 Normalize/Reset 方案中有证据的优点，舍弃过时、过度或高侵入的默认规则。
 - 已确认许可证：MIT（见根目录 [LICENSE](../LICENSE)）。
 - 团队沟通语言：中文优先，英文作为必要的项目概览。
@@ -25,7 +25,7 @@
 | package.json、依赖、构建脚本 | **部分实现**       | 单根 CSS、Vite+ 打包已实测；真实包与生产消费者测试均通过；仍 private                                        |
 | 自动化测试、浏览器回归       | **部分实现**       | 离线 Node 26/26、真实包 1/1、Vite+ 消费 1/1；浏览器仅部分完成                                               |
 | CI                           | **明确不规划**     | 项目约束：不增加任何 CI                                                                                     |
-| npm 包发布、版本号           | **未发布/未确定**  | 不能将先前讨论的草案版本当成仓库发布事实                                                                    |
+| npm 包发布、版本号           | **未发布/已确定候选版号** | `0.0.1/private:true`；仍需独立发行授权                                                                         |
 | 架构方案                     | **已接受／未实现** | ADR-0001～0005 均 Accepted；[MVP 实施计划](plans/MVP_IMPLEMENTATION_PLAN.md) 已建立，浏览器兼容承诺仍待验证 |
 | 自研 Skills                  | **未创建**         | 目前没有项目自研技能                                                                                        |
 | 第三方 Skills                | **评审分支已纳入** | 3 个 awesome-copilot 原版 Skill，CLI 未执行，本机发现未验证；见 [索引](SKILLS.md)                           |
@@ -37,24 +37,24 @@
 - **ADR-0002 Accepted**：首版默认不内置 `@layer`，按规则评估 `:where()`。
 - **ADR-0003 Accepted**：首版只规划 `@adui/normalize.css` 默认根入口；`all.css` 等路径延期。
 - **ADR-0004 Accepted**：固定 Baseline 2023 作为特性准入参考，七项 [最低浏览器测试目标](research/BASELINE_2023_MAPPING.md) 已批准并依据时间线核对；实际兼容性声明、OS/设备/WebView 仍未实测。
-- **ADR-0005 Accepted**：开发工具链统一使用 Vite+，Vite+ 1.4.0 已在维护者本机运行；纯 CSS 打包方式仍未确定；最近一次本机完整格式/Lint 检查已通过，但新提交的测试改动未重验。
+- **ADR-0005 Accepted**：开发工具链统一使用 Vite+ 1.4.0；`vp pack` 已实际验证输出唯一 CSS、真实 tarball 与 Vite+ 生产消费者已有历史 PASS 记录。最新测试断言和分支合并后的完整回归尚无对应原始日志。
 - **W-02 部分研究**：已批准最低测试目标包含旧 Blink/WebKit，因此 R-003 成为首版必测条件性候选；R-004 不宜在默认 Normalize 中覆盖用户等宽字号偏好；Chrome 156 T0/T1/T1b 已观察到 13px/13px/16px 的局部差异。[专项证据](research/RULE_EVIDENCE_R003_R004.md) 与 [本地执行指南](research/R003_R004_LOCAL_VERIFICATION.md) 已建立；Chrome 156 已完成 R-003 六组真实 JSON 对照（0 差异）；Chrome for Testing 120.0.6099.109 / Windows 11 的真实 JSON 已独立核对（4 组差异），Firefox 121 的真实 T0/T1 JSON 与 Windows CLI 实测均为零差异；Edge 120、Safari 17.2 与移动端、UA 声明来源和生态回归尚未实测。
-- 仍需实测 Vue/React、Element Plus、Ant Design、TDesign、Tailwind/UnoCSS Reset 兼容性；所有候选规则均未获准实现。
+- **W-05/W-06 实际进度**：R-003 已获准并实现，其他 35 条未纳入首版；Vue/React 组件及三套 Reset 的既有验证已由维护者完成 W-06 管理验收。各最低目标浏览器的可审计原始 T0/T2 证据仍需按 P-05 单独归档。
 
 ## 4. 当前工作与后续顺序
 
-1. **已完成决策和任务拆分**：ADR-0001～0004 Accepted；[W-01～W-07 MVP 计划](plans/MVP_IMPLEMENTATION_PLAN.md) 已建立；GitHub [Issue #2～#8](https://github.com/adui-studio/normalize.css/issues) 均为待执行任务。
-2. **研究任务（可继续文档工作）**：W-01 七项最低目标已批准、Apple 官方确认 Safari 17.2 平台范围；实际浏览器/OS/设备尚未验证。W-02 已有 R-003/004 的标准及源码证据，R-003 需在目标最低版本实测，R-004 不进入默认字号统一。
-3. **开发阶段（已授权启动）**：W-03 已实现 Fixture/单测并记录环境阻塞，见 [Harness 设计与进度](plans/VITEPLUS_LOCAL_HARNESS_DESIGN.md)；W-04 已开始 [CSS-only 包元数据与打包白名单验证](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)，但真实包导出、Vite+/Webpack 消费验证与 CSS 兼容回归尚未实施。
-4. **发布阶段（另行授权）**：W-07 质量和许可证审核；npm 和 Release 单独批准；不增加 CI。
+1. **已完成的工程与管理验收**：ADR-0001～0005 Accepted；W-03 #4、W-04 #5、W-05 #6、W-06 #7 均已按原验收范围 Closed。当前开发分支已实现 R-003 唯一默认 CSS、Vite+ Fixture、真实 npm 包入口和本地验证脚本，维护者已确认 MVP 最终签收。
+2. **仍然开放的证据研究**：W-01 #2、W-02 #3 保持 Open；Chrome 120 / Firefox 121 有 R-003 局部 T0/T1 证据，公开最低浏览器兼容承诺仍需按 W-07 P-05 补充正式 T0/T2 等环境资料。
+3. **已完成的合并冲突协调**：PR #1 文档分支及 PR #9 MVP 分支已同步 `main` 的固定源码研究，GitHub 现为 `clean`；两者仍处 Draft，未合并 `main`。最新提交之后未取得新的维护者 Windows `pnpm run verify:mvp` 原始执行记录。
+4. **发布审核（独立授权）**：W-07 #8 仍为 Open；P-04 首次 npm 发布认证、P-05 最低浏览器对外支持声明、P-07 正式发行与分支合并授权尚未完成。不增加 CI。
 
 ## 5. 当前风险与阻塞
 
-- 浏览器最低**测试目标**已批准，Chrome 120 与 Firefox 121 已完成 R-003 局部计算值验证；Edge 120、Safari 17.2、移动端、系统 WebView、真实硬件和正式发布支持声明仍未验收。
-- npm `@adui` 作用域的发布权限未验证。
-- 首版不内建 Layers 的策略已接受，实际选择器层叠、消费者覆盖和组件库兼容性仍需实测。
-- 第三方规则借鉴需独立审查许可证、差异证据和破坏性影响。
-- 当前已具备本机 Node/Vitest 静态与合成包测试，尚不足以证明目标旧版浏览器、完整视觉行为、组件库兼容或正式 CSS 交付通过。
+- 七项目标浏览器是测试目标，不是已冻结的对外支持承诺；Chrome 120 和 Firefox 121 仅有部分 R-003 证据，Edge 120、真实 Safari 17.2 和对应移动版本缺少仓库可定位的逐环境正式 T2 记录。W-06 管理验收不因此撤销。
+- npm 官方 Registry 与 `adui` 账户/个人 `@adui` 作用域已由维护者核验；**首次发布可用性、实际认证和安全要求尚未完成最终确认**。
+- 开发分支已固定 `0.0.1/private:true` 与唯一 CSS 根导出；发布前不得解除 `private` 或执行 npm 发布、Git Tag、GitHub Release、主分支合并。
+- 最新的测试与文档提交没有独立的完整本机 `verify:mvp` 原始终端日志；不能把旧提交的 PASS 当作新提交实测通过。
+- 第三方规则许可、实际浏览器兼容性以及后续增强模块继续按已有 ADR 和证据流程审查；不增加任何 CI。
 
 ## 6. 文档索引和变更记录
 

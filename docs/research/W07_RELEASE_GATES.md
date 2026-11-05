@@ -26,9 +26,9 @@
 
 **当前 P-02 状态：版本 `0.0.1` 已定；`private:true` 为维护者确定的未发布安全开关。** 此前关于 `private:false` 的配置描述仅供审计追溯，不代表当前仓库。新组合 `0.0.1/private:true` 的本机包/消费者回归尚未执行；未发布、未打 Tag/Release、未合并 main，也不增加 CI。
 
-## P-02 · 首个公开版本
+## P-02 · 首个公开版本（历史配置：`private:false` 已撤回）
 
-**维护者最新决定（2026-11-05）**：将首个公开候选版本定为 **`0.0.1`**，并明确将 `private` 调整为 **`false`**，取代此前未获批准的 `0.1.0` 建议。仓库当前根 `package.json` 已实施：
+**历史阶段决定（2026-11-05，随后已撤回 `private:false`）**：曾将首个公开候选版本定为 **`0.0.1`**，并暂时把 `private` 调整为 **`false`**，取代此前未获批准的 `0.1.0` 建议。当时根 `package.json` 曾采用以下配置；**目前真实配置为 `0.0.1/private:true`，以本页顶部及当前仓库为准**：
 
 ```json
 {
@@ -42,7 +42,7 @@
 
 **配置范围与现有验证**：`package.json` 仅更改 `version`（`0.0.0 → 0.0.1`）与 `private`（`true → false`）；`tests/package.node.test.mjs` 与 `tests/package-real.node.test.mjs` 已同步更新断言，并验证真实安装后 manifest 中的 `version` / `private` 一致。合成 smoke Fixture 和独立消费者的 `private:true` 为测试环境隔离语义，**不需修改**。唯一产品 CSS、正式入口、依赖、作者、许可证、pnpm 12 锁文件均保持不变。
 
-**风险与边界**：`private:false` 会撤销 npm 内建的误发布拦截。**当前尚未执行新版本下的本机 `vp check`、离线测试、`vp pack`、真实 tarball/消费者回归或 `npm pack --dry-run`，不能宣称 `0.0.1` 已通过发布前最终复验**。单一 CSS 根入口只有旧版本的交付证据，新配置需要针对性重新验证。当前**没有**执行 `npm publish`、创建 Git Tag / GitHub Release 或合并 `main`；`CHANGELOG.md` 仍为 `Unreleased`。P-07 需维护者**新的独立发布授权**。
+**当时的风险与边界（历史记录）**：`private:false` 会撤销 npm 内建的误发布拦截。**当时尚未执行新版本下的本机 `vp check`、离线测试、`vp pack`、真实 tarball/消费者回归或 `npm pack --dry-run`，不能宣称 `0.0.1` 已通过发布前最终复验**。单一 CSS 根入口只有旧版本的交付证据，新配置需要针对性重新验证。当前**没有**执行 `npm publish`、创建 Git Tag / GitHub Release 或合并 `main`；`CHANGELOG.md` 仍为 `Unreleased`。P-07 需维护者**新的独立发布授权**。
 
 ## P-04 · npm `@adui` 发布权限
 
