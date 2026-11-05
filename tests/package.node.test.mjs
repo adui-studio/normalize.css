@@ -116,7 +116,7 @@ test("MVP local verification runs every relevant check without CI or publishing"
   const script = pkg.scripts["verify:mvp"];
   assert.equal(
     script,
-    "vp check && vp test && pnpm run test:offline && vp pack && pnpm run test:package && pnpm run test:consumer && npm pack --dry-run --json --ignore-scripts",
+    "vp check && vp test && vp pack && pnpm run test:offline && pnpm run test:package && pnpm run test:consumer && npm pack --dry-run --json --ignore-scripts",
   );
   assert.doesNotMatch(script, /publish|upgrade|release|git push/);
 });
