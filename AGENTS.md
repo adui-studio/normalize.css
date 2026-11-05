@@ -1,18 +1,14 @@
 # AGENTS.md — @adui/normalize.css
 
-> 本文件是项目 Agent 的简明规则入口。**维护者统一使用 `vp dev`、`vp build`、`vp pack`：Windows 已实测 `vp build` 六张 Fixture HTML、`vp pack` 唯一 CSS、离线 Node 26/26、真实 tarball 安装 1/1、独立 Vite+ 生产消费 1/1。W-03 Issue #4 与 W-04 Issue #5 均已 Closed，当前验收清单各 4/4，历史阶段未完成项仅作为审计记录保留；Webpack 专项测试已删除且不属于必测范围；W-06 的 T0/T2 已获维护者反馈本地验证通过（尚缺逐浏览器 UA/JSON）；新增原生交互中，Chrome 156 的 dialog 打开/Esc 关闭、键盘焦点和 hidden="until-found" 查找揭示已由维护者实际操作确认 PASS；完整表单键盘路径、系统偏好、其他浏览器与组件库仍待验证。Git 文本 LF 属性已在 Windows 确认；最近一次维护者本机 `vp check` 已 **57 文件格式与 13 文件 Lint PASS**；`vp test` 6/6、`npm run test:offline` 26/26、真实包及 Vite+ 消费端各 1/1 PASS。未经明确许可不合并、发布或增加 CI。** 以用户最新要求为准。
-
-**W-06 当前补充（2026-11-04）**：已建立 Vue 3 + Element Plus、React + Ant Design 两个真实 tarball 生态消费者的独立 Vite+ 测试脚本，根依赖未增加；本轮仅检查源代码隔离与静态语法，实际 npm 安装、生产构建与 UI 浏览器回归仍 NOT_RUN。TDesign、Reset 生态留后续，不因脚本存在而宣布支持。
-
-**W-06 最新本机实测（2026-11-04）**：维护者已运行 Vue + Element Plus、React + Ant Design 两组真实 tarball **Vite+ 生产构建 PASS**，并保留 Vue 的临时 T0/T2 工程。`test:offline` 本轮为 **29/30 PASS、1 FAIL**，仅因旧清单断言未包括新增第七项生态测试；已同步更新 `tests/package.node.test.mjs`，最新离线重跑仍待确认。Vue + Element Plus 已有维护者 Chrome 156 的 T0/T2 页面截图：Button/Input 均挂载且静态视觉一致，五个字重/字号探针相同，**该浏览器静态 UI PASS**；React + Ant Design 也有维护者 Chrome 156 的 T0/T2 页面截图：Button/Input 正常挂载且五项计算样式一致，**两组生态静态 UI 均 PASS**；两组交互、其他浏览器和 TDesign/Reset 生态仍待测。**不增加 CI、根依赖或产品 CSS**。
-
-**W-06 最新状态（2026-11-04）**：维护者已在 Windows 重新运行 `npm run test:offline`，真实输出 **30/30 PASS、0 FAIL**，此前六项/七项离线测试清单的断言问题已解决。新增第三个隔离生态场景 `vue-tdesign`（Vue 3.5.44 + TDesign Vue Next 1.20.10），复用现有 Vite+、真实 tarball、T0/T2 生成器，不安装根项目依赖、不修改产品 CSS、CI 或发布配置。新生成器和三组 JS 来源隔离已静态检查通过；**新增场景的完整 Node/Vite+ 构建和浏览器测试尚未在 Windows 执行**。此前 Vue+Element Plus、React+Ant Design 生产构建及 Chrome 156 静态对照 PASS 记录继续有效。
+> **当前状态（2026-11-05）**：MVP `0.0.1/private:true` 已在开发分支实现，维护者已确认最终签收；W-03～W-06 已管理结项，W-01/W-02 与 W-07 仍 Open。产品 CSS 目前仅包含已批准的 R-003，公开入口只有 `@adui/normalize.css`；尚未合并 `main` 或发布 npm。五项 ADR 均 Accepted，统一采用 Vite+ 1.4.0 / pnpm 12.15.0，**绝不新增 CI**。
+>
+> **验证及授权边界**：旧版 Windows `vp check`、`vp test`、离线 Node、`vp pack`、真实 tarball 和消费者测试有维护者提供的历史通过记录；最新测试断言及分支同步提交之后尚无完整 `pnpm run verify:mvp` 原始日志，不能作为本轮独立 PASS。W-06 正式签收不代表七项最低浏览器环境已有可公开审核的逐项证据。W-07 的 npm 首发认证、浏览器对外支持声明及单独发行授权仍未完成；**不得擅自合并 PR、修改 `private:true`、打 Tag/Release 或 npm 发布**。详见 [MVP 验收清单](docs/MVP_0_0_1_HANDOFF.md)、[W-07 发布门禁](docs/research/W07_RELEASE_GATES.md) 与 [HARNESS](docs/HARNESS.md)。
 
 ## 1. 项目事实
 
 - 仓库：[adui-studio/normalize.css](https://github.com/adui-studio/normalize.css)，npm 包目标名：`@adui/normalize.css`。
-- 当前已确认：GitHub 仓库已建立并包含 MIT LICENSE；五项 ADR 已接受，首版只规划默认 Normalize 入口；Chrome/Edge 120、Firefox 121、Safari 17.2（及对应核心移动版本）已确定为**最低测试目标而非已验证兼容范围**，参见 [MVP 计划](docs/plans/MVP_IMPLEMENTATION_PLAN.md)。
-- W-03 开发分支已增加 `package.json`、`vite.config.ts`、`fixtures/` 与 `tests/`；**R-003 产品 CSS 源码和单一 CSS 根导出已实现；Vite+ `vp pack` 及真实 tarball/Vite+ 生产消费均已通过，仍未正式发布或完成跨浏览器/组件库验收**。Vite+ 已在清单中固定到 1.4.0；维护者的 Windows 本地环境在本轮修订前已完成 `vp check`（55 文件格式和 11 文件 Lint 通过）、`vp test`（6/6）及 `npm run test:offline`（25/25），并已运行 `vp dev` 与原 CSS-only `vp pack`，`DEP0190` 在修复后的 Windows 回归中未再出现；R-003 已取得 Chrome 156 零差异、Chrome for Testing 120.0.6099.109 四组差异和 Firefox 121 零差异的 T0/T1 原始 JSON 证据；Edge 120、Safari 17.2 与移动端仍未测，正式 CSS 仍未准入。本执行容器仍未安装 Vite+。见 [首次本机运行记录](docs/research/LOCAL_BROWSER_RUN_20261104.md)。
+- 当前已确认：正式仓库包含 MIT LICENSE，五项 ADR 已接受，首版默认 Normalize 已实现唯一 R-003；Chrome/Edge 120、Firefox 121、Safari 17.2（及对应核心移动版本）是**批准的最低测试目标，而非已公开承诺的最低支持版本**。参见 [MVP 计划](docs/plans/MVP_IMPLEMENTATION_PLAN.md)。
+- 当前工程事实：开发分支已有 `package.json`、`pnpm-lock.yaml`、`vite.config.ts`、`src/normalize.css`、`fixtures/` 与 `tests/`。`vp pack` 只生成静态 CSS，真实包安装和 Vite+ 消费已有历史验证；最新变更的本机全量测试尚待归档。开发范围及状态以 [项目上下文](docs/PROJECT_CONTEXT.md) 和 [W-07 审核记录](docs/research/W07_RELEASE_READINESS_REVIEW.md) 为准。
 - 目标：低侵入 CSS 标准化基础库；Reset、A11y、Forms 是已接受的长期可选模块方向，**首版延期**；默认不内置 `@layer`，固定 Baseline 2023 作为特性参考。
 - **工具链决策**：后续开发统一 Vite+，参见 [ADR-0005](docs/adr/0005-viteplus-toolchain.md)。工具链保持 Vite+；本次已明确授权首批 CSS 开发，不据此推定 npm 发布、引入新依赖或增加 CI 的权限。
 
