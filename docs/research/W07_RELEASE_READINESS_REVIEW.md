@@ -7,7 +7,13 @@
 - **审核判断**：**部分通过，发布准备尚未就绪；Issue #8 保持 Open**。
 - **红线**：不修改产品 CSS 或既定包根入口；不新增依赖/CI、GitHub Actions、自动发布；不执行 npm publish、GitHub Release、`main` 合并。
 
-## 2026-11-05 · MVP T2 已挂载但内容错误的假阳性防护（最新）
+## 2026-11-05 · MVP 维护者最终验收确认（最新归档）
+
+维护者已在当前项目会话明确确认“最终验收完成”。本项按**维护者对 MVP 开发交付的正式签收**归档；原先的 Windows 冻结安装、Vitest 7/7、Node 33/33、真实包与 Vite+ 消费各 1/1 等已记录通过结果仍按其对应版本保留。当前仓库中**尚无最近一次测试断言变更 `80f637ed` 之后的完整 `pnpm run verify:mvp` 原始终端日志**，不因此编造本工具独立复验、最新命令逐项 PASS 或七项目标浏览器逐环境 PASS。
+
+此签收不等于发行批准。P-04 首次 npm 发布认证、P-05 最低浏览器正式兼容承诺、P-07 独立发布授权仍是独立门禁；W-07 Issue #8 保持 Open，PR #1/#9 未合并，`private:true` 未解除，不打 Tag/Release、不发布 npm、不新增 CI。
+
+## 2026-11-05 · MVP T2 已挂载但内容错误的假阳性防护（验收前开发记录）
 
 复查发现 T2 比较器仅检查 `packageStylesheet.loaded`，在空样式表或加载到非 R-003 的 CSS、且目标 UA 自身已将 `b/strong` 计算为 `bolder` 的情况下可能产生虚假 `PROBE_PASS`。本轮将同源 CSSOM 规则列表加入 T2 JSON，离线校验恰好一条 `b,strong {font-weight:bolder}`、无其他声明/优先级；否则返回 `STYLESHEET_CONTENT_MISMATCH`。新增的静态合成逻辑已检查 12/12，**尚未完成完整本机 Node、Vite+ 和目标浏览器重新验证**。产品 CSS、npm 导出和发布状态无变化；P-05 完整浏览器支持矩阵仍 OPEN。
 

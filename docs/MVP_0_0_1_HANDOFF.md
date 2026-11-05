@@ -3,7 +3,7 @@
 - **版本**：`@adui/normalize.css@0.0.1`
 - **安全设置**：`private: true`，**禁止误发布**
 - **所在分支**：`feat/viteplus-local-harness`
-- **开发状态**：**代码与本地验证入口已准备，最新改动等待维护者在 Windows 运行全套命令**；不等于通过七项目标浏览器的正式兼容性验收。
+- **开发状态**：**维护者于 2026-11-05 明确确认 MVP 最终验收完成（维护者签收）**。当前仓库尚未归档最近一次测试断言变更提交 `80f637ed` 之后的完整 `verify:mvp` 原始输出，因此签收不等于本工具独立复验，也不表示七项目标浏览器均有完整原始证据。
 - **发布状态**：未合并 `main`、未执行 `npm publish`、未创建 Git Tag/Release、**无 CI**
 - **依据**：[ADR-0003 首版唯一入口](adr/0003-mvp-package-contract.md)、[W-05 规则准入](research/W05_RULE_ACCEPTANCE.md)、[W-06 管理验收](research/W06_ACCEPTANCE_INDEX.md)、[W-07 发行门槛](research/W07_RELEASE_GATES.md)
 
