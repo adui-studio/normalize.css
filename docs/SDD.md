@@ -20,26 +20,26 @@
 
 ## 1. 设计范围与需求映射
 
-| 模块 | 对应需求 | 已发行职责 | 状态 |
-| --- | --- | --- | --- |
-| Normalize | FR-001、NFR-001 | 默认标准化 CSS | 已发行 |
-| Reset | FR-002 | 显式导入的盒模型与布局重置 | 已发行（可选） |
-| A11y | FR-003 | 焦点与系统偏好增强 | 已发行（可选） |
-| Forms | FR-004 | 原生表单排版增强 | 已发行（可选） |
-| Combined | FR-005 | 四模块组合入口 | 已发行（可选） |
-| Exports | FR-006 | npm CSS-only 子路径映射 | 已发行 |
-| 规则追踪 | FR-007、NFR-002/003/007 | 规则证据、工程回归与实机兼容记录 | 部分完成，浏览器矩阵待补 |
+| 模块      | 对应需求                | 已发行职责                       | 状态                     |
+| --------- | ----------------------- | -------------------------------- | ------------------------ |
+| Normalize | FR-001、NFR-001         | 默认标准化 CSS                   | 已发行                   |
+| Reset     | FR-002                  | 显式导入的盒模型与布局重置       | 已发行（可选）           |
+| A11y      | FR-003                  | 焦点与系统偏好增强               | 已发行（可选）           |
+| Forms     | FR-004                  | 原生表单排版增强                 | 已发行（可选）           |
+| Combined  | FR-005                  | 四模块组合入口                   | 已发行（可选）           |
+| Exports   | FR-006                  | npm CSS-only 子路径映射          | 已发行                   |
+| 规则追踪  | FR-007、NFR-002/003/007 | 规则证据、工程回归与实机兼容记录 | 部分完成，浏览器矩阵待补 |
 
 ## 2. 已发行的 CSS-only 导出契约（v0.0.3）
 
-| 导入路径 | npm 包对应文件 | 影响范围 |
-| --- | --- | --- |
-| `@adui/normalize.css` | `dist/normalize.css` | 默认三条 Normalize，不触发可选模块 |
-| `@adui/normalize.css/normalize.css` | `dist/normalize.css` | 默认入口别名 |
-| `@adui/normalize.css/reset.css` | `src/reset.css` | 可选布局/间距重置 |
-| `@adui/normalize.css/forms.css` | `src/forms.css` | 可选表单样式 |
-| `@adui/normalize.css/a11y.css` | `src/a11y.css` | 可选无障碍辅助 |
-| `@adui/normalize.css/all.css` | `src/all.css` | 按 Normalize、Reset、Forms、A11y 顺序组合 |
+| 导入路径                            | npm 包对应文件       | 影响范围                                  |
+| ----------------------------------- | -------------------- | ----------------------------------------- |
+| `@adui/normalize.css`               | `dist/normalize.css` | 默认三条 Normalize，不触发可选模块        |
+| `@adui/normalize.css/normalize.css` | `dist/normalize.css` | 默认入口别名                              |
+| `@adui/normalize.css/reset.css`     | `src/reset.css`      | 可选布局/间距重置                         |
+| `@adui/normalize.css/forms.css`     | `src/forms.css`      | 可选表单样式                              |
+| `@adui/normalize.css/a11y.css`      | `src/a11y.css`       | 可选无障碍辅助                            |
+| `@adui/normalize.css/all.css`       | `src/all.css`        | 按 Normalize、Reset、Forms、A11y 顺序组合 |
 
 发行源码使用 Vite+ 1.4.0，`files:["dist","src"]` 和 CSS `sideEffects`；正式 npm 包包含十个文件，无 JS 运行时。维护者已验证真实 tarball 安装、子路径解析和 `all.css` 的 Vite+ 生产构建。下节保留 **2026-11-04 首版历史设计过程**，其当时的 `private:true`、未公开子路径与构建风险不代表现行 `v0.0.3`。
 
