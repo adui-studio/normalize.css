@@ -19,6 +19,20 @@
 **本次评审结论**：P-05 的“R-003 必须重复完成七项正式 T0/T2”门槛已由维护者**正式豁免**；不承诺明确最低数字版本时，P-05 **不再单独阻断 v0.0.1 首发审核**。过去缺少原始附件的事实原样保留。
 
 
+## 2026-11-05 · P-04 账户 2FA 已确认，手动发布脚本已准备（最新）
+
+维护者已在项目会话中明确确认 npm 账户 `adui` **已经启用 2FA**。配合此前提供的 Windows PowerShell 输出，**官方 Registry、CLI 登录、公开包不存在查询及账户 2FA 自我确认**已完成。此次确认来源为维护者反馈，并非本工具登录 npm 网站读取安全设置；**作用域首发实际写权限仍要在正式发布时确认**。
+
+维护者还要求在 `package.json` 直接增加一条手动发布命令。已创建 [PR #12](https://github.com/adui-studio/normalize.css/pull/12)，新增 `scripts["release:publish"] = "vp pack && npm publish --access public --registry=https://registry.npmjs.org/"`。该 PR **仍待合并**，本轮没有运行脚本或进行 npm 发布，也不增加任何 CI。
+
+**发行前必须同步核对两项配置，避免发布脚本失效**：
+1. 目前 `package.json` 为 `version:"0.0.1"`、`private:true`。npm 不允许公开发布 `private:true` 包；**仅在维护者单独授权公开发行之后**，才允许将其改为 `private:false` 并合并相应变更。
+2. `tests/package.node.test.mjs` 与 `tests/package-real.node.test.mjs` 仍包含 `private === true` 的实际包断言。发布配置如果变化，必须一并最小调整断言，再对最终一致的 `0.0.1/private:false` 版本运行现有 `pnpm run verify:mvp`；不能把 `private:true` 时的 PASS 当成公开版本的 PASS。
+
+**计划的人工发布顺序（尚未授权执行）**：批准并合并相关 PR → 明确批准公开发布配置并同步测试 → 在维护者 Windows 完成最终完整本地回归/产物核验 → 由维护者**主动**运行 `pnpm run release:publish` 并按 npm 2FA 提示操作 → 核实 npm 官方 Registry 已出现 `@adui/normalize.css@0.0.1`。Git Tag/GitHub Release 另需授权，不由此脚本自动创建。
+
+**P-04 结论**：非发布身份与账户 2FA 准备已由维护者确认；实际首发权限与发布结果尚未知。**P-07 仍 Open**。未发布 npm、未创建 Tag/Release，未解除 `private:true`，无 CI。
+
 ## 2026-11-05 · P-04 npm Registry、登录与公开包查询实测归档（维护者提供）
 
 维护者在 Windows PowerShell 的 `D:\Workspace\adui-studio\normalize.css` 中实际提供以下**不执行发布**的终端结果：
