@@ -37,7 +37,8 @@ function validate(input, role) {
   const expected = role === "native" ? "/fixtures/t2-native.html" : "/fixtures/t2-package.html";
   if (data.location !== expected) throw new Error(role + ".location must equal " + expected);
   if (role === "native") {
-    if (Object.hasOwn(data, "packageStylesheet")) throw new Error("T0 must not include packageStylesheet");
+    if (Object.hasOwn(data, "packageStylesheet"))
+      throw new Error("T0 must not include packageStylesheet");
   } else {
     const stylesheet = object(data.packageStylesheet, "T2.packageStylesheet");
     if (stylesheet.href !== "../dist/normalize.css" || typeof stylesheet.loaded !== "boolean") {
@@ -51,7 +52,8 @@ function validate(input, role) {
   for (const raw of data.rows) {
     const item = object(raw, role + ".row");
     const id = text(item.id, role + ".row.id");
-    if (!IDS.includes(id) || rows.has(id)) throw new Error(role + " unknown or duplicate probe: " + id);
+    if (!IDS.includes(id) || rows.has(id))
+      throw new Error(role + " unknown or duplicate probe: " + id);
     const tag = id.startsWith("strong-") ? "strong" : id.startsWith("b-") ? "b" : id;
     if (item.tagName !== tag) throw new Error(role + "." + id + " wrong tagName");
     const parent = weight(item.parentFontWeight, role + "." + id + ".parentFontWeight");
@@ -104,7 +106,11 @@ export function compareT2Evidence(nativeJson, packageJson) {
   if (!packed.loaded) issues.unshift("T2 packed stylesheet is not loaded");
   return {
     userAgent: native.userAgent,
-    status: !packed.loaded ? "STYLESHEET_NOT_LOADED" : issues.length ? "STYLE_MISMATCH" : "PROBE_PASS",
+    status: !packed.loaded
+      ? "STYLESHEET_NOT_LOADED"
+      : issues.length
+        ? "STYLE_MISMATCH"
+        : "PROBE_PASS",
     stylesheetLoaded: packed.loaded,
     weightDifferences,
     issues,
@@ -124,7 +130,10 @@ function main() {
     return;
   }
   try {
-    const report = compareT2Evidence(readEvidenceFile(process.argv[2]), readEvidenceFile(process.argv[3]));
+    const report = compareT2Evidence(
+      readEvidenceFile(process.argv[2]),
+      readEvidenceFile(process.argv[3]),
+    );
     console.log(JSON.stringify(report, null, 2));
     if (report.status !== "PROBE_PASS") process.exitCode = 1;
   } catch (error) {

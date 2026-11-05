@@ -33,7 +33,9 @@ function fixture(role, oldBlink = false) {
   return {
     userAgent: "Synthetic Browser/120 (not real evidence)",
     location: "/fixtures/t2-" + role + ".html",
-    ...(role === "package" ? { packageStylesheet: { href: "../dist/normalize.css", loaded: true } } : {}),
+    ...(role === "package"
+      ? { packageStylesheet: { href: "../dist/normalize.css", loaded: true } }
+      : {}),
     rows,
   };
 }
@@ -116,10 +118,14 @@ function cli(native, packed) {
     const b = join(directory, "package.json");
     writeFileSync(a, JSON.stringify(native));
     writeFileSync(b, JSON.stringify(packed));
-    return spawnSync(process.execPath, [fileURLToPath(new URL("./t2-evidence.mjs", import.meta.url)), a, b], {
-      encoding: "utf8",
-      timeout: 10000,
-    });
+    return spawnSync(
+      process.execPath,
+      [fileURLToPath(new URL("./t2-evidence.mjs", import.meta.url)), a, b],
+      {
+        encoding: "utf8",
+        timeout: 10000,
+      },
+    );
   } finally {
     rmSync(directory, { recursive: true, force: true });
   }
