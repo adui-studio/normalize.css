@@ -13,7 +13,7 @@ const normalizeCss = (source) =>
 
 test("W-04 package exports only the Normalize CSS root", () => {
   assert.equal(pkg.name, "@adui/normalize.css");
-  assert.equal(pkg.version, "0.0.2");
+  assert.equal(pkg.version, "0.0.3");
   assert.equal(pkg.private, false);
   assert.ok(Array.isArray(pkg.keywords));
   assert.ok(pkg.keywords.includes("css"));
