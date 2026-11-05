@@ -33,6 +33,17 @@
 - [Apple Safari 17.2 Release Notes](https://developer.apple.com/documentation/safari-release-notes/safari-17_2-release-notes)：真实 Safari 17.2 的平台与构建信息
 - [Playwright 浏览器说明](https://playwright.dev/docs/browsers)：Playwright WebKit 衍生自 WebKit 源码，不等同于品牌 Safari；移动设备模拟也不等于真实设备
 
+### 2.1 W-06 Issue #7 历史评论追溯（2026-11-05）
+
+本次进一步检查 [W-06 Issue #7](https://github.com/adui-studio/normalize.css/issues/7) 的 **22 条讨论评论**，并与已归档的研究文档交叉核对：
+
+- [Chrome 156 原生 T0/T2 回归](https://github.com/adui-studio/normalize.css/issues/7#issuecomment-6622389292) 和 [原生交互反馈](https://github.com/adui-studio/normalize.css/issues/7#issuecomment-6622546287)：证明该浏览器子范围曾被测试，不提供旧版 Edge/Safari/移动版结果。
+- [Vue + Element Plus 的 Chrome 156 截图](https://github.com/adui-studio/normalize.css/issues/7#issuecomment-6624388748) 与 [React + Ant Design 的 Chrome 156 截图](https://github.com/adui-studio/normalize.css/issues/7#issuecomment-6624575902)：是两个生态消费者的静态 UI 证据，不能推导七个最低目标均已验证。
+- [UnoCSS tailwind-v4 页面来源记录](https://github.com/adui-studio/normalize.css/issues/7#issuecomment-6625719207) 与 [Tailwind Preflight Chrome 156 静态对照](https://github.com/adui-studio/normalize.css/issues/7#issuecomment-6626094865)：有独立构建、页面来源或静态计算结果，但不是目标版本的完整跨浏览器附件。
+- [维护者反馈跨浏览器回归完成](https://github.com/adui-studio/normalize.css/issues/7#issuecomment-6626947676) 和 [W-06 正式结项记录](https://github.com/adui-studio/normalize.css/issues/7#issuecomment-6627029759)：管理结论明确，**未附七项最低目标逐环境的浏览器构建号、OS/设备、T0/T2 原始 JSON/截图附件清单**。
+
+**追溯结论**：本次没有从 Issue 评论补充得到可直接将某个最低目标由 `PARTIAL` / `EVIDENCE_MISSING` 改为 `PASS` 的新证据。**这是仓库附件可用性判断，不是推翻 W-06 的人工验收或断言测试从未执行。**
+
 ## 3. 已有本地 Fixture：最低实际补证步骤
 
 在开发分支项目根目录的 PowerShell 中（不新建脚本、不安装新工具）：
@@ -65,6 +76,19 @@ console.log(evidence);
 5. **框架及 Reset**：已由 W-06 验收的子项目复用原证据；如要宣称**某最低版本**与 Vue/React/TDesign、Tailwind/UnoCSS 组合兼容，则仍需该版本的可追溯相应测试记录，不能由 Chrome 156 构建/截图推断。
 
 这项工作先针对 P-05 补齐**最小版本/加载/计算样式证据**；其他系统交互及生态边界仍依 [ADR-0004](../adr/0004-browser-support-policy.md) 和 W-06 已签核范围判断，不在此文擅自降低原验收要求。
+
+### 3.1 第一批：只补 Chrome 120 / Firefox 121 的真实 T2
+
+此批优先使用维护者此前已成功启动的 **Chrome for Testing 120.0.6099.109** 和 **Firefox 121.0**；**先核对实际环境是否仍在**，并确认受控隔离安全条件。若不存在或无法安全运行，不要求强行下载安装旧浏览器，保持待验证。
+
+1. 在实际目标浏览器中拍摄“关于浏览器”或版本页，记录完整版本、操作系统、取证日期；不要仅靠简化的 UA 字符串。
+2. 每个浏览器分别打开本页第 3 节的 T0、T2 地址；在两页确认探针完成标记（`document.documentElement.dataset.probeStatus === "complete"`），把 **`#probe-output` 的全部 JSON** 分别复制为 T0 和 T2 记录，并保留浏览器版本截图。
+3. T2 必须确认 `packageStylesheet.loaded === true`、`href` 指向 `../dist/normalize.css`，以及 Network 真实 CSS 加载成功；T0 不应加载本库 CSS。若失败，本轮标为加载失败，**不要继续给样式判 PASS**。
+4. 比较两组 JSON 中相同 `id` 的 `parentFontWeight`、`fontWeight`、`parentFontSize`、`fontSize`、`fontFamily`。**Chrome 120 预期**：在与先前原始数据一致的字体上下文下，`b-600`、`strong-600`、`b-700`、`strong-700` 有从 700 到 900 的已知修复变化；父级 400 的两组不变。**Firefox 121 预期**：同一浏览器环境 T0/T2 的六组字重均无新增差异。实际结果不同应完整记录并诊断，不能按预期直接填 PASS。
+5. `code/kbd/samp/pre` 在各自浏览器的 T0/T2 字体族和字号应保持一致；适用原生交互遵循 W-06 人工验证范围，不得仅凭静态 JSON 声称所有键盘/无障碍功能通过。
+6. 每个环境归档 **版本截图 + T0 JSON + T2 JSON + CSS Network 证据 + 实测结论**。若只补齐静态样式，标注“R-003/R-004 + CSS 加载子项 PASS”，**整个最低浏览器版本仍为 PARTIAL，不能扩大为全面支持声明**。
+
+浏览器运行环境及历史 T0/T1 来源参考 [R-003/R-004 实测指南](R003_R004_LOCAL_VERIFICATION.md) 与 [原始浏览器运行记录](LOCAL_BROWSER_RUN_20261104.md)。这两项可先形成一份可复核的正式包闭环；剩余 Edge、真实 Safari 和移动端仍独立决策，不因共享内核自动通过。
 
 ## 4. 每个目标环境的证据填写模板
 

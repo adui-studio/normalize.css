@@ -7,7 +7,13 @@
 - **审核判断**：**部分通过，发布准备尚未就绪；Issue #8 保持 Open**。
 - **红线**：不修改产品 CSS 或既定包根入口；不新增依赖/CI、GitHub Actions、自动发布；不执行 npm publish、GitHub Release、`main` 合并。
 
-## 2026-11-05 · P-05 最低浏览器支持证据矩阵已建立（最新）
+## 2026-11-05 · P-05 W-06 Issue 评论证据追溯（最新）
+
+复核 [W-06 已结项 Issue #7](https://github.com/adui-studio/normalize.css/issues/7) 的 **22 条评论**：有 Chrome 156 的静态浏览器对照、生态消费者和三个独立 Reset 的来源/部分原生交互证据，也有维护者“回归完成”和正式结项的管理确认；**未找到可直接补齐原 ADR-0004 七个最低目标的逐环境 T2 原始附件**。没有新证据可将 Edge 120、Safari 17.2 或三个移动最低目标直接改为 PASS。
+
+已把 [P-05 证据矩阵](W07_P05_BROWSER_EVIDENCE_MATRIX.md) 补充为**可追溯评论清单 + Chrome 120、Firefox 121 首批正式 CSS T0/T2 操作卡**。本轮没有在任何浏览器启动测试；仅将已知事实与待补附件区分，**W-06 管理结项继续有效，P-05 仍未通过公开支持范围门槛**。无产品 CSS、依赖、CI 或发布变更。
+
+## 2026-11-05 · P-05 最低浏览器支持证据矩阵已建立（历史第一轮）
 
 已核对 [ADR-0004](../adr/0004-browser-support-policy.md) 的七项目标和 [W-06 正式验收索引](W06_ACCEPTANCE_INDEX.md)，新增 [P-05 浏览器证据矩阵](W07_P05_BROWSER_EVIDENCE_MATRIX.md)。**Chrome 120 和 Firefox 121 只有早期 R-003 T0/T1 字重证据（分别四组差异、零差异）**；Chrome 156 的 T0/T2/交互/生态记录属于另一个实际版本；Edge 120、Safari 17.2 与三个移动最低版本的可审核 T2 附件当前缺失。**缺附件不等于维护者未执行 W-06 回归**，正式验收的管理决定保持不变。
 

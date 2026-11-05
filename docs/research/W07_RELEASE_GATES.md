@@ -83,6 +83,12 @@ npm view "@adui/normalize.css" version --registry=https://registry.npmjs.org/
 
 该矩阵优先复用过去的测试和已有 `vp pack` / `vp dev` Fixture；不增加浏览器自动化依赖，不强制重做已经签收的 W-06 范围。**P-05 证据整理方案完成，正式七目标支持范围仍待补证或经维护者另行正式修订 ADR-0004。**
 
+## 2026-11-05 · P-05 GitHub Issue 原始记录补充复核（最新）
+
+进一步查阅已结项 [W-06 Issue #7](https://github.com/adui-studio/normalize.css/issues/7) 的 22 条历史评论，核对 Chrome 156 的原生/组件/Reset 局部测试证据与管理签收记录。没有新增可直接作为 **Edge 120、真实 Safari 17.2、三项最低移动版本** T0/T2 通过依据的独立原始附件；**不能把评论中的“回归已完成”转写为七目标逐项 PASS**。
+
+已将直接 Issue 来源链接与 **Chrome 120 / Firefox 121 的优先正式 T2 补证步骤**加入 [P-05 浏览器证据矩阵](W07_P05_BROWSER_EVIDENCE_MATRIX.md)。此次仅复用既有资料，不新增浏览器实测。**P-05 仍 OPEN**，W-06 原正式验收结论不变。
+
 ## P-05 · 最低浏览器兼容性声明
 
 **已批准的特性参考**：Baseline 2023。Chrome/Edge 120、Firefox 121、Safari 17.2 与对应核心移动家族是[ADR-0004](../adr/0004-browser-support-policy.md)中的**最低测试目标**，不是已经对外保证的最低支持版本。
