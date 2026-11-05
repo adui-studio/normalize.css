@@ -47,7 +47,7 @@ function npm(args, cwd, cache) {
 }
 
 test(
-  "W-04: real tarball CSS import survives a Vite+ production build",
+  "W-04: real all.css bundle survives a Vite+ production build",
   { timeout: 150_000 },
   (t) => {
     assert.ok(existsSync(join(projectRoot, "dist", "normalize.css")), "Run 'vp pack' first");
@@ -81,7 +81,7 @@ test(
       join(temp, "index.html"),
       '<!doctype html><html><head><meta charset="UTF-8" /></head><body><div style="font-weight:600"><strong>Test</strong></div><script type="module" src="./entry.js"></script></body></html>\n',
     );
-    writeFileSync(join(temp, "entry.js"), 'import "@adui/normalize.css";\n');
+    writeFileSync(join(temp, "entry.js"), 'import "@adui/normalize.css/all.css";\n');
     writeFileSync(
       join(temp, "vite.config.mjs"),
       'import { defineConfig } from "vite-plus";\nexport default defineConfig({ build: { outDir: "dist" } });\n',
@@ -107,6 +107,10 @@ test(
     assert.equal(cssFiles.length, 1, `Expected one CSS file, got: ${files.join(", ")}`);
     const css = readFileSync(join(temp, "dist", "assets", cssFiles[0]), "utf8");
     assert.match(css, /\bb\s*,\s*strong\s*\{\s*font-weight:\s*bolder\s*;?\s*\}/);
+    assert.match(css, /box-sizing:\s*border-box/);
+    assert.match(css, /border-collapse:\s*collapse/);
+    assert.match(css, /file-selector-button/);
+    assert.match(css, /focus-visible/);
     assert.ok(existsSync(join(temp, "dist", "index.html")));
   },
 );
