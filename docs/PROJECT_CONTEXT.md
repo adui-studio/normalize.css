@@ -193,6 +193,8 @@
 
 **2026-11-05 · W-07 `0.0.1/private:true` 完整本地回归补验（最新）**：维护者新提供 Windows PowerShell 日志，**`pnpm install --frozen-lockfile` 24ms PASS**，`vp check --fix` 格式完成且 19 文件零 Lint 错误/警告，`vp test` **Vitest 7/7 PASS**，`pnpm run test:offline` **Node 33/33 PASS**，`vp pack` 唯一 CSS 200 B，真实 `test:package`、`test:consumer` 各 **1/1 PASS**，`npm pack --dry-run --json --ignore-scripts` 五文件 13871 B、解包 33846 B，`git status --short` 无输出。当前 `0.0.1/private:true` 的 **P-01/P-02/P-03/P-06 本机质量门槛全部有最新真实执行证据**。先前批次“Vitest/冻结安装未重跑”是历史状态，不再是最新检查缺口。当前开发依赖保持 `vite-plus@1.4.0`，工具仅提示有 1.5.0 可用，未升级。P-04 首发认证、P-05 公开浏览器支持证据及 P-07 发布授权仍未完成；Issue #8 保持 Open。不更改 CSS/根依赖、不新增 CI、不合并或发布。见 [W-07 审核](research/W07_RELEASE_READINESS_REVIEW.md)。
 
+**2026-11-05 · W-07 P-05 浏览器支持证据矩阵（最新）**：基于正式 ADR-0004 七项目标、W-06 已完成的管理验收和历史实测文档，新增 [P-05 七项最低浏览器证据矩阵](research/W07_P05_BROWSER_EVIDENCE_MATRIX.md)。Chrome for Testing 120 与 Firefox 121 的 R-003 T0/T1 实测有局部证据（4/6 个字重变化与零差异），Chrome 156 的真实 T0/T2/交互/生态结果也已归档，但不能将它们扩大为 Edge 120、真实 Safari 17.2 或三项移动最低版本的通过。其他目标当前**未见可审计的逐环境 T2 原始附件**；不把“未见附件”误称“维护者没有运行”，W-06 正式结项也不撤销。新文件提供已有 Fixture 的本机复用路径、元数据模板、期望差异判据和安全边界；**本轮没有执行新浏览器测试或更改浏览器支持 ADR**，P-05 仍 OPEN。版本继续 `0.0.1/private:true`，W-07 Issue #8 Open，不增加 CI、修改产品 CSS、合并或发布。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与待决策变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源

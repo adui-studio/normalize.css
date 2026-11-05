@@ -183,6 +183,8 @@ npm pack --dry-run --json --ignore-scripts --offline .
 
 **2026-11-05 · W-07 最新 `0.0.1/private:true` 全套 Windows 本地验收**：冻结安装 `pnpm install --frozen-lockfile`（24ms，pnpm 12.15.0）**PASS**；`vp check --fix` 19 文件格式/Lint **PASS**；`vp test` Vitest **7/7 PASS**；`pnpm run test:offline` Node **33/33 PASS**；`vp pack` 仅一份 CSS **200 B PASS**；真实 tarball 安装和 Vite+ 生产消费分别 **1/1 PASS**；`npm pack --dry-run --json --ignore-scripts` **5 文件 PASS**（`@adui/normalize.css@0.0.1`，13871 B）；`git status --short` 无输出。此前版本或前次批次没有单独执行 `vp test`/冻结安装的描述属于历史证据，**本次均已补做**；当前唯一未验证的是发行认证、完整逐浏览器支持矩阵等独立发行门槛。Vite+ 仍锁定 1.4.0，虽提示 1.5.0 可用，不自动升级。不得新增 CI、npm 发布或合并。详见 [W-07 审核报告](research/W07_RELEASE_READINESS_REVIEW.md)。
 
+**2026-11-05 · W-07 P-05 浏览器最低目标补证入口（仅方案，尚未新增运行结果）**：已整理 [七项最低目标证据矩阵](research/W07_P05_BROWSER_EVIDENCE_MATRIX.md)。复用 `vp pack` → `vp dev` 的 `fixtures/t2-native.html` 与 `fixtures/t2-package.html`、现有 `#probe-output` JSON，优先归档维护者 W-06 旧记录，不重复已完成测试。需记录完整浏览器版本/设备/OS、真实 CSS `loaded`、R-003 六组和 R-004 四组样式以及适用原生交互；不可把 Chrome 120 的 T0/T1 差异当作 T2 回归，也不可把 Playwright WebKit 当真实 Safari。当前 P-05 未取得全七项目标的逐环境可审计 PASS，未修改 CSS、依赖或 CI。完整手工步骤见新增文档。
+
 ## 6. 安全和发布门禁（规划）
 
 - 审核第三方规则的许可证及改写过程；不引入未经审批的远程字体、图片或跟踪请求。

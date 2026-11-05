@@ -16,6 +16,8 @@
 
 **2026-11-05 · W-07 private 安全开关恢复（最新）**：当前根 `package.json` 为 `version:0.0.1`、`private:true`；正式包两项测试断言已恢复 `true`，合成测试和隔离消费者保持不变。之前 `private:false` 只是历史配置阶段。CSS 仍仅 R-003；锁文件、单一根导出、依赖不变。该组合的 Windows 实际回归待完成，仍未发布。见 [W-07 报告](research/W07_RELEASE_READINESS_REVIEW.md)。
 
+**2026-11-05 · W-07 P-05 证据矩阵归档（最新）**：新增 [七项目标浏览器证据矩阵](research/W07_P05_BROWSER_EVIDENCE_MATRIX.md)，为已批准的最低测试目标逐项记录已有证据、缺口及复用的本地 T0/T2 采集步骤；不新增源码、Fixture 或依赖。管理验收与版本兼容承诺严格区分，P-05 尚未 PASS。
+
 ## 1. 当前真实文件
 
 ```text
@@ -84,6 +86,7 @@ normalize.css/
     ├── research/W05_RULE_ACCEPTANCE.md # W-05 36 条规则首版评审归档索引
     ├── research/W07_RELEASE_READINESS_REVIEW.md # W-07 发布前审核清单与发行阻塞项
     ├── research/W07_RELEASE_GATES.md # W-07 首发版本/作用域/兼容性声明审核
+    ├── research/W07_P05_BROWSER_EVIDENCE_MATRIX.md # P-05 七项最低目标浏览器证据及补证指南
     ├── CODEBASE_MAP.md      # 本轮文档：代码地图
     ├── SKILLS.md            # 本轮文档：Skill 索引
     ├── HARNESS.md           # 本轮文档：验证机制规划

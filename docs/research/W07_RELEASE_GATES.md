@@ -77,6 +77,12 @@ npm view "@adui/normalize.css" version --registry=https://registry.npmjs.org/
 
 **P-04 结论**：账户、官方 Registry 和用户作用域**已验证 PASS**；包的首次可发布性与发布认证仍**待验**，所以 P-04 **部分完成，不关闭发行门槛**。
 
+## 2026-11-05 · P-05 七项最低浏览器证据盘点（最新）
+
+已根据 ADR-0004、W-06 正式验收索引和历史 R-003/T2 数据建立 [P-05 浏览器证据矩阵与复用步骤](W07_P05_BROWSER_EVIDENCE_MATRIX.md)。Chrome 120 / Firefox 121 **只有 R-003 T0/T1 局部证据**；Chrome 156 有真实 T0/T2 与部分交互/生态记录，但**不能代替最低目标版本**；Edge 120、真实 Safari 17.2、Chrome Android 120、Firefox Android 121、Safari iOS 17.2 **尚无仓库可定位的逐环境 T2 原始记录**。W-06 管理验收已完成，**不声称这些环境未执行测试**，只标记公开支持版本的**证据缺口**。
+
+该矩阵优先复用过去的测试和已有 `vp pack` / `vp dev` Fixture；不增加浏览器自动化依赖，不强制重做已经签收的 W-06 范围。**P-05 证据整理方案完成，正式七目标支持范围仍待补证或经维护者另行正式修订 ADR-0004。**
+
 ## P-05 · 最低浏览器兼容性声明
 
 **已批准的特性参考**：Baseline 2023。Chrome/Edge 120、Firefox 121、Safari 17.2 与对应核心移动家族是[ADR-0004](../adr/0004-browser-support-policy.md)中的**最低测试目标**，不是已经对外保证的最低支持版本。
