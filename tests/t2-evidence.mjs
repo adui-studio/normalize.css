@@ -87,8 +87,14 @@ function validate(input, role) {
       fontFamily: text(item.fontFamily, role + "." + id + ".fontFamily"),
       ...(tag === "abbr"
         ? {
-            textDecorationLine: text(item.textDecorationLine, role + "." + id + ".textDecorationLine"),
-            textDecorationStyle: text(item.textDecorationStyle, role + "." + id + ".textDecorationStyle"),
+            textDecorationLine: text(
+              item.textDecorationLine,
+              role + "." + id + ".textDecorationLine",
+            ),
+            textDecorationStyle: text(
+              item.textDecorationStyle,
+              role + "." + id + ".textDecorationStyle",
+            ),
           }
         : {}),
       ...(tag === "table"
@@ -131,8 +137,10 @@ export function compareT2Evidence(nativeJson, packageJson) {
     } else if (before.weight !== after.weight) {
       issues.push(id + ": font-weight changed unexpectedly");
     }
-    if (id === "abbr-title" &&
-        (after.textDecorationLine !== "underline" || after.textDecorationStyle !== "dotted")) {
+    if (
+      id === "abbr-title" &&
+      (after.textDecorationLine !== "underline" || after.textDecorationStyle !== "dotted")
+    ) {
       issues.push("R-007: abbr[title] must have a dotted underline");
     }
     if (id === "table-border" && after.borderTopColor !== after.color) {

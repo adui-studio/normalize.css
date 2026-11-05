@@ -62,7 +62,10 @@ test(
 
     const css = readFileSync(cssFile, "utf8");
     assert.match(css, /\bb\s*,\s*strong\s*\{\s*font-weight:\s*bolder\s*;?\s*\}/);
-    assert.match(css, /:where\(abbr\[title\]\)\s*\{\s*text-decoration:\s*underline\s+dotted\s*;?\s*\}/);
+    assert.match(
+      css,
+      /:where\(abbr\[title\]\)\s*\{\s*text-decoration:\s*underline\s+dotted\s*;?\s*\}/,
+    );
     assert.match(css, /:where\(table\)\s*\{\s*border-color:\s*currentcolor\s*;?\s*\}/i);
     const manifest = JSON.parse(readFileSync(join(projectRoot, "package.json"), "utf8"));
     assert.deepEqual(manifest.exports, { ".": "./dist/normalize.css" });
