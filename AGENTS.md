@@ -1,20 +1,16 @@
 # AGENTS.md — @adui/normalize.css
 
-> **默认规则范围冻结（2026-11-05，最新）**：维护者沿既定评审方案确认默认 Normalize 的范围为 R-003、R-007、R-008，36 条候选中其余 17 条继续暂缓、8 条作为独立可选模块设计、8 条排除默认；正式记录见 [完整性与准入门槛 §八](docs/research/DEFAULT_NORMALIZE_V01_READINESS.md)。此前“冻结候选/待批准”属于历史状态。绑定 `9cbf81e6f8b7e9280abc1b77bf4dbcc876b74dd8` 的 Windows 工程验收已有 60/60 PASS、独立 8 Fixture 构建 PASS；不等于全部浏览器最低版本实测通过，也**不授权 `0.1.0` 升级、npm/Tag/Release 发行或增加 CI**。现仍为 `0.0.2/private:false`。
+> **正式发行最新状态（2026-11-05）**：维护者已确认 npm Registry 公开版本 `@adui/normalize.css@0.0.2`；[GitHub Release v0.0.2](https://github.com/adui-studio/normalize.css/releases/tag/v0.0.2) 已正式发布（非 Draft/Prerelease），附注 Tag `v0.0.2` 解析到已验收源码提交 `4d66e6b590c09b7de6e98332524684237dddf212`。历史已公开 `0.0.1` 仅含 R-003；`0.0.2` 已包含 R-003/R-007/R-008。npm 已发布 tarball SHA-1 与本地包的二进制一致性尚未独立核验，不冒充已比对。
 
-> **最新工程与范围评审状态（2026-11-05）**：PR #19、PR #21 均已合并 `main`；默认 `src/normalize.css` 保持 R-003/R-007/R-008 三条规则，PR #21 的 T0/T2 观察点已从 12 扩展为 15。维护者提供的合并后 Windows `pnpm run verify:mvp` 日志显示 Vitest 7/7、离线 Node 51/51、真实包与 Vite+ 消费各 1/1，合计 60/60 PASS，CSS-only 产物 311 B、npm dry-run 五文件；该日志未记录执行时完整 Git SHA，且不是所有目标浏览器 T0/T2 实测。依据 [36 条候选与 0.1.0 完整性门槛](docs/research/DEFAULT_NORMALIZE_V01_READINESS.md)，当前已提出三条规则作为**默认范围冻结候选**，尚非维护者批准的正式冻结或 `0.1.0` 发行授权；继续保持 `0.0.2`，不增加 CI。
+> **当前规则与版本策略（2026-11-05）**：默认 `src/normalize.css` 当前三条规则 R-003、R-007、R-008 已作为 `0.0.2` 正式交付；36 条候选其余 17 条暂缓、8 条独立可选模块设计、8 条排除默认。维护者明确要求继续完善 Normalize，**仅在完整性及必要验收达到要求后才评审并发布 `0.1.0`**；此前的“范围冻结”仅指 `0.0.2` 交付范围稳定，不意味着 `0.1.0` 已经完成。仍保持版本号 `0.0.2`；不得重复发布此版本、移动发行 Tag，亦不得擅自升级或发布下一版本。
 
-> **当前主分支事实（2026-11-05）**：PR #19 已经维护者批准并合并 `main@ed729527142732cb18ffa8971e7bb701d120a026`。默认 `src/normalize.css` 现有 R-003、R-007、R-008 三条规则；T0/T2、CSSOM、真实包断言与双语 README 已同步。仓库 `package.json` 保持 `0.0.2/private:false`，单 CSS 根导出、无运行时 JavaScript 依赖；**公开 npm 已确认发行的是 `0.0.1`，不是 `0.0.2`**。W-07 Issue #8 已 Closed—completed；下一阶段由 Issue #18 继续跟踪。五项 ADR Accepted，Vite+ 1.4.0 / pnpm 12.15.0，**禁止增加 CI**。
->
-> **版本策略（维护者已明确批准，2026-11-05）**：当前开发/下一候选版本**继续为 `0.0.2`**，它包含已合并的 CSS 变更和 npm Keywords，不再称为“纯关键词补丁”；**只有在默认 `normalize.css` 规则范围完成、验收并经维护者确认后才提升到 `0.1.0`**，不提前升级。公开发布版本必须同时对应 Git Tag `vX.Y.Z` 与 GitHub Release，具体人工清单见 [RELEASING](docs/RELEASING.md)；记录发行要求不等于已经执行发布。
->
-> **验证与发行边界**：维护者已确认 MVP 回归通过；对 PR #19 新规则，已有静态、模拟 CSSOM 与比较器合成验证记录，但未在本轮取得绑定最新 `main` SHA 的全套 Windows/Vite+ 和所有目标浏览器实测日志，不能擅称全部通过。发布 `0.0.2` 仍需独立明确授权及维护者本机 npm 2FA，**不得提前创建对应 Tag/Release 或执行 npm publish**；旧版 `0.0.1` 的 Tag/Release 也不得在未确定准确发行提交时随意补建。**不新增 CI、自动发布、依赖或配置工作流**。
+> **已验证与未验证边界**：维护者 Windows PowerShell 在发行源码提交上提供冻结安装、格式/Lint、`verify:mvp` **60/60 PASS**，以及独立 `vp build` 构建 8 张 Fixture 页面 PASS、五文件 npm dry-run；以上不是全部目标浏览器 T0/T2 的真实兼容性证明，不声明缺乏证据的最低浏览器版本。发布采用独立授权的本机人工流程，具体见 [RELEASING](docs/RELEASING.md)；**禁止新增 CI、自动发行或运行时 JavaScript 依赖**。
 
 ## 1. 项目事实
 
 - 仓库：[adui-studio/normalize.css](https://github.com/adui-studio/normalize.css)，npm 包目标名：`@adui/normalize.css`。
-- 当前已确认：正式仓库包含 MIT LICENSE，五项 ADR 已接受，首版默认 Normalize 已实现唯一 R-003；Chrome/Edge 120、Firefox 121、Safari 17.2（及对应核心移动版本）是**批准的最低测试目标，而非已公开承诺的最低支持版本**。参见 [MVP 计划](docs/plans/MVP_IMPLEMENTATION_PLAN.md)。
-- 当前工程事实：`main` 现已包含 `package.json`、`pnpm-lock.yaml`、`vite.config.ts`、`src/normalize.css`、`fixtures/` 与 `tests/`。`vp pack` 只生成静态 CSS，真实包安装和 Vite+ 消费已有历史验证；最新变更的本机全量测试尚待归档。开发范围及状态以 [项目上下文](docs/PROJECT_CONTEXT.md) 和 [W-07 审核记录](docs/research/W07_RELEASE_READINESS_REVIEW.md) 为准。
+- 当前已确认：正式仓库包含 MIT LICENSE，五项 ADR 已接受；已发布的 `0.0.1` 仅含 R-003，已发布的 `0.0.2` 包含 R-003、R-007、R-008。Chrome/Edge 120、Firefox 121、Safari 17.2（及对应核心移动版本）是**批准的历史最低测试目标，而非已公开承诺的最低支持版本**。参见 [MVP 计划](docs/plans/MVP_IMPLEMENTATION_PLAN.md)。
+- 当前工程事实：`main` 包含 `package.json`、`pnpm-lock.yaml`、`vite.config.ts`、`src/normalize.css`、`fixtures/` 与 `tests/`。`vp pack` 生成 CSS-only 静态产物，发行源码提交的真实包安装、Vite+ 消费和本机工程验收已归档；后续纯文档提交不冒充在新 HEAD 上重跑。开发范围及状态以 [项目上下文](docs/PROJECT_CONTEXT.md)、[HARNESS](docs/HARNESS.md) 和 [发行记录](docs/RELEASING.md) 为准。
 - 目标：低侵入 CSS 标准化基础库；Reset、A11y、Forms 是已接受的长期可选模块方向，**首版延期**；默认不内置 `@layer`，固定 Baseline 2023 作为特性参考。
 - **工具链决策**：后续开发统一 Vite+，参见 [ADR-0005](docs/adr/0005-viteplus-toolchain.md)。工具链保持 Vite+；本次已明确授权首批 CSS 开发，不据此推定 npm 发布、引入新依赖或增加 CI 的权限。
 
