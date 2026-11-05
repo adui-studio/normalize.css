@@ -1,5 +1,7 @@
 # CODEBASE_MAP — 仓库结构与定位
 
+**2026-11-05 · v0.0.2 正式发行后的最新代码定位**：`src/normalize.css` 当前已发布 R-003/R-007/R-008 三条默认规则；`package.json` 为已发行 `0.0.2/private:false`，单一 `exports["."]` CSS 根入口与五文件 npm 包结构保持不变。PR #21 的 T0/T2 15 观察点已合并并在维护者 Windows 工程测试中通过。`v0.0.2` Tag 指向发行源码提交 `4d66e6b590c09b7de6e98332524684237dddf212`，GitHub Release 已发布；`main` 后续文档提交不属于该发行包。之前记录中的“待审分支”“仅 R-003/未发布”均为历史阶段，不是当前状态。后续完善 Normalize 并补齐必要证据后才评审 `0.1.0`，不增加 CI。
+
 **2026-11-05 · 当前文件与验收定位**：PR #21 的 `fixtures/t2-native.html`、`fixtures/t2-package.html` 已合并 `abbr-plain`、`abbr-author`、`table-author` 等新增测试元素，`tests/t2-evidence.mjs`、`tests/t2-evidence.node.test.mjs`、`tests/fixtures.node.test.mjs` 已覆盖 15 个探针。R-003/R-007/R-008 三条默认规则范围已冻结，详细准入依据见 [DEFAULT_NORMALIZE_V01_READINESS.md](research/DEFAULT_NORMALIZE_V01_READINESS.md)。`package.json` 仍为 `0.0.2`，本轮仅准备版本迁移资料；下方既有历史阶段状态不代表当前实现，项目不增加 CI。
 
 **2026-11-05 · 最新文件与发行规范索引**：PR #19 已合并 main，`src/normalize.css` 现为 R-003、R-007、R-008 三条规则，T0/T2 为 12 个观测点。`package.json` 当前 `0.0.2/private:false`，npm 已发行 `0.0.1`；新建 [RELEASING.md](RELEASING.md) 记录维护者确定的 `0.0.2 → 默认 Normalize 完成后 0.1.0` 版本门槛及 npm 成功后创建 Git Tag + GitHub Release 的人工流程。以下旧的“仅 R-003/未发布”描述是历史记录。不新增 CI。
