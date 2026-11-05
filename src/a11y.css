@@ -1,0 +1,24 @@
+/*!
+ * @adui/normalize.css/a11y.css
+ * Optional accessibility enhancements; never remove native focus behavior.
+ */
+
+/* Keyboard focus stays visible without changing mouse-only focus behavior. */
+:where(:focus-visible) {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* Use a system color where forced colors are active. */
+@media (forced-colors: active) {
+  :where(:focus-visible) {
+    outline-color: Highlight;
+  }
+}
+
+/* Respect reduced motion for root smooth scrolling; do not disable animations. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    scroll-behavior: auto;
+  }
+}
