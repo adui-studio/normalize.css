@@ -4,6 +4,12 @@
 - **状态**：**数据和时间线已核查；核心版本获维护者批准作为最低测试目标；本项目浏览器实测未执行，正式兼容性声明未发布**
 - **关联**：[ADR-0004 Accepted](../adr/0004-browser-support-policy.md) · [W-01](../plans/MVP_IMPLEMENTATION_PLAN.md) · [浏览器矩阵](BROWSER_REVIEW.md) · [Issue #2](https://github.com/adui-studio/normalize.css/issues/2)
 
+## W-01 维护者验收补记（2026-11-05）
+
+维护者在项目会话明确反馈“已经核实完了，验证过了”。**按该确认，将 W-01 的 Baseline 2023 版本映射、历史系统/设备来源研究及核心/条件性宿主分层视作维护者已验收的研究交付**，由 [Issue #2](https://github.com/adui-studio/normalize.css/issues/2) 记录结项。本确认不代表本工具独立运行了旧版浏览器，也不意味着仓库已经收到七个目标环境的完整版本、OS、设备、T0/T2 原始附件。
+
+**验收边界**：本文件的固定版本和厂商资料保持原有来源等级；此前未能核实的 Edge 120 历史安装条件、具体可用设备和 WebView/ESR 测试数据不得凭本句补成事实。正式最低浏览器兼容承诺仍受 [W-07 #8 / P-05](https://github.com/adui-studio/normalize.css/issues/8) 的逐环境证据或另行批准的 ADR 修订约束；W-01 研究结项并不自动解除公开发行门禁。
+
 ## 1. 一手数据来源
 
 - 维护方：W3C WebDX Community Group 项目 [baseline-browser-mapping](https://github.com/web-platform-dx/baseline-browser-mapping)。
@@ -76,4 +82,4 @@ Chrome 120 和 Firefox 121 的官方历史版本获取线索及测试边界另�
 - [ ] 确认 Android WebView / WebView2 / 微信相关容器的支持定位与测试能力。
 - [ ] 逐项完成实际浏览器 UA、键盘、表单、a11y、组件库和系统偏好回归，才可冻结正式支持承诺。
 
-**现阶段 W-01 已完成版本目标决策与官方数据核查，但尚无目标浏览器/OS 的兼容实测；不得关闭 [Issue #2](https://github.com/adui-studio/normalize.css/issues/2)。**
+**2026-11-05 当前结项口径**：维护者已确认 W-01 研究核实与验证完成，Issue #2 按**版本/系统边界研究交付**归档；上方未勾选的逐环境设备取证和发布验证项目保留为历史缺口，统一转入 W-07 #8/P-05，不代表自动 PASS。
