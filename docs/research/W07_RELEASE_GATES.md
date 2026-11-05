@@ -1,5 +1,7 @@
 # W-07 · 首发版本、npm 作用域与浏览器声明审核
 
+> **最新进展（2026-11-05）**：维护者本机实际执行 `npm view @adui/normalize.css@0.0.1 version --registry=https://registry.npmjs.org/` 返回 `0.0.1`，并提供 npm 页面截图。**v0.0.1 已公开发布**；`Keywords: none` 源于已发布 manifest 缺少 `keywords`，同版本不可覆盖。本分支拟新增 `0.0.2` 关键词补丁候选，未执行新版本发布或 Git Tag/Release；后续历史的“仍未发行”状态以本段为准。
+
 - **审核日期**：2026-11-05
 - **工作项**：[W-07 / Issue #8](https://github.com/adui-studio/normalize.css/issues/8)
 - **所属分支**：`main`（原研究与开发记录保留在 `feat/viteplus-local-harness` 历史分支）

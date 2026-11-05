@@ -1,8 +1,12 @@
 # 更新日志 · Changelog
 
-本文件记录 `@adui/normalize.css` 的正式版本变更。**截至 2026-11-05 尚未发布任何 npm 版本或 GitHub Release。** 下列内容已通过 PR #1/#9 合并进入 `main`，但仍为**待发布候选**，不是已交付给公众的 npm 版本。
+本文件记录 `@adui/normalize.css` 的正式版本变更。维护者已通过 npm 官方 Registry 实测确认 **`0.0.1` 于 2026-11-05 首次发布**；尚未创建 Git Tag / GitHub Release。
 
 ## 未发布 · Unreleased
+
+- **`0.0.2` 元数据补丁候选（尚未合并或发布）**：补充 npm 搜索关键词，无 CSS 行为或公开入口变更。已发布 `0.0.1` 不可覆盖，npm 页面需待新版本实际发布后才会更新。
+
+## 0.0.1 · 2026-11-05（首次 npm 发布）
 
 ### 已实现
 
@@ -21,11 +25,11 @@
 - 不提供 `reset.css`、`a11y.css`、`forms.css` 或 `all.css`；默认不内置 `@layer`。
 - W-03 本地 Harness、W-04 包交付、W-05 规则评审、W-06 回归工作项均按已归档记录结项。证据等级分别见 [W-05 归档](docs/research/W05_RULE_ACCEPTANCE.md) 和 [W-06 归档](docs/research/W06_ACCEPTANCE_INDEX.md)。
 
-### 尚未完成
+### 首发时的证据边界（历史记录）
 
 - W-07 发行前质量审核和首次 npm 作用域写权限/正式发行授权仍待完成；维护者已提供首版候选 Windows 本地完整测试日志，日志未绑定最新 `main` HEAD。
 - `main` 当前配置为 `0.0.1/private:false`，两处正式包 `private` 断言同步；维护者提供的候选日志显示冻结安装、格式/Lint、Vitest 7/7、Node 47/47、唯一 CSS 200 B、真实 tarball 与 Vite+ 消费各 1/1、五文件预打包及八张 Fixture 构建 PASS。关键源码/包配置 Blob 与此前候选一致，但尚无精确新 `main` HEAD 的单独执行日志。
 - 对外公开的具体浏览器最低版本兼容性声明及对应可审计环境证据。
-- npm 正式发布、Git Tag/GitHub Release 仍未获独立执行授权；既定 PR #1/#9/#10/#11/#12 与候选配置已进入 `main`，不能再写为“未合并”。
+- npm `0.0.1` 已按维护者独立授权公开发布；未创建 Git Tag/GitHub Release，不增加 CI。
 
-**版本说明**：当前 `main` 的 `package.json` 是 `version: "0.0.1"`、`private: false`，并提供本机手动 `release:publish` 脚本；**脚本未执行，包尚未公开发布**。仅当维护者另行明确批准且 npm 实际发布成功后，才将本“未发布”记录归入正式发行日期。
+**版本说明**：npm `0.0.1` 已发布。当前分支仅准备 `0.0.2/private:false` 关键词补丁候选，**不自动合并或发布新版本**。
