@@ -1,6 +1,6 @@
 # AGENTS.md — @adui/normalize.css
 
-> **本轮规则完善（2026-11-05，待审候选）**：当前 `main` 已有 R-003/R-007/R-008 三条默认 Normalize 规则；继续按 [36 条候选与 0.1.0 完整性门槛](docs/research/DEFAULT_NORMALIZE_V01_READINESS.md) 审查，而不是用规则数量判断完成。R-008 在 Chrome/Edge 149 的上游默认行为已修复，保留旧 Blink 兼容理由需归档；本轮 T0/T2 观察点拟由 12 个扩展到 15 个，增加无 `title` 缩写、缩写与表格作者样式覆盖回归。**本变更尚无精确 HEAD 对应的完整 Windows/Vite+ 或跨浏览器实测 PASS**；`0.0.2` 版本不变，`0.1.0` 仍需完整性验收与维护者确认，不增加 CI/发行工作流。
+> **最新工程与范围评审状态（2026-11-05）**：PR #19、PR #21 均已合并 `main`；默认 `src/normalize.css` 保持 R-003/R-007/R-008 三条规则，PR #21 的 T0/T2 观察点已从 12 扩展为 15。维护者提供的合并后 Windows `pnpm run verify:mvp` 日志显示 Vitest 7/7、离线 Node 51/51、真实包与 Vite+ 消费各 1/1，合计 60/60 PASS，CSS-only 产物 311 B、npm dry-run 五文件；该日志未记录执行时完整 Git SHA，且不是所有目标浏览器 T0/T2 实测。依据 [36 条候选与 0.1.0 完整性门槛](docs/research/DEFAULT_NORMALIZE_V01_READINESS.md)，当前已提出三条规则作为**默认范围冻结候选**，尚非维护者批准的正式冻结或 `0.1.0` 发行授权；继续保持 `0.0.2`，不增加 CI。
 
 > **当前主分支事实（2026-11-05）**：PR #19 已经维护者批准并合并 `main@ed729527142732cb18ffa8971e7bb701d120a026`。默认 `src/normalize.css` 现有 R-003、R-007、R-008 三条规则；T0/T2、CSSOM、真实包断言与双语 README 已同步。仓库 `package.json` 保持 `0.0.2/private:false`，单 CSS 根导出、无运行时 JavaScript 依赖；**公开 npm 已确认发行的是 `0.0.1`，不是 `0.0.2`**。W-07 Issue #8 已 Closed—completed；下一阶段由 Issue #18 继续跟踪。五项 ADR Accepted，Vite+ 1.4.0 / pnpm 12.15.0，**禁止增加 CI**。
 >
