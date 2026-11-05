@@ -179,6 +179,8 @@
 
 **2026-11-05 · W-07 P-03 作者 ADui 与新一轮回归（最新）**：维护者发现上次 npm 公开元数据漏掉了作者字段，明确要求 `author: "ADui"`。当前已在开发分支 `package.json` 最小补充，保留 `LICENSE` 中的 `Copyright (c) 2026 ADui Studio`，两者身份概念不同。本次用户 Windows 日志证明**此前五项元数据**下 `pnpm install --frozen-lockfile` 28ms PASS、`vp check` 初次因 `package.json` 与 W-07 Markdown 格式 FAIL，`vp check --fix` 后 19 文件零 Lint 错误/警告、Node 离线 **33/33 PASS**、`vp pack` 仅一份 CSS 200 B、真实包及 Vite+ 消费各 **1/1 PASS**，`npm pack --dry-run` 五文件 PASS（13655 B），最终 `git status --short` 无输出。**新增作者字段后的最终 manifest 尚未运行新一轮本地检查和真实包消费**，不可冒充已通过；当前 P-03 仅配置静态 PASS。见 [W-07 审核](research/W07_RELEASE_READINESS_REVIEW.md)。包版本 `0.0.0`、`private:true`、锁文件、CSS、CI 和发布权限均不变，Issue #8 Open。
 
+**2026-11-05 · W-07 P-03 含作者字段最终包复验通过（最新）**：维护者提供含 `author:"ADui"` 的 Windows 真实验收日志：首次 `vp check` 只有 W-07 文档格式问题（FAIL），随后 `vp check --fix` 修复成功且 19 文件零 Lint 错误/警告；`vp pack` 唯一 `dist/normalize.css` 200 B；真实 tarball 安装 `test:package` **1/1 PASS**、Vite+ 生产消费者 `test:consumer` **1/1 PASS**；`npm pack --dry-run --json --ignore-scripts` 五文件白名单 PASS（压缩包 13663 B，解包 33335 B，`package.json` 1355 B、`bundled:[]`），`git status --short` 无输出。**P-03 元数据和最终包验收 PASS**。本轮没有再执行 Vitest 7/7、Node 33/33 或冻结安装，它们的历史 PASS 仍有效但不冒充本轮复测。依据 [W-07 验收报告](research/W07_RELEASE_READINESS_REVIEW.md)，P-02 首发版本/private 开关、P-04 npm scope、P-05 对外兼容性承诺、P-07 发布授权仍待决策，Issue #8 Open。不修改 CSS、不新增 CI、不发布或合并 main。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与待决策变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源
