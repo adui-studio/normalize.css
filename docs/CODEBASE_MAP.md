@@ -1,6 +1,6 @@
 # CODEBASE_MAP — 仓库结构与定位
 
-**状态（2026-11-05）**：PR #1/#9 已按顺序合并 `main`；目前唯一正式默认 Normalize CSS 仍为 R-003；**W-05 36 条规则评审与 W-06 管理验收均已结项**。现已启动 W-07 发布前质量审核，新增未发布更新日志与审查矩阵；锁文件已提交；候选版本和 npm 包元数据已确定为 `0.0.1/private:true`；公开兼容范围与首次 npm 发行仍待审批，尚未发布。下方各批次保留历史阶段描述。
+**状态（2026-11-05）**：PR #1/#9 已按顺序合并 `main`；目前唯一正式默认 Normalize CSS 仍为 R-003；**W-05 36 条规则评审与 W-06 管理验收均已结项**。现已启动 W-07 发布前质量审核，新增未发布更新日志与审查矩阵；锁文件已提交；候选版本和 npm 包元数据已确定为 `0.0.1/private:false`；公开兼容范围与首次 npm 发行仍待审批，尚未发布。下方各批次保留历史阶段描述。
 
 **W-07 包管理器与锁文件核验（2026-11-04，最新）**：根 `package.json` 已固定 `packageManager: "pnpm@12.15.0"`；**`pnpm-lock.yaml` 已提交**，GitHub 静态核对确认环境文档锁定 pnpm 12.15.0、项目文档锁定 `vite-plus@1.4.0`。冻结安装输出仍待核验。见 [W-07 审核记录](research/W07_RELEASE_READINESS_REVIEW.md)。
 
@@ -12,9 +12,9 @@
 
 **2026-11-05 · W-07 首发审核文件**：新增 [W-07 首发决策审核](research/W07_RELEASE_GATES.md)，只记录 P-02 版本候选、P-04 npm scope 核对方法、P-05 浏览器公开声明与证据边界；不增加 CSS、脚本或发布资产。包配置与根导出保持不变。
 
-**2026-11-05 · W-07 发行候选配置变化（最新）**：维护者已确认首发候选版本 **`0.0.1`**、`private:false`；根包仅调整这两项，同时将 `tests/package.node.test.mjs` 与 `tests/package-real.node.test.mjs` 的正式包断言切换为新值。测试合成 Fixture 与隔离消费者的 `private:true` 不变。正式 CSS 仍仅 R-003、导出与 pnpm 锁文件不变；新版本实际本地质量回归待执行，未发布 npm。见 [W-07 审核报告](research/W07_RELEASE_READINESS_REVIEW.md)。
+**2026-11-05 · W-07 发行候选配置变化（历史阶段，最终配置见顶部）**：维护者已确认首发候选版本 **`0.0.1`**、`private:false`；根包仅调整这两项，同时将 `tests/package.node.test.mjs` 与 `tests/package-real.node.test.mjs` 的正式包断言切换为新值。测试合成 Fixture 与隔离消费者的 `private:true` 不变。正式 CSS 仍仅 R-003、导出与 pnpm 锁文件不变；新版本实际本地质量回归待执行，未发布 npm。见 [W-07 审核报告](research/W07_RELEASE_READINESS_REVIEW.md)。
 
-**2026-11-05 · W-07 private 安全开关恢复（最新）**：当前根 `package.json` 为 `version:0.0.1`、`private:true`；正式包两项测试断言已恢复 `true`，合成测试和隔离消费者保持不变。之前 `private:false` 只是历史配置阶段。CSS 仍仅 R-003；锁文件、单一根导出、依赖不变。该组合的 Windows 实际回归待完成，仍未发布。见 [W-07 报告](research/W07_RELEASE_READINESS_REVIEW.md)。
+**2026-11-05 · W-07 private 安全开关恢复（历史阶段，已由最新决定覆盖）**：当前根 `package.json` 为 `version:0.0.1`、`private:true`；正式包两项测试断言已恢复 `true`，合成测试和隔离消费者保持不变。之前 `private:false` 只是历史配置阶段。CSS 仍仅 R-003；锁文件、单一根导出、依赖不变。该组合的 Windows 实际回归待完成，仍未发布。见 [W-07 报告](research/W07_RELEASE_READINESS_REVIEW.md)。
 
 **2026-11-05 · W-07 P-05 证据矩阵归档（最新）**：新增 [七项目标浏览器证据矩阵](research/W07_P05_BROWSER_EVIDENCE_MATRIX.md)，为已批准的最低测试目标逐项记录已有证据、缺口及复用的本地 T0/T2 采集步骤；不新增源码、Fixture 或依赖。管理验收与版本兼容承诺严格区分，P-05 尚未 PASS。
 
@@ -133,7 +133,7 @@ normalize.css/
 | -------------------------------- | ----------------------------------- | ----------------------------------------------------- |
 | `src/normalize.css`              | 默认 Normalize 唯一源码             | **main 已存在**：仅 R-003                             |
 | `dist/`                          | CSS 发布产物                        | **Git 不跟踪**；执行 `vp pack` 时生成                  |
-| `package.json` 的 CSS `exports`  | 唯一根 CSS 入口                     | **已实现**；`0.0.1`、`private:true`                   |
+| `package.json` 的 CSS `exports`  | 唯一根 CSS 入口                     | **已实现**；`0.0.1`、`private:false`                   |
 | `tests/`                         | Fixture 契约、离线 Node 测试        | **已实现**；真实 tarball 与 Vite+ 生产消费均通过      |
 | `vite.config.ts` 的 `build/pack` | Vite+ Fixture 预览构建与单 CSS 打包 | **已实测 vp build / vp pack 产物**                    |
 | `.github/workflows/`             | CI/发布工作流                       | **明确不规划**，项目禁止增加 CI；当前不存在           |
