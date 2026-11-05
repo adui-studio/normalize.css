@@ -17,17 +17,17 @@
 
 维护者进一步提供 `version:"0.0.1"`、`private:true` 候选包的**完整 Windows PowerShell 真实命令输出**。本次补齐先前缺少的独立冻结安装和 Vitest 回归，并重复了真实包链路检查：
 
-| 检查命令 | 维护者实际结果 | 本轮结论 |
-| --- | --- | --- |
-| `pnpm install --frozen-lockfile` | pnpm 12.15.0，锁文件供应链策略通过、解析跳过，24ms | **PASS** |
-| `vp check --fix` | 格式化完成 1.2s，19 文件零 Lint warnings/errors（159ms） | **PASS（修复模式；未另行执行只读 `vp check`）** |
-| `vp test` | Vitest 5.0.5；1 文件、7/7 测试通过，137ms | **PASS** |
-| `pnpm run test:offline` | Node 33/33 PASS，0 FAIL，约 1.03s | **PASS** |
-| `vp pack` | 唯一 `dist/normalize.css` 200 B（gzip 180 B），25ms | **PASS** |
-| `pnpm run test:package` | 真实 npm tarball 离线安装 1/1 PASS | **PASS** |
-| `pnpm run test:consumer` | 独立 Vite+ 生产构建导入 CSS 1/1 PASS | **PASS** |
-| `npm pack --dry-run --json --ignore-scripts` | `@adui/normalize.css@0.0.1`，5 文件、`bundled:[]`、包 13871 B、解包 33846 B | **PASS** |
-| `git status --short` | 无输出 | **已跟踪文件无改动、无未忽略的未跟踪文件** |
+| 检查命令                                     | 维护者实际结果                                                              | 本轮结论                                        |
+| -------------------------------------------- | --------------------------------------------------------------------------- | ----------------------------------------------- |
+| `pnpm install --frozen-lockfile`             | pnpm 12.15.0，锁文件供应链策略通过、解析跳过，24ms                          | **PASS**                                        |
+| `vp check --fix`                             | 格式化完成 1.2s，19 文件零 Lint warnings/errors（159ms）                    | **PASS（修复模式；未另行执行只读 `vp check`）** |
+| `vp test`                                    | Vitest 5.0.5；1 文件、7/7 测试通过，137ms                                   | **PASS**                                        |
+| `pnpm run test:offline`                      | Node 33/33 PASS，0 FAIL，约 1.03s                                           | **PASS**                                        |
+| `vp pack`                                    | 唯一 `dist/normalize.css` 200 B（gzip 180 B），25ms                         | **PASS**                                        |
+| `pnpm run test:package`                      | 真实 npm tarball 离线安装 1/1 PASS                                          | **PASS**                                        |
+| `pnpm run test:consumer`                     | 独立 Vite+ 生产构建导入 CSS 1/1 PASS                                        | **PASS**                                        |
+| `npm pack --dry-run --json --ignore-scripts` | `@adui/normalize.css@0.0.1`，5 文件、`bundled:[]`、包 13871 B、解包 33846 B | **PASS**                                        |
+| `git status --short`                         | 无输出                                                                      | **已跟踪文件无改动、无未忽略的未跟踪文件**      |
 
 npm 包清单与前次一致：`LICENSE` 1089 B、`README.en.md` 9821 B、`README.md` 21381 B、`dist/normalize.css` 200 B、`package.json` 1355 B；文件总数为 5，无 bundled 依赖。此为**预打包模拟，不是实际 npm 公开发布**。`vp test` 提示 Vite+ 1.5.0 可用，当前 `package.json` 继续锁定 `vite-plus@1.4.0`；不据提示擅自升级依赖。
 
