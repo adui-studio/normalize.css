@@ -69,7 +69,9 @@ function fixture(role, oldBlink = false) {
               {
                 type: 1,
                 selector: ":where(abbr[title])",
-                declarations: [{ name: "text-decoration", value: "underline dotted", priority: "" }],
+                declarations: [
+                  { name: "text-decoration", value: "underline dotted", priority: "" },
+                ],
               },
               {
                 type: 1,

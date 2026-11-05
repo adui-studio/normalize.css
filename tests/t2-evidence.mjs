@@ -162,22 +162,22 @@ export function compareT2Evidence(nativeJson, packageJson) {
   ];
   const contentMatches = Boolean(
     Array.isArray(rules) &&
-      rules.length === expectedRules.length &&
-      rules.every((rule, index) => {
-        const [selector, name, value] = expectedRules[index];
-        return (
-          rule &&
-          rule.type === 1 &&
-          typeof rule.selector === "string" &&
-          rule.selector.replace(/\s+/g, "").toLowerCase() === selector &&
-          Array.isArray(rule.declarations) &&
-          rule.declarations.length === 1 &&
-          rule.declarations[0]?.name === name &&
-          typeof rule.declarations[0]?.value === "string" &&
-          rule.declarations[0].value.trim().replace(/\s+/g, " ").toLowerCase() === value &&
-          rule.declarations[0].priority === ""
-        );
-      }),
+    rules.length === expectedRules.length &&
+    rules.every((rule, index) => {
+      const [selector, name, value] = expectedRules[index];
+      return (
+        rule &&
+        rule.type === 1 &&
+        typeof rule.selector === "string" &&
+        rule.selector.replace(/\s+/g, "").toLowerCase() === selector &&
+        Array.isArray(rule.declarations) &&
+        rule.declarations.length === 1 &&
+        rule.declarations[0]?.name === name &&
+        typeof rule.declarations[0]?.value === "string" &&
+        rule.declarations[0].value.trim().replace(/\s+/g, " ").toLowerCase() === value &&
+        rule.declarations[0].priority === ""
+      );
+    }),
   );
   if (!packed.loaded) {
     issues.unshift("T2 packed stylesheet is not loaded");

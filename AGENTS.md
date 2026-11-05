@@ -5,7 +5,7 @@
 > **版本策略（维护者已明确批准，2026-11-05）**：当前开发/下一候选版本**继续为 `0.0.2`**，它包含已合并的 CSS 变更和 npm Keywords，不再称为“纯关键词补丁”；**只有在默认 `normalize.css` 规则范围完成、验收并经维护者确认后才提升到 `0.1.0`**，不提前升级。公开发布版本必须同时对应 Git Tag `vX.Y.Z` 与 GitHub Release，具体人工清单见 [RELEASING](docs/RELEASING.md)；记录发行要求不等于已经执行发布。
 >
 > **验证与发行边界**：维护者已确认 MVP 回归通过；对 PR #19 新规则，已有静态、模拟 CSSOM 与比较器合成验证记录，但未在本轮取得绑定最新 `main` SHA 的全套 Windows/Vite+ 和所有目标浏览器实测日志，不能擅称全部通过。发布 `0.0.2` 仍需独立明确授权及维护者本机 npm 2FA，**不得提前创建对应 Tag/Release 或执行 npm publish**；旧版 `0.0.1` 的 Tag/Release 也不得在未确定准确发行提交时随意补建。**不新增 CI、自动发布、依赖或配置工作流**。
->
+
 ## 1. 项目事实
 
 - 仓库：[adui-studio/normalize.css](https://github.com/adui-studio/normalize.css)，npm 包目标名：`@adui/normalize.css`。
