@@ -73,3 +73,11 @@ R-018、R-027、R-028、R-035 等未列为当前优先项，仍沿用 [36 条规
 
 **待评审的核心取舍**：是否坚持“默认 Normalize 极简 + Reset/Forms/A11y 可选”，还是明确批准改为更完整、较具主张性的基础样式库。当前五项 ADR 和 W-05 已批准前者；如决定改变，需先修订设计/规则准入，再实现 CSS，且不得悄悄改写历史记录或重新发布旧版。
 
+## 2026-11-05 · R-007 / R-008 首批实际实现方案（Issue #18）
+
+- **R-007**：`:where(abbr[title]) { text-decoration: underline dotted; }`。依据 [necolas normalize.css 8.0.1](https://github.com/necolas/normalize.css/blob/fc091cce1534909334c1911709a39c22d406977b/normalize.css) 与 [CSSTools Normalize](https://github.com/csstools/normalize.css/blob/0774d1043e07ba868f157ff7bb1cd0bbb0a2871c/normalize.css) 对缩写语义的处理。只匹配带 `title` 的 `abbr`；不影响所有下划线、按钮或元素间距。2024 年 WebKit [Bug 277889](https://bugs.webkit.org/show_bug.cgi?id=277889) 已有上游修复，**在修复后的现代 Safari 上可能不产生可观察差异**；不能将存在样式声明误当成每个现代 UA 都仍有缺陷。
+- **R-008**：`:where(table) { border-color: currentColor; }`。依据 [modern-normalize 3.0.1](https://github.com/sindresorhus/modern-normalize/blob/076c61bd806ba4770a8d766d8e63903e4fb0dfa6/modern-normalize.css) 与 [CSSTools Normalize](https://github.com/csstools/normalize.css/blob/0774d1043e07ba868f157ff7bb1cd0bbb0a2871c/normalize.css) 的相同功能。只调整表格本身的边框颜色，不统一 `border-collapse`、表格宽度、单元格边框或主题。WebKit [Bug 195016](https://bugs.webkit.org/show_bug.cgi?id=195016) 的旧缺陷已有修复记录，不能声称所有浏览器现仍有差异。
+- **取舍**：相较普通类型/属性选择器采用 `:where()`，令规范化声明的选择器特异性为零，减少对宿主样式和 UI 组件库的覆盖。**这是本库自己的级联策略差异**，不与竞品“同选择器/声明”完全一致；仍需相应 CSSOM 与组件叠加验证。
+- **拒绝照搬**：不加入 `font-size: 1em`、`body { margin:0 }`、全局 box-sizing、表单 `appearance:none`、`@layer`、强制隐藏 `[hidden]` 等高侵入规则。
+- **证据边界**：目前有规范/成熟竞品源码和仓库历史 WebKit Bug 研究；分支扩展了本地 T0/T2 12 个 Probe、3 条严格 CSSOM 样式检查及实际 tarball 约束。**新增规则尚未通过 Windows 完整回归或 Safari/组件实测**。维护者仍需在发行前审核默认准入与版本号，不能直接替代已发布的 `0.0.1`。
+

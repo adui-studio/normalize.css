@@ -1,5 +1,7 @@
 # PROJECT_CONTEXT — 项目长期上下文
 
+**2026-11-05 · 新规则首批实现候选（Issue #18，待回归与最终准入）**：维护者已批准基于主流竞品筛选现代 Normalize 规则，并明确要求开始实现。本独立功能分支在 `src/normalize.css` 保留 R-003，同时新增 R-007 `:where(abbr[title]) { text-decoration: underline dotted; }` 和 R-008 `:where(table) { border-color: currentColor; }`；不增加默认 `@layer`、Reset、Forms、A11y、运行时 JS 或 CI。选择器零特异性降低影响但仍需验证。为避免单条规则时代的误判，同步更新真实包契约、T0/T2 两个新计算样式观察点、12 Probe 比较以及恰好三条规则的 CSSOM 校验。**已发布的 npm `0.0.1` 只含 R-003；当前 GitHub `main` 的 `0.0.2` 仅有 Keywords 元数据变更，本功能分支的 CSS 变更尚未合并、未获得新的发布版本决定，也未运行完整 Windows/浏览器回归。**先按新一轮待审核规则准入记录，不回写 W-05 首版历史验收结论。细节见 [竞品复核](research/COMPETITOR_REVIEW.md) 与 [Issue #18](https://github.com/adui-studio/normalize.css/issues/18)。
+
 **最近更新**：2026-11-05  
 **最新发布事实**：维护者官方 npm Registry 查询返回 `@adui/normalize.css@0.0.1`，首版已公开发布；当前分支仅准备 `0.0.2` 包关键词补丁，**未发布下一版、未创建 Tag/Release/CI**。下方“尚未发布”属于原先阶段记录。
 **当前阶段**：五项 ADR 已接受／W-03 本地 Harness 已验收／W-04 包交付验收已结项（Issue #5 Closed）／W-05 36 条规则首版评审通过（Issue #6 Closed — completed）／W-06 已正式验收归档（Issue #7 Closed）／W-07 发行前审核待完成／PR #1/#9 已合并 main／尚未发布
