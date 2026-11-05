@@ -1,5 +1,7 @@
 # REQUIREMENTS — 软件需求与验收标准
 
+**2026-11-05 · 默认 Normalize 规则范围正式冻结（当前决定）**：基于 36 条候选评审、PR #19/#21 及维护者确认，本里程碑默认 `normalize.css` 仅含 R-003、R-007、R-008。17 条暂缓、8 条可选设计、8 条排除默认；不将可选 Reset/Forms/A11y 当成默认待补内容。冻结仅适用于规则范围，非跨浏览器全矩阵 PASS 或 `0.1.0` 版本/发行批准。维护者报告 SHA `9cbf81e` 对应 60/60 工程验收和 8 Fixture 构建通过；未记录完整浏览器 T0/T2 矩阵。详见 [最终范围冻结记录](research/DEFAULT_NORMALIZE_V01_READINESS.md#八默认规则范围冻结记录2026-11-05)。现行 `0.0.2`、依赖、产品 CSS、CI 均未改动。
+
 **2026-11-05 · 当前主分支与回归扩展（最新）**：PR #19 已按维护者批准合并，`main` 默认 `src/normalize.css` 包含 R-003、R-007、R-008 三条规则；`package.json` 仍为 `0.0.2/private:false`，npm 已发布 `0.0.1`。本次仅扩展 T0/T2 验收覆盖（12→15 个探针），测试无 `title` 缩写与作者明示的缩写/表格样式能否优先于低特异性 `:where()`；完整覆盖矩阵见 [默认 Normalize 完整性门槛](research/DEFAULT_NORMALIZE_V01_READINESS.md)。此前 W-05 首版决议保留历史效力，暂缓项不因竞品存在就自动准入；`0.1.0` 只在默认 Normalize 完成且维护者验收后采用。当前尚无最新提交完整 Windows/Vite+ 与浏览器回归的实测日志，不增加 CI。
 
 **项目**：@adui/normalize.css  
