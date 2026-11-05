@@ -80,6 +80,8 @@
 | 浏览器差异 | Chromium / Firefox / WebKit 前后对照 | NFR-002/003 | 未实现 |
 | 交互无障碍 | 键盘焦点、高对比度、减少动画设置 | FR-003 | 未实现 |
 | 组件库回归 | Element Plus / Ant Design / TDesign 的表单与弹窗等 | NFR-007 | 未实现 |
+| TDesign 独立回归 | 核对是否引入额外 Reset，对比 native/package 的实际样式来源、焦点与表单交互 | NFR-007 | 未实现 |
+| Reset 隔离与层叠 | Tailwind v4 Preflight、UnoCSS tailwind-v4 / compat 分组验证；不同时加载两套 Reset | NFR-001/003/007 | 未实现 |
 | 包导出检查 | npm tarball 中所有公开路径存在且可解析 | FR-005/006 | 未实现 |
 | 体积与许可证 | 原始/Gzip 比较、许可证归属与发布清单 | NFR-004/006 | 未实现 |
 

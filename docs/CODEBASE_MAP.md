@@ -32,7 +32,8 @@ normalize.css/
     ├── SKILLS.md            # 本轮文档：Skill 索引
     ├── HARNESS.md           # 本轮文档：验证机制规划
     ├── DOCUMENTATION_VALIDATION.md # 本轮文档：校验计划
-    ├── research/                # 文档评审分支：研究资料
+    ├── research/                # 文档评审分支：研究资料；包含 main 独立研究归档
+    │   ├── 2026-11-04-reset-source-audit.md # main 归档：TDesign/Tailwind/UnoCSS 源码研究
     │   ├── RULE_REVIEW.md
     │   ├── RULE_EVIDENCE_BATCH1.md
     │   ├── RULE_EVIDENCE_R003_R004.md

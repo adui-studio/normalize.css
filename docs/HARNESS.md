@@ -57,7 +57,15 @@ vp pack
 
 每一项需同时记录 **浏览器版本、操作步骤、期待行为、实际结果**。浏览器引擎覆盖不能由 CSS 解析测试代替。
 
-## 6. 安全和发布门禁（规划）
+## 6. W-06 与第三方 Reset 独立验证依据（2026-11-04 源码审查）
+
+- **来源与证据边界**：[TDesign、Tailwind v4 Preflight、UnoCSS Reset 固定源码审查](research/2026-11-04-reset-source-audit.md) 已在 main 形成独立研究记录。本节只归档历史研究计划，不把静态源码观察认定为本项目真实浏览器测试完成。
+- **TDesign**：独立核查 Vue Next 是否额外引入 `dist/reset.css`，记录真实 CSS 来源、组件行为与目标浏览器版本；不得假定所有消费者的 Reset 配置一致。
+- **Tailwind v4 Preflight**：独立创建基线/Normalize 前置/后置对照，确认实际打包产物中的 `@layer base` 与覆盖优先级，不依赖源文件名称推断胜出规则。
+- **UnoCSS Reset**：`tailwind-v4` 与 `tailwind-compat` 分为两套测试，不叠加 Tailwind Preflight；确认 presetWind4 是否额外启用内置 Reset，记录真实样式来源、计算值和原生交互。
+- **判定条件**：原生 HTML、Vue/React、键盘焦点、`dialog`、`hidden="until-found"` 与系统偏好须在实际环境验证；缺少原始 UA/OS/设备记录时，只记录已核对来源和待测问题。测试结果以开发分支实际 Harness 和 W-06 Issue #7 为准。
+
+## 7. 安全和发布门禁（规划）
 
 - 审核第三方规则的许可证及改写过程；不引入未经审批的远程字体、图片或跟踪请求。
 - 浏览器支持策略见 [ADR-0004](adr/0004-browser-support-policy.md)，验证门槛见 [REVIEW_GATE](research/REVIEW_GATE.md)，工作顺序见 [MVP 实施计划](plans/MVP_IMPLEMENTATION_PLAN.md)。
@@ -65,7 +73,7 @@ vp pack
 - 浏览器关键回归、许可证、发布文件清单和版本说明全部确认后，才可申请发布。
 - npm 权限、版本发布和 GitHub Release 需另行授权；不引入 CI Secrets 或发布工作流。
 
-## 7. 故障报告格式
+## 8. 故障报告格式
 
 记录：任务/需求编号、环境及浏览器版本、最小复现页面、实际/预期差异、受影响入口、测试证据、原因分析、修复结果、无法验证事项。
 
