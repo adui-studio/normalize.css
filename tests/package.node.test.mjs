@@ -11,7 +11,7 @@ const normalizeCss = (source) =>
     .replace(/\s+/g, "")
     .replace(/;?}/g, ";}");
 
-test("W-04 package exports only the Normalize CSS root", () => {
+test("W-04 package exports CSS-only Normalize and explicit opt-in modules", () => {
   assert.equal(pkg.name, "@adui/normalize.css");
   assert.equal(pkg.version, "0.0.3");
   assert.equal(pkg.private, false);
@@ -27,19 +27,61 @@ test("W-04 package exports only the Normalize CSS root", () => {
   assert.equal(Object.hasOwn(pkg, "dependencies"), false);
   assert.equal(Object.hasOwn(pkg, "main"), false);
   assert.equal(Object.hasOwn(pkg, "module"), false);
-  assert.deepEqual(pkg.exports, { ".": "./dist/normalize.css" });
+  assert.deepEqual(pkg.exports, {
+    ".": "./dist/normalize.css",
+    "./normalize.css": "./dist/normalize.css",
+    "./reset.css": "./src/reset.css",
+    "./forms.css": "./src/forms.css",
+    "./a11y.css": "./src/a11y.css",
+    "./all.css": "./src/all.css",
+  });
+  assert.ok(Object.values(pkg.exports).every((filename) => filename.endsWith(".css")));
   assert.equal(Object.hasOwn(pkg.scripts, "build"), false);
-  assert.deepEqual(pkg.files, ["dist"]);
+  assert.deepEqual(pkg.files, ["dist", "src"]);
   assert.deepEqual(pkg.sideEffects, ["**/*.css"]);
 });
 
-test("only reviewed R-003, R-007 and R-008 rules ship; default fonts remain untouched", () => {
+test("only reviewed R-003, R-007 and R-008 ship by default; optional modules stay separate", () => {
   assert.equal(
     normalizeCss(stylesheet),
     "b,strong{font-weight:bolder;}:where(abbr[title]){text-decoration:underlinedotted;}:where(table){border-color:currentColor;}",
   );
   assert.doesNotMatch(stylesheet, /@import|@layer|!important|font-size\s*:/i);
   assert.equal(stylesheet.includes("https://"), false);
+});
+
+
+test("all.css composes four local CSS modules without automatic defaults or duplicate imports", () => {
+  const modules = ["normalize", "reset", "forms", "a11y"];
+  const full = readFileSync(new URL("src/all.css", root), "utf8");
+  const imports = [...full.matchAll(/@import\s+"\.\/([a-z]+)\.css";/g)].map((match) => match[1]);
+  assert.deepEqual(imports, modules);
+
+  for (const module of modules) {
+    assert.ok(existsSync(new URL(`src/${module}.css`, root)));
+  }
+
+  const reset = readFileSync(new URL("src/reset.css", root), "utf8");
+  const forms = readFileSync(new URL("src/forms.css", root), "utf8");
+  const a11y = readFileSync(new URL("src/a11y.css", root), "utf8");
+  assert.match(reset, /box-sizing:\s*border-box/);
+  assert.match(reset, /border-collapse:\s*collapse/);
+  assert.doesNotMatch(reset, /list-style:\s*none|outline:\s*none|!important/i);
+  assert.match(forms, /::file-selector-button/);
+  assert.match(forms, /font:\s*inherit/);
+  assert.doesNotMatch(forms, /appearance:\s*none|!important/i);
+  assert.match(a11y, /:focus-visible/);
+  assert.match(a11y, /prefers-reduced-motion:\s*reduce/);
+  assert.match(a11y, /forced-colors:\s*active/);
+  assert.doesNotMatch(a11y, /animation:\s*none|transition:\s*none|outline:\s*none|!important/i);
+
+  for (const name of ["reset", "forms", "a11y", "all"]) {
+    assert.doesNotMatch(
+      stylesheet,
+      new RegExp(`@import[^;]*${name}\\.css`, "i"),
+      `Default Normalize must not import optional module ${name}`,
+    );
+  }
 });
 
 test("Vite+ config builds local HTML fixtures and packs only CSS", () => {
