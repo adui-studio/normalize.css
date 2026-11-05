@@ -4,6 +4,8 @@
 
 **2026-11-05 · W-07 发行候选配置（最新）**：维护者已将单一 CSS 规则 R-003 的首发候选版本确认为 `0.0.1`，并将 `package.json#private` 设置为 `false`；此前 `0.0.0/private:true` 的实施阶段描述现为历史记录。唯一 `exports["."]`、CSS `sideEffects`、`vp pack` CSS-only 构建与全部可选模块的未实现状态均不改变；两项包测试的断言已更新，最新本机回归待完成。不因发行候选配置变更而推导已支持的浏览器版本或 npm 发布权限。详见 [W-07 记录](research/W07_RELEASE_READINESS_REVIEW.md)。
 
+**2026-11-05 · W-07 private 保护恢复（最新）**：版本继续 `0.0.1`，维护者已将包 `private` 恢复为 `true`；前段 `private:false` 仅为历史状态。单一 CSS 入口、R-003 规则、Vite+ 打包行为不变；离线/真实 tarball 测试的正式包 private 断言同步恢复。本版本组合的 Windows 回归待执行，不代表已经发布。详见 [W-07 审核](research/W07_RELEASE_READINESS_REVIEW.md)。
+
 ## 1. 设计范围与需求映射
 
 | 候选模块  | 需求                    | 拟议接口/职责        | 实现状态 |

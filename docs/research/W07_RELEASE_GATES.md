@@ -3,8 +3,16 @@
 - **审核日期**：2026-11-05
 - **工作项**：[W-07 / Issue #8](https://github.com/adui-studio/normalize.css/issues/8)
 - **所属分支**：`feat/viteplus-local-harness`
-- **状态**：P-02 **维护者已确定首发候选配置 `0.0.1`、`private:false`**，待新版包测试；P-04 **账户/用户作用域通过核验，首次发布权限与认证仍待确认**；P-05 **最低浏览器支持矩阵未冻结**；P-07 **未授权发布**。
-- **范围**：维护者已单独授权调整开发分支版本与 `private` 配置及对应测试；**不等于已授权 npm 发布、打 Tag、GitHub Release 或合并主分支**。
+- **状态**：P-02 **维护者已确定候选版号 `0.0.1`，并恢复 `private:true`**，待新版包测试；P-04 **账户/用户作用域通过核验，首次发布权限与认证仍待确认**；P-05 **最低浏览器支持矩阵未冻结**；P-07 **未授权发布**。
+- **范围**：维护者已授权在开发分支确定 `0.0.1` 并恢复 `private:true`；**不等于已授权 npm 发布、Tag、Release 或合并主分支**。
+
+## 2026-11-05 · P-02 private 安全开关恢复（最新决策）
+
+维护者最新明确要求：**首发候选版本保持 `0.0.1`，但 `package.json#private` 恢复为 `true`**。此前将其改为 `false` 的操作只属于历史阶段，现已撤回。这一选择保留 npm 的防误发布保护，更符合 W-07 尚未结束、P-07 尚未获得发布授权的当前状态。
+
+本次只恢复 `package.json` 的 `private:true` 与两项正式包测试的 `private:true` 断言，继续验证版本 `0.0.1`。真实包安装后 manifest 一致性检查保留；模拟 Fixture/独立消费者的 `private:true` 本来就不需要变化。**没有变更产品 CSS、pnpm 锁文件、依赖或入口**。
+
+**当前 P-02 状态：版本 `0.0.1` 已定；`private:true` 为维护者确定的未发布安全开关。** 此前关于 `private:false` 的配置描述仅供审计追溯，不代表当前仓库。新组合 `0.0.1/private:true` 的本机包/消费者回归尚未执行；未发布、未打 Tag/Release、未合并 main，也不增加 CI。
 
 ## P-02 · 首个公开版本
 
@@ -83,9 +91,9 @@ npm view "@adui/normalize.css" version --registry=https://registry.npmjs.org/
 ## P-07 · 发行与版本控制边界
 
 - **已通过（旧开发版实际证据）**：P-01 pnpm 冻结安装、P-03 包元数据与真实 tarball/Vite+ 消费、P-06 本地质量回归，详见 [W-07 总审核](W07_RELEASE_READINESS_REVIEW.md)。
-- **P-02 已实施**：`version:"0.0.1"`、`private:false`，以及两处包契约测试断言；**修改后的本机回归尚未执行**。
+- **P-02 已实施（最新）**：`version:"0.0.1"`、`private:true`，已同步两处包契约测试断言；**本次恢复后本机回归尚未执行**。
 - **仍待完成**：P-04 首发包发布认证和安全要求，P-05 正式最低浏览器支持矩阵或经批准的替代验收决定。
-- **仍需单独授权**：`npm publish`、Git Tag、GitHub Release、`main` 分支合并；`private:false` 不构成上述任何授权。
+- **仍需单独授权**：更改 `private:true` 的发布保护、`npm publish`、Git Tag、GitHub Release、`main` 分支合并。
 - **始终禁止**：新增 CI、GitHub Actions 发布工作流或提交 Token/OTP/密码。
 
-**总判定**：W-07 继续 Open；P-02 版本配置已实施，但最终包回归和其余发行门槛未完成。**首发候选 ≠ 已发布版本**。
+**总判定（最新）**：W-07 继续 Open；P-02 版本 `0.0.1` 与私有安全开关 `true` 已配置，但最新包回归和其他发行门槛未完成。**首发候选 ≠ 已发布版本**。

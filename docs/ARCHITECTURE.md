@@ -5,6 +5,8 @@
 
 **W-07 发行配置变更（2026-11-05）**：维护者确定首发候选 `0.0.1`、`private:false`；这是 npm manifest 和包契约测试变更，不影响单一 Normalize CSS 根入口、R-003 产品规则、Vite+ 静态交付方式及未来可选模块设计。尚未 npm 发布，不新增 CI，也不合并主分支。此前文中 `private:true` 的 2026-11-04 记录为历史实施状态。详见 [W-07 审核](research/W07_RELEASE_READINESS_REVIEW.md)。
 
+**2026-11-05 · W-07 发行安全开关最新决定**：保持首发候选版本 `0.0.1`，将 `private` 恢复为 `true`；先前 `private:false` 记录为历史。只影响 npm manifest 和相应包契约测试，不影响 CSS 产品架构、静态交付和任何浏览器行为；项目尚未发布，也不增加 CI 或合并主分支。详见 [W-07 记录](research/W07_RELEASE_READINESS_REVIEW.md)。
+
 ## 1. 架构目标和质量属性
 
 - **规范化与重置分离**：默认规则只纠正可复现的浏览器差异；高侵入性行为显式选择。

@@ -187,6 +187,8 @@
 
 **2026-11-05 · W-07 P-02 候选版号和发布开关已获维护者批准（最新）**：维护者因首版产品 CSS 仅一条 R-003（`b,strong { font-weight:bolder; }`）明确决定不采用此前建议 `0.1.0`，而将首发候选定为 **`0.0.1`**，同时将根包 `private` 从 `true` 改为 **`false`**。已在开发分支仅修改 `package.json` 两字段并同步两处真实包测试的版本/private 断言；模拟 smoke 和消费者自身的 `private:true` 仍按测试隔离需求保留。产品 CSS、根导出、开发依赖、pnpm lockfile、MIT 与作者 ADui 不变，`CHANGELOG` 仍为 Unreleased。**这只是可以被公开发布的候选配置，并非 npm 已发布/得到发布授权**；`private:false` 解除防误发布保护，必须避免误执行 npm publish。当前新版本本机 `vp check`、离线 33 项、真实包 1/1、Vite+ 消费、冻结安装和 npm 预打包仍 **NOT_RUN（本次改动后）**；旧 `0.0.0` 回归结果不冒充新测试。W-07 P-04 首发发布认证、P-05 公开兼容性声明、P-07 独立发行授权仍待完成。见 [W-07 总审核](research/W07_RELEASE_READINESS_REVIEW.md) 与 [首发门槛](research/W07_RELEASE_GATES.md)。未合并 main、未发包、未创建 Release/Tag，**不增加 CI**。
 
+**2026-11-05 · W-07 P-02 恢复 private 安全保护（最新）**：维护者最新决定**保留首发候选 `0.0.1`，将根 `package.json#private` 恢复为 `true`**。先前 `private:false` 的提交及上下文段落现为历史过程，非当前状态；两项正式包测试 `tests/package.node.test.mjs` / `tests/package-real.node.test.mjs` 的 private 断言同步恢复为 true，版本校验仍是 0.0.1，安装后 manifest 一致性断言保留。正式 CSS 仅 R-003，不改依赖、锁文件、导出、MIT、作者或 CI。**当前尚无新 `0.0.1/private:true` 组合的 Windows 实测结果（NOT_RUN）**，此前成功数据不冒充新回归；`CHANGELOG.md` 仍为 Unreleased。W-07 Issue #8 保持 Open；npm scope 发布认证、公开兼容性声明与 P-07 单独发布授权仍待处理。见 [W-07 首发审核](research/W07_RELEASE_GATES.md) 和 [总审核](research/W07_RELEASE_READINESS_REVIEW.md)。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与待决策变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源

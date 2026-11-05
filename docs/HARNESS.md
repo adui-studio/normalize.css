@@ -177,6 +177,8 @@ npm pack --dry-run --json --ignore-scripts --offline .
 
 **2026-11-05 · W-07 `0.0.1` 公开候选的最新本地验证门槛**：维护者明确决定 `version:"0.0.1"` 和 `private:false`，已在开发分支实施，同时将 `tests/package.node.test.mjs`、`tests/package-real.node.test.mjs` 改为对新 manifest 断言；合成烟雾测试与临时消费者保持各自 `private:true`。**由于用户提供的先前 Vitest 7/7、Node 33/33、真实包/消费各 1/1 与 npm 五文件清单 PASS 属于 `0.0.0`，不能当成 `0.0.1` 的新结果**。新版本最小回归：`pnpm install --frozen-lockfile`、`vp check`、`vp test`、`pnpm run test:offline`、`vp pack`、`pnpm run test:package`、`pnpm run test:consumer`、`npm pack --dry-run --json --ignore-scripts`、`git status --short`。需确认包名和版本显示 `@adui/normalize.css@0.0.1`、npm 预打包仍只有 LICENSE、双语 README、dist/normalize.css、package.json 五文件；不能沿用旧包哈希或精确体积。**全部尚未在维护者 Windows 执行（NOT_RUN）**，`private:false` 已失去 npm 防误发布保护；禁止执行 publish、创建 Release、合并 main 或增加 CI，除非另行获批准。见 [W-07 验收](research/W07_RELEASE_READINESS_REVIEW.md)。
 
+**2026-11-05 · W-07 `0.0.1/private:true` 的最新版验证门槛**：维护者保留 `0.0.1` 版本、恢复根 `private:true`，正式包的离线契约及真实 tarball 测试断言同步恢复；这覆盖了上一阶段 `private:false` 的决策。此版尚未取得 Windows 新执行日志（NOT_RUN），不得沿用 `0.0.0` 的测试输出冒充通过。下一次本地最小检查：`pnpm install --frozen-lockfile`、`vp check`、`pnpm run test:offline`、`vp pack`、`pnpm run test:package`、`pnpm run test:consumer`、`npm pack --dry-run --json --ignore-scripts`、`git status --short`。核对包标识为 `@adui/normalize.css@0.0.1`、实际只有 5 个预期文件，根项目私有开关不会影响本地 tarball 校验。仍不执行 npm publish、Release、合并 main 或添加 CI。详见 [W-07 总报告](research/W07_RELEASE_READINESS_REVIEW.md)。
+
 ## 6. 安全和发布门禁（规划）
 
 - 审核第三方规则的许可证及改写过程；不引入未经审批的远程字体、图片或跟踪请求。
