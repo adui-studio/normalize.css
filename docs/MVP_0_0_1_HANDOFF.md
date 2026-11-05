@@ -1,9 +1,9 @@
 # MVP v0.0.1 · 开发交付与人工验收清单
 
 - **版本**：`@adui/normalize.css@0.0.1`
-- **安全设置**：`private: true`，**禁止误发布**
+- **候选配置**：`private: false`，具备公开发布前提但**并未发布**；运行手动 `release:publish` 会尝试真正向 npm 上传，需独立明确授权。
 - **所在分支**：`main`（通过 PR #1/#9 合并；原开发分支 `feat/viteplus-local-harness` 保留为历史来源）
-- **开发状态**：**维护者于 2026-11-05 明确确认 MVP 最终验收完成（维护者签收）**。当前仓库尚未归档最近一次测试断言变更提交 `80f637ed` 之后的完整 `verify:mvp` 原始输出，因此签收不等于本工具独立复验，也不表示七项目标浏览器均有完整原始证据。
+- **开发状态**：**维护者已于 2026-11-05 正式签收 MVP**。其后维护者提供了 `private:false` 候选的 Windows `verify:mvp` 和八页 `vp build` 终端输出；已核实该候选与当前 `main` 的包配置、两处包测试、CSS、锁文件和 Vite+ 配置 Blob 相同，但日志没有精确 Git HEAD，不代表助手独立在最新提交执行，也不代表七项历史浏览器环境逐项通过。
 - **发布状态**：已合并 `main`（PR #1：`1d1e9b5c`；PR #9：`f92e9457`），但未执行 `npm publish`、未创建 Git Tag/Release、**无 CI**
 - **依据**：[ADR-0003 首版唯一入口](adr/0003-mvp-package-contract.md)、[W-05 规则准入](research/W05_RULE_ACCEPTANCE.md)、[W-06 管理验收](research/W06_ACCEPTANCE_INDEX.md)、[W-07 发行门槛](research/W07_RELEASE_GATES.md)
 
@@ -17,6 +17,10 @@
 | 本地交付                     | Vite+ 1.4.0、pnpm 12.15.0、可复用 Fixture、真实 tarball 离线安装与 Vite+ 消费测试     | 不增加运行时 JS、根依赖、CI 或自动发布                     |
 
 **重点**：首版 CSS 只有一条规则是**W-05 经维护者批准的主动设计结果**，不是漏实现的 35 条。补充没有浏览器证据的规则会改变已冻结首版行为与组件库风险，因此本轮不修改默认 CSS。
+
+## 2026-11-05 · 维护者提供的最新候选实测摘要
+
+已收到 Windows PowerShell 记录：冻结安装（pnpm 12.15.0）PASS；Vite+ 格式 78 文件、Lint 21 文件 PASS；Vitest 7/7；离线 Node 47/47；`vp pack` CSS 200 B；真实 tarball 1/1；Vite+ 生产消费 1/1；`npm pack --dry-run` **5 文件且 bundled 依赖为空**；另执行 `pnpm exec vp build` 成功生成八张 HTML Fixture。`git diff --check` 和 `git status --short` 均无输出。以上是维护者提供的当时工作树测试结果，未包含具体 HEAD，不是 npm 公开发行结果。
 
 ## 维护者运行一次完整本地验收
 
@@ -50,7 +54,7 @@ pnpm exec vp build
 
 任何步骤失败都停止后续检查，先修复实际问题再重跑。Vite+ 格式检查若提示失败，**不要未经检查就盲目修改上游 Skills**；只对确实属于第一方的文件执行 `vp check --fix`，审阅差异后再复验。
 
-**预期结构**：`@adui/normalize.css@0.0.1`，`private:true`；`dist/` 唯一 `normalize.css`；npm 包文件**恰好 5 项且全部必需**：LICENSE、README.md、README.en.md、dist/normalize.css、package.json，且无 bundled 依赖。真实 tarball 的本地测试现已强制校验精确文件清单、包名/版本和作者/MIT 元数据；漏掉英文 README 也会测试失败。包字节数/哈希随新增本地验证脚本元数据变化，**不得沿用以前 13871 B 的大小作为固定断言**。真实体积以本轮输出为准。
+**预期结构**：`@adui/normalize.css@0.0.1`，`private:false`；`dist/` 唯一 `normalize.css`；npm 包文件**恰好 5 项且全部必需**：LICENSE、README.md、README.en.md、dist/normalize.css、package.json，且无 bundled 依赖。真实 tarball 的本地测试现已强制校验精确文件清单、包名/版本和作者/MIT 元数据；漏掉英文 README 也会测试失败。包字节数/哈希随新增本地验证脚本元数据变化，**不得沿用以前 13871 B 的大小作为固定断言**。真实体积以本轮输出为准。
 
 ## 浏览器数据准备完成后再做 T0/T2 对照
 
@@ -86,8 +90,8 @@ CLI 仅使用 Node 内置模块，复用现有 **256 KiB 普通文件限长读�
 
 ## 发布前尚需决定
 
-- **P-04**：虽然 npm `whoami=adui` 与个人 `@adui` 作用域相符，但首次发布认证条件、安全设置与实际包名状态仍待最终核对。
+- **P-04**：npm 官方 Registry、`whoami=adui` 与维护者启用 2FA 的确认已记录；公开包查询为 E404，但首次实际写入作用域的权限仍需在正式发行时确认。
 - **P-05**：七项历史最低浏览器的原始证据仍未完全归档；维护者已免除与成熟竞品相同的唯一 R-003 在七环境逐项重复实测。**发布文案不承诺未经证实的具体数字最低版本**，不把缺失附件写为 PASS。
-- **P-07**：npm 正式发布、修改 `private:true`、Tag/Release、合并 `main` 都必须取得**独立明确授权**。
+- **P-07**：`private:false` 已获维护者明确批准并提交 `main`；**npm 真正发布、Git Tag/GitHub Release** 仍须另外取得明确授权，不能因为脚本已配置就自行执行。
 
 **MVP 开发交付与公开发行是两种不同的验收**。这份清单不关闭 W-07 Issue #8，也不代表浏览器实机或 npm 发行已通过。

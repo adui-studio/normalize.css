@@ -4,8 +4,30 @@
 - **分支**：`main`（开发历史来自 `feat/viteplus-local-harness`）
 - **工作项**：[W-07 / Issue #8](https://github.com/adui-studio/normalize.css/issues/8)
 - **审查形式**：读取 GitHub 开发分支当前文件及提交树，并核对维护者提供的 Windows PowerShell 原始命令输出；**本助手没有直接在维护者 Windows 环境运行命令**。
-- **审核判断**：**部分通过，发布准备尚未就绪；Issue #8 保持 Open**。
+- **审核判断**：MVP 核心包与本地消费验证有维护者提供的成功证据，代码与主要测试文件 Blob 已核对一致；**正式发行独立授权仍缺，Issue #8 保持 Open**。
 - **红线**：不修改产品 CSS 或既定包根入口；不新增依赖/CI、GitHub Actions、自动发布；不执行 npm publish、GitHub Release 或未经批准的后续 `main` 合并。
+
+## 2026-11-05 · 当前 main 状态与维护者 Windows 候选实测（最新）
+
+截至本轮 GitHub 回读：`main@5fef6d4774f078ba85415ee3a2e984f7f3415590`，包为 `@adui/normalize.css@0.0.1`、`private:false`，唯一 CSS R-003、单 CSS 根导出，Vite+ 1.4.0 / pnpm 12.15.0。两处真实包 `private` 断言已同步为 `false`；手动 `release:publish` 脚本已合并但**未执行**。PR #10/#11/#12 已获维护者批准合并；PR #13 已关闭且从未合并，`private:false` 的最终配置系独立正式提交。
+
+维护者曾提供 Windows PowerShell 全量输出（**当时工作树，未包含 `git rev-parse HEAD`**）：
+
+| 关卡 | 维护者提供的实际结果 | 证据等级 |
+| --- | --- | --- |
+| `pnpm install --frozen-lockfile` | pnpm 12.15.0，锁文件策略通过，24 ms | PASS（用户本机日志） |
+| `vp check` | 78 个文件格式正确、21 个文件 lint 零警告/错误 | PASS（用户本机日志） |
+| `vp test` | Vitest 5.0.5，7/7 | PASS（用户本机日志） |
+| `pnpm run test:offline` | Node 47/47 | PASS（用户本机日志） |
+| `vp pack` | 仅 `dist/normalize.css` 200 B | PASS（用户本机日志） |
+| `pnpm run test:package` / `test:consumer` | 真实 tarball 1/1、Vite+ 消费 1/1 | PASS（用户本机日志） |
+| `npm pack --dry-run --json --ignore-scripts` | `0.0.1`，5 文件、`bundled:[]`，tgz 15177 B | PASS（仅预览包，不是发布） |
+| `pnpm exec vp build` | 八张 HTML Fixture 与本地 CSS/JS 资源构建成功 | PASS（用户本机日志） |
+| `git diff --check` / `git status --short` | 均无输出 | PASS（当时工作树） |
+
+**GitHub 静态关联**：现行 `main` 与此前候选分支在 `package.json`、两份真实包测试、`src/normalize.css`、`pnpm-lock.yaml`、`vite.config.ts` 的 Git Blob SHA **逐项相同**。因此可复用该候选的真实本机验证事实，**无需对完全相同的文件组合无理由重复运行整套测试**；但当时日志没有具体提交号、完整环境附件，不能写成助手亲自在 `main@5fef6d47` 独立执行，也不声称七项目标浏览器全部 PASS。
+
+**尚需独立决策**：P-04 首次实际 scope 写权限只能在授权 npm 发布时确认；P-05 保持成熟竞品相同规则免重复验证、不作缺证的数字最低版本承诺；P-07 npm 正式发布与 Git Tag/GitHub Release **仍未获明确执行授权**。W-07 Issue #8 继续 Open；禁止新增 CI/自动发布或收集 OTP、Token。
 
 ## 2026-11-05 · 维护者免除成熟竞品规则重复测试（最新审核口径）
 
