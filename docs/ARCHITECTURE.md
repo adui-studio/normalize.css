@@ -1,5 +1,7 @@
 # ARCHITECTURE — 总体架构
 
+**2026-11-05 · `0.0.3` 模块化架构实施（最新开发候选）**：维持保守的默认 Normalize (`src/normalize.css` → `vp pack` → `dist/normalize.css`) 与现有 CSS-only 根入口；四个新增源码 `reset.css` / `forms.css` / `a11y.css` / `all.css` 通过显式 CSS 子路径导出并随 npm `src` 目录打包，`all.css` 仅借助原生相对 `@import` 串联模块。没有额外 Node 构建脚本、打包器、运行时 JS、第三方依赖或 CI；使用者能按需选模块，默认没有 Reset/Forms/A11y 的副作用。这是维护者要求一次性交付整套的**待验证实现**，不能将新模块预先视为已在 npm `0.0.2` 发布；后续版本、浏览器最低支持和 npm/Tag/Release 仍独立审核。旧版“全部可选模块仅设计/未公开”的段落属于之前阶段事实。
+
 **2026-11-05 · 默认模块架构范围冻结（当前决定）**：维护者确认默认 Normalize 以已合并的 R-003、R-007、R-008 为当前完整规则集合；低侵入、CSS-only、无运行时 JS、单一根入口、不使用默认 `@layer` 等架构边界不变。Reset/Forms/A11y 保持后续显式可选模块方向，未实现/未公开导出。本决定不扩大已验证浏览器范围，不调整 `0.0.2` 或授权 `0.1.0`/发行，禁止新增 CI；见 [冻结记录](research/DEFAULT_NORMALIZE_V01_READINESS.md)。
 
 **2026-11-05 · 当前主分支与回归扩展（最新）**：PR #19 已按维护者批准合并，`main` 默认 `src/normalize.css` 包含 R-003、R-007、R-008 三条规则；`package.json` 仍为 `0.0.2/private:false`，npm 已发布 `0.0.1`。本次仅扩展 T0/T2 验收覆盖（12→15 个探针），测试无 `title` 缩写与作者明示的缩写/表格样式能否优先于低特异性 `:where()`；完整覆盖矩阵见 [默认 Normalize 完整性门槛](research/DEFAULT_NORMALIZE_V01_READINESS.md)。此前 W-05 首版决议保留历史效力，暂缓项不因竞品存在就自动准入；`0.1.0` 只在默认 Normalize 完成且维护者验收后采用。当前尚无最新提交完整 Windows/Vite+ 与浏览器回归的实测日志，不增加 CI。
