@@ -1,11 +1,13 @@
 # PROJECT_CONTEXT — 项目长期上下文
 
+**2026-11-05 · v0.0.2 正式交付归档（最新事实）**：维护者本机确认 npm Registry 可查询 `@adui/normalize.css@0.0.2`；GitHub 远程确认附注 Tag `v0.0.2`（对象 `4e2e90b...`）指向已验收源码 commit `4d66e6b590c09b7de6e98332524684237dddf212`，对应 [GitHub Release v0.0.2](https://github.com/adui-studio/normalize.css/releases/tag/v0.0.2) 已于 2026-11-05 正式发布且不是草稿或预发布。发行源码在维护者 Windows 的冻结安装、`verify:mvp` 60/60、8 Fixture 页面构建、五文件 npm dry-run 均 PASS；npm tarball SHA-1 与本地预打包产物的一致性仍无独立核验，不宣称已通过校验。默认规则 R-003/R-007/R-008 已作为 `0.0.2` 交付；**下一步继续完善 normalize.css，达到完整性与必要验收后才决定 `0.1.0`**。`0.0.2` 已发布不可重新发行，同版本 Git Tag 不可随意修改，Issue #18 继续跟踪规则研究、可选模块与兼容证据。后续文档提交不改变已发行源码，仍不增加 CI。
+
 **2026-11-05 · 默认规则验收增强（本轮待审）**：`main` 已合并 R-003/R-007/R-008，当前版本维持 `0.0.2`。基于 [36 条候选与 0.1.0 门槛](research/DEFAULT_NORMALIZE_V01_READINESS.md)，本轮只增加 T0/T2 从 12 到 15 个边界探针：不带 title 的 abbr 不应被改变、作者明示的 abbr/表格样式不应被 `:where()` 覆盖。Chrome/Edge 149 已移除 table UA 灰色边框，R-008 在现代浏览器的净收益需复核；尚不改变 CSS 产品规则，也不提前设置 `0.1.0` 或发行 npm/Tag/Release。新功能分支的验证不冒充维护者完整本机实测，无 CI。
 
 **2026-11-05 · 最新主分支与版本策略（维护者确定）**：PR #19 已合并 `main@ed729527`，默认 Normalize 现正式包含 R-003、R-007、R-008 三条规则（低特异性 `:where()` 新增两条），配套测试/README/架构已更新。根 `package.json` **保持 `0.0.2/private:false`**，包含 7 个 npm Keywords；npm 对外已发布版本仍是 `0.0.1`。维护者明确决定：**默认 `normalize.css` 完成、必要回归验收后才使用 `0.1.0`**，此前不提前升级。未来每次正式发行（包括 `0.0.2`）必须**在 npm 发布成功并确认提交后**创建对应 `vX.Y.Z` Git Tag + GitHub Release；不提前创建，禁止 CI。记录见 [RELEASING](RELEASING.md)。W-07 Issue #8 已 Closed—completed，Issue #18 继续跟踪 Normalize 规则及可选模块。最新 HEAD 的完整 Windows/浏览器测试证据不应从旧版测试推定为 PASS。
 
 **最近更新**：2026-11-05  
-**当前工作阶段**：默认 Normalize 继续扩展；`0.0.2` 作为尚未发行的工作版本；`0.1.0` 是默认 Normalize 完成里程碑。历史阶段的“仅 R-003/尚未发布任一版本”等陈述以当时日期为准，不覆盖本节。
+**当前工作阶段（2026-11-05）**：`0.0.2` 已正式发行，下一阶段继续开展默认 Normalize 的必要规则研究、证据收集与回归，暂不升级 `0.1.0`。以下各轮记录的“未发布/候选”仅是对应历史时点的状态，以本文件顶部最新事实为准。
 
 **2026-11-05 · 当前配置更新（覆盖下方历史 private 状态）**：维护者已明确将首版候选调整为 `@adui/normalize.css@0.0.1`、`private:false`，手动 `release:publish` 脚本保留。两处真实包测试断言已同步调整为 `false`，不改隔离消费者自身 `private:true`。此操作仅变更包配置、断言和当前状态文档，**未执行 npm publish / Tag / GitHub Release，不增加 CI**。此前关于 `private:true` 及 PR #13 的记录属于历史阶段；旧版/候选 Windows 实测不自动证明本次新的 `main` 提交已经独立跑完回归。
 
