@@ -201,6 +201,8 @@
 
 **2026-11-05 · MVP T0/T2 CSSOM 内容防误判修补（最新）**：复查发现先前 T2 取证以 `link.sheet !== null` 判定正式 CSS 已挂载，存在**空 CSS/错误规则但计算结果恰好一致**时的假阳性风险。仅在本地 Fixture `fixtures/probe.js` 增加同源 CSSOM 规则摘要，`tests/t2-evidence.mjs` 对唯一 R-003 CSS 选择器、声明数量、属性值和优先级进行严格检查；扩充两套 Node 合成测试以覆盖错误 CSSOM/不可读取情况。旧版 T2 JSON 若缺 `rules` 则不可据此判 PASS，需要重新采样。新增的纯 JS 逻辑合成检查 12/12 PASS，但完整 Node/Vite+/Windows 浏览器未重新运行。正式 `src/normalize.css`、包入口、版本 `0.0.1/private:true`、依赖/锁文件/CI 不变；W-07 Issue #8 继续 Open，不合并、不发布。
 
+**2026-11-05 · MVP 真实 tarball 五文件契约收紧（最新）**：在已实现的 `test:package` 中发现英文 README 虽被文档列为五文件必需项，却在断言里被当作可选项；当它漏包时此前测试可能假阳性通过。已最小修改 `tests/package-real.node.test.mjs`：精确要求 LICENSE、README.en.md、README.md、dist/normalize.css、package.json 五项，并对真实 npm 打包 `id/name/version/bundled`、消费者安装后的 `name/author/license` 增加一致性断言。不修改产品 CSS、版本 `0.0.1`、`private:true`、锁文件、依赖或 CI。**本次新增断言尚需最后在 Windows 统一运行 `pnpm run verify:mvp` 验证**；之前测试通过不能替代本轮实际执行。W-07 Issue #8 仍 Open，禁止未经授权发布。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与待决策变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源

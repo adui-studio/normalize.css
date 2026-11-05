@@ -41,7 +41,7 @@ git status --short
 
 任何步骤失败都停止后续检查，先修复实际问题再重跑。Vite+ 格式检查若提示失败，**不要未经检查就盲目修改上游 Skills**；只对确实属于第一方的文件执行 `vp check --fix`，审阅差异后再复验。
 
-**预期结构**：`@adui/normalize.css@0.0.1`，`private:true`；`dist/` 唯一 `normalize.css`；npm 包文件**恰好 5 项**：LICENSE、README.md、README.en.md、dist/normalize.css、package.json，且无 bundled 依赖。包字节数/哈希随新增本地验证脚本元数据变化，**不得沿用以前 13871 B 的大小作为固定断言**。真实体积以本轮输出为准。
+**预期结构**：`@adui/normalize.css@0.0.1`，`private:true`；`dist/` 唯一 `normalize.css`；npm 包文件**恰好 5 项且全部必需**：LICENSE、README.md、README.en.md、dist/normalize.css、package.json，且无 bundled 依赖。真实 tarball 的本地测试现已强制校验精确文件清单、包名/版本和作者/MIT 元数据；漏掉英文 README 也会测试失败。包字节数/哈希随新增本地验证脚本元数据变化，**不得沿用以前 13871 B 的大小作为固定断言**。真实体积以本轮输出为准。
 
 ## 浏览器数据准备完成后再做 T0/T2 对照
 

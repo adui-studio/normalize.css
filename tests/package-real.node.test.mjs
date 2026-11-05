@@ -84,16 +84,16 @@ test(
       ),
     );
     assert.equal(packed.length, 1);
+    assert.equal(packed[0].id, `${manifest.name}@${manifest.version}`);
+    assert.equal(packed[0].name, manifest.name);
+    assert.equal(packed[0].version, manifest.version);
+    assert.deepEqual(packed[0].bundled, []);
+
     const files = packed[0].files.map(({ path }) => path).sort();
-    const required = ["LICENSE", "README.md", "dist/normalize.css", "package.json"];
-    for (const file of required) {
-      assert.ok(files.includes(file), `Missing required tarball file: ${file}`);
-    }
-    const allowed = new Set([...required, "README.en.md"]);
     assert.deepEqual(
-      files.filter((file) => !allowed.has(file)),
-      [],
-      "Unexpected files in the real tarball",
+      files,
+      ["LICENSE", "README.en.md", "README.md", "dist/normalize.css", "package.json"],
+      "The real tarball must contain exactly five required files",
     );
 
     const tarball = join(tmp, packed[0].filename);
@@ -130,8 +130,11 @@ test(
         "utf8",
       ),
     );
+    assert.equal(installed.name, manifest.name);
     assert.equal(installed.version, manifest.version);
     assert.equal(installed.private, manifest.private);
+    assert.equal(installed.author, manifest.author);
+    assert.equal(installed.license, manifest.license);
     assert.deepEqual(installed.exports, manifest.exports);
     assert.deepEqual(installed.sideEffects, manifest.sideEffects);
     assert.equal(Object.hasOwn(installed, "dependencies"), false);

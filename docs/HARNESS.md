@@ -87,6 +87,8 @@
 
 **2026-11-05 · MVP T2 取证防误判补丁**：原有 `link.sheet !== null` 只能说明 CSS 资源挂载，不说明该资源内容正确。已将 `fixtures/probe.js` 的 T2 证据扩展为同源 CSSOM 的规则类型/选择器/属性值/声明数量/优先级；`tests/t2-evidence.mjs` 现在要求与唯一产品 R-003 完全匹配，否则退出码 1（`STYLESHEET_CONTENT_MISMATCH`）；CSSOM 不可读同样不可判 PASS。同步增加空规则/错误值/多规则/`!important`/不可读场景的离线合成测试。本次纯 JS 核心 12 项合成检查 PASS，完整 Node Runner、Vite+、浏览器验收仍待维护者执行，不能宣称实机已验证。详见 [MVP 交付清单](MVP_0_0_1_HANDOFF.md)。
 
+**2026-11-05 · MVP 真正打包结果验收契约补强**：`test:package` 对真实 npm tarball 的五文件名单改为精确匹配（双语 README **必须同时存在**），增加包 `id/name/version/bundled`、安装后 `name/author/license` 一致性断言；原来只有排除非白名单文件，可能漏检缺少 `README.en.md` 的情况。该修改不增加根依赖、CI 或发布命令，最新 Windows 全量测试仍待维护者统一执行。见 [MVP 交付清单](MVP_0_0_1_HANDOFF.md)。
+
 ## 4. Vite+ 本机执行与下一步验证
 
 **格式检查范围的最小修复（2026-11-04，已在本机重验）**：根目录 `vite.config.ts` 新增 `fmt.ignorePatterns: ['.agents/skills/**']`。参照 [Vite+ 官方 Format Config](https://viteplus.dev/config/fmt)，`vp check` 会读取根配置，因此固定上游原版 Skills（含其 references、来源记录）不应由项目格式化器修改；**其余第一方 Markdown、HTML、JS、TS、package.json 与 GitHub 模板继续接受完整格式检查**。不能为了通过而设置 `check.fmt: false` 或忽略 `docs/**`、`tests/**`、`fixtures/**`。
