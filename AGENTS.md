@@ -1,8 +1,8 @@
 # AGENTS.md — @adui/normalize.css
 
-> **当前状态（2026-11-05）**：MVP `0.0.1/private:true` 已通过 PR #1、PR #9 以 Merge commit 合并进入 `main`，维护者已确认最终签收；W-02 #3 已按首版规则研究范围结项，W-03～W-06 已管理结项，W-01 #2 已按维护者研究验收范围结项，W-07 #8 仍 Open。产品 CSS 目前仅包含已批准的 R-003，公开入口只有 `@adui/normalize.css`；已合并 `main`，尚未发布 npm。五项 ADR 均 Accepted，统一采用 Vite+ 1.4.0 / pnpm 12.15.0，**绝不新增 CI**。
+> **当前状态（2026-11-05）**：MVP 已通过 PR #1、PR #9 合并进入 `main`，当前候选配置为 `0.0.1/private:false`（维护者 2026-11-05 最新决定，尚未发布 npm），维护者已确认最终签收；W-02 #3 已按首版规则研究范围结项，W-03～W-06 已管理结项，W-01 #2 已按维护者研究验收范围结项，W-07 #8 仍 Open。产品 CSS 目前仅包含已批准的 R-003，公开入口只有 `@adui/normalize.css`；已合并 `main`，尚未发布 npm。五项 ADR 均 Accepted，统一采用 Vite+ 1.4.0 / pnpm 12.15.0，**绝不新增 CI**。
 >
-> **验证及授权边界**：旧版 Windows `vp check`、`vp test`、离线 Node、`vp pack`、真实 tarball 和消费者测试有维护者提供的历史通过记录；最新测试断言及分支同步提交之后尚无完整 `pnpm run verify:mvp` 原始日志，不能作为本轮独立 PASS。W-06 正式签收不代表七项最低浏览器环境已有可公开审核的逐项证据。W-07 的 npm 首发认证、浏览器对外支持声明及单独发行授权仍未完成；**不得擅自合并后续 PR、修改 `private:true`、打 Tag/Release 或 npm 发布**。详见 [MVP 验收清单](docs/MVP_0_0_1_HANDOFF.md)、[W-07 发布门禁](docs/research/W07_RELEASE_GATES.md) 与 [HARNESS](docs/HARNESS.md)。
+> **验证及授权边界**：旧版 Windows `vp check`、`vp test`、离线 Node、`vp pack`、真实 tarball 和消费者测试有维护者提供的历史通过记录；最新测试断言及分支同步提交之后尚无完整 `pnpm run verify:mvp` 原始日志，不能作为本轮独立 PASS。W-06 正式签收不代表七项最低浏览器环境已有可公开审核的逐项证据。W-07 的 npm 首发认证、浏览器对外支持声明及单独发行授权仍未完成；**不得擅自合并后续 PR、再次修改发布配置、打 Tag/Release 或 npm 发布**。详见 [MVP 验收清单](docs/MVP_0_0_1_HANDOFF.md)、[W-07 发布门禁](docs/research/W07_RELEASE_GATES.md) 与 [HARNESS](docs/HARNESS.md)。
 
 ## 1. 项目事实
 

@@ -3,8 +3,20 @@
 - **审核日期**：2026-11-05
 - **工作项**：[W-07 / Issue #8](https://github.com/adui-studio/normalize.css/issues/8)
 - **所属分支**：`main`（原研究与开发记录保留在 `feat/viteplus-local-harness` 历史分支）
-- **状态**：P-02 **`0.0.1/private:true` 候选包已通过本机交付回归**；P-04 **账户/用户作用域通过核验，首次发布权限与认证仍待确认**；P-05 **最低浏览器支持矩阵未冻结**；P-07 **未授权发布**。
-- **范围**：维护者已同意将 PR #1/#9 按 Merge commit 顺序合并 `main`，GitHub 已确认两者合并完成；`0.0.1/private:true` 继续保留。**这不等于授权 npm 发布、Tag、Release 或任何后续 PR 合并**。
+- **状态**：P-02 **当前候选 `0.0.1/private:false` 已按维护者最新指示配置（本次提交未独立复测）**；P-04 **账户/用户作用域通过核验，首次发布权限与认证仍待确认**；P-05 **最低浏览器支持矩阵未冻结**；P-07 **未授权发布**。
+- **范围**：维护者已同意将 PR #1/#9 按 Merge commit 顺序合并 `main`，GitHub 已确认两者合并完成；`0.0.1/private:false` 已获维护者最新单独指示配置。**这不等于授权 npm 发布、Tag、Release 或任何后续 PR 合并**。
+
+## 2026-11-05 · private:false 已获维护者明确批准并配置（最新决策）
+
+维护者最新要求：“那就 `private:false`”。该决定**覆盖此前要求 `private:true` 及关闭 PR #13 的历史阶段**；保持 [PR #13](https://github.com/adui-studio/normalize.css/pull/13) 已关闭且未合并，当前配置依据**最新明确用户指示**实施，未擅自复活旧 PR。
+
+- `package.json`：`@adui/normalize.css@0.0.1`，`private:false`；保留 `release:publish` 手动公开发布命令，未执行。
+- `tests/package.node.test.mjs`、`tests/package-real.node.test.mjs`：两处正式包 `private` 断言与最新配置同步为 `false`；隔离消费者的 `private:true` 不改。
+- 产品 CSS、锁文件、Vite+ 1.4.0、pnpm 12.15.0、单 CSS 根导出、无运行时 JS 依赖保持不变；**不增加 CI、Tag、Release 或自动 npm 发布**。
+- 维护者已提供此前 `private:false` 候选的 Windows 验收输出：冻结安装、格式/Lint、Vitest 7/7、Node 47/47、CSS 200B、真实 tarball 与消费端各 1/1、五文件 `npm pack --dry-run`、八张 Fixture 构建及干净工作树；**尚未就本次新的 main 提交另附精确 HEAD 的执行日志，不能宣称本工具在本轮独立复测通过**。
+- W-07 仍 Open，P-04 维护者已确认 npm Registry、身份及 2FA；首次作用域写权限未知。**将 `private` 改为 `false` 不等于许可执行 `npm publish`**：正式发布仍须单独明确授权。
+
+以下历史记录中的 `private:true` 与“尚不得修改”等判断按当时阶段理解，不覆盖本节当前配置状态。
 
 ## 2026-11-05 · P-05 成熟竞品规则免重复实测（最新维护者决定）
 

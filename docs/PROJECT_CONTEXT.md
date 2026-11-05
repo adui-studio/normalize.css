@@ -3,6 +3,8 @@
 **最近更新**：2026-11-05  
 **当前阶段**：五项 ADR 已接受／W-03 本地 Harness 已验收／W-04 包交付验收已结项（Issue #5 Closed）／W-05 36 条规则首版评审通过（Issue #6 Closed — completed）／W-06 已正式验收归档（Issue #7 Closed）／W-07 发行前审核待完成／PR #1/#9 已合并 main／尚未发布
 
+**2026-11-05 · 当前配置更新（覆盖下方历史 private 状态）**：维护者已明确将首版候选调整为 `@adui/normalize.css@0.0.1`、`private:false`，手动 `release:publish` 脚本保留。两处真实包测试断言已同步调整为 `false`，不改隔离消费者自身 `private:true`。此操作仅变更包配置、断言和当前状态文档，**未执行 npm publish / Tag / GitHub Release，不增加 CI**。此前关于 `private:true` 及 PR #13 的记录属于历史阶段；旧版/候选 Windows 实测不自动证明本次新的 `main` 提交已经独立跑完回归。
+
 **浏览器研究验收补充（2026-11-05）**：维护者反馈 W-01 的版本映射、历史系统与设备范围“已经核实完了，验证过了”，已按**维护者对研究交付的确认**归档，参见 [Issue #2](https://github.com/adui-studio/normalize.css/issues/2) 和 [PR #11](https://github.com/adui-studio/normalize.css/pull/11)。仓库仍未归档七个最低目标的完整环境及正式 T0/T2 原始数据，不能据此推断对外兼容支持已通过；P-05 继续由 W-07 #8 审核。
 
 **规则研究结项补充（2026-11-05）**：[W-02 Issue #3](https://github.com/adui-studio/normalize.css/issues/3) 已按首版研究结论、R-003/R-004 实测局部依据和 W-05 正式准入审核标记 Closed — completed；不代表七个最低浏览器目标均已实测。尚未完整归档的最低浏览器与真实设备证据仍由 W-01 #2 和 W-07 #8/P-05 跟踪。
@@ -26,10 +28,10 @@
 | LICENSE                      | 已存在             | MIT，Copyright © 2026 ADui Studio                                                                           |
 | 八类工程资产                 | 文档初始化         | [AGENTS](../AGENTS.md)、需求、SDD、架构、上下文、代码地图、Skills、Harness                                  |
 | CSS 源码                     | **首条已实现**     | 开发分支 `src/normalize.css` 仅包含 R-003；R-004 保留原生默认                                               |
-| package.json、依赖、构建脚本 | **部分实现**       | 单根 CSS、Vite+ 打包已实测；真实包与生产消费者测试均通过；仍 private                                        |
+| package.json、依赖、构建脚本 | **部分实现**       | 单根 CSS、Vite+ 打包已实测；真实包与生产消费者已有测试记录；当前 private:false、尚未发布                                        |
 | 自动化测试、浏览器回归       | **部分实现**       | 离线 Node 26/26、真实包 1/1、Vite+ 消费 1/1；浏览器仅部分完成                                               |
 | CI                           | **明确不规划**     | 项目约束：不增加任何 CI                                                                                     |
-| npm 包发布、版本号           | **未发布/已定**    | 候选 `0.0.1/private:true`；未公开发行，合并和发布另需授权                                                   |
+| npm 包发布、版本号           | **未发布/已定**    | 候选 `0.0.1/private:false`；未公开发行，发布仍需明确授权                                                   |
 | 架构方案                     | **已接受／未实现** | ADR-0001～0005 均 Accepted；[MVP 实施计划](plans/MVP_IMPLEMENTATION_PLAN.md) 已建立，浏览器兼容承诺仍待验证 |
 | 自研 Skills                  | **未创建**         | 目前没有项目自研技能                                                                                        |
 | 第三方 Skills                | **评审分支已纳入** | 3 个 awesome-copilot 原版 Skill，CLI 未执行，本机发现未验证；见 [索引](SKILLS.md)                           |
@@ -56,7 +58,7 @@
 
 - 七项目标浏览器是测试目标，不是已冻结的对外支持承诺；Chrome 120 和 Firefox 121 仅有部分 R-003 证据，Edge 120、真实 Safari 17.2 和对应移动版本缺少仓库可定位的逐环境正式 T2 记录。W-06 管理验收不因此撤销。
 - npm 官方 Registry 与 `adui` 账户/个人 `@adui` 作用域已由维护者核验；**首次发布可用性、实际认证和安全要求尚未完成最终确认**。
-- 开发分支已固定 `0.0.1/private:true` 与唯一 CSS 根导出；发布前不得解除 `private` 或执行 npm 发布、Git Tag、GitHub Release、主分支合并。
+- 当前 `main` 已按最新明确要求设为 `0.0.1/private:false` 与唯一 CSS 根导出；不得据此自动执行 npm 发布、Git Tag 或 GitHub Release。
 - 最新的测试与文档提交没有独立的完整本机 `verify:mvp` 原始终端日志；不能把旧提交的 PASS 当作新提交实测通过。
 - 第三方规则许可、实际浏览器兼容性以及后续增强模块继续按已有 ADR 和证据流程审查；不增加任何 CI。
 
