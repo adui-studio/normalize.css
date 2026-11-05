@@ -7,6 +7,16 @@
 - **审核判断**：**部分通过，发布准备尚未就绪；Issue #8 保持 Open**。
 - **红线**：不修改产品 CSS 或既定包根入口；不新增依赖/CI、GitHub Actions、自动发布；不执行 npm publish、GitHub Release、`main` 合并。
 
+## 2026-11-05 · P-02/P-04/P-05 首发决策审查（最新）
+
+在不调整产品 CSS 或包配置的前提下，已审查 npm 作用域与 SemVer 官方规范，并对照 ADR-0004 和 W-06 实际验收等级。**发行门槛审核结论**：[W-07 首发决策审核](W07_RELEASE_GATES.md)。
+
+- **P-02：候选 `0.1.0`**。SemVer 0.y.z 适合初始开发，但维护者尚未批准首发版本；当前仍保持 `version:"0.0.0"`、`private:true`。
+- **P-04：NOT_VERIFIED**。GitHub `adui-studio`、作者 `ADui` 不等于 npm `@adui` 账户/组织的发布权限；npm scope 归属、包名状态与写权限尚需用户授权账号核实。未登录、未读取令牌、未发布。
+- **P-05：兼容性文案边界已形成草案，但正式最低支持版本未冻结**。Chrome/Edge 120、Firefox 121、Safari 17.2 和对应移动端仍是原 ADR 批准的测试目标；W-06 管理验收完成不能补造缺失的逐 UA/OS/设备结果。正式发行前应按 ADR-0004 获取相应证据，或另行批准修订 ADR。
+
+本次只推进**评审与研究**，不提前改变 `private`、版本、锁文件、CSS、CI 或发行/分支状态。W-07 Issue #8 继续 Open。
+
 ## 2026-11-05 · P-03 含 ADui 作者字段的最终包验收（最新）
 
 维护者提供 Windows PowerShell **包含 `author: "ADui"` 的最终 manifest** 的实际验收日志，确认 P-03 本机包交付及消费测试通过：

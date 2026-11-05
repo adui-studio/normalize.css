@@ -181,6 +181,8 @@
 
 **2026-11-05 · W-07 P-03 含作者字段最终包复验通过（最新）**：维护者提供含 `author:"ADui"` 的 Windows 真实验收日志：首次 `vp check` 只有 W-07 文档格式问题（FAIL），随后 `vp check --fix` 修复成功且 19 文件零 Lint 错误/警告；`vp pack` 唯一 `dist/normalize.css` 200 B；真实 tarball 安装 `test:package` **1/1 PASS**、Vite+ 生产消费者 `test:consumer` **1/1 PASS**；`npm pack --dry-run --json --ignore-scripts` 五文件白名单 PASS（压缩包 13663 B，解包 33335 B，`package.json` 1355 B、`bundled:[]`），`git status --short` 无输出。**P-03 元数据和最终包验收 PASS**。本轮没有再执行 Vitest 7/7、Node 33/33 或冻结安装，它们的历史 PASS 仍有效但不冒充本轮复测。依据 [W-07 验收报告](research/W07_RELEASE_READINESS_REVIEW.md)，P-02 首发版本/private 开关、P-04 npm scope、P-05 对外兼容性承诺、P-07 发布授权仍待决策，Issue #8 Open。不修改 CSS、不新增 CI、不发布或合并 main。
 
+**2026-11-05 · W-07 P-02/P-04/P-05 首发决策审核（最新）**：依据最新 GitHub `package.json`、ADR-0004 与 W-06 正式验收索引，并核对 SemVer 和 npm scopes 官方规范，建立 [首发决策审核文档](research/W07_RELEASE_GATES.md)。**P-02** 建议将 `0.1.0` 作为首个公开版本候选，但维护者尚未批准正式版本，`0.0.0` 与 `private:true` 不变；**P-04** npm `@adui` 的账户/组织归属、包名状态和写权限尚未验证，GitHub `adui-studio` 与作者 `ADui` 不自动证明所有权；**P-05** 公开支持文案已拟定证据边界，但原 Chrome/Edge 120、Firefox 121、Safari 17.2 与核心移动目标缺完整逐 UA/OS/设备矩阵，未冻结兼容性声明。W-06 管理验收不撤销，ADR-0004 的发行前证据要求不因谨慎文案而跳过。P-01/P-03/P-06 真实质量结果继续有效。**未改变版本、private、CSS、CI、依赖或发布/合并状态**，W-07 Issue #8 仍 Open。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与待决策变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源

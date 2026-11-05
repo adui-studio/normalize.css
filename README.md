@@ -193,7 +193,7 @@ pnpm exec vp check --no-fmt  # 仅隔离格式问题排查 lint，不等于完�
 
 ## 开发前门槛
 
-维护者已批准首批最小实现，开发工具链统一使用 **Vite+**。W-03 本地 Harness、W-04 真实 CSS 包交付、W-05 首版 36 条规则去留评审、W-06 回归工作项均已按正式记录结项；W-02 的来源证据维护与 W-07 发布前审核为独立事项。**尚未作出 npm 首发版本决定**：当前缺少已提交的包管理器锁文件，`package.json` 也仍为 `private: true`、`0.0.0`，未授权发布/合并。参见[W-07 审核矩阵](docs/research/W07_RELEASE_READINESS_REVIEW.md)。项目明确不增加任何 CI。
+维护者已批准首批最小实现，开发工具链统一使用 **Vite+**。W-03 本地 Harness、W-04 真实 CSS 包交付、W-05 首版 36 条规则去留评审、W-06 回归工作项均已按正式记录结项；W-02 的来源证据维护与 W-07 发布前审核为独立事项。**尚未作出 npm 首发版本决定**：pnpm 12.15.0 锁文件已提交并通过维护者本机冻结安装验收；`0.1.0` 仅为待批准的首发候选，`package.json` 仍保持 `private: true`、`0.0.0`，未授权发布或合并。参见 [W-07 审核矩阵](docs/research/W07_RELEASE_READINESS_REVIEW.md)和[首发决策审核](docs/research/W07_RELEASE_GATES.md)。项目明确不增加任何 CI。
 
 ## 许可证
 

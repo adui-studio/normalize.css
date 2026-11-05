@@ -10,6 +10,8 @@
 
 **2026-11-05 · W-07 作者元数据补充**：开发分支 `package.json` 已增加 `author:"ADui"`，其余 npm 元数据、`version:0.0.0`、`private:true`、入口和依赖均不变；`LICENSE` 的 2026 ADui Studio 版权信息保持不变。此前五项元数据的 Windows 打包/消费真实回归已通过；作者字段加入后的最终文件尚待复验。详见 [W-07 审核记录](research/W07_RELEASE_READINESS_REVIEW.md)。
 
+**2026-11-05 · W-07 首发审核文件**：新增 [W-07 首发决策审核](research/W07_RELEASE_GATES.md)，只记录 P-02 版本候选、P-04 npm scope 核对方法、P-05 浏览器公开声明与证据边界；不增加 CSS、脚本或发布资产。包配置与根导出保持不变。
+
 ## 1. 当前真实文件
 
 ```text
@@ -77,6 +79,7 @@ normalize.css/
     ├── research/W06_ACCEPTANCE_INDEX.md # W-06 正式验收归档索引与证据边界
     ├── research/W05_RULE_ACCEPTANCE.md # W-05 36 条规则首版评审归档索引
     ├── research/W07_RELEASE_READINESS_REVIEW.md # W-07 发布前审核清单与发行阻塞项
+    ├── research/W07_RELEASE_GATES.md # W-07 首发版本/作用域/兼容性声明审核
     ├── CODEBASE_MAP.md      # 本轮文档：代码地图
     ├── SKILLS.md            # 本轮文档：Skill 索引
     ├── HARNESS.md           # 本轮文档：验证机制规划
