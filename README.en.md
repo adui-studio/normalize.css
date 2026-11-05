@@ -6,7 +6,7 @@ A lightweight, low-intrusion CSS Normalize library built around documented rule 
 
 `@adui/normalize.css` corrects selected browser-default differences while preserving native HTML semantics, user preferences, and existing component styles wherever possible. It ships **CSS only, with no runtime JavaScript dependencies**.
 
-> **Version note:** Published `0.0.2` includes R-003, R-007, and R-008 and has matching `v0.0.2` Git Tag and GitHub Release; earlier `0.0.1` contains R-003 only. **`0.1.0` will only be considered after further Normalize improvements and acceptance, and has not been published.**
+> **Version note:** The latest confirmed published version is `0.0.2` (R-003, R-007, and R-008), with matching `v0.0.2` Git Tag and GitHub Release; earlier `0.0.1` includes R-003 only. The repository is preparing an **unpublished `0.0.3` development candidate**. **`0.1.0` remains a future milestone requiring further Normalize improvements and acceptance.**
 
 ## Features
 

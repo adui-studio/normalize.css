@@ -1,5 +1,7 @@
 # AGENTS.md — @adui/normalize.css
 
+> **0.0.3 开发启动（2026-11-05，最新）**：维护者明确要求开始 `0.0.3` 迭代。在独立开发分支 `chore/prepare-v0.0.3-20261105` 初始化候选 `package.json#version=0.0.3` 与两项真实包测试断言；当前正式 npm 版本仍为 `0.0.2`，历史发行 Tag/Release 不变。`0.0.3` 的规则变更和发布内容由 [Issue #22](https://github.com/adui-studio/normalize.css/issues/22) 后续审查；现在**没有获准的新 CSS 规则或公开可选子路径**，不将开发候选冒充已验收/已发行。先在 Windows 验证候选，未经单独授权不得合并 PR、发布 npm 或创建 `v0.0.3` Tag / Release；禁止新增 CI。`0.1.0` 仍需完整性验收及独立授权。
+
 > **正式发行最新状态（2026-11-05）**：维护者已确认 npm Registry 公开版本 `@adui/normalize.css@0.0.2`；[GitHub Release v0.0.2](https://github.com/adui-studio/normalize.css/releases/tag/v0.0.2) 已正式发布（非 Draft/Prerelease），附注 Tag `v0.0.2` 解析到已验收源码提交 `4d66e6b590c09b7de6e98332524684237dddf212`。历史已公开 `0.0.1` 仅含 R-003；`0.0.2` 已包含 R-003/R-007/R-008。npm 已发布 tarball SHA-1 与本地包的二进制一致性尚未独立核验，不冒充已比对。
 
 > **当前规则与版本策略（2026-11-05）**：默认 `src/normalize.css` 当前三条规则 R-003、R-007、R-008 已作为 `0.0.2` 正式交付；36 条候选其余 17 条暂缓、8 条独立可选模块设计、8 条排除默认。维护者明确要求继续完善 Normalize，**仅在完整性及必要验收达到要求后才评审并发布 `0.1.0`**；此前的“范围冻结”仅指 `0.0.2` 交付范围稳定，不意味着 `0.1.0` 已经完成。仍保持版本号 `0.0.2`；不得重复发布此版本、移动发行 Tag，亦不得擅自升级或发布下一版本。
