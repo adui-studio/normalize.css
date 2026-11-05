@@ -1,5 +1,7 @@
 # SDD — 详细设计草案
 
+**2026-11-06 · `v0.0.3` 发行后生效设计（当前事实）**：正式 npm `0.0.3` 已发布；默认 `exports["."] → ./dist/normalize.css` 保持 R-003/R-007/R-008，别名 `./normalize.css` 指向相同产物，Reset/Forms/A11y/All 分别映射到 `src/*.css`。`all.css` 使用 Normalize → Reset → Forms → A11y 四条相对 CSS `@import`；`vp pack` 只生成默认 CSS，五份 `src` CSS 随 npm `files:["dist","src"]` 原样分发。发行源码 `f5c08642e1ab6eaa1cb3d84782485f0298ae77be` 已通过 61/61 自动化测试、真实 tarball 安装与 Vite+ 组合消费，Git Tag/Release `v0.0.3` 已正式发布。默认入口不隐式引入可选模块，无 JS 运行时或 CI。**真实浏览器及组件库完整交互兼容矩阵仍待完善**；下方 0.0.1/0.0.2 首版规划是历史记录，不代表当前导出接口。
+
 **2026-11-05 · `0.0.3` 完整实现方案（最新开发候选）**：公开 CSS 根入口 `exports["."] → ./dist/normalize.css` 维持已发布 R-003/R-007/R-008 的默认语义；新建 `exports["./normalize.css"] → ./dist/normalize.css` 作为别名，`./reset.css`、`./forms.css`、`./a11y.css`、`./all.css` 对应 `src/*.css`。`all.css` 为相对 CSS `@import` 顺序组合（normalize → reset → forms → a11y），不通过 JavaScript、重复声明或打包时拼接实现；`vp pack` 仍只生成 `dist/normalize.css`，npm `files:["dist","src"]` 携带可选 CSS 源文件。所有可选样式显式 opt-in：Reset 不清除列表 marker/焦点；Forms 不去除 UA 控件外观；A11y 不全局消除动画且尊重 forced-colors/reduced-motion。10 文件 tarball 与 Vite+ 组合入口消费按本轮测试契约复核。该变更须最终集中验证，不宣称已通过浏览器全矩阵或已发行。
 
 **2026-11-05 · 默认入口设计冻结（当前决定）**：默认单一 CSS 根入口的产品规则范围经维护者确认仅为 R-003、R-007、R-008；17 条暂缓不在本里程碑编码，Reset/Forms/A11y 均不公开导出，仍独立设计。`0.0.2`、`exports["."]`、Vite+ CSS-only 包契约不变。规则范围批准不替代目标浏览器实测，不授权 `0.1.0` 或发布；参考 [最终范围冻结记录](research/DEFAULT_NORMALIZE_V01_READINESS.md)。
@@ -18,27 +20,28 @@
 
 ## 1. 设计范围与需求映射
 
-| 候选模块  | 需求                    | 拟议接口/职责        | 实现状态 |
-| --------- | ----------------------- | -------------------- | -------- |
-| Normalize | FR-001、NFR-001         | 默认标准化样式表     | 已实现   |
-| Reset     | FR-002                  | 显式导入的 Reset     | 未实现   |
-| A11y      | FR-003                  | 焦点与系统偏好增强   | 未实现   |
-| Forms     | FR-004                  | 原生表单增强         | 未实现   |
-| Combined  | FR-005                  | 显式组合入口         | 未实现   |
-| Exports   | FR-006                  | npm 导出映射         | 已配置   |
-| 规则追踪  | FR-007、NFR-002/003/007 | 兼容性证据与回归用例 | 部分完成 |
+| 模块 | 对应需求 | 已发行职责 | 状态 |
+| --- | --- | --- | --- |
+| Normalize | FR-001、NFR-001 | 默认标准化 CSS | 已发行 |
+| Reset | FR-002 | 显式导入的盒模型与布局重置 | 已发行（可选） |
+| A11y | FR-003 | 焦点与系统偏好增强 | 已发行（可选） |
+| Forms | FR-004 | 原生表单排版增强 | 已发行（可选） |
+| Combined | FR-005 | 四模块组合入口 | 已发行（可选） |
+| Exports | FR-006 | npm CSS-only 子路径映射 | 已发行 |
+| 规则追踪 | FR-007、NFR-002/003/007 | 规则证据、工程回归与实机兼容记录 | 部分完成，浏览器矩阵待补 |
 
-## 2. 首版正式设计契约（尚不可使用）
+## 2. 已发行的 CSS-only 导出契约（v0.0.3）
 
-| 导入路径（候选）                | 返回内容                                | 副作用边界                                  |
-| ------------------------------- | --------------------------------------- | ------------------------------------------- |
-| `@adui/normalize.css`           | **首版唯一已批准的 CSS 入口**（未实现） | 只包含有证据的 Normalize，且不内置 `@layer` |
-| `@adui/normalize.css/reset.css` | Reset CSS                               | **首版延期**；未来版本单独决策              |
-| `@adui/normalize.css/a11y.css`  | A11y CSS                                | **首版延期**；未来版本单独决策              |
-| `@adui/normalize.css/forms.css` | Forms CSS                               | **首版延期**；未来版本单独决策              |
-| `@adui/normalize.css/all.css`   | 经评审的组合 CSS                        | **首版延期**；未来版本单独决策              |
+| 导入路径 | npm 包对应文件 | 影响范围 |
+| --- | --- | --- |
+| `@adui/normalize.css` | `dist/normalize.css` | 默认三条 Normalize，不触发可选模块 |
+| `@adui/normalize.css/normalize.css` | `dist/normalize.css` | 默认入口别名 |
+| `@adui/normalize.css/reset.css` | `src/reset.css` | 可选布局/间距重置 |
+| `@adui/normalize.css/forms.css` | `src/forms.css` | 可选表单样式 |
+| `@adui/normalize.css/a11y.css` | `src/a11y.css` | 可选无障碍辅助 |
+| `@adui/normalize.css/all.css` | `src/all.css` | 按 Normalize、Reset、Forms、A11y 顺序组合 |
 
-首版只规划 `@adui/normalize.css` 根入口，**不发布四个候选子路径**；未来版本可重新评审。开发工具链统一 Vite+（[ADR-0005](adr/0005-viteplus-toolchain.md)），但 CSS-only 的 `vp pack` 产物适配仍需在 W-04 实测，不能提前承诺 JS 入口或已编译 CSS。目前 `package.json` 已配置 `files: ["dist"]`、`sideEffects: ["**/*.css"]` 与唯一根 CSS `exports`，`src/normalize.css` 经 `vp pack` 输出 `dist/normalize.css`；已做标准库构建和离线安装局部验证，并已完成真实 tarball 与独立 Vite+ 生产消费验证；完整浏览器、组件库和发布验收仍未完成。具体 exports、CSS 文件名与编译方式仍须在实际开发后做构建验证，参阅 [ADR-0003](adr/0003-mvp-package-contract.md)、[W-04 包交付验收研究](plans/CSS_PACKAGE_DELIVERY_REVIEW.md) 和 [实施计划](plans/MVP_IMPLEMENTATION_PLAN.md)。
+发行源码使用 Vite+ 1.4.0，`files:["dist","src"]` 和 CSS `sideEffects`；正式 npm 包包含十个文件，无 JS 运行时。维护者已验证真实 tarball 安装、子路径解析和 `all.css` 的 Vite+ 生产构建。下节保留 **2026-11-04 首版历史设计过程**，其当时的 `private:true`、未公开子路径与构建风险不代表现行 `v0.0.3`。
 
 ### 2.1 首个最小交付切片（2026-11-04 开发决策）
 

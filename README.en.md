@@ -6,7 +6,7 @@ A lightweight, low-intrusion CSS Normalize library built around documented rule 
 
 `@adui/normalize.css` corrects selected browser-default differences while preserving native HTML semantics, user preferences, and existing component styles wherever possible. It ships **CSS only, with no runtime JavaScript dependencies**.
 
-> **Version note:** The latest confirmed published version is `0.0.2` (R-003, R-007, and R-008), with matching `v0.0.2` Git Tag and GitHub Release; earlier `0.0.1` includes R-003 only. The repository has implemented a **still-unpublished `0.0.3` candidate** with optional Reset, Forms, Accessibility, and a combined CSS entry. These new subpaths are **not** available in npm `0.0.2`. **`0.1.0` remains a future milestone requiring further Normalize improvements and acceptance.**
+> **Version note:** **`0.0.3` is published on npm**, with the matching [GitHub Release `v0.0.3`](https://github.com/adui-studio/normalize.css/releases/tag/v0.0.3) and annotated Git tag. The default Normalize still ships R-003, R-007, and R-008; this release adds optional Reset, Forms, Accessibility, and the `all.css` bundle. Earlier `0.0.1` ships R-003 only, and `0.0.2` first introduced the three-rule default. `0.1.0` remains a future milestone pending further compatibility and completeness review.
 
 ## Features
 
@@ -32,9 +32,9 @@ Import the stylesheet from an application entry point that supports package CSS 
 import "@adui/normalize.css";
 ```
 
-The default package root `@adui/normalize.css` still resolves to `dist/normalize.css`. **The new subpaths below belong to the unpublished `0.0.3` candidate** and must not be used with npm `0.0.2`.
+The default package root `@adui/normalize.css` still resolves to `dist/normalize.css`. The subpaths below are **published starting with npm `0.0.3`** and are not available in `0.0.2` or earlier.
 
-### Published `0.0.1` versus `0.0.2`
+### Default Normalize rules (since `0.0.2`)
 
 Published `0.0.1` contains R-003 alone. **Published `0.0.2`** contains three rules (R-003, R-007 and R-008):
 
@@ -53,9 +53,9 @@ strong {
 }
 ```
 
-R-003 preserves relative emphasis; R-007 standardizes dotted underlines on titled abbreviations; R-008 aligns table border color with the current text color. The two newer rules use low-specificity `:where()` selectors. **These three rules ship in `0.0.2`, and Windows engineering checks passed; this does not constitute a full real-browser T0/T2 compatibility pass or a minimum-browser-version guarantee.** See the [rule evidence](docs/research/RULE_EVIDENCE_R003_R004.md) and [default scope review](docs/research/DEFAULT_NORMALIZE_V01_READINESS.md).
+R-003 preserves relative emphasis; R-007 standardizes dotted underlines on titled abbreviations; R-008 aligns table border color with the current text color. The two newer rules use low-specificity `:where()` selectors. **The `0.0.3` default entry retains the same three rules.** Windows engineering checks passed on its release commit, but this is not a full real-browser T0/T2 compatibility pass or a minimum-browser-version guarantee. See the [rule evidence](docs/research/RULE_EVIDENCE_R003_R004.md) and [default scope review](docs/research/DEFAULT_NORMALIZE_V01_READINESS.md).
 
-### `0.0.3` development candidate: complete CSS modules
+### Published `0.0.3`: CSS modules and import paths
 
 | Entry                               | Scope                                                                                                                                 |
 | ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |

@@ -1,20 +1,22 @@
 # 更新日志 · Changelog
 
-本文件记录 `@adui/normalize.css` 的版本变更。npm 已公开 `0.0.1`、`0.0.2`；`v0.0.2` Git Tag / GitHub Release 已存在。`0.0.3` 当前仍为开发候选，未发布。
+本文件记录 `@adui/normalize.css` 已发行的版本与后续变更。当前正式 npm 版本为 **`0.0.3`**，对应 [Git Tag / GitHub Release `v0.0.3`](https://github.com/adui-studio/normalize.css/releases/tag/v0.0.3)；历史版本 `0.0.1`、`0.0.2` 保持不变。
 
 ## 未发布 · Unreleased
 
-### 0.0.3（开发中，尚未发布）
+暂无新的已批准产品变更。`0.1.0` 仍为待论证里程碑；未来默认规则变更须有必要的浏览器差异证据、交互/组件回归和独立发行批准。
 
-- 从已正式发行的 `0.0.2` 启动下一个开发版本，更新 `package.json` 与两项真实包版本断言，保留 CSS-only 根导出、现有依赖和构建方式。
-- 默认 CSS 暂继续保持 R-003、R-007、R-008 三条；下一步评审旧 WebKit/Blink 的真实差异与其余候选规则的必要性，未审核的规则不预先纳入本版本。
-- **整套 CSS 模块开发候选已实现**：新增 `src/reset.css`、`src/forms.css`、`src/a11y.css` 和 `src/all.css`；默认根入口仍只有 R-003/R-007/R-008。Reset（布局与间距）、Forms（字体与原生表单排版）、A11y（焦点与系统偏好）均显式导入，`all.css` 按固定次序组合四份 CSS。
-- `package.json` 保留原根 `./dist/normalize.css`，新增五个静态 CSS 子路径（包含 `normalize.css` 显式别名），将 `src` 纳入 npm `files`；Vite+ 继续仅用 `vp pack` 构建默认 `dist/normalize.css`，无 JavaScript 运行时、无额外构建依赖。
-- 扩展正式包、真实 tarball 和 Vite+ 生产消费测试，校验十文件 npm 包、可选入口解析及 `all.css` 组合；维护者已提供 PR #25 合并前 Windows 实测：Vitest 7/7、离线 Node 52/52、真实包 1/1、Vite+ 消费 1/1，合计 **61/61 PASS**，以及 8 张 Fixture 构建成功。该日志未独立记录精确 Git HEAD，不能冒充全浏览器/组件库实测。
-- 完善中英文 README、需求、架构、设计和代码地图；默认不强制根字号、主题、按钮外观、滚动条、清空焦点，也不增加 CI。**本轮不执行 npm 发布或创建 `v0.0.3` Tag / Release**。
-- [PR #25](https://github.com/adui-studio/normalize.css/pull/25) 已获维护者批准并合并 `main@5e299a65e5a091d17ff6d329cadb166613bec332`；[Issue #22](https://github.com/adui-studio/normalize.css/issues/22) 继续追踪正式发布前的 SHA 绑定、Registry 版本占用和未完成兼容性检查。**仅已合并，不等于已向 npm 发布。**
+## 0.0.3 · 2026-11-06（npm、Git Tag、GitHub Release 已发布）
 
-**后续里程碑**：持续完善 Normalize，达到明确完整性与质量验收要求后，才独立评审并发布 `0.1.0`。
+- **默认入口保持兼容**：继续仅包含 R-003、R-007、R-008 三条 Normalize 规则，不自动执行 Reset 或改写全局主题、根字号、按钮外观、原生焦点。
+- **显式可选模块**：发布 `reset.css`（盒模型、间距与布局）、`forms.css`（表单排版）、`a11y.css`（焦点/系统偏好）和 `all.css`（Normalize → Reset → Forms → A11y 顺序组合）。
+- **公开 CSS-only 导出**：保留 `@adui/normalize.css` 默认根入口，增加 `/normalize.css` 显式别名及四个模块子路径；npm 包 `files:["dist","src"]`，无运行时 JavaScript 依赖，未新增 CI。
+- **工程验收**：维护者在最终发行源码 `f5c08642e1ab6eaa1cb3d84782485f0298ae77be` 上运行冻结安装、格式/Lint、Vitest 7/7、Node 离线 52/52、真实 tarball 安装 1/1、Vite+ `all.css` 生产消费 1/1，**总计 61/61 PASS**；8 张 Fixture 页面构建通过，工作区干净。
+- **发行包**：10 个文件、压缩 9,223 B、SHA-1 `8f79c0bfd72db0a62e41facdcf788fdf0fbe6293`；与维护者实际 npm 发布日志中的 tarball SHA-1 一致。维护者报告 npm CLI 发布成功并确认上架；GitHub 附注 `v0.0.3` Tag 已独立验证指向上述验收 SHA，Release 为 Published（非 Draft/Prerelease）。
+- **兼容性边界**：真实 Chrome/Firefox/Safari、移动设备和 Vue/React/Element Plus/Ant Design/TDesign 等场景尚未完成全部可审计矩阵；不宣称未经验证的最低支持版本。已有 Tailwind Preflight / UnoCSS Reset 时避免重复叠加可选 Reset。
+- **对应记录**：[PR #25](https://github.com/adui-studio/normalize.css/pull/25)（产品套件）、[PR #26](https://github.com/adui-studio/normalize.css/pull/26)（发行准备）、[Issue #22](https://github.com/adui-studio/normalize.css/issues/22)（发行已结项）。
+
+**发行后文档说明**：本段为后续仓库文档同步，不改变已发布的 `0.0.3` npm tarball 或 `v0.0.3` Tag。正式发行源码继续固定于上述 SHA；任何后续文档提交均不应冒充当次发行包。
 
 ## 0.0.2 · 2026-11-05（npm 与 GitHub Release 已发布）
 
