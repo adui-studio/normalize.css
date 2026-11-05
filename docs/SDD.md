@@ -1,5 +1,7 @@
 # SDD — 详细设计草案
 
+**2026-11-05 · 新规则首批实现候选（Issue #18，待回归与最终准入）**：维护者已批准基于主流竞品筛选现代 Normalize 规则，并明确要求开始实现。本独立功能分支在 `src/normalize.css` 保留 R-003，同时新增 R-007 `:where(abbr[title]) { text-decoration: underline dotted; }` 和 R-008 `:where(table) { border-color: currentColor; }`；不增加默认 `@layer`、Reset、Forms、A11y、运行时 JS 或 CI。选择器零特异性降低影响但仍需验证。为避免单条规则时代的误判，同步更新真实包契约、T0/T2 两个新计算样式观察点、12 Probe 比较以及恰好三条规则的 CSSOM 校验。**已发布的 npm `0.0.1` 只含 R-003；当前 GitHub `main` 的 `0.0.2` 仅有 Keywords 元数据变更，本功能分支的 CSS 变更尚未合并、未获得新的发布版本决定，也未运行完整 Windows/浏览器回归。**先按新一轮待审核规则准入记录，不回写 W-05 首版历史验收结论。细节见 [竞品复核](research/COMPETITOR_REVIEW.md) 与 [Issue #18](https://github.com/adui-studio/normalize.css/issues/18)。
+
 **历史状态（2026-11-04）**：首版公开 CSS 契约与 ADR-0001～0005 已批准，**W-05 的 36 条规则首版评审结论已由维护者全部确认**；唯一默认准入 R-003（`b, strong { font-weight: bolder; }`）已实现，R-004 和其他 34 条按暂缓、可选或排除决定不进入首版默认 CSS。W-06 已正式验收归档（证据等级见归档索引）；开发包仍保持 `private: true`，尚未 npm 发布，公开支持范围属于后续发行审核。详见 [W-05 规则评审归档](research/W05_RULE_ACCEPTANCE.md)。
 
 **2026-11-05 · W-07 发行候选配置（最新）**：维护者已将单一 CSS 规则 R-003 的首发候选版本确认为 `0.0.1`，并将 `package.json#private` 设置为 `false`；此前 `0.0.0/private:true` 的实施阶段描述现为历史记录。唯一 `exports["."]`、CSS `sideEffects`、`vp pack` CSS-only 构建与全部可选模块的未实现状态均不改变；两项包测试的断言已更新，最新本机回归待完成。不因发行候选配置变更而推导已支持的浏览器版本或 npm 发布权限。详见 [W-07 记录](research/W07_RELEASE_READINESS_REVIEW.md)。

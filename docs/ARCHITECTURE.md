@@ -1,5 +1,7 @@
 # ARCHITECTURE — 总体架构
 
+**2026-11-05 · 新规则首批实现候选（Issue #18，待回归与最终准入）**：维护者已批准基于主流竞品筛选现代 Normalize 规则，并明确要求开始实现。本独立功能分支在 `src/normalize.css` 保留 R-003，同时新增 R-007 `:where(abbr[title]) { text-decoration: underline dotted; }` 和 R-008 `:where(table) { border-color: currentColor; }`；不增加默认 `@layer`、Reset、Forms、A11y、运行时 JS 或 CI。选择器零特异性降低影响但仍需验证。为避免单条规则时代的误判，同步更新真实包契约、T0/T2 两个新计算样式观察点、12 Probe 比较以及恰好三条规则的 CSSOM 校验。**已发布的 npm `0.0.1` 只含 R-003；当前 GitHub `main` 的 `0.0.2` 仅有 Keywords 元数据变更，本功能分支的 CSS 变更尚未合并、未获得新的发布版本决定，也未运行完整 Windows/浏览器回归。**先按新一轮待审核规则准入记录，不回写 W-05 首版历史验收结论。细节见 [竞品复核](research/COMPETITOR_REVIEW.md) 与 [Issue #18](https://github.com/adui-studio/normalize.css/issues/18)。
+
 **状态（2026-11-04）**：首版设计决策及 [W-05 的 36 条规则首版去留](research/W05_RULE_ACCEPTANCE.md) 均已由维护者批准；开发分支唯一默认规则 R-003 已实现，W-06 已正式验收归档。静态 CSS 构建与唯一根 exports 保持不变；W-07 发行前质量审核、对外兼容性承诺及 npm 发布仍是独立事项，均不因规则评审通过而自动完成。  
 **关联**：[需求](REQUIREMENTS.md) · [SDD](SDD.md) · [ADR-0001](adr/0001-css-base-strategy.md)
 

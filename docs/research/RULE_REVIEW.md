@@ -1,5 +1,7 @@
 # CSS 规则准入审查（36 条候选已审定首版范围）
 
+**2026-11-05 · 下一代开发阶段补充（不更改首版历史决策）**：维护者批准 Issue #18 的优先级并明确启动源码实施。R-007 和 R-008 原本在 **2026-11-04 W-05 首版**评为暂缓；本次在独立功能分支分别实现 `:where(abbr[title]) { text-decoration: underline dotted; }` 和 `:where(table) { border-color: currentColor; }` 作为**下一版本准入候选**。两条规则的历史 WebKit 缺陷存在已修复记录，适用性及与 UI 样式叠加仍需本库验证；因选择器使用 `:where()` 而非完全照搬竞品，不能借“同选择器”直接宣告本库已完成浏览器实测。当前仅完成静态实现/离线契约准备；**没有改变 W-05 的首版结论、没有新增已发行 npm 版本、没有增加 CI**。参考 [本轮竞品与规则取舍](COMPETITOR_REVIEW.md) 与 [Issue #18](https://github.com/adui-studio/normalize.css/issues/18)。
+
 **最新状态（2026-11-04）**：维护者已确认 36 条候选**评审结论全部通过**；首版**仅 R-003 准入默认 Normalize，已在开发分支实现**。其他 35 条保持本表的暂缓、可选设计或排除默认结论，不视为已实现 CSS。W-06 已正式验收归档；W-07 发行前审核及 npm 发布另行处理，详见 [W-05 正式评审结论](W05_RULE_ACCEPTANCE.md)。  
 **首次研究日期**：2026-11-03。**评审确认日期**：2026-11-04。**关联**：FR-001、FR-007、NFR-001、NFR-002、NFR-007。  
 **研究来源**：[竞品对照](COMPETITOR_REVIEW.md) · [浏览器矩阵](BROWSER_REVIEW.md) · [首批规则证据审查](RULE_EVIDENCE_BATCH1.md) · [表单规则研究](FORM_CONTROLS_REVIEW.md) · [排版、Reset 与系统偏好规则审查](RULE_EVIDENCE_BATCH3.md)。

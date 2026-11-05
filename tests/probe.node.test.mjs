@@ -54,24 +54,43 @@ test("probe returns an empty result set safely", () => {
 });
 
 test("T2 probe captures the parsed packed CSSOM instead of trusting the link alone", () => {
-  const cssRule = {
+  const cssRule = (selectorText, name, value) => ({
     type: 1,
-    selectorText: "b, strong",
-    style: {
-      length: 1,
-      getPropertyValue: () => "bolder",
+    selectorText,
+    style: Object.assign([name], {
+      getPropertyValue: (property) => (property === name ? value : ""),
       getPropertyPriority: () => "",
-    },
-  };
+    }),
+  });
   const link = {
     getAttribute: () => "../dist/normalize.css",
-    sheet: { cssRules: [cssRule] },
+    sheet: {
+      cssRules: [
+        cssRule("b, strong", "font-weight", "bolder"),
+        cssRule(":where(abbr[title])", "text-decoration", "underline dotted"),
+        cssRule(":where(table)", "border-color", "currentcolor"),
+      ],
+    },
   };
   const loaded = inspect([], link).output.packageStylesheet;
   assert.equal(loaded.href, "../dist/normalize.css");
   assert.equal(loaded.loaded, true);
   assert.deepEqual(JSON.parse(JSON.stringify(loaded.rules)), [
-    { type: 1, selector: "b, strong", fontWeight: "bolder", propertyCount: 1, priority: "" },
+    {
+      type: 1,
+      selector: "b, strong",
+      declarations: [{ name: "font-weight", value: "bolder", priority: "" }],
+    },
+    {
+      type: 1,
+      selector: ":where(abbr[title])",
+      declarations: [{ name: "text-decoration", value: "underline dotted", priority: "" }],
+    },
+    {
+      type: 1,
+      selector: ":where(table)",
+      declarations: [{ name: "border-color", value: "currentcolor", priority: "" }],
+    },
   ]);
 
   const empty = inspect([], {

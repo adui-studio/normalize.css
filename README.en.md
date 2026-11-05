@@ -6,7 +6,7 @@ A lightweight, low-intrusion CSS Normalize library built around documented rule 
 
 `@adui/normalize.css` corrects selected browser-default differences while preserving native HTML semantics, user preferences, and existing component styles wherever possible. It ships **CSS only, with no runtime JavaScript dependencies**.
 
-> **Version note:** The initial `0.0.1` has completed MVP development and maintainer acceptance and contains one reviewed Normalize rule. Install versions available on the npm registry, or build from source if the version you need is not available yet.
+> **Version note:** The published `0.0.1` contains only R-003. The current development branch proposes two additional rules (R-007 and R-008) for a future release; **no npm version containing them has been published yet**. Package installation resolves versions actually available on npm.
 
 ## Features
 
@@ -36,16 +36,24 @@ The sole package export is `@adui/normalize.css`, resolving to `dist/normalize.c
 
 ### What's included in `0.0.1`
 
-The initial default Normalize stylesheet contains **exactly one rule (R-003)**:
+Published `0.0.1` contains R-003 alone. The **next-release development candidate** contains three rules (R-003, R-007 and R-008):
 
 ```css
 b,
 strong {
   font-weight: bolder;
 }
+
+:where(abbr[title]) {
+  text-decoration: underline dotted;
+}
+
+:where(table) {
+  border-color: currentColor;
+}
 ```
 
-It preserves relative emphasis for `b` and `strong` in browser defaults where differences have been observed. See the [R-003 / R-004 evidence record](docs/research/RULE_EVIDENCE_R003_R004.md).
+R-003 preserves relative emphasis; R-007 standardizes dotted underlines on titled abbreviations; R-008 aligns table border color with the current text color. The two new rules use low-specificity `:where()` selectors and **still require targeted integration review before release**. See the [rule evidence](docs/research/RULE_EVIDENCE_R003_R004.md) and [competitor review](docs/research/COMPETITOR_REVIEW.md).
 
 This version **does not export** `reset.css`, `a11y.css`, `forms.css`, or `all.css`. Those are potential future optional modules, not features available to import today. The default stylesheet does not use `@layer`.
 

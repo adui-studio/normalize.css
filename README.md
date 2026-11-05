@@ -6,7 +6,7 @@
 
 `@adui/normalize.css` 只修正经过评审的浏览器默认样式差异，尽量保留 HTML 原生语义、用户偏好及现有组件样式。提供纯 CSS 产物，**无运行时 JavaScript 依赖**。
 
-> **版本说明：** 首版 `0.0.1` 已完成 MVP 开发与维护者验收，当前仅包含一条正式 Normalize 规则。安装命令适用于 npm Registry 中已公开的版本；如需要的版本尚未上架，可从本仓库源码构建试用。
+> **版本说明：** npm 已发布的 `0.0.1` 仅含 R-003。当前开发分支正在评审后续版本的 R-007、R-008 两条新增规则，**尚未发布包含它们的 npm 版本**。安装命令获取 npm Registry 实际已发布的版本；新规则可在代码审查分支构建验证。
 
 ## 特性
 
@@ -36,16 +36,24 @@ import "@adui/normalize.css";
 
 ### 当前 `0.0.1` 实现
 
-首版默认 Normalize **仅包含一条 CSS 规则（R-003）**：
+已发布的 `0.0.1` 只包含 R-003；**当前开发分支的下一版本候选**增加 R-007、R-008，总计三条规则：
 
 ```css
 b,
 strong {
   font-weight: bolder;
 }
+
+:where(abbr[title]) {
+  text-decoration: underline dotted;
+}
+
+:where(table) {
+  border-color: currentColor;
+}
 ```
 
-该规则保留 `b`、`strong` 相对于父元素的加粗语义，用于处理部分历史浏览器的默认样式差异。规则背景与验证依据见 [R-003 / R-004 证据记录](docs/research/RULE_EVIDENCE_R003_R004.md)。
+R-003 保留相对字重；R-007 对含 `title` 的缩写补齐点状下划线；R-008 将表格边框颜色与当前文字颜色对齐。后两者采用低特异性的 `:where()`，**仍需在新版本发行前完成本库回归与最终准入审核**。背景见 [规则证据](docs/research/RULE_EVIDENCE_R003_R004.md) 与 [竞品复审](docs/research/COMPETITOR_REVIEW.md)。
 
 首版**不提供** `reset.css`、`a11y.css`、`forms.css` 或 `all.css` 等子路径；它们是后续可选模块的设计方向，不属于当前已实现或可导入的功能。默认样式也不内置 `@layer`。
 

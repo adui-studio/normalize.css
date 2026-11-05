@@ -1,5 +1,7 @@
 # CODEBASE_MAP — 仓库结构与定位
 
+**2026-11-05 · Issue #18 新规则功能分支（待验收）**：`feat/normalize-r007-r008-20261105` 的 `src/normalize.css` 拟包含 R-003、R-007、R-008 三条低侵入规则，T0/T2 Fixture 新增 `abbr-title` 与 `table-border` 两个计算样式点，CSSOM 检查从单规则升级为三规则，真实 npm tarball 契约同步检查三条规则；`main` 仍仅 R-003。原本的 CODEBASE_MAP 目录图属于已发布 `0.0.1` 的历史，功能分支的新增内容尚未合并/发布；不新增 CI。详见 [竞品研究](research/COMPETITOR_REVIEW.md)。
+
 **状态（2026-11-05）**：PR #1/#9 已按顺序合并 `main`；目前唯一正式默认 Normalize CSS 仍为 R-003；**W-05 36 条规则评审与 W-06 管理验收均已结项**。现已启动 W-07 发布前质量审核，新增未发布更新日志与审查矩阵；锁文件已提交；候选版本和 npm 包元数据已确定为 `0.0.1/private:false`；公开兼容范围与首次 npm 发行仍待审批，尚未发布。下方各批次保留历史阶段描述。
 
 **W-07 包管理器与锁文件核验（2026-11-04，最新）**：根 `package.json` 已固定 `packageManager: "pnpm@12.15.0"`；**`pnpm-lock.yaml` 已提交**，GitHub 静态核对确认环境文档锁定 pnpm 12.15.0、项目文档锁定 `vite-plus@1.4.0`。冻结安装输出仍待核验。见 [W-07 审核记录](research/W07_RELEASE_READINESS_REVIEW.md)。
