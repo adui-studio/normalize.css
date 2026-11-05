@@ -104,6 +104,17 @@ If previously checked-out files still contain CRLF, inspect local changes first,
 - Baseline 2023-derived Chrome/Edge 120, Firefox 121 and Safari 17.2 targets are **test targets**, not public supported-version claims. The maintainer has formally accepted W-06; a complete per-browser, per-OS results appendix for those targets was not provided with the acceptance, so this README makes no unsubstantiated version-specific compatibility promise.
 - No CI, no new runtime dependencies, no npm publication.
 
+## MVP 0.0.1 local handoff (not published)
+
+The approved MVP consists of the single Normalize CSS root export and the evidence-backed R-003 rule. A local T0/T2 evidence comparator and a manual, **non-CI** verification script are now implemented. **The latest changes still need to be tested in the maintainer's Windows environment.**
+
+```powershell
+pnpm install --frozen-lockfile
+pnpm run verify:mvp
+```
+
+This runs format/lint, unit and offline tests, CSS-only packing, real tarball installation, Vite+ consumer validation, and a **dry-run-only** npm package inspection. It does not publish, tag, merge or alter `private: true`. A separate T0/T2 JSON comparator is available at `node tests/t2-evidence.mjs ./t2-native.json ./t2-package.json`; its results do not establish cross-browser support. See the [MVP handoff checklist (Chinese)](docs/MVP_0_0_1_HANDOFF.md).
+
 ## Documentation
 
 Chinese documents are the source of truth: [Requirements](docs/REQUIREMENTS.md), [Detailed design](docs/SDD.md), [Architecture](docs/ARCHITECTURE.md), [Codebase map](docs/CODEBASE_MAP.md), [Harness](docs/HARNESS.md), [R-003/R-004 evidence](docs/research/RULE_EVIDENCE_R003_R004.md), and [project context](docs/PROJECT_CONTEXT.md).

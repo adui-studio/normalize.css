@@ -28,6 +28,17 @@
 
 长期模块方向已经 [ADR-0001](docs/adr/0001-css-base-strategy.md) 批准，但首版只保留默认入口；默认**不内置 `@layer`**，固定 **Baseline 2023** 为特性准入参考。核心浏览器最低**测试目标**已批准：Chrome/Edge 120、Firefox 121、Safari 17.2（含对应移动浏览器），**尚未完整实测通过，不能视为已发布支持声明**。仓库已实现开发期根导出，但还未发布 npm 包。
 
+## MVP `0.0.1` · 本地开发交付与最后验收
+
+首个 MVP 已按 [W-05 正式规则准入](docs/research/W05_RULE_ACCEPTANCE.md) 固定为**单一 Normalize CSS 根入口、唯一 R-003 规则**；本轮补充了 T0/T2 真实包 CSS 的离线证据比较器和**一键本地人工验证脚本**，不扩充未获批准的默认 Reset。**新脚本尚未在维护者 Windows 运行**。
+
+```powershell
+pnpm install --frozen-lockfile
+pnpm run verify:mvp
+```
+
+`verify:mvp` 顺序执行 `vp check`、`vp test`、Node 离线测试、`vp pack`、真实 tarball 安装、Vite+ 消费、`npm pack --dry-run`；**不执行 npm publish、不修改 private、不使用 CI**。浏览器实际取证时，先在 T0/T2 页面复制 JSON，再运行 `node tests/t2-evidence.mjs ./t2-native.json ./t2-package.json`。**完整验收步骤与未完成项**见 [MVP 交付清单](docs/MVP_0_0_1_HANDOFF.md)。
+
 ## 本地构建与 CSS 使用（未发布）
 
 该开发分支已提供唯一 CSS 根入口，当前只有 R-003：

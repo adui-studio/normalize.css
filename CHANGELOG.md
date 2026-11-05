@@ -9,6 +9,7 @@
 - 增加首版默认 Normalize 的唯一规则 R-003：`b, strong { font-weight: bolder; }`，有 Chrome 120 字重差异复现依据。
 - 实现单一 CSS 根导出 `@adui/normalize.css` → `dist/normalize.css`，由 `vp pack` 构建静态 CSS；不包含运行时 JavaScript。
 - 加入仅本地使用的 Vite+ Fixture、原生浏览器探针、真实 npm tarball 消费与第三方 Reset / UI 框架隔离验证场景。
+- 为首个 MVP 开发收尾新增 **T0/T2 真实 CSS 包证据比较 CLI** 和合成数据离线测试；增加人工触发的 `verify:mvp` 一键验证入口，不新增 CI 或运行时依赖。
 - 完善开发期 npm 元数据：作者 `ADui`、MIT 许可证声明、英文包简介，以及正式 GitHub 仓库、主页与问题反馈地址；不变更版本、依赖或 CSS 入口。
 
 ### 已确认的设计边界
@@ -19,7 +20,7 @@
 
 ### 尚未完成
 
-- W-07 发行前质量审核、最终 npm 发布权限与正式发行授权（首发候选配置 `0.0.1` 已确定）。
+- W-07 发行前质量审核、最终 npm 发布权限与正式发行授权（首发候选配置 `0.0.1` 已确定）；**本轮新增代码与本地验证命令尚待维护者实跑**。
 - 已配置并保留 `0.0.1`、`private:true`；维护者已对该版本完整运行冻结安装、Vite+ 格式/Lint、Vitest 7/7、Node 33/33、唯一 CSS 打包、真实 tarball 安装及 Vite+ 消费各 1/1、五文件预打包，全部 PASS。
 - 对外公开的具体浏览器最低版本兼容性声明及对应可审计环境证据。
 - npm 发布、GitHub Release、合并 `main`（均未获本轮授权）。

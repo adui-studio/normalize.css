@@ -83,6 +83,8 @@
 | 打包发布   | CSS 公开导出、包文件清单、许可证、大小     | npm tarball 验证报告   | 部分实现 |
 | CI         | 项目明确不增加任何 CI                      | 不适用                 | 不规划   |
 
+**2026-11-05 · MVP `0.0.1` 本地交付脚本（新增，最新改动待维护者验收）**：为避免需要用户分十次敲命令，`package.json#scripts.verify:mvp` 将 `vp check`、`vp test`、`test:offline`、`vp pack`、`test:package`、`test:consumer` 和 `npm pack --dry-run --json --ignore-scripts` 串联执行；**这是本地命令，不是 CI、发布或自动修复**。离线测试新增 `tests/t2-evidence.node.test.mjs` 的合成数据测试；比较器 `tests/t2-evidence.mjs` 复用 256 KiB JSON 限长读取，检查 T0/T2 页面身份、10 项测量、包 CSS link 加载及字重/等宽字体不变性。**新增命令和新增 Node 测试尚未在维护者 Windows 全套执行**；最近一次旧命令的全部 PASS 不能冒充新改动已通过。详见 [MVP 交付清单](MVP_0_0_1_HANDOFF.md) 与 [P-05 证据矩阵](research/W07_P05_BROWSER_EVIDENCE_MATRIX.md)。
+
 ## 4. Vite+ 本机执行与下一步验证
 
 **格式检查范围的最小修复（2026-11-04，已在本机重验）**：根目录 `vite.config.ts` 新增 `fmt.ignorePatterns: ['.agents/skills/**']`。参照 [Vite+ 官方 Format Config](https://viteplus.dev/config/fmt)，`vp check` 会读取根配置，因此固定上游原版 Skills（含其 references、来源记录）不应由项目格式化器修改；**其余第一方 Markdown、HTML、JS、TS、package.json 与 GitHub 模板继续接受完整格式检查**。不能为了通过而设置 `check.fmt: false` 或忽略 `docs/**`、`tests/**`、`fixtures/**`。

@@ -197,6 +197,8 @@
 
 **2026-11-05 · W-07 P-05 Issue #7 原始资料再审计（最新）**：进一步读取 W-06 已结项 Issue #7 的 **22 条讨论评论**。可定位 Chrome 156 的 T0/T2、Vue/React 生态、Tailwind/UnoCSS Reset 构建/静态样式及维护者跨浏览器回归完成、正式结项的记录，但未发现可单独补齐七项最低浏览器的完整版本/OS/设备/T0/T2 附件。**并非认定 W-06 未测试或撤销正式验收**。已向 [P-05 证据矩阵](research/W07_P05_BROWSER_EVIDENCE_MATRIX.md) 增加具体 Issue 链接及**先行复用 Chrome 120 / Firefox 121 的 T0/T2 操作卡**；新浏览器实测仍 NOT_RUN，P-05 仍 OPEN。当前仍是 `0.0.1/private:true`，不增依赖、CI、CSS、不合并或发布。
 
+**2026-11-05 · MVP v0.0.1 开发能力收尾（最新）**：维护者明确授权先完成第一个 MVP 工程开发，实机验证随后统一进行。按已接受 ADR-0003 与 W-05 规则准入，产品 `src/normalize.css` 仍只有证据支持的 R-003，**不会为了填充 CSS 擅自加入其他 35 条**。已新增 `tests/t2-evidence.mjs`（真实包 T0/T2 的 10 项计算值/加载标记对照，复用现有证据文件安全读取）和 `tests/t2-evidence.node.test.mjs` 的合成用例；`package.json` 新增本地 `verify:mvp` 脚本并将新测试纳入 `test:offline`，`tests/package.node.test.mjs` 同步严格脚本契约。新增 [MVP 交付与验收清单](MVP_0_0_1_HANDOFF.md)。**本轮仅纯 JS 对照逻辑的局部模拟已检查，新版本完整 Node/Vite+ 命令和真实目标浏览器尚待维护者执行，不宣称整体 PASS**。版本 `0.0.1/private:true`、正式 CSS、包入口、根依赖、pnpm 锁文件、CI 和发布状态不变；W-07 Issue #8 保持 Open。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与待决策变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源

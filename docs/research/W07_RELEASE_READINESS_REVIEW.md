@@ -7,6 +7,12 @@
 - **审核判断**：**部分通过，发布准备尚未就绪；Issue #8 保持 Open**。
 - **红线**：不修改产品 CSS 或既定包根入口；不新增依赖/CI、GitHub Actions、自动发布；不执行 npm publish、GitHub Release、`main` 合并。
 
+## 2026-11-05 · 首个 MVP 验证代码补全（新增开发，待完整回归）
+
+维护者明确授权在实机验证前先完成第一个 MVP 开发。根据 [W-05 已批准的单规则边界](W05_RULE_ACCEPTANCE.md)，本轮**不增加未准入的产品 CSS**；实际新增的是本地工程闭环：`tests/t2-evidence.mjs` 负责真实 T0/T2 静态证据比较、`tests/t2-evidence.node.test.mjs` 覆盖合成差异/异常/CLI，`package.json` 增加人工 `verify:mvp` 并纳入 Node 离线测试；同步更新测试契约和 [MVP 交付清单](../MVP_0_0_1_HANDOFF.md)。
+
+**最新变更的验证状态**：仅对比较器的纯 JS 核心逻辑进行了局部合成检查；**尚未在维护者 Windows 重新运行 `vp check`、`vp test`、更新后的 `test:offline`、真实 tarball/消费者和最低浏览器实测**。之前 `0.0.1/private:true` 的全套 PASS 是本轮改动之前的基线，不可自动移用为这次新代码 PASS。W-07 P-04/P-05/P-07 仍未关闭，不执行发布、合并或新增 CI。
+
 ## 2026-11-05 · P-05 W-06 Issue 评论证据追溯（最新）
 
 复核 [W-06 已结项 Issue #7](https://github.com/adui-studio/normalize.css/issues/7) 的 **22 条评论**：有 Chrome 156 的静态浏览器对照、生态消费者和三个独立 Reset 的来源/部分原生交互证据，也有维护者“回归完成”和正式结项的管理确认；**未找到可直接补齐原 ADR-0004 七个最低目标的逐环境 T2 原始附件**。没有新证据可将 Edge 120、Safari 17.2 或三个移动最低目标直接改为 PASS。

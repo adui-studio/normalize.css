@@ -18,6 +18,8 @@
 
 **2026-11-05 · W-07 P-05 证据矩阵归档（最新）**：新增 [七项目标浏览器证据矩阵](research/W07_P05_BROWSER_EVIDENCE_MATRIX.md)，为已批准的最低测试目标逐项记录已有证据、缺口及复用的本地 T0/T2 采集步骤；不新增源码、Fixture 或依赖。管理验收与版本兼容承诺严格区分，P-05 尚未 PASS。
 
+**2026-11-05 · 首个 MVP 开发收尾（最新）**：新增本地 `verify:mvp` 一键验证脚本、T0/T2 JSON 比较器及合成数据 Node 测试，并新增 [MVP v0.0.1 交付清单](MVP_0_0_1_HANDOFF.md)。正式源码仍仅 R-003，不增加依赖、公开子路径或 CI；本机全套验证需维护者后续执行。
+
 ## 1. 当前真实文件
 
 ```text
@@ -60,6 +62,8 @@ normalize.css/
 │   ├── probe.node.test.mjs
 │   ├── r003-evidence.mjs             # R-003 JSON 比较 CLI
 │   ├── r003-evidence.node.test.mjs   # 合成数据与 CLI 测试
+│   ├── t2-evidence.mjs               # W-07：正式 T0/T2 包 CSS 探针 JSON 比较 CLI
+│   ├── t2-evidence.node.test.mjs     # W-07：合成 T0/T2、异常与 CLI 退出码测试
 │   ├── evidence-file.mjs             # R-003 JSON 限长与普通文件安全读取
 │   └── evidence-file.node.test.mjs   # 证据文件格式与资源边界测试
 ├── .github/                  # 评审分支：Issue/PR 模板，无 CI
@@ -76,6 +80,7 @@ normalize.css/
 │   ├── UPSTREAM.md
 │   └── UPSTREAM_LICENSE.txt
 └── docs/
+    ├── MVP_0_0_1_HANDOFF.md # MVP 0.0.1 交付定义与手工验收步骤
     ├── REQUIREMENTS.md      # 本轮文档：需求与验收
     ├── ARCHITECTURE.md      # 本轮文档：总体架构草案
     ├── SDD.md               # 本轮文档：详细设计草案

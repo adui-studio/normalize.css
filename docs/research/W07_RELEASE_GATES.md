@@ -89,6 +89,10 @@ npm view "@adui/normalize.css" version --registry=https://registry.npmjs.org/
 
 已将直接 Issue 来源链接与 **Chrome 120 / Firefox 121 的优先正式 T2 补证步骤**加入 [P-05 浏览器证据矩阵](W07_P05_BROWSER_EVIDENCE_MATRIX.md)。此次仅复用既有资料，不新增浏览器实测。**P-05 仍 OPEN**，W-06 原正式验收结论不变。
 
+## 2026-11-05 · P-05 本地证据比较器就绪（开发待验收）
+
+为后续一次性完成 Chrome 120 / Firefox 121 及其他环境的 T0/T2 取证，新增 Node `tests/t2-evidence.mjs`，复用现有 Fixture 和限长 JSON 读取，检查正式包 CSS 加载标记、10 个计算样式点及预期/非预期差异；并将合成测试接入 `test:offline`，增加本地 `verify:mvp` 命令。**新增功能尚未由维护者完整运行，不将代码存在当作 P-05 PASS**。正式最低浏览器矩阵和发布认证门槛保持独立。详见 [MVP 交付清单](../MVP_0_0_1_HANDOFF.md)。
+
 ## P-05 · 最低浏览器兼容性声明
 
 **已批准的特性参考**：Baseline 2023。Chrome/Edge 120、Firefox 121、Safari 17.2 与对应核心移动家族是[ADR-0004](../adr/0004-browser-support-policy.md)中的**最低测试目标**，不是已经对外保证的最低支持版本。

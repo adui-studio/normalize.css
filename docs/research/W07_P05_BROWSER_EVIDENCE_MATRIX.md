@@ -90,6 +90,18 @@ console.log(evidence);
 
 浏览器运行环境及历史 T0/T1 来源参考 [R-003/R-004 实测指南](R003_R004_LOCAL_VERIFICATION.md) 与 [原始浏览器运行记录](LOCAL_BROWSER_RUN_20261104.md)。这两项可先形成一份可复核的正式包闭环；剩余 Edge、真实 Safari 和移动端仍独立决策，不因共享内核自动通过。
 
+### 3.2 新增离线 T0/T2 证据比较器（仅静态探针）
+
+维护者后续在同一浏览器中收集两个页面的原始 `#probe-output`，并分别保存为本机 `t2-native.json`、`t2-package.json` 后，可运行：
+
+```powershell
+node tests/t2-evidence.mjs ./t2-native.json ./t2-package.json
+```
+
+此工具复用既有 `tests/evidence-file.mjs` 的 256 KiB JSON 读取限制，只验证已保存证据：T0/T2 页面身份、同一 UA、10 项 Probe、T2 真实 CSS link 挂载标记、R-003 的 `bolder` 相对字重、R-004 的原生等宽字体/字号不变性。退出码 **0**（`PROBE_PASS`）、**1**（样式不符或 CSS 未挂载）、**2**（非法文件/角色/版本）明确区分。
+
+**限定范围**：静态 JSON 和 `link.sheet` 标记不能代替 Network 的实际响应内容、真实浏览器完整构建版本、OS/设备、键盘/系统偏好实测，也不能单凭静态 PASS 宣称完整浏览器支持。**新比较器与离线测试已编写，尚未经过维护者 Windows 的完整测试**。详见 [MVP 本地交付清单](../MVP_0_0_1_HANDOFF.md)。
+
 ## 4. 每个目标环境的证据填写模板
 
 按每个浏览器/设备建立一条记录（可以先在本地维护，确认不包含敏感信息后再归档）：

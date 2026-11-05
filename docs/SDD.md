@@ -6,6 +6,8 @@
 
 **2026-11-05 · W-07 private 保护恢复（最新）**：版本继续 `0.0.1`，维护者已将包 `private` 恢复为 `true`；前段 `private:false` 仅为历史状态。单一 CSS 入口、R-003 规则、Vite+ 打包行为不变；离线/真实 tarball 测试的正式包 private 断言同步恢复。本版本组合的 Windows 回归待执行，不代表已经发布。详见 [W-07 审核](research/W07_RELEASE_READINESS_REVIEW.md)。
 
+**2026-11-05 · MVP 本地证据工具设计增量（最新）**：在已证明可运行的 R-003 单规则、CSS-only `exports`、Vite+ 打包及原有 Probe 之上，新增仅用于开发测试的 T0/T2 JSON 对照 CLI（`tests/t2-evidence.mjs`）与合成用例。CLI 依赖现有 `tests/evidence-file.mjs`，只读取本机 JSON、检查 T2 CSS 加载标记、相同 UA、六组 R-003 字重与四组 R-004 等宽字体不变性；它不会进入 npm CSS 包，且不能代替 Network/OS/设备/交互的人工验收。本地 `verify:mvp` 串联既有检查，**不安装新依赖、不运行 CI**。代码已准备，最新整组 Windows 回归待维护者执行，见 [MVP 交付清单](MVP_0_0_1_HANDOFF.md)。
+
 ## 1. 设计范围与需求映射
 
 | 候选模块  | 需求                    | 拟议接口/职责        | 实现状态 |
