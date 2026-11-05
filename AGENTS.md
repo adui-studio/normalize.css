@@ -1,5 +1,7 @@
 # AGENTS.md — @adui/normalize.css
 
+> **本轮规则完善（2026-11-05，待审候选）**：当前 `main` 已有 R-003/R-007/R-008 三条默认 Normalize 规则；继续按 [36 条候选与 0.1.0 完整性门槛](docs/research/DEFAULT_NORMALIZE_V01_READINESS.md) 审查，而不是用规则数量判断完成。R-008 在 Chrome/Edge 149 的上游默认行为已修复，保留旧 Blink 兼容理由需归档；本轮 T0/T2 观察点拟由 12 个扩展到 15 个，增加无 `title` 缩写、缩写与表格作者样式覆盖回归。**本变更尚无精确 HEAD 对应的完整 Windows/Vite+ 或跨浏览器实测 PASS**；`0.0.2` 版本不变，`0.1.0` 仍需完整性验收与维护者确认，不增加 CI/发行工作流。
+
 > **当前主分支事实（2026-11-05）**：PR #19 已经维护者批准并合并 `main@ed729527142732cb18ffa8971e7bb701d120a026`。默认 `src/normalize.css` 现有 R-003、R-007、R-008 三条规则；T0/T2、CSSOM、真实包断言与双语 README 已同步。仓库 `package.json` 保持 `0.0.2/private:false`，单 CSS 根导出、无运行时 JavaScript 依赖；**公开 npm 已确认发行的是 `0.0.1`，不是 `0.0.2`**。W-07 Issue #8 已 Closed—completed；下一阶段由 Issue #18 继续跟踪。五项 ADR Accepted，Vite+ 1.4.0 / pnpm 12.15.0，**禁止增加 CI**。
 >
 > **版本策略（维护者已明确批准，2026-11-05）**：当前开发/下一候选版本**继续为 `0.0.2`**，它包含已合并的 CSS 变更和 npm Keywords，不再称为“纯关键词补丁”；**只有在默认 `normalize.css` 规则范围完成、验收并经维护者确认后才提升到 `0.1.0`**，不提前升级。公开发布版本必须同时对应 Git Tag `vX.Y.Z` 与 GitHub Release，具体人工清单见 [RELEASING](docs/RELEASING.md)；记录发行要求不等于已经执行发布。

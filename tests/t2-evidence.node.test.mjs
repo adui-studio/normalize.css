@@ -52,6 +52,39 @@ function fixture(role, oldBlink = false) {
     color: "rgb(0, 0, 0)",
     borderTopColor: role === "package" ? "rgb(0, 0, 0)" : "rgb(128, 128, 128)",
   });
+  rows.push({
+    id: "abbr-plain",
+    tagName: "abbr",
+    parentFontWeight: "400",
+    fontWeight: "400",
+    parentFontSize: "16px",
+    fontSize: "16px",
+    fontFamily: "serif",
+    textDecorationLine: "none",
+    textDecorationStyle: "solid",
+  });
+  rows.push({
+    id: "abbr-author",
+    tagName: "abbr",
+    parentFontWeight: "400",
+    fontWeight: "400",
+    parentFontSize: "16px",
+    fontSize: "16px",
+    fontFamily: "serif",
+    textDecorationLine: "overline",
+    textDecorationStyle: "solid",
+  });
+  rows.push({
+    id: "table-author",
+    tagName: "table",
+    parentFontWeight: "400",
+    fontWeight: "400",
+    parentFontSize: "16px",
+    fontSize: "16px",
+    fontFamily: "serif",
+    color: "rgb(20, 40, 60)",
+    borderTopColor: "rgb(120, 80, 40)",
+  });
   return {
     userAgent: "Synthetic Browser/120 (not real evidence)",
     location: "/fixtures/t2-" + role + ".html",
@@ -88,7 +121,7 @@ test("R-003 old Blink synthetic T0/T2 has four intended bolder differences", () 
   const result = compareT2Evidence(fixture("native", true), fixture("package"));
   assert.equal(result.status, "PROBE_PASS");
   assert.equal(result.weightDifferences, 4);
-  assert.equal(result.rows.length, 12);
+  assert.equal(result.rows.length, 15);
   assert.match(result.limitations[0], /not actual browser identity/);
 });
 
@@ -153,6 +186,24 @@ test("R-007 and R-008 computed style regressions are detected", () => {
   assert.equal(result.status, "STYLE_MISMATCH");
   assert.ok(result.issues.some((issue) => issue.includes("R-007")));
   assert.ok(result.issues.some((issue) => issue.includes("R-008")));
+});
+
+test("R-007 ignores untitled abbreviations and preserves explicit author decoration", () => {
+  const packed = fixture("package");
+  packed.rows.find((row) => row.id === "abbr-plain").textDecorationStyle = "dotted";
+  packed.rows.find((row) => row.id === "abbr-author").textDecorationLine = "underline";
+  const result = compareT2Evidence(fixture("native"), packed);
+  assert.equal(result.status, "STYLE_MISMATCH");
+  assert.ok(result.issues.some((issue) => issue.includes("without title")));
+  assert.ok(result.issues.some((issue) => issue.includes("author abbreviation")));
+});
+
+test("R-008 does not override an explicit author table border color", () => {
+  const packed = fixture("package");
+  packed.rows.find((row) => row.id === "table-author").borderTopColor = "rgb(20, 40, 60)";
+  const result = compareT2Evidence(fixture("native"), packed);
+  assert.equal(result.status, "STYLE_MISMATCH");
+  assert.ok(result.issues.some((issue) => issue.includes("author table colors")));
 });
 
 test("R-007 and R-008 incorrect CSSOM declarations are rejected", () => {

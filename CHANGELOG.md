@@ -9,6 +9,7 @@
 - 补充 7 个 npm Keywords、对应版本及真实 tarball 元数据契约。
 - 在 R-003 基础上新增 R-007 `:where(abbr[title]) { text-decoration: underline dotted; }`，以及 R-008 `:where(table) { border-color: currentColor; }`；采用低特异性选择器，保留默认 Normalize 的克制原则。
 - 扩展 T0/T2 至 12 个观察点与三条 CSSOM 严格校验，更新本地测试、双语 README 及规则证据。
+- **本轮后续验证增强（待审核）**：T0/T2 扩展为 15 个观察点，补充 `abbr` 无 `title` 的原生保留检查，以及作者自定义缩写文本修饰与表格边框颜色不得被 Normalize 覆盖的回归断言；见 [默认规则完整性研究](docs/research/DEFAULT_NORMALIZE_V01_READINESS.md)，CSS 与 npm 版本不变。
 - 维护者已批准 **`0.0.2` 继续作为当前版本号**；本次更新**不仅是元数据补丁，也包含可观察 CSS 行为变化**。仍需按新规则证据边界、版本提交与发行验收单独确认，**没有执行 npm 发布**。
 - 正式发行后必须同步创建 **Git Tag `v0.0.2` 与 GitHub Release `v0.0.2`**，使用与实际 npm 发包内容一致的 Git 提交。详见 [人工发布规范](docs/RELEASING.md)。**本记录不等于已创建 Tag/Release**。
 

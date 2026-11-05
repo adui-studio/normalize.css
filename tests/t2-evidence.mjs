@@ -9,6 +9,9 @@ const IDS = [
   ...MONO,
   "abbr-title",
   "table-border",
+  "abbr-plain",
+  "abbr-author",
+  "table-author",
 ];
 
 function object(value, label) {
@@ -57,7 +60,7 @@ function validate(input, role) {
     }
   }
   if (!Array.isArray(data.rows) || data.rows.length !== IDS.length) {
-    throw new Error(role + ".rows must contain exactly 12 probes");
+    throw new Error(role + ".rows must contain exactly 15 probes");
   }
   const rows = new Map();
   for (const raw of data.rows) {
@@ -69,9 +72,9 @@ function validate(input, role) {
       ? "strong"
       : id.startsWith("b-")
         ? "b"
-        : id === "abbr-title"
+        : id.startsWith("abbr-")
           ? "abbr"
-          : id === "table-border"
+          : id.startsWith("table-")
             ? "table"
             : id;
     if (item.tagName !== tag) throw new Error(role + "." + id + " wrong tagName");
@@ -145,6 +148,31 @@ export function compareT2Evidence(nativeJson, packageJson) {
     }
     if (id === "table-border" && after.borderTopColor !== after.color) {
       issues.push("R-008: table border color must match currentColor");
+    }
+    if (
+      id === "abbr-plain" &&
+      (before.textDecorationLine !== after.textDecorationLine ||
+        before.textDecorationStyle !== after.textDecorationStyle)
+    ) {
+      issues.push("R-007: abbr without title must preserve native decoration");
+    }
+    if (
+      id === "abbr-author" &&
+      (before.textDecorationLine !== "overline" ||
+        before.textDecorationStyle !== "solid" ||
+        after.textDecorationLine !== before.textDecorationLine ||
+        after.textDecorationStyle !== before.textDecorationStyle)
+    ) {
+      issues.push("R-007: explicit author abbreviation style must take precedence");
+    }
+    if (
+      id === "table-author" &&
+      (before.color !== "rgb(20, 40, 60)" ||
+        before.borderTopColor !== "rgb(120, 80, 40)" ||
+        after.color !== before.color ||
+        after.borderTopColor !== before.borderTopColor)
+    ) {
+      issues.push("R-008: explicit author table colors must take precedence");
     }
     rows.push({
       id,

@@ -80,9 +80,12 @@ test("W-06 T0/T2 pages share probe targets and only T2 loads the real packed CSS
   assert.equal(bodyOf(baseline), bodyOf(integrated));
   assert.equal(firstStyle(baseline), firstStyle(integrated));
   assert.deepEqual(measuredIds(baseline), measuredIds(integrated));
-  assert.equal(measuredIds(baseline).length, 12);
-  assert.ok(measuredIds(baseline).includes("abbr-title"));
-  assert.ok(measuredIds(baseline).includes("table-border"));
+  assert.equal(measuredIds(baseline).length, 15);
+  for (const id of ["abbr-title", "abbr-plain", "abbr-author", "table-border", "table-author"]) {
+    assert.ok(measuredIds(baseline).includes(id));
+  }
+  assert.match(baseline, /\.abbr-author\s*\{\s*text-decoration:\s*overline solid\s*;/);
+  assert.match(baseline, /\.table-author\s*\{\s*color:\s*rgb\(20, 40, 60\)/);
   assert.doesNotMatch(baseline, /id="package-css"|dist\/normalize\.css/);
   assert.match(
     integrated,

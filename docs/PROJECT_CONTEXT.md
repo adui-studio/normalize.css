@@ -1,5 +1,7 @@
 # PROJECT_CONTEXT — 项目长期上下文
 
+**2026-11-05 · 默认规则验收增强（本轮待审）**：`main` 已合并 R-003/R-007/R-008，当前版本维持 `0.0.2`。基于 [36 条候选与 0.1.0 门槛](research/DEFAULT_NORMALIZE_V01_READINESS.md)，本轮只增加 T0/T2 从 12 到 15 个边界探针：不带 title 的 abbr 不应被改变、作者明示的 abbr/表格样式不应被 `:where()` 覆盖。Chrome/Edge 149 已移除 table UA 灰色边框，R-008 在现代浏览器的净收益需复核；尚不改变 CSS 产品规则，也不提前设置 `0.1.0` 或发行 npm/Tag/Release。新功能分支的验证不冒充维护者完整本机实测，无 CI。
+
 **2026-11-05 · 最新主分支与版本策略（维护者确定）**：PR #19 已合并 `main@ed729527`，默认 Normalize 现正式包含 R-003、R-007、R-008 三条规则（低特异性 `:where()` 新增两条），配套测试/README/架构已更新。根 `package.json` **保持 `0.0.2/private:false`**，包含 7 个 npm Keywords；npm 对外已发布版本仍是 `0.0.1`。维护者明确决定：**默认 `normalize.css` 完成、必要回归验收后才使用 `0.1.0`**，此前不提前升级。未来每次正式发行（包括 `0.0.2`）必须**在 npm 发布成功并确认提交后**创建对应 `vX.Y.Z` Git Tag + GitHub Release；不提前创建，禁止 CI。记录见 [RELEASING](RELEASING.md)。W-07 Issue #8 已 Closed—completed，Issue #18 继续跟踪 Normalize 规则及可选模块。最新 HEAD 的完整 Windows/浏览器测试证据不应从旧版测试推定为 PASS。
 
 **最近更新**：2026-11-05  
