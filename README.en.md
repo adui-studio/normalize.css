@@ -2,15 +2,41 @@
 
 [简体中文](README.md) · **English**
 
-A minimal, evidence-driven CSS Normalize library. It aims to preserve native browser defaults while correcting demonstrated inconsistencies, without runtime JavaScript.
+A lightweight, low-intrusion CSS Normalize library built around documented rule evidence.
 
-> **Latest status (2026-11-05): PR #1 (architecture/docs) and PR #9 (MVP) have been merged into `main` using merge commits; the npm package is still unpublished.** W-03 (local harness), W-04 (package contract), W-05 (36-rule acceptance decisions), and W-06 (regression work) have been closed following maintainer approval. The MVP still contains **one** default Normalize rule, R-003, and one CSS root export; other candidates are excluded from the MVP. W-07 release-readiness review is in progress. The maintainer has selected the `0.0.1` candidate and explicitly set `private: false`; npm publication remains a separate manual action; **nothing has been published**. Maintainer acceptance and reuse of the identical R-003 rule from WHATWG/established Normalize libraries do not establish a separate PASS for every minimum browser target. Repeating seven historical browser tests for that mature rule is no longer required for the candidate release, provided no unverified numerical minimum is publicly claimed.
+`@adui/normalize.css` corrects selected browser-default differences while preserving native HTML semantics, user preferences, and existing component styles wherever possible. It ships **CSS only, with no runtime JavaScript dependencies**.
 
-**Current audit references:** [W-05 rule decisions](docs/research/W05_RULE_ACCEPTANCE.md) · [W-06 acceptance index](docs/research/W06_ACCEPTANCE_INDEX.md) · [W-07 release-readiness review](docs/research/W07_RELEASE_READINESS_REVIEW.md) · [Unreleased changelog](CHANGELOG.md). Earlier W-03/W-04/W-06 sections retain historical results and intermediate test states; use these latest acceptance records for current project status.
+> **Release status:** The initial `0.0.1` candidate has completed MVP development and maintainer acceptance but **has not yet been published to npm**. Package-manager installation commands below will work after the first release. Until then, you can build from this repository.
 
-## First implementation
+## Features
 
-Only R-003 is included in `src/normalize.css`:
+- **Conservative by default:** No blanket removal of element margins or forced root font size, theme, or button appearance.
+- **Native behavior first:** Keeps browser-default monospace settings, keyboard focus, and system accessibility preferences intact.
+- **CSS-only distribution:** One root package export, built with Vite+, without runtime JavaScript.
+- **Evidence-driven rules:** Every included rule has an explicit purpose, scope, and compatibility review.
+- **Composable:** Suitable for plain HTML and Vue/React applications with CSS import support. When combining with other resets, review cascade order.
+
+## Installation and usage
+
+### Install (after npm publication)
+
+```sh
+pnpm add @adui/normalize.css
+# or
+npm install @adui/normalize.css
+```
+
+Import the stylesheet from an application entry point that supports package CSS imports, preferably before application-specific styles:
+
+```js
+import "@adui/normalize.css";
+```
+
+The sole package export is `@adui/normalize.css`, resolving to `dist/normalize.css`. Because the package is not yet published to npm, build it locally using the instructions below rather than assuming the install command already works.
+
+### What's included in `0.0.1`
+
+The initial default Normalize stylesheet contains **exactly one rule (R-003)**:
 
 ```css
 b,
@@ -19,106 +45,51 @@ strong {
 }
 ```
 
-Chrome for Testing 120.0.6099.109 showed four computed-weight differences between the native and candidate pages for `b` and `strong` with parent weights 600/700; the candidate changed 700 to 900. Firefox 121 and Chrome 156 showed no additional computed-weight change. These are limited, observed results—not a full compatibility guarantee.
+It preserves relative emphasis for `b` and `strong` in browser defaults where differences have been observed. See the [R-003 / R-004 evidence record](docs/research/RULE_EVIDENCE_R003_R004.md).
 
-R-004 deliberately does **not** normalize the font size or font family of `code`, `kbd`, `samp` and `pre`. Browser defaults are retained. Reset, Forms, Accessibility and combined styles are deferred.
+This version **does not export** `reset.css`, `a11y.css`, `forms.css`, or `all.css`. Those are potential future optional modules, not features available to import today. The default stylesheet does not use `@layer`.
 
-## Package manager policy (W-07)
+## Browser compatibility and design boundaries
 
-The project uses **pnpm 12.15.0** as its **only root dependency manager**, pinned by `package.json#packageManager`. Node must satisfy `^22.18.0 || ^24.11.0 || >=26.0.0`. The root `pnpm-lock.yaml` has **now been committed**. Its pnpm version and the project importer's pinned `vite-plus@1.4.0` match the manifest. The maintainer has previously provided a successful Windows frozen-install record; full raw logs corresponding to the latest merged HEAD have not been independently archived.
+The project uses **Baseline 2023** as a reference for evaluating CSS features, alongside browser evidence and local regression results. This reference **is not a published minimum-browser-version guarantee**.
 
-```sh
-pnpm --version               # Expected: 12.15.0
-pnpm install --frozen-lockfile # Use the committed pnpm-lock.yaml
-pnpm exec vp check
-pnpm exec vp test
-```
+Existing checks cover CSS-only packing, installation from a real local npm tarball, Vite+ production consumption, and selected browser/framework comparisons. Auditable, per-target results are not archived for every historical browser and operating-system target, so this README makes no unsupported minimum-version claims. Refer to the [browser support policy](docs/adr/0004-browser-support-policy.md) and [W-06 acceptance index](docs/research/W06_ACCEPTANCE_INDEX.md).
 
-The committed pnpm 12 lockfile contains two YAML documents (environment and project dependency graphs), which is expected. Save frozen-install and test results for verification. The separate test scripts intentionally invoke npm internally to check **npm tarball behavior**; this does not authorize an additional npm lockfile or change the pnpm-only project policy. See [W-07 review](docs/research/W07_RELEASE_READINESS_REVIEW.md).
+## Local development
 
-## Local build
-
-The maintainer has verified **Vite+ 1.4.0** with `vp build` (the initial six local HTML fixtures; now eight with W-06, pending fresh build verification), `vp pack` (one `dist/normalize.css`, no published JS), and the real package installation and production consumer checks.
+The repository uses **Vite+ 1.4.0** and **pnpm 12.15.0**. Supported Node.js engine ranges are `^22.18.0 || ^24.11.0 || >=26.0.0`.
 
 ```sh
-vp dev              # Local fixture server
-vp build            # HTML fixture preview: dist-fixtures/
-vp pack             # CSS-only package asset: dist/normalize.css
-vp check
-vp test
-npm run test:offline
-npm run test:package   # After vp pack: real tarball + offline installation
-npm run test:consumer  # After vp pack: Vite+ production CSS retention
-npm run test:ecosystem -- vue-element # Optional, isolated Vue + Element Plus
-npm run test:ecosystem -- react-antd   # Optional, isolated React + Ant Design
-npm run test:ecosystem -- vue-tdesign # Optional, isolated Vue + TDesign
-```
-
-The only package export is `@adui/normalize.css` → `./dist/normalize.css`. Consumers can import the stylesheet through an appropriate bundler:
-
-```js
-import "@adui/normalize.css";
-```
-
-**Verified on Windows, 2026-11-04:** `npm run test:package` **1/1 PASS** against the full repository's actual tarball, and `npm run test:consumer` **1/1 PASS** against a separate Vite+ 1.4.0 production build with CSS retained. Previously, `vp test` passed 6/6 and the offline Node suite passed 26/26. The Vite+ development consumer path and actual browser/framework rendering are still unverified; Webpack is not part of the required project toolchain. The package is now configured as `0.0.1` with `private: true`, and remains unpublished. A fresh package test run is required after this metadata change.
-
-**W-04 scope:** Vite+ is the only build and required consumer toolchain for this CSS library. The previously added Webpack-specific smoke test has been removed; standard CSS assets do not require Webpack. The real npm tarball and Vite+ production consumer checks have passed. Browser and framework rendering remain separate release-readiness work. Only syntax validation has been completed so far.
-
-## W-06 real CSS T2 browser comparison
-
-First run `vp pack` to generate `dist/normalize.css`, then `vp build` or `vp dev`. Compare `/fixtures/t2-native.html` (native) with `/fixtures/t2-package.html` (the identical content with a link to the actual packed CSS). The probe reports `packageStylesheet.loaded`; a failed stylesheet load cannot count as a browser compatibility pass.
-
-The new fixtures cover R-003 emphasis weights, unchanged R-004 monospace values, and native form/dialog/focus observation points. **The maintainer provided Chrome 156 T0/T2 screenshots and confirmed a local PASS.** Dialog opening/Esc, keyboard focus and hidden-until-found behavior also passed manual checks; exact event logs and complete browser/UI framework matrices are still unavailable. See the [Chinese local verification guide](docs/research/W06_T2_LOCAL_VERIFICATION.md). No new library rules, runtime dependencies, CI, or public exports were added.
-
-## W-06 isolated Vue / React / TDesign ecosystem consumers
-
-Three optional consumer cases are available: Vue 3 with Element Plus, React with Ant Design, and Vue 3 with TDesign Vue Next. All install the actual `vp pack` tarball into an ignored temporary directory and use the project's existing Vite+ 1.4.0 to build independent native/T2 pages. Framework dependencies are **not** added to the package itself. Runs are explicit and may require npm network access.
-
-```sh
-vp pack
-npm run test:offline
-npm run test:ecosystem -- vue-element
-npm run test:ecosystem -- react-antd
-npm run test:ecosystem -- vue-tdesign
-```
-
-Add `--keep` to retain a temporary native/package pair for manual browser comparison. **Both Vite+ production consumers have passed.** The maintainer also supplied Chrome 156 native/package screenshots for Vue + Element Plus: Button/Input mount in both, their static appearance matches, and all five computed-style samples are identical. This is a **Chrome 156 static UI comparison PASS**, not a keyboard interaction or broader browser compatibility guarantee. React + Ant Design also has Chrome 156 native/package browser screenshots: Button/Input mount in both, visible styling matches, and all five computed-style samples are identical. Both Vue+Element Plus and React+Ant Design have now passed this Chrome 156 static comparison; keyboard/input interactions and other browsers remain unverified. The maintainer has since rerun the original full offline suite with **30/30 PASS**. The newly added TDesign case is not included in that previously executed result and still needs local validation. TDesign Vue Next 1.20.10 is now available as a separate optional test case, **NOT_RUN** for installation/build/browser behavior. See the [local ecosystem verification guide](docs/research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md).
-
-## Windows line endings
-
-`.gitattributes` enforces LF working-tree line endings for Git-detected text, regardless of `core.autocrlf`; `.editorconfig` requests UTF-8, LF, and a final newline in editors (including JetBrains). These prevent repeated CRLF-to-LF formatting on future checkouts and saves but may not rewrite already checked-out files.
-
-```powershell
-git status --short
-git pull --ff-only origin feat/viteplus-local-harness
-git check-attr text eol -- README.md src/normalize.css
-vp check
-```
-
-If previously checked-out files still contain CRLF, inspect local changes first, then run `vp check --fix` once for first-party files and review the diff. Avoid mass renormalization or destructive Git resets, especially for pinned upstream Skills.
-
-## Scope and constraints
-
-- Default Normalize is low-intrusion; no forced root font size, global theme, button reset, general margin reset or `@layer`.
-- Exactly one CSS root export. There are no public `/reset.css`, `/forms.css`, `/a11y.css` or `/all.css` exports in the MVP.
-- Baseline 2023-derived Chrome/Edge 120, Firefox 121 and Safari 17.2 targets are **test targets**, not public supported-version claims. The maintainer has formally accepted W-06; a complete per-browser, per-OS results appendix for those targets was not provided with the acceptance, so this README makes no unsubstantiated version-specific compatibility promise.
-- No CI, no new runtime dependencies, no npm publication.
-
-## MVP 0.0.1 local handoff (not published)
-
-The approved MVP consists of the single Normalize CSS root export and the evidence-backed R-003 rule. A local T0/T2 evidence comparator and a manual, **non-CI** verification script are now implemented. **The maintainer has confirmed final MVP acceptance; complete raw logs for the latest HEAD are not independently archived.**
-
-```powershell
+git clone https://github.com/adui-studio/normalize.css.git
+cd normalize.css
 pnpm install --frozen-lockfile
-pnpm run verify:mvp
+
+pnpm exec vp pack   # Produce dist/normalize.css
+pnpm exec vp dev    # Start local fixtures
 ```
 
-This runs format/lint, unit and offline tests, CSS-only packing, real tarball installation, Vite+ consumer validation, and a **dry-run-only** npm package inspection. It does not publish, tag, merge or alter the package `private` setting. A separate T0/T2 JSON comparator is available at `node tests/t2-evidence.mjs ./t2-native.json ./t2-package.json`; it now checks that the locally parsed CSSOM contains exactly the intended R-003 rule, not just a mounted stylesheet link. Its results do not establish cross-browser support. See the [MVP handoff checklist (Chinese)](docs/MVP_0_0_1_HANDOFF.md).
+Run the local verification suite and build the fixture pages:
+
+```sh
+pnpm run verify:mvp
+pnpm exec vp build
+```
+
+`verify:mvp` runs formatting/lint checks, unit and offline tests, CSS packing, real tarball consumption, and an npm package **dry run**. `vp build` produces local fixture pages under `dist-fixtures/`. **Neither command publishes to npm**, and this repository does not use CI. See the [MVP handoff and verification checklist](docs/MVP_0_0_1_HANDOFF.md) for the test scope and historical results.
 
 ## Documentation
 
-Chinese documents are the source of truth: [Requirements](docs/REQUIREMENTS.md), [Detailed design](docs/SDD.md), [Architecture](docs/ARCHITECTURE.md), [Codebase map](docs/CODEBASE_MAP.md), [Harness](docs/HARNESS.md), [R-003/R-004 evidence](docs/research/RULE_EVIDENCE_R003_R004.md), and [project context](docs/PROJECT_CONTEXT.md).
+- [Requirements](docs/REQUIREMENTS.md) · [Architecture](docs/ARCHITECTURE.md) · [Detailed design](docs/SDD.md)
+- [Rule acceptance](docs/research/W05_RULE_ACCEPTANCE.md) · [Browser/ecosystem acceptance](docs/research/W06_ACCEPTANCE_INDEX.md)
+- [Local verification](docs/MVP_0_0_1_HANDOFF.md) · [Codebase map](docs/CODEBASE_MAP.md)
+- [Changelog](CHANGELOG.md) · [Project context](docs/PROJECT_CONTEXT.md)
+
+## Contributing
+
+Use [GitHub Issues](https://github.com/adui-studio/normalize.css/issues) to report browser differences or propose rules or documentation changes. For CSS rule changes, describe the browser evidence, affected scope, cascade/accessibility risks, and a reproducible test case when possible.
+
+Read [AGENTS.md](AGENTS.md) and the [Pull Request template](.github/pull_request_template.md) before contributing. Keep changes minimal; **do not add CI or automated publishing workflows**.
 
 ## License
 
-[MIT](LICENSE), Copyright © 2026 ADui Studio.
+[MIT](LICENSE) · Copyright © 2026 ADui Studio.
