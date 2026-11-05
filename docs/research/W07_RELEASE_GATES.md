@@ -53,12 +53,11 @@ npm view "@adui/normalize.css" version --registry=https://registry.npmjs.org/
 
 实际输出及判断：
 
-| 检查项 | 维护者本机输出 | 审核结论 |
-| --- | --- | --- |
-| `npm config get registry` | `https://registry.npmjs.org/` | **PASS：官方 Registry** |
-| `npm whoami --registry=https://registry.npmjs.org/` | `adui` | **PASS：当前 npm 登录用户及用户作用域匹配** |
+| 检查项                                                                          | 维护者本机输出                             | 审核结论                                                   |
+| ------------------------------------------------------------------------------- | ------------------------------------------ | ---------------------------------------------------------- |
+| `npm config get registry`                                                       | `https://registry.npmjs.org/`              | **PASS：官方 Registry**                                    |
+| `npm whoami --registry=https://registry.npmjs.org/`                             | `adui`                                     | **PASS：当前 npm 登录用户及用户作用域匹配**                |
 | `npm view "@adui/normalize.css" version --registry=https://registry.npmjs.org/` | `E404 Not Found`，返回不存在或无权访问提示 | **未取得该包可访问的已发布版本**；不能简单视为发布权限测试 |
-
 
 **剩余核验**：`npm whoami=adui` 与 npm 个人 `@adui` 作用域规则已足以确认**账户/用户作用域匹配**。但 `npm view` 返回 E404 不会证明该包已被正式预留或允许立即发布；还需要在 npm 网页的当前账户中检查双因素/发布认证要求、包名及作用域相关异常（如有），并在获得独立发布授权后才可进行实际发布。**不得通过试发、创建一个空包或关闭安全要求来验证**。
 
