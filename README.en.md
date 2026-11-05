@@ -6,7 +6,7 @@ A lightweight, low-intrusion CSS Normalize library built around documented rule 
 
 `@adui/normalize.css` corrects selected browser-default differences while preserving native HTML semantics, user preferences, and existing component styles wherever possible. It ships **CSS only, with no runtime JavaScript dependencies**.
 
-> **Version note:** Published `0.0.1` contains R-003 only. GitHub `main` is currently at the **unpublished `0.0.2` candidate**, containing R-003, R-007, and R-008; its default rule set has been approved and frozen. **`0.1.0` is under version-readiness review, not yet configured or published.** Package installation resolves versions actually available on npm.
+> **Version note:** Published `0.0.2` includes R-003, R-007, and R-008 and has matching `v0.0.2` Git Tag and GitHub Release; earlier `0.0.1` contains R-003 only. **`0.1.0` will only be considered after further Normalize improvements and acceptance, and has not been published.**
 
 ## Features
 
@@ -34,9 +34,9 @@ import "@adui/normalize.css";
 
 The sole package export is `@adui/normalize.css`, resolving to `dist/normalize.css`. If the version you need is not available on the npm registry, build it locally as described below.
 
-### Published `0.0.1` versus repository candidate `0.0.2`
+### Published `0.0.1` versus `0.0.2`
 
-Published `0.0.1` contains R-003 alone. The **unpublished `0.0.2` candidate on `main`** contains three rules (R-003, R-007 and R-008):
+Published `0.0.1` contains R-003 alone. **Published `0.0.2`** contains three rules (R-003, R-007 and R-008):
 
 ```css
 b,
@@ -53,7 +53,7 @@ strong {
 }
 ```
 
-R-003 preserves relative emphasis; R-007 standardizes dotted underlines on titled abbreviations; R-008 aligns table border color with the current text color. The two newer rules use low-specificity `:where()` selectors. **The default rule scope is approved and frozen, and Windows engineering checks passed; this does not constitute a full real-browser T0/T2 compatibility pass or release authorization.** See the [rule evidence](docs/research/RULE_EVIDENCE_R003_R004.md) and [default scope review](docs/research/DEFAULT_NORMALIZE_V01_READINESS.md).
+R-003 preserves relative emphasis; R-007 standardizes dotted underlines on titled abbreviations; R-008 aligns table border color with the current text color. The two newer rules use low-specificity `:where()` selectors. **These three rules ship in `0.0.2`, and Windows engineering checks passed; this does not constitute a full real-browser T0/T2 compatibility pass or a minimum-browser-version guarantee.** See the [rule evidence](docs/research/RULE_EVIDENCE_R003_R004.md) and [default scope review](docs/research/DEFAULT_NORMALIZE_V01_READINESS.md).
 
 This version **does not export** `reset.css`, `a11y.css`, `forms.css`, or `all.css`. Those are potential future optional modules, not features available to import today. The default stylesheet does not use `@layer`.
 
