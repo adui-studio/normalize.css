@@ -1,5 +1,7 @@
 # CODEBASE_MAP — 仓库结构与定位
 
+**2026-11-05 · `0.0.3` 全套 CSS 模块开发代码地图（最新候选）**：`src/normalize.css`（默认三条已发布基础规则，仍经 `vp pack` 输出 `dist/normalize.css`）；新增 `src/reset.css`（布局 Reset）、`src/forms.css`（原生表单排版）、`src/a11y.css`（键盘焦点/系统偏好）、`src/all.css`（只用四行相对 `@import` 组合）。`package.json` 新增 CSS-only 子路径及 `files:["dist","src"]`，保留 `vite.config.ts`、Vite+ 1.4.0、pnpm 12.15.0 与唯一根 CSS 产物的构建方式。`tests/package.node.test.mjs`、`tests/package-real.node.test.mjs`、`tests/package-vite-consumer.node.test.mjs` 扩展完整模块的静态、tarball 安装与生产消费断言。中英文 README 与项目上下文同步。**全部尚待最终本机验收，未发布、不加 CI。**
+
 **2026-11-05 · `0.0.3` 开发候选文件定位**：独立分支 `chore/prepare-v0.0.3-20261105` 修改 `package.json#version` 与 `tests/package.node.test.mjs`、`tests/package-real.node.test.mjs` 的正式包版本断言；`CHANGELOG.md` 新增 `0.0.3` Unreleased 条目，`README.md`/`README.en.md` 与 `docs/RELEASING.md` 记录 npm 已发布 `0.0.2` / 新开发候选 `0.0.3` 的区别。`src/normalize.css` 仍为 R-003、R-007、R-008；锁文件、依赖、根 CSS 导出及 CI 均不变。规则复审工作记录于 [Issue #22](https://github.com/adui-studio/normalize.css/issues/22)，本地验收未执行，不代表 `0.0.3` 已发布。
 
 **2026-11-05 · v0.0.2 正式发行后的最新代码定位**：`src/normalize.css` 当前已发布 R-003/R-007/R-008 三条默认规则；`package.json` 为已发行 `0.0.2/private:false`，单一 `exports["."]` CSS 根入口与五文件 npm 包结构保持不变。PR #21 的 T0/T2 15 观察点已合并并在维护者 Windows 工程测试中通过。`v0.0.2` Tag 指向发行源码提交 `4d66e6b590c09b7de6e98332524684237dddf212`，GitHub Release 已发布；`main` 后续文档提交不属于该发行包。之前记录中的“待审分支”“仅 R-003/未发布”均为历史阶段，不是当前状态。后续完善 Normalize 并补齐必要证据后才评审 `0.1.0`，不增加 CI。

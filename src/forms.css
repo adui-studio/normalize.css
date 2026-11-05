@@ -1,0 +1,30 @@
+/*!
+ * @adui/normalize.css/forms.css
+ * Optional form-control normalization. Native appearance remains intact.
+ */
+
+/* Match surrounding application typography and remove UA outer margins. */
+:where(button, input, select, textarea) {
+  font: inherit;
+  margin: 0;
+}
+
+/* Keep checkbox and radio box sizing predictable. */
+:where(input[type="checkbox"], input[type="radio"]) {
+  box-sizing: border-box;
+}
+
+/* Prevent fieldset intrinsic minimum size from overflowing flex/grid items. */
+:where(fieldset) {
+  min-inline-size: 0;
+}
+
+/* Keep the legend aligned with its fieldset without repainting controls. */
+:where(legend) {
+  padding-inline: 0;
+}
+
+/* Standard selector only: preserve the OS-native file button appearance. */
+:where(input[type="file"])::file-selector-button {
+  font: inherit;
+}

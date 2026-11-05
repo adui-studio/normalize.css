@@ -68,9 +68,16 @@ test(
     );
     assert.match(css, /:where\(table\)\s*\{\s*border-color:\s*currentcolor\s*;?\s*\}/i);
     const manifest = JSON.parse(readFileSync(join(projectRoot, "package.json"), "utf8"));
-    assert.deepEqual(manifest.exports, { ".": "./dist/normalize.css" });
+    assert.deepEqual(manifest.exports, {
+      ".": "./dist/normalize.css",
+      "./normalize.css": "./dist/normalize.css",
+      "./reset.css": "./src/reset.css",
+      "./forms.css": "./src/forms.css",
+      "./a11y.css": "./src/a11y.css",
+      "./all.css": "./src/all.css",
+    });
     assert.deepEqual(manifest.sideEffects, ["**/*.css"]);
-    assert.deepEqual(manifest.files, ["dist"]);
+    assert.deepEqual(manifest.files, ["dist", "src"]);
     assert.equal(Object.hasOwn(manifest, "dependencies"), false);
     assert.equal(manifest.version, "0.0.3");
     assert.equal(manifest.private, false);
@@ -97,8 +104,19 @@ test(
     const files = packed[0].files.map(({ path }) => path).sort();
     assert.deepEqual(
       files,
-      ["LICENSE", "README.en.md", "README.md", "dist/normalize.css", "package.json"],
-      "The real tarball must contain exactly five required files",
+      [
+        "LICENSE",
+        "README.en.md",
+        "README.md",
+        "dist/normalize.css",
+        "package.json",
+        "src/a11y.css",
+        "src/all.css",
+        "src/forms.css",
+        "src/normalize.css",
+        "src/reset.css",
+      ],
+      "The real tarball must contain exactly the ten approved CSS-only files",
     );
 
     const tarball = join(tmp, packed[0].filename);
@@ -145,11 +163,23 @@ test(
     assert.deepEqual(installed.sideEffects, manifest.sideEffects);
     assert.equal(Object.hasOwn(installed, "dependencies"), false);
 
-    for (const subpath of [
-      "reset.css",
-      "forms.css",
+    const packageDir = join(consumerDir, "node_modules", "@adui", "normalize.css");
+    for (const name of ["normalize", "reset", "forms", "a11y", "all"]) {
+      const resolved = fromConsumer.resolve(`@adui/normalize.css/${name}.css`);
+      const expected = name === "normalize" ? cssFile : join(projectRoot, "src", `${name}.css`);
+      assert.equal(readFileSync(resolved, "utf8"), readFileSync(expected, "utf8"));
+    }
+    assert.deepEqual(readdirSync(join(packageDir, "src")).sort(), [
       "a11y.css",
       "all.css",
+      "forms.css",
+      "normalize.css",
+      "reset.css",
+    ]);
+
+    for (const subpath of [
+      "src/normalize.css",
+      "src/reset.css",
       "dist/normalize.css",
       "package.json",
     ]) {

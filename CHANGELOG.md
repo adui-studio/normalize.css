@@ -1,6 +1,6 @@
 # 更新日志 · Changelog
 
-本文件记录 `@adui/normalize.css` 的正式版本变更。维护者已通过 npm 官方 Registry 实测确认 **`0.0.1` 于 2026-11-05 首次发布**；尚未创建 Git Tag / GitHub Release。
+本文件记录 `@adui/normalize.css` 的版本变更。npm 已公开 `0.0.1`、`0.0.2`；`v0.0.2` Git Tag / GitHub Release 已存在。`0.0.3` 当前仍为开发候选，未发布。
 
 ## 未发布 · Unreleased
 
@@ -8,8 +8,11 @@
 
 - 从已正式发行的 `0.0.2` 启动下一个开发版本，更新 `package.json` 与两项真实包版本断言，保留 CSS-only 根导出、现有依赖和构建方式。
 - 默认 CSS 暂继续保持 R-003、R-007、R-008 三条；下一步评审旧 WebKit/Blink 的真实差异与其余候选规则的必要性，未审核的规则不预先纳入本版本。
-- Reset、Forms、A11y 仍为可选模块设计，不新增公开子路径；本轮不新增 CI，不执行 npm 发布或创建 `v0.0.3` Tag / Release。
-- 对应 [0.0.3 迭代 Issue #22](https://github.com/adui-studio/normalize.css/issues/22)。本次只启动开发，尚未获得发行授权，也不能沿用 `0.0.2` 的测试日志作为当前候选的 PASS。
+- **整套 CSS 模块开发候选已实现**：新增 `src/reset.css`、`src/forms.css`、`src/a11y.css` 和 `src/all.css`；默认根入口仍只有 R-003/R-007/R-008。Reset（布局与间距）、Forms（字体与原生表单排版）、A11y（焦点与系统偏好）均显式导入，`all.css` 按固定次序组合四份 CSS。
+- `package.json` 保留原根 `./dist/normalize.css`，新增五个静态 CSS 子路径（包含 `normalize.css` 显式别名），将 `src` 纳入 npm `files`；Vite+ 继续仅用 `vp pack` 构建默认 `dist/normalize.css`，无 JavaScript 运行时、无额外构建依赖。
+- 扩展正式包、真实 tarball 和 Vite+ 生产消费测试，改为校验十文件 npm 包、可选入口解析及 `all.css` 组合；**本轮新分支上的完整 Windows 验收尚未执行，不声称测试已通过**。
+- 完善中英文 README、需求、架构、设计和代码地图；默认不强制根字号、主题、按钮外观、滚动条、清空焦点，也不增加 CI。**本轮不执行 npm 发布或创建 `v0.0.3` Tag / Release**。
+- 对应 [0.0.3 迭代 Issue #22](https://github.com/adui-studio/normalize.css/issues/22)。该 Issue 覆盖这一轮完整实现；仍需集中审核和绑定最终提交的工程/兼容性验收，不能沿用 `0.0.2` 的测试日志作为本候选的 PASS。
 
 **后续里程碑**：持续完善 Normalize，达到明确完整性与质量验收要求后，才独立评审并发布 `0.1.0`。
 

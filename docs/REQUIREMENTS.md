@@ -1,5 +1,7 @@
 # REQUIREMENTS — 软件需求与验收标准
 
+**2026-11-05 · `0.0.3` 全套实现候选（最新，集中验收）**：维护者当前明确指示一次完成完整 CSS 组合后再评审，不再逐项批准。范围：默认 `normalize.css` 仍采用证据支持的 R-003/R-007/R-008；新增 Reset（可选布局/间距）、Forms（可选表单排版）、A11y（可选焦点与系统偏好）以及 `all.css` 显式组合。验收要求：默认根导出行为无回归；每个子路径经真实 npm tarball 安装可解析且不含运行时 JS；`all.css` 在 Vite+ 消费构建成功、组合顺序稳定；拒绝默认全局主题/根字号/按钮外观/清除焦点与 `!important`；中文英文 README 与版本状态正确；维护者使用准确 SHA 执行 `pnpm install --frozen-lockfile`、`pnpm run verify:mvp`、`pnpm exec vp build` 及必要浏览器/组件检查后统一审核。**当前只代表开发中，未得到这一新候选的通过记录或发行授权。** 不新增 CI。
+
 **2026-11-05 · 默认 Normalize 规则范围正式冻结（当前决定）**：基于 36 条候选评审、PR #19/#21 及维护者确认，本里程碑默认 `normalize.css` 仅含 R-003、R-007、R-008。17 条暂缓、8 条可选设计、8 条排除默认；不将可选 Reset/Forms/A11y 当成默认待补内容。冻结仅适用于规则范围，非跨浏览器全矩阵 PASS 或 `0.1.0` 版本/发行批准。维护者报告 SHA `9cbf81e` 对应 60/60 工程验收和 8 Fixture 构建通过；未记录完整浏览器 T0/T2 矩阵。详见 [最终范围冻结记录](research/DEFAULT_NORMALIZE_V01_READINESS.md#八默认规则范围冻结记录2026-11-05)。现行 `0.0.2`、依赖、产品 CSS、CI 均未改动。
 
 **2026-11-05 · 当前主分支与回归扩展（最新）**：PR #19 已按维护者批准合并，`main` 默认 `src/normalize.css` 包含 R-003、R-007、R-008 三条规则；`package.json` 仍为 `0.0.2/private:false`，npm 已发布 `0.0.1`。本次仅扩展 T0/T2 验收覆盖（12→15 个探针），测试无 `title` 缩写与作者明示的缩写/表格样式能否优先于低特异性 `:where()`；完整覆盖矩阵见 [默认 Normalize 完整性门槛](research/DEFAULT_NORMALIZE_V01_READINESS.md)。此前 W-05 首版决议保留历史效力，暂缓项不因竞品存在就自动准入；`0.1.0` 只在默认 Normalize 完成且维护者验收后采用。当前尚无最新提交完整 Windows/Vite+ 与浏览器回归的实测日志，不增加 CI。

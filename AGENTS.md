@@ -1,5 +1,7 @@
 # AGENTS.md — @adui/normalize.css
 
+> **2026-11-05 · `0.0.3` 全套 CSS 功能开发候选（最新，尚未验收/发行）**：维护者要求停止逐条审批，直接一次性交付现代 CSS Normalize 全套后集中评审。现于 PR #25 开发分支保留默认 `src/normalize.css` 已发行的 R-003/R-007/R-008 三条低侵入规则，并新增**显式可选** `src/reset.css`、`src/forms.css`、`src/a11y.css`、`src/all.css`（组合入口）。`package.json@0.0.3` 保留根 `./dist/normalize.css`，新增五个 CSS 子路径并将 `src` CSS 纳入 npm tarball；原 Vite+ 构建与离线工具链不增加依赖或 CI。产品全套仅为**实现候选**，必须等一次最终本机/消费/浏览器审核才可能合并；未经维护者再次授权不发布 npm、不建 `v0.0.3` Tag/Release。npm 最新正式版仍为 `0.0.2`，`0.1.0` 尚未批准。历史“仅有三个规则/可选模块未实现/保持 0.0.2”内容均是过往阶段记录，不覆盖本最新事实。
+
 > **0.0.3 开发启动（2026-11-05，最新）**：维护者明确要求开始 `0.0.3` 迭代。在独立开发分支 `chore/prepare-v0.0.3-20261105` 初始化候选 `package.json#version=0.0.3` 与两项真实包测试断言；当前正式 npm 版本仍为 `0.0.2`，历史发行 Tag/Release 不变。`0.0.3` 的规则变更和发布内容由 [Issue #22](https://github.com/adui-studio/normalize.css/issues/22) 后续审查；现在**没有获准的新 CSS 规则或公开可选子路径**，不将开发候选冒充已验收/已发行。先在 Windows 验证候选，未经单独授权不得合并 PR、发布 npm 或创建 `v0.0.3` Tag / Release；禁止新增 CI。`0.1.0` 仍需完整性验收及独立授权。
 
 > **正式发行最新状态（2026-11-05）**：维护者已确认 npm Registry 公开版本 `@adui/normalize.css@0.0.2`；[GitHub Release v0.0.2](https://github.com/adui-studio/normalize.css/releases/tag/v0.0.2) 已正式发布（非 Draft/Prerelease），附注 Tag `v0.0.2` 解析到已验收源码提交 `4d66e6b590c09b7de6e98332524684237dddf212`。历史已公开 `0.0.1` 仅含 R-003；`0.0.2` 已包含 R-003/R-007/R-008。npm 已发布 tarball SHA-1 与本地包的二进制一致性尚未独立核验，不冒充已比对。
