@@ -9,11 +9,11 @@
 - 补充 7 个 npm Keywords、对应版本及真实 tarball 元数据契约。
 - 在 R-003 基础上新增 R-007 `:where(abbr[title]) { text-decoration: underline dotted; }`，以及 R-008 `:where(table) { border-color: currentColor; }`；采用低特异性选择器，保留默认 Normalize 的克制原则。
 - 扩展 T0/T2 至 12 个观察点与三条 CSSOM 严格校验，更新本地测试、双语 README 及规则证据。
-- **本轮后续验证增强（待审核）**：T0/T2 扩展为 15 个观察点，补充 `abbr` 无 `title` 的原生保留检查，以及作者自定义缩写文本修饰与表格边框颜色不得被 Normalize 覆盖的回归断言；见 [默认规则完整性研究](docs/research/DEFAULT_NORMALIZE_V01_READINESS.md)，CSS 与 npm 版本不变。
+- **已合并的边界验证增强（PR #21）**：T0/T2 扩展为 15 个观察点，补充 `abbr` 无 `title` 的原生保留检查，以及作者自定义缩写文本修饰与表格边框颜色不得被 Normalize 覆盖的回归断言；维护者 Windows `verify:mvp` 60/60、8 张 Fixture 构建通过（见 [默认规则完整性研究](docs/research/DEFAULT_NORMALIZE_V01_READINESS.md)），不代表全部目标浏览器真实 T0/T2 矩阵通过。
 - 维护者已批准 **`0.0.2` 继续作为当前版本号**；本次更新**不仅是元数据补丁，也包含可观察 CSS 行为变化**。仍需按新规则证据边界、版本提交与发行验收单独确认，**没有执行 npm 发布**。
 - 正式发行后必须同步创建 **Git Tag `v0.0.2` 与 GitHub Release `v0.0.2`**，使用与实际 npm 发包内容一致的 Git 提交。详见 [人工发布规范](docs/RELEASING.md)。**本记录不等于已创建 Tag/Release**。
 
-**后续里程碑**：默认 `normalize.css` 规则集合完成、逐项评审和必要回归验收后才采用 `0.1.0`；可选 Reset/Forms/A11y 各自继续独立评审。
+**后续里程碑（当前审核状态）**：默认 `normalize.css` 的 R-003/R-007/R-008 三条规则范围已冻结，仍需独立决定是否先发行 `0.0.2`（[Issue #20](https://github.com/adui-studio/normalize.css/issues/20)），再评审是否升级 `0.1.0`；两者都没有新的 npm/Tag/Release 发行授权。可选 Reset/Forms/A11y 各自继续独立评审。
 
 ## 0.0.1 · 2026-11-05（首次 npm 发布）
 
