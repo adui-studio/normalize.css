@@ -2,9 +2,48 @@
 
 - **审核日期**：2026-11-05
 - **工作项**：[W-07 / Issue #8](https://github.com/adui-studio/normalize.css/issues/8)
-- **所属分支**：`feat/viteplus-local-harness`
+- **所属分支**：`main`（原研究与开发记录保留在 `feat/viteplus-local-harness` 历史分支）
 - **状态**：P-02 **`0.0.1/private:true` 候选包已通过本机交付回归**；P-04 **账户/用户作用域通过核验，首次发布权限与认证仍待确认**；P-05 **最低浏览器支持矩阵未冻结**；P-07 **未授权发布**。
-- **范围**：维护者已授权在开发分支确定 `0.0.1` 并恢复 `private:true`；**不等于已授权 npm 发布、Tag、Release 或合并主分支**。
+- **范围**：维护者已同意将 PR #1/#9 按 Merge commit 顺序合并 `main`，GitHub 已确认两者合并完成；`0.0.1/private:true` 继续保留。**这不等于授权 npm 发布、Tag、Release 或任何后续 PR 合并**。
+
+## 2026-11-05 · P-05 成熟竞品规则免重复实测（最新维护者决定）
+
+维护者明确要求：**“别的竞品库已经使用的，不需要再验证了。”** 对首版仅有的 R-003（`b, strong { font-weight: bolder; }`），现有 [WHATWG 建议样式](https://html.spec.whatwg.org/multipage/rendering.html#phrasing-content-3)、[normalize.css 源码](https://github.com/necolas/normalize.css/blob/master/normalize.css)、[modern-normalize 3.0.0](https://app.unpkg.com/modern-normalize@3.0.0/files/modern-normalize.css) 加上本仓库既有 Chrome 120、Firefox 121 局部证据和 W-06 管理验收，已满足**成熟低侵入规则的来源与准入复核**。不要求重新在七个历史目标浏览器逐项跑同一规则的 T0/T2 才允许进入发行评审。
+
+**调整 P-05 发行判断**：
+- **允许采用不承诺具体数字最低版本的发布说明**：表述 Baseline 2023 是**CSS 特性选择参考和内部测试目标**，而不是声称 `Chrome 120/Edge 120/Firefox 121/Safari 17.2` 及移动端均已完整通过。此时逐环境正式 T2 原始证据**不再构成 v0.0.1 发行阻塞**，但证据状态仍保持 PARTIAL / EVIDENCE_MISSING，不能写成 PASS。
+- 若发布材料要声明“最低支持某浏览器某版本”，仍需匹配可审计证据或独立批准的政策修订；成熟竞品用了相同 CSS 不等于本项目按全部历史系统实测。
+- 仍需确保本仓库真实打包/消费行为、源文件、许可证、样式副作用及已发现的层叠/组件冲突有可追溯处理；对**新规则、改变选择器/作用范围、系统交互风险**不自动免测。首版 R-003 产品 CSS 和发布保护不变。
+- **P-04 首发认证/2FA 和 P-07 正式 npm/Tag/Release 独立授权保持不变**。本段只是验证策略调整，不准许修改 `private:true` 或发布。
+
+**本次评审结论**：P-05 的“R-003 必须重复完成七项正式 T0/T2”门槛已由维护者**正式豁免**；不承诺明确最低数字版本时，P-05 **不再单独阻断 v0.0.1 首发审核**。过去缺少原始附件的事实原样保留。
+
+
+## 2026-11-05 · P-04 账户 2FA 已确认，手动发布脚本已准备（最新）
+
+维护者已在项目会话中明确确认 npm 账户 `adui` **已经启用 2FA**。配合此前提供的 Windows PowerShell 输出，**官方 Registry、CLI 登录、公开包不存在查询及账户 2FA 自我确认**已完成。此次确认来源为维护者反馈，并非本工具登录 npm 网站读取安全设置；**作用域首发实际写权限仍要在正式发布时确认**。
+
+维护者还要求在 `package.json` 直接增加一条手动发布命令。已创建 [PR #12](https://github.com/adui-studio/normalize.css/pull/12)，新增 `scripts["release:publish"] = "vp pack && npm publish --access public --registry=https://registry.npmjs.org/"`。该 PR **仍待合并**，本轮没有运行脚本或进行 npm 发布，也不增加任何 CI。
+
+**发行前必须同步核对两项配置，避免发布脚本失效**：
+1. 目前 `package.json` 为 `version:"0.0.1"`、`private:true`。npm 不允许公开发布 `private:true` 包；**仅在维护者单独授权公开发行之后**，才允许将其改为 `private:false` 并合并相应变更。
+2. `tests/package.node.test.mjs` 与 `tests/package-real.node.test.mjs` 仍包含 `private === true` 的实际包断言。发布配置如果变化，必须一并最小调整断言，再对最终一致的 `0.0.1/private:false` 版本运行现有 `pnpm run verify:mvp`；不能把 `private:true` 时的 PASS 当成公开版本的 PASS。
+
+**计划的人工发布顺序（尚未授权执行）**：批准并合并相关 PR → 明确批准公开发布配置并同步测试 → 在维护者 Windows 完成最终完整本地回归/产物核验 → 由维护者**主动**运行 `pnpm run release:publish` 并按 npm 2FA 提示操作 → 核实 npm 官方 Registry 已出现 `@adui/normalize.css@0.0.1`。Git Tag/GitHub Release 另需授权，不由此脚本自动创建。
+
+**P-04 结论**：非发布身份与账户 2FA 准备已由维护者确认；实际首发权限与发布结果尚未知。**P-07 仍 Open**。未发布 npm、未创建 Tag/Release，未解除 `private:true`，无 CI。
+
+## 2026-11-05 · P-04 npm Registry、登录与公开包查询实测归档（维护者提供）
+
+维护者在 Windows PowerShell 的 `D:\Workspace\adui-studio\normalize.css` 中实际提供以下**不执行发布**的终端结果：
+
+| 检查 | 实际结果 | 结论边界 |
+| --- | --- | --- |
+| `npm config get registry` | `https://registry.npmjs.org/` | 官方 npm Registry 配置已核验 |
+| `npm whoami --registry=https://registry.npmjs.org/` | `adui` | 当前 npm CLI 身份核验成功；不等于已通过发布 2FA |
+| `npm view @adui/normalize.css version --registry=https://registry.npmjs.org/` | `E404 Not Found`（公开 Registry GET `/@adui%2fnormalize.css`） | **没有取得公开版本**；与尚未发布状态一致，但也可能受权限影响，不能证明名称可用或首次发布必成功 |
+
+**P-04 最新判定**：上述三项**已按维护者真实输出完成非发布检查**，无需重复要求。仍需维护者**自行确认 npm 账户 2FA 的当前启用状态及首次发布所需权限**；不在聊天或仓库中提交 OTP、Token、恢复码或用户级 `.npmrc`。在 P-07 未获得独立发布授权前，继续保持 `0.0.1/private:true`、不运行 `npm publish`。
 
 ## 2026-11-05 · P-04 npm 官方认证与公开作用域流程复核（规则已查证，账户状态待验）
 
@@ -14,7 +53,7 @@
 - **发布认证**：[Requiring 2FA for package publishing](https://docs.npmjs.com/requiring-2fa-for-package-publishing-and-settings-modification/) 明确创建与发行 npm 包须使用交互式双因素认证（2FA），或符合要求的 granular access token（bypass 2FA）；`npm whoami` 成功仅验证当前登录身份，**不能证明 2FA 已启用或首发认证能通过**。
 - **无 CI 的最小路线**：本项目可在维护者**独立授权公开发行后**，由其在本机按 npm 交互提示使用账户 2FA；不需要为此添加 CI、GitHub Actions、trusted publishing、访问令牌或自动发布工作流。验证码、恢复代码、Token 和 `.npmrc` 凭据不得提交或发送到 Issue/PR。
 - **发布前人工核对（尚未收到实际结果）**：维护者自行在 npm 网站确认账户 2FA 是否启用、恢复方式是否可用，结合 `@adui` 个人 scope 检查包名状态和账户异常。公开包查询 E404 **不代表**名称已预留、权限已通过或首次发布一定成功。
-- **公开发布动作**：只有 P-05 浏览器支持声明与证据条件满足、最新完整本地回归通过，并取得 **P-07 明确的合并/发行授权**后，才可讨论解除 `private:true` 和通过 `npm publish --access public` 正式发行。**此处只是操作要求说明，不授权执行该命令**。
+- **公开发布动作**：只有 P-05 按最新成熟规则免重测政策明确对外**不承诺尚未证实的数字最低浏览器版本**、最新完整本地回归条件达到批准的验收口径，并取得 **P-07 明确的发行授权**后，才可讨论解除 `private:true` 和通过 `npm publish --access public` 正式发行。**此处只是操作要求说明，不授权执行该命令**。
 
 **P-04 判定：官方规则已核实；维护者账户的 2FA/首发认证条件仍是未完成的实际验证项。**
 
@@ -123,7 +162,7 @@ npm view "@adui/normalize.css" version --registry=https://registry.npmjs.org/
 
 > This library provides a minimal CSS Normalize based on documented browser differences. Compatibility claims are limited to environments with auditable test evidence. Chrome/Edge 120, Firefox 121, Safari 17.2, and the corresponding mobile versions remain verification targets, not published minimum support guarantees. Embedded WebViews require separate validation.
 
-这段谨慎文案可避免无依据宣称，但**不能代替 ADR-0004 的发行前目标版本实测门槛**。正式发布前必须获得目标环境的可审核结果，或另行经维护者批准修改该兼容性 ADR 与正式验收要求；不能因没有写具体版本号就忽略原定最低验证目标。
+**2026-11-05 最新维护者决定已调整本段历史门槛**：对首版唯一、与 WHATWG/成熟竞品相同的 R-003，七项历史浏览器的重复 T0/T2 不再是发行前置条件；上面的谨慎文案可作为**不承诺尚未实证的具体数字最低版本**的首版兼容说明。若将来要公开保证某个最低版本，仍需相应证据或单独审批，不得虚构环境 PASS。
 
 **P-05 当前结论**：文字和证据边界审核已完成；目标版本承诺**未批准、未冻结**。已完成的 W-06 管理验收保持有效，不要求凭空重新执行过去的测试。
 
@@ -131,8 +170,8 @@ npm view "@adui/normalize.css" version --registry=https://registry.npmjs.org/
 
 - **已通过（旧开发版实际证据）**：P-01 pnpm 冻结安装、P-03 包元数据与真实 tarball/Vite+ 消费、P-06 本地质量回归，详见 [W-07 总审核](W07_RELEASE_READINESS_REVIEW.md)。
 - **P-02 已实施并验收（最新）**：`version:"0.0.1"`、`private:true`，两处包契约测试断言一致；**本地离线/真实包/消费者回归 PASS**，不构成发布授权。
-- **仍待完成**：P-04 首发包发布认证和安全要求，P-05 正式最低浏览器支持矩阵或经批准的替代验收决定。
-- **仍需单独授权**：更改 `private:true` 的发布保护、`npm publish`、Git Tag、GitHub Release、`main` 分支合并。
+- **仍待完成**：P-04 首发账户 2FA/权限的实际核验，P-07 正式发布独立授权。**P-05 已批准 R-003 成熟竞品规则免重复实测**；在不承诺未验证数字最低版本的前提下，不再强制补七项历史 T2。
+- **已单独批准并执行**：PR #1、PR #9 以 Merge commit 合并 `main`，未使用 Squash 或强制推送。**仍需单独授权**：解除 `private:true` 的发布保护、`npm publish`、Git Tag、GitHub Release 及后续 `main` 合并。
 - **始终禁止**：新增 CI、GitHub Actions 发布工作流或提交 Token/OTP/密码。
 
-**总判定（最新）**：W-07 继续 Open；P-01/P-02/P-03/P-06 已完成最新 `0.0.1/private:true` 完整本地回归，P-04/P-05/P-07 发行门槛仍未完成。**首发候选 ≠ 已发布版本**。
+**总判定（按 2026-11-05 最新维护者决定）**：W-07 继续 Open；P-01/P-02/P-03/P-06 有历史完整本地回归与维护者验收，最新合并提交日志尚未独立归档。P-05 成熟规则免重复实测政策已批准，不声明未证实的数字最低版本即可不以七环境复验阻塞发行；P-04 认证和 P-07 独立发行授权仍未完成。**首发候选 ≠ 已发布版本**。

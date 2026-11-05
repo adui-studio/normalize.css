@@ -1,6 +1,6 @@
 # CODEBASE_MAP — 仓库结构与定位
 
-**状态（2026-11-04）**：开发分支的 R-003 是唯一正式默认 Normalize CSS；**W-05 36 条规则评审与 W-06 管理验收均已结项**。现已启动 W-07 发布前质量审核，新增未发布更新日志与审查矩阵；锁文件已提交；正式版本/包元数据与公开兼容版本仍待决策。尚未发布或合并 main。
+**状态（2026-11-05）**：PR #1/#9 已按顺序合并 `main`；目前唯一正式默认 Normalize CSS 仍为 R-003；**W-05 36 条规则评审与 W-06 管理验收均已结项**。现已启动 W-07 发布前质量审核，新增未发布更新日志与审查矩阵；锁文件已提交；候选版本和 npm 包元数据已确定为 `0.0.1/private:true`；公开兼容范围与首次 npm 发行仍待审批，尚未发布。下方各批次保留历史阶段描述。
 
 **W-07 包管理器与锁文件核验（2026-11-04，最新）**：根 `package.json` 已固定 `packageManager: "pnpm@12.15.0"`；**`pnpm-lock.yaml` 已提交**，GitHub 静态核对确认环境文档锁定 pnpm 12.15.0、项目文档锁定 `vite-plus@1.4.0`。冻结安装输出仍待核验。见 [W-07 审核记录](research/W07_RELEASE_READINESS_REVIEW.md)。
 
@@ -125,25 +125,25 @@ normalize.css/
         └── 0005-viteplus-toolchain.md # Accepted
 ```
 
-W-03/W-04/W-05 开发分支基于尚未合并的文档评审分支；已增加测试 Fixture、离线 Node 测试、Vite+ 开发配置、首条 R-003 CSS 和单一包根导出。`dist/` 仍为本机构建生成、Git 忽略目录，尚无发布包。以上内容在合并前均不能描述为 main 已存在；没有新增运行时依赖或 CI。
+**合并前历史记录**：W-03/W-04/W-05 曾基于尚未合并的文档评审分支开展开发。2026-11-05 已通过 PR #1/#9 合并 `main`，源码、Fixture、离线 Node、Vite+ 配置、唯一 R-003 和 CSS 根导出均已进入 `main`。`dist/` 仍属 `vp pack` 生成且被 Git 忽略的产物，npm 包尚未发布；没有运行时依赖或 CI。
 
-## 2. 尚不存在的路径（不据此创建占位）
+## 2. 关键路径的实际状态（区分 Git 文件与构建产物）
 
 | 候选路径                         | 拟承担职责                          | 状态                                                  |
 | -------------------------------- | ----------------------------------- | ----------------------------------------------------- |
-| `src/normalize.css`              | 默认 Normalize 唯一源码             | **开发分支已实现：仅 R-003**                          |
-| `dist/`                          | CSS 发布产物                        | 规划中，**不存在**                                    |
+| `src/normalize.css`              | 默认 Normalize 唯一源码             | **main 已存在**：仅 R-003                             |
+| `dist/`                          | CSS 发布产物                        | **Git 不跟踪**；执行 `vp pack` 时生成                  |
 | `package.json` 的 CSS `exports`  | 唯一根 CSS 入口                     | **已实现**；`0.0.1`、`private:true`                   |
 | `tests/`                         | Fixture 契约、离线 Node 测试        | **已实现**；真实 tarball 与 Vite+ 生产消费均通过      |
 | `vite.config.ts` 的 `build/pack` | Vite+ Fixture 预览构建与单 CSS 打包 | **已实测 vp build / vp pack 产物**                    |
 | `.github/workflows/`             | CI/发布工作流                       | **明确不规划**，项目禁止增加 CI；当前不存在           |
-| `.agents/skills/`                | 第三方原版 Skills                   | 评审分支已纳入，main 尚无；来源见 [SKILLS](SKILLS.md) |
+| `.agents/skills/`                | 第三方原版 Skills                   | **main 已存在**；来源见 [SKILLS](SKILLS.md)           |
 
 ## 3. 程序入口与依赖调用链
 
-当前开发分支已有 Fixture 与测试入口，以及 `src/normalize.css`、Vite+ `build/pack` 配置、CSS 包根 exports。先执行 `vp pack` 生成 `dist/normalize.css`；维护者已验证真实 tarball 离线安装和独立 Vite+ 1.4.0 生产消费者均 1/1 PASS。Webpack 已退出首版必测范围；开发态和页面样式归 W-06，npm 尚未发布。项目没有路由、后端 API 或数据库。
+当前 `main` 已包含 Fixture 与测试入口，以及 `src/normalize.css`、Vite+ `build/pack` 配置、CSS 包根 exports。先执行 `vp pack` 生成 `dist/normalize.css`；维护者已验证真实 tarball 离线安装和独立 Vite+ 1.4.0 生产消费者均 1/1 PASS。Webpack 已退出首版必测范围；开发态和页面样式归 W-06，npm 尚未发布。项目没有路由、后端 API 或数据库。
 
-开发期的预期依赖路径（发布前仍需消费端验证）：
+当前包的构建/消费调用路径（已存在历史真实 tarball 与 Vite+ 消费验证，最新变更的本机日志仍待归档）：
 
 ```text
 消费者应用
