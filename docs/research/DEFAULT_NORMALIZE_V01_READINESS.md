@@ -144,3 +144,5 @@ git status --short
 - **R-008 — `table` 边框颜色**：正式 CSS 已实现；作者显式边框颜色保护已有合成测试。Chrome/Edge 149 移除旧 UA 灰色边框，不等于旧 Blink 目标 T0/T2 已全部验证，也不能宣称所有现代 UA 都需要该规则。
 
 **范围裁定建议**：三条规则可以作为待维护者确认的默认集合；范围冻结只确认本里程碑没有立即新增的必要默认规则，不等于发行前所有门槛已达成。仍按第六节补充本机 Git SHA、独立 `vp build` 和对外支持范围的证据边界。
+
+**2026-11-05 · 同提交工程验收补证**：维护者提供运行前完整 HEAD `9cbf81e6f8b7e9280abc1b77bf4dbcc876b74dd8`、pnpm 12.15.0 冻结安装 PASS、`verify:mvp` **60/60 PASS**、五文件 npm dry-run，以及 `pnpm exec vp build` **20 modules / 8 Fixture HTML PASS**；最终 `git status --short` 无输出，说明工作区保持干净。本节之前关于“缺少本轮完整 Git SHA 和独立 `vp build`”为历史待补状态，现由本条最新证据覆盖。**真实目标浏览器 T0/T2 全矩阵仍未补齐**，默认范围冻结仍待维护者独立批准；这次验收不授权 `0.1.0` 版本升级或 npm/Tag/Release 发布。
