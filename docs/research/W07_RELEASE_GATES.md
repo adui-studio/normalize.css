@@ -6,6 +6,18 @@
 - **状态**：P-02 **`0.0.1/private:true` 候选包已通过本机交付回归**；P-04 **账户/用户作用域通过核验，首次发布权限与认证仍待确认**；P-05 **最低浏览器支持矩阵未冻结**；P-07 **未授权发布**。
 - **范围**：维护者已授权在开发分支确定 `0.0.1` 并恢复 `private:true`；**不等于已授权 npm 发布、Tag、Release 或合并主分支**。
 
+## 2026-11-05 · P-04 npm 官方认证与公开作用域流程复核（规则已查证，账户状态待验）
+
+本次只核对 npm 官方现行文档，**没有登录维护者 npm 账户、读取 Token/OTP、试发或执行发布**。与之前维护者提供的 `npm whoami=adui`、官方 Registry 及公开包版本查询 E404 的本机结果须区分：
+
+- **公开 scoped 包**：npm 官方 [Creating and publishing scoped public packages](https://docs.npmjs.com/creating-and-publishing-scoped-public-packages/) 明确首次公开发行需指定 `--access public`。本仓库 `package.json` 仍为 `private:true`，属于已批准的防误发布设置，**本阶段不解除**。
+- **发布认证**：[Requiring 2FA for package publishing](https://docs.npmjs.com/requiring-2fa-for-package-publishing-and-settings-modification/) 明确创建与发行 npm 包须使用交互式双因素认证（2FA），或符合要求的 granular access token（bypass 2FA）；`npm whoami` 成功仅验证当前登录身份，**不能证明 2FA 已启用或首发认证能通过**。
+- **无 CI 的最小路线**：本项目可在维护者**独立授权公开发行后**，由其在本机按 npm 交互提示使用账户 2FA；不需要为此添加 CI、GitHub Actions、trusted publishing、访问令牌或自动发布工作流。验证码、恢复代码、Token 和 `.npmrc` 凭据不得提交或发送到 Issue/PR。
+- **发布前人工核对（尚未收到实际结果）**：维护者自行在 npm 网站确认账户 2FA 是否启用、恢复方式是否可用，结合 `@adui` 个人 scope 检查包名状态和账户异常。公开包查询 E404 **不代表**名称已预留、权限已通过或首次发布一定成功。
+- **公开发布动作**：只有 P-05 浏览器支持声明与证据条件满足、最新完整本地回归通过，并取得 **P-07 明确的合并/发行授权**后，才可讨论解除 `private:true` 和通过 `npm publish --access public` 正式发行。**此处只是操作要求说明，不授权执行该命令**。
+
+**P-04 判定：官方规则已核实；维护者账户的 2FA/首发认证条件仍是未完成的实际验证项。**
+
 ## 2026-11-05 · P-02 候选私有包已完成本地交付复验（最新）
 
 维护者针对最终的 `version:"0.0.1"`、`private:true` 配置完成 Windows 本地回归：`vp check --fix` 格式/Lint PASS（19 文件）、Node 离线 **33/33 PASS**、`vp pack` 唯一 CSS **200 B**、真实 tarball 安装 **1/1 PASS**、Vite+ 生产消费 **1/1 PASS**，以及 `npm pack --dry-run --json --ignore-scripts` 的**五文件白名单 PASS**（`@adui/normalize.css@0.0.1`、打包 13871 B、`bundled:[]`）。最终 `git status --short` 无输出。

@@ -39,6 +39,14 @@ git status --short
 6. `pnpm run test:consumer`（独立 Vite+ 生产消费）
 7. `npm pack --dry-run --json --ignore-scripts`（只读预打包清单，**不是发布**）
 
+**单独补做的 Fixture 构建检查（未包含在 `verify:mvp` 中）**：当前 `vite.config.ts` 声明了八张 HTML Fixture；离线测试仅在 `dist-fixtures/` 目录已存在时核对构建输出。因此 `verify:mvp` 全绿**不能单独证明 `vp build` 通过**。维护者在上述验收之后另行执行：
+
+```powershell
+pnpm exec vp build
+```
+
+应确认 `dist-fixtures/` 中具有 `index`、`r003-native`、`r003-candidate`、`r004-native`、`r004-risk-review`、`r004-family-review`、`t2-native`、`t2-package` 八张页面；保留实际构建日志，失败时不得将 Fixture 构建记作 PASS。此为现有 Vite+ 命令，不新增依赖、脚本或 CI。
+
 任何步骤失败都停止后续检查，先修复实际问题再重跑。Vite+ 格式检查若提示失败，**不要未经检查就盲目修改上游 Skills**；只对确实属于第一方的文件执行 `vp check --fix`，审阅差异后再复验。
 
 **预期结构**：`@adui/normalize.css@0.0.1`，`private:true`；`dist/` 唯一 `normalize.css`；npm 包文件**恰好 5 项且全部必需**：LICENSE、README.md、README.en.md、dist/normalize.css、package.json，且无 bundled 依赖。真实 tarball 的本地测试现已强制校验精确文件清单、包名/版本和作者/MIT 元数据；漏掉英文 README 也会测试失败。包字节数/哈希随新增本地验证脚本元数据变化，**不得沿用以前 13871 B 的大小作为固定断言**。真实体积以本轮输出为准。
