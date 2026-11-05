@@ -177,6 +177,8 @@
 
 **2026-11-05 · W-07 P-03 npm 公开包元数据已获批准实施（最新）**：维护者明确批准按原方案最小完善，已在开发分支 `package.json` 补充英文 `description`、`license:"MIT"`、正式仓库 `repository/homepage/bugs`，提交 `cdace17a290afb6a752537f29fbefaa37132617f`。经 GitHub 实时回读 JSON 可解析且字段与 MIT 许可证、唯一正式仓库匹配，原有 `private:true`、`version:0.0.0`、`pnpm@12.15.0`、`vite-plus@1.4.0`、唯一 CSS 根导出及 `sideEffects` 均不变，锁文件 blob SHA 不变。维护者前一次 `git status --short` 无输出，工作区在这次改动前干净。**P-03 元数据静态核对 PASS，但新版 manifest 的本机打包、真实安装与消费端复验仍 NOT_RUN**；此前 P-01/P-06 真实 PASS 继续作为旧 manifest 基线，不能直接用于新变更通过判定。详见 [W-07 审核记录](research/W07_RELEASE_READINESS_REVIEW.md)。Issue #8 仍 Open，未修改 CSS、增加 CI、变更版本/private 或发布。
 
+**2026-11-05 · W-07 P-03 作者 ADui 与新一轮回归（最新）**：维护者发现上次 npm 公开元数据漏掉了作者字段，明确要求 `author: "ADui"`。当前已在开发分支 `package.json` 最小补充，保留 `LICENSE` 中的 `Copyright (c) 2026 ADui Studio`，两者身份概念不同。本次用户 Windows 日志证明**此前五项元数据**下 `pnpm install --frozen-lockfile` 28ms PASS、`vp check` 初次因 `package.json` 与 W-07 Markdown 格式 FAIL，`vp check --fix` 后 19 文件零 Lint 错误/警告、Node 离线 **33/33 PASS**、`vp pack` 仅一份 CSS 200 B、真实包及 Vite+ 消费各 **1/1 PASS**，`npm pack --dry-run` 五文件 PASS（13655 B），最终 `git status --short` 无输出。**新增作者字段后的最终 manifest 尚未运行新一轮本地检查和真实包消费**，不可冒充已通过；当前 P-03 仅配置静态 PASS。见 [W-07 审核](research/W07_RELEASE_READINESS_REVIEW.md)。包版本 `0.0.0`、`private:true`、锁文件、CSS、CI 和发布权限均不变，Issue #8 Open。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与待决策变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源

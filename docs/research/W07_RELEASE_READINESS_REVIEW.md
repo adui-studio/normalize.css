@@ -7,6 +7,21 @@
 - **审核判断**：**部分通过，发布准备尚未就绪；Issue #8 保持 Open**。
 - **红线**：不修改产品 CSS 或既定包根入口；不新增依赖/CI、GitHub Actions、自动发布；不执行 npm publish、GitHub Release、`main` 合并。
 
+## 2026-11-05 · P-03 作者字段补充与本机验收反馈（最新）
+
+维护者指出 npm manifest 缺少作者信息，已明确指定 `author: "ADui"`。本轮仅在 `package.json` 增加该字段，`LICENSE` 继续保留 `Copyright (c) 2026 ADui Studio`；作者标识与版权主体不要求相同。不添加未知邮箱、作者主页、组织身份或 npm 用户名。
+
+维护者还提供 **新增此前五项公开元数据之后、作者字段加入之前** 的 Windows PowerShell 真实输出：
+
+- `pnpm install --frozen-lockfile`：锁文件供应链策略通过、解析跳过；`pnpm v12.15.0`，28ms，**PASS**。
+- `vp check`：首次发现 `docs/research/W07_RELEASE_READINESS_REVIEW.md` 与 `package.json` 两个文件的格式问题，**首次 FAIL**。后续 `vp check --fix` 格式化成功、19 文件无 Lint 错误或警告，**修复后 PASS**；不把第一次失败抹掉。
+- `pnpm run test:offline`：**33/33 PASS**；`vp pack`：单一 `dist/normalize.css` **200 B**，**PASS**。
+- `pnpm run test:package`：真实 tarball 离线安装 **1/1 PASS**；`pnpm run test:consumer`：独立 Vite+ 生产构建 **1/1 PASS**。
+- `npm pack --dry-run --json --ignore-scripts`：**5 个文件、无 bundled 依赖，PASS**；`size:13655` B、`unpackedSize:33315` B、`package.json:1335` B。文件仍仅包含 LICENSE、README.en.md、README.md、dist/normalize.css、package.json。
+- `git status --short`：**无输出**，修复之后本地工作区干净。
+
+**证据边界与最新状态**：上述整组验证为维护者真实输出，对应的是**尚未含 `author` 的 manifest**；现在作者字段已经新增，GitHub 静态 JSON/字段核对可通过，但**这一最新文件的格式检查及 tarball/消费者测试仍待本机复验**。由于包元数据变化，`npm pack` 字节数和完整性摘要预期不同，不能沿用上述精确大小或哈希。首版版本仍为 `0.0.0`，`private:true`，不发布、不合并、不新增 CI。
+
 ## 2026-11-05 · P-03 npm 公开元数据已获批准并实施（最新）
 
 维护者明确批准最小修改，已向 `feat/viteplus-local-harness` 的 `package.json` 提交 [元数据变更](https://github.com/adui-studio/normalize.css/commit/cdace17a290afb6a752537f29fbefaa37132617f)（commit `cdace17a290afb6a752537f29fbefaa37132617f`）。
@@ -165,7 +180,7 @@ git push origin feat/viteplus-local-harness
 | ---- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ |
 | P-01 | **锁文件与包管理器策略** | pnpm 12.15.0、唯一 `pnpm-lock.yaml` 已入库；维护者 Windows `pnpm install --frozen-lockfile` 83ms 成功且依赖解析跳过                                                                              | **PASS（真实冻结安装 + GitHub 静态核对）**                                                             |
 | P-02 | **版本和 npm 发布开关**  | `version:"0.0.0"`、`private:true`                                                                                                                                                                | **预期发布阻断**：保持现状直到维护者正式指定首个语义化版本并授权公开发布；**不提前清除 `private`**     |
-| P-03 | **公开 npm 元数据**      | 已补充 `description`、`license:MIT`、`repository`、`homepage`、`bugs`；GitHub JSON/字段/原有配置静态核对 PASS                                                                                    | **元数据实施完成／新版 manifest 真实 tarball 与消费端复验 NOT_RUN**；不得将此前旧包测试冒充新版本 PASS |
+| P-03 | **npm 公开元数据** | `description`、`license:MIT`、`repository/homepage/bugs` 已有维护者真实安装/打包/生产消费回归 **PASS**；新补充 `author:"ADui"`，与 LICENSE 版权归属区分 | **作者字段配置已实施并静态核对；最终含 author 的 manifest 格式与真实包/消费复验待完成** |
 | P-04 | **npm 组织/作用域权限**  | 无已验证的 `@adui` npm scope 发布授权、包名可用性或维护者身份资料                                                                                                                                | **NOT_VERIFIED**：发布前由维护者自行核验；不读取令牌、不登录、不尝试发布                               |
 | P-05 | **公开兼容性范围**       | [W-06](W06_ACCEPTANCE_INDEX.md) 已获维护者管理验收；缺少本次逐目标 UA/OS/设备原始附件                                                                                                            | **文案门槛**：不得把目标最低版本清单直接写成已经可复核 PASS 的公开支持承诺                             |
 | P-06 | **最终本机复核**         | 维护者 Windows 实际日志：19 文件格式/Lint 正常，Vitest 7/7、Node 33/33、唯一 CSS 打包、真实 tarball 1/1、Vite+ 消费 1/1、冻结安装成功、`git diff --check` 无输出、npm 预打包五文件白名单完全匹配 | **PASS（真实执行日志；`.idea/` 已在后续仓库规则中忽略，生效待下一次拉取确认）**                        |
@@ -204,7 +219,7 @@ npm pack --dry-run --json --ignore-scripts
 
 ## 5. 本轮结论与后续决策
 
-**当前判断（2026-11-05）**：P-01 冻结安装和旧 manifest 的 P-06 本机质量回归均有真实 PASS 日志；**P-03 新元数据已写入并通过 GitHub 静态检查，但修改后的本机打包与消费测试尚未复验**。P-02 版本和 private 开关、P-04 npm scope 权限、P-05 公开浏览器支持范围及 P-07 发布授权均未完成。**Issue #8 继续 Open，不发布、不合并、不新增 CI。**
+**当前判断（2026-11-05，最新）**：P-01 冻结安装及 P-06 的基础本地质量回归有真实 PASS 日志；P-03 原有五项元数据在 Windows 实测通过，**新增作者 `ADui` 字段已实施并通过静态核对，但含作者的最终 manifest 仍需真实包/消费复验**。P-02 正式版本/private 开关、P-04 npm scope、P-05 公开支持范围及 P-07 发布授权仍待决策。**Issue #8 保持 Open，不发布、不合并、不新增 CI。**
 
 优先级建议：**先针对新 `package.json` 复验真实包文件清单与 Vite+ 生产消费，确认 P-03 完全满足发行前要求；随后独立评估 P-02 首版版本、P-04 npm scope、P-05 兼容性声明及 P-07 发布授权。**
 

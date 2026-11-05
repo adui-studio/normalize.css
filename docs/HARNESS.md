@@ -171,6 +171,8 @@ npm pack --dry-run --json --ignore-scripts --offline .
 
 **2026-11-05 · W-07 新 npm 元数据的复验要求（最新）**：维护者已批准补充 `package.json` 的 MIT、英文简介及 GitHub `repository/homepage/bugs`；开发分支已实施并完成 JSON/字段/原配置静态核对，`private:true`、`version:0.0.0`、单一 CSS 根导出与锁文件不变。此前用户 Windows 命令的 `vp check`、Vitest 7/7、离线 Node 33/33、`vp pack`、真实包与消费测试各 1/1、冻结安装及旧包五文件白名单均 PASS；**此次改动后的本机测试尚未执行**。维护者只须对新 manifest 重新进行 `vp check`、`pnpm run test:offline`、`vp pack`、`pnpm run test:package`、`pnpm run test:consumer`、`npm pack --dry-run --json --ignore-scripts` 并保存真实输出。无 CI、发布或 main 合并。详见 [W-07 报告](research/W07_RELEASE_READINESS_REVIEW.md)。
 
+**2026-11-05 · W-07 P-03 元数据回归与作者字段（最新）**：维护者原始 Windows 输出确认新增五项 npm 公开元数据后：`pnpm install --frozen-lockfile` 28ms PASS、`vp check` 初次有两份文件格式问题但 `vp check --fix` 修复成功且 19 文件零 Lint 警告/错误、离线 Node 33/33、`vp pack` 唯一 200 B CSS、tarball 和 Vite+ 生产消费各 1/1、五文件 `npm pack --dry-run`（13655 B）全部 PASS，`git status --short` 无输出。之后维护者要求补充 `author:"ADui"`，已最小添加并保持 MIT LICENSE 的 ADui Studio 版权主体不变。**含作者字段的最新 manifest 仍待维护者在 Windows 执行 `vp check`、`vp pack`、`pnpm run test:package`、`pnpm run test:consumer`、`npm pack --dry-run --json --ignore-scripts` 复验**。之前五字段的 PASS 记录继续有效但不得覆盖新文件。不得新增 CI 或发布，详见 [W-07 审核报告](research/W07_RELEASE_READINESS_REVIEW.md)。
+
 ## 6. 安全和发布门禁（规划）
 
 - 审核第三方规则的许可证及改写过程；不引入未经审批的远程字体、图片或跟踪请求。

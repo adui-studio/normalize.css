@@ -8,6 +8,8 @@
 
 **2026-11-05 · W-07 npm 元数据同步**：`package.json` 已获维护者批准并补充 `description`、`license:"MIT"`、正式 `repository/homepage/bugs`；它们是现有包文件的元数据变更，没有新增源码、公开入口、依赖或目录。版本、private 和 pnpm 锁文件不变；修改后打包测试待维护者本机复核。见 [W-07 审核记录](research/W07_RELEASE_READINESS_REVIEW.md)。
 
+**2026-11-05 · W-07 作者元数据补充**：开发分支 `package.json` 已增加 `author:"ADui"`，其余 npm 元数据、`version:0.0.0`、`private:true`、入口和依赖均不变；`LICENSE` 的 2026 ADui Studio 版权信息保持不变。此前五项元数据的 Windows 打包/消费真实回归已通过；作者字段加入后的最终文件尚待复验。详见 [W-07 审核记录](research/W07_RELEASE_READINESS_REVIEW.md)。
+
 ## 1. 当前真实文件
 
 ```text
