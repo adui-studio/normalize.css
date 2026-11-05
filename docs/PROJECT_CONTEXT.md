@@ -185,6 +185,8 @@
 
 **2026-11-05 · W-07 P-04 官方 npm 用户作用域核验（最新）**：维护者在 Windows PowerShell 使用官方 Registry `https://registry.npmjs.org/` 查询，`npm whoami` 返回 `adui`。结合 npm 官方个人 scope 与用户名对应的规则，现可判定 **`@adui` 个人作用域与当前认证账户匹配**，此前“npm scope 归属未确认”的阶段记录已被新证据覆盖。`npm view "@adui/normalize.css" version` 返回 E404 Not Found，只证明本次未取到可访问发行版本，不证明包名可首次发布或发布认证条件全部满足。**P-04 已通过账户身份和作用域检查，整体仍为部分完成**：待 npm 网页确认首发资格与认证/双因素安全要求；未获取 Token、未调用 publish。P-01/P-03/P-06 通过结果继续有效，P-02 首版候选和 P-05 对外浏览器支持范围仍需正式决策。见 [W-07 首发决策审核](research/W07_RELEASE_GATES.md) 与 [总报告](research/W07_RELEASE_READINESS_REVIEW.md)。仍保持 `version:"0.0.0"`、`private:true`，不增加 CI、不合并或发布。
 
+**2026-11-05 · W-07 P-02 候选版号和发布开关已获维护者批准（最新）**：维护者因首版产品 CSS 仅一条 R-003（`b,strong { font-weight:bolder; }`）明确决定不采用此前建议 `0.1.0`，而将首发候选定为 **`0.0.1`**，同时将根包 `private` 从 `true` 改为 **`false`**。已在开发分支仅修改 `package.json` 两字段并同步两处真实包测试的版本/private 断言；模拟 smoke 和消费者自身的 `private:true` 仍按测试隔离需求保留。产品 CSS、根导出、开发依赖、pnpm lockfile、MIT 与作者 ADui 不变，`CHANGELOG` 仍为 Unreleased。**这只是可以被公开发布的候选配置，并非 npm 已发布/得到发布授权**；`private:false` 解除防误发布保护，必须避免误执行 npm publish。当前新版本本机 `vp check`、离线 33 项、真实包 1/1、Vite+ 消费、冻结安装和 npm 预打包仍 **NOT_RUN（本次改动后）**；旧 `0.0.0` 回归结果不冒充新测试。W-07 P-04 首发发布认证、P-05 公开兼容性声明、P-07 独立发行授权仍待完成。见 [W-07 总审核](research/W07_RELEASE_READINESS_REVIEW.md) 与 [首发门槛](research/W07_RELEASE_GATES.md)。未合并 main、未发包、未创建 Release/Tag，**不增加 CI**。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与待决策变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源

@@ -175,6 +175,8 @@ npm pack --dry-run --json --ignore-scripts --offline .
 
 **2026-11-05 · W-07 最终 `author:ADui` 包验证（最新）**：维护者 Windows 本地完成 `vp check` 首次格式问题（仅 W-07 报告文件）、`vp check --fix` 修复后格式/Lint PASS（19 文件零错误警告）、`vp pack` 唯一 CSS 200 B、真实 `pnpm run test:package` **1/1 PASS**、`pnpm run test:consumer` **1/1 PASS**、`npm pack --dry-run --json --ignore-scripts` 五文件清单 PASS（13663 B，`package.json` 1355 B），最终 `git status --short` 无输出。**P-03 含作者元数据已真实验收通过**；本轮未再次运行 Vitest、33 项离线 Node 或冻结安装，保留既有证据，不新增 CI。正式版本、作用域权限、对外兼容性声明及发布需另行批准。详见 [W-07 审核报告](research/W07_RELEASE_READINESS_REVIEW.md)。
 
+**2026-11-05 · W-07 `0.0.1` 公开候选的最新本地验证门槛**：维护者明确决定 `version:"0.0.1"` 和 `private:false`，已在开发分支实施，同时将 `tests/package.node.test.mjs`、`tests/package-real.node.test.mjs` 改为对新 manifest 断言；合成烟雾测试与临时消费者保持各自 `private:true`。**由于用户提供的先前 Vitest 7/7、Node 33/33、真实包/消费各 1/1 与 npm 五文件清单 PASS 属于 `0.0.0`，不能当成 `0.0.1` 的新结果**。新版本最小回归：`pnpm install --frozen-lockfile`、`vp check`、`vp test`、`pnpm run test:offline`、`vp pack`、`pnpm run test:package`、`pnpm run test:consumer`、`npm pack --dry-run --json --ignore-scripts`、`git status --short`。需确认包名和版本显示 `@adui/normalize.css@0.0.1`、npm 预打包仍只有 LICENSE、双语 README、dist/normalize.css、package.json 五文件；不能沿用旧包哈希或精确体积。**全部尚未在维护者 Windows 执行（NOT_RUN）**，`private:false` 已失去 npm 防误发布保护；禁止执行 publish、创建 Release、合并 main 或增加 CI，除非另行获批准。见 [W-07 验收](research/W07_RELEASE_READINESS_REVIEW.md)。
+
 ## 6. 安全和发布门禁（规划）
 
 - 审核第三方规则的许可证及改写过程；不引入未经审批的远程字体、图片或跟踪请求。

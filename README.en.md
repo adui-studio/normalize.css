@@ -4,7 +4,7 @@
 
 A minimal, evidence-driven CSS Normalize library. It aims to preserve native browser defaults while correcting demonstrated inconsistencies, without runtime JavaScript.
 
-> **Latest status (2026-11-04): development preview, not published.** W-03 (local harness), W-04 (package contract), W-05 (36-rule acceptance decisions), and W-06 (regression work) have been closed following maintainer approval. The MVP still contains **one** default Normalize rule, R-003, and one CSS root export; other candidates are excluded from the MVP. W-07 release-readiness review is in progress. The package remains `private: true` at `0.0.0`. Maintainer acceptance of regression work must not be presented as independently auditable support for every proposed minimum browser version.
+> **Latest status (2026-11-05): development preview, not published.** W-03 (local harness), W-04 (package contract), W-05 (36-rule acceptance decisions), and W-06 (regression work) have been closed following maintainer approval. The MVP still contains **one** default Normalize rule, R-003, and one CSS root export; other candidates are excluded from the MVP. W-07 release-readiness review is in progress. The maintainer has selected a `0.0.1` first-release candidate with `private: false`, but **nothing has been published**. Maintainer acceptance of regression work must not be presented as independently auditable support for every proposed minimum browser version.
 
 **Current audit references:** [W-05 rule decisions](docs/research/W05_RULE_ACCEPTANCE.md) · [W-06 acceptance index](docs/research/W06_ACCEPTANCE_INDEX.md) · [W-07 release-readiness review](docs/research/W07_RELEASE_READINESS_REVIEW.md) · [Unreleased changelog](CHANGELOG.md). Earlier W-03/W-04/W-06 sections retain historical results and intermediate test states; use these latest acceptance records for current project status.
 
@@ -60,7 +60,7 @@ The only package export is `@adui/normalize.css` → `./dist/normalize.css`. Con
 import "@adui/normalize.css";
 ```
 
-**Verified on Windows, 2026-11-04:** `npm run test:package` **1/1 PASS** against the full repository's actual tarball, and `npm run test:consumer` **1/1 PASS** against a separate Vite+ 1.4.0 production build with CSS retained. Previously, `vp test` passed 6/6 and the offline Node suite passed 26/26. The Vite+ development consumer path and actual browser/framework rendering are still unverified; Webpack is not part of the required project toolchain. The package remains private and is not published.
+**Verified on Windows, 2026-11-04:** `npm run test:package` **1/1 PASS** against the full repository's actual tarball, and `npm run test:consumer` **1/1 PASS** against a separate Vite+ 1.4.0 production build with CSS retained. Previously, `vp test` passed 6/6 and the offline Node suite passed 26/26. The Vite+ development consumer path and actual browser/framework rendering are still unverified; Webpack is not part of the required project toolchain. The package is now configured as `0.0.1` with `private: false`, but is still unpublished. A fresh package test run is required after this metadata change.
 
 **W-04 scope:** Vite+ is the only build and required consumer toolchain for this CSS library. The previously added Webpack-specific smoke test has been removed; standard CSS assets do not require Webpack. The real npm tarball and Vite+ production consumer checks have passed. Browser and framework rendering remain separate release-readiness work. Only syntax validation has been completed so far.
 

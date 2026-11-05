@@ -12,6 +12,8 @@
 
 **2026-11-05 · W-07 首发审核文件**：新增 [W-07 首发决策审核](research/W07_RELEASE_GATES.md)，只记录 P-02 版本候选、P-04 npm scope 核对方法、P-05 浏览器公开声明与证据边界；不增加 CSS、脚本或发布资产。包配置与根导出保持不变。
 
+**2026-11-05 · W-07 发行候选配置变化（最新）**：维护者已确认首发候选版本 **`0.0.1`**、`private:false`；根包仅调整这两项，同时将 `tests/package.node.test.mjs` 与 `tests/package-real.node.test.mjs` 的正式包断言切换为新值。测试合成 Fixture 与隔离消费者的 `private:true` 不变。正式 CSS 仍仅 R-003、导出与 pnpm 锁文件不变；新版本实际本地质量回归待执行，未发布 npm。见 [W-07 审核报告](research/W07_RELEASE_READINESS_REVIEW.md)。
+
 ## 1. 当前真实文件
 
 ```text
@@ -25,7 +27,7 @@ normalize.css/
 ├── .gitignore                # 本地依赖、构建产物忽略
 ├── .gitattributes            # Git 对所有文本统一检出 LF，不依赖 Windows autocrlf
 ├── .editorconfig             # 编辑器 UTF-8、LF 与文件末尾换行约定
-├── package.json              # W-03/W-04：private、vite-plus 1.4.0、CSS 文件白名单/副作用元数据、离线测试脚本
+├── package.json              # W-07：0.0.1、private false、vite-plus 1.4.0、CSS-only exports/元数据
 ├── vite.config.ts            # W-03：Vite+ 单元测试与上游 Skills 格式检查排除
 ├── src/normalize.css         # W-05 首批：仅 R-003 的 b/strong 相对字重修正
 ├── fixtures/                 # W-03/W-06：R-003/R-004 T0/T1 与实际 CSS T2 对照
@@ -118,7 +120,7 @@ W-03/W-04/W-05 开发分支基于尚未合并的文档评审分支；已增加�
 | -------------------------------- | ----------------------------------- | ----------------------------------------------------- |
 | `src/normalize.css`              | 默认 Normalize 唯一源码             | **开发分支已实现：仅 R-003**                          |
 | `dist/`                          | CSS 发布产物                        | 规划中，**不存在**                                    |
-| `package.json` 的 CSS `exports`  | 唯一根 CSS 入口                     | **开发分支已实现**；仍 `private: true`                |
+| `package.json` 的 CSS `exports`  | 唯一根 CSS 入口                     | **已实现**；首发候选 `private: false`、`0.0.1`                |
 | `tests/`                         | Fixture 契约、离线 Node 测试        | **已实现**；真实 tarball 与 Vite+ 生产消费均通过      |
 | `vite.config.ts` 的 `build/pack` | Vite+ Fixture 预览构建与单 CSS 打包 | **已实测 vp build / vp pack 产物**                    |
 | `.github/workflows/`             | CI/发布工作流                       | **明确不规划**，项目禁止增加 CI；当前不存在           |

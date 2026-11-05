@@ -3,6 +3,8 @@
 **状态（2026-11-04）**：首版设计决策及 [W-05 的 36 条规则首版去留](research/W05_RULE_ACCEPTANCE.md) 均已由维护者批准；开发分支唯一默认规则 R-003 已实现，W-06 已正式验收归档。静态 CSS 构建与唯一根 exports 保持不变；W-07 发行前质量审核、对外兼容性承诺及 npm 发布仍是独立事项，均不因规则评审通过而自动完成。  
 **关联**：[需求](REQUIREMENTS.md) · [SDD](SDD.md) · [ADR-0001](adr/0001-css-base-strategy.md)
 
+**W-07 发行配置变更（2026-11-05）**：维护者确定首发候选 `0.0.1`、`private:false`；这是 npm manifest 和包契约测试变更，不影响单一 Normalize CSS 根入口、R-003 产品规则、Vite+ 静态交付方式及未来可选模块设计。尚未 npm 发布，不新增 CI，也不合并主分支。此前文中 `private:true` 的 2026-11-04 记录为历史实施状态。详见 [W-07 审核](research/W07_RELEASE_READINESS_REVIEW.md)。
+
 ## 1. 架构目标和质量属性
 
 - **规范化与重置分离**：默认规则只纠正可复现的浏览器差异；高侵入性行为显式选择。

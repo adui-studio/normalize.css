@@ -3,22 +3,26 @@
 - **审核日期**：2026-11-05
 - **工作项**：[W-07 / Issue #8](https://github.com/adui-studio/normalize.css/issues/8)
 - **所属分支**：`feat/viteplus-local-harness`
-- **状态**：P-02 形成版本建议，**待维护者正式决策**；P-04 **用户身份及个人作用域已核验，首次发布准备仍待确认**；P-05 文案与证据边界已审核，**正式最低版本支持矩阵未冻结**；P-07 未授权。
-- **范围**：这是发行前决策研究及审核记录，**不是批准改变 `package.json`、取消 `private`、发布或合并主分支**。
+- **状态**：P-02 **维护者已确定首发候选配置 `0.0.1`、`private:false`**，待新版包测试；P-04 **账户/用户作用域通过核验，首次发布权限与认证仍待确认**；P-05 **最低浏览器支持矩阵未冻结**；P-07 **未授权发布**。
+- **范围**：维护者已单独授权调整开发分支版本与 `private` 配置及对应测试；**不等于已授权 npm 发布、打 Tag、GitHub Release 或合并主分支**。
 
 ## P-02 · 首个公开版本
 
-当前已验证开发版事实：
+**维护者最新决定（2026-11-05）**：将首个公开候选版本定为 **`0.0.1`**，并明确将 `private` 调整为 **`false`**，取代此前未获批准的 `0.1.0` 建议。仓库当前根 `package.json` 已实施：
 
-- `package.json`：`name:"@adui/normalize.css"`、`version:"0.0.0"`、`private:true`。
-- 单一 CSS 根入口 `./dist/normalize.css`；只包含准入规则 R-003（`b,strong` 的相对字重），其他 35 条研究候选未加入首版。
-- W-03/W-04/W-05/W-06 已按各自结项记录完成；W-07 的 P-01（锁文件/冻结安装）、P-03（含作者 ADui 的元数据及真实 npm tarball 消费）、P-06（本地质量回归）已获得维护者实际 PASS 日志。
+```json
+{
+  "name": "@adui/normalize.css",
+  "version": "0.0.1",
+  "private": false
+}
+```
 
-**建议将 `0.1.0` 作为第一个正式公开版本的候选值**，理由：SemVer 2.0.0 对初始开发阶段使用 `0.y.z`，官方 FAQ 亦建议从 `0.1.0` 开始；[SemVer 中文规范](https://semver.org/lang/zh-CN/spec/v2.0.0.html)、[英文规范](https://semver.org/)。
+**版本选择依据**：首版真正交付的 CSS 只有 R-003 —— `b, strong { font-weight: bolder; }`；其余 35 条研究候选均未加入默认 CSS，也未提供 Reset、Forms、A11y 或组合入口。`0.0.1` 是有效的 SemVer 三段版本号，适合作为用户自行确定的最小首发候选；[SemVer 规范](https://semver.org/lang/zh-CN/spec/v2.0.0.html) 没有要求初次公开必须为 `0.1.0`。选择 `0.0.1` 不是为了规避 CSS 视觉兼容性评审，后续增加或变更 CSS 规则仍需评估破坏性影响。
 
-此值**尚未获维护者正式版本批准**，不是既定版本，不在本轮修改 `package.json`、标签、Changelog 发布日期或 `private`。CSS 的修改仍可能产生破坏性视觉影响；`0.x` 并不意味着不需要变更记录和回归测试。若未来批准，必须同时核对锁文件变化、版本文本、真实打包结果及发行说明，不能把旧的 `0.0.0` 产物作为新版本验收。
+**配置范围与现有验证**：`package.json` 仅更改 `version`（`0.0.0 → 0.0.1`）与 `private`（`true → false`）；`tests/package.node.test.mjs` 与 `tests/package-real.node.test.mjs` 已同步更新断言，并验证真实安装后 manifest 中的 `version` / `private` 一致。合成 smoke Fixture 和独立消费者的 `private:true` 为测试环境隔离语义，**不需修改**。唯一产品 CSS、正式入口、依赖、作者、许可证、pnpm 12 锁文件均保持不变。
 
-**不建议目前直接定为 `1.0.0`**：目前唯一的默认规则、尚未提供的可选模块及尚未冻结的公开兼容性矩阵仍处于 MVP 阶段。这是建议而非版本事实。
+**风险与边界**：`private:false` 会撤销 npm 内建的误发布拦截。**当前尚未执行新版本下的本机 `vp check`、离线测试、`vp pack`、真实 tarball/消费者回归或 `npm pack --dry-run`，不能宣称 `0.0.1` 已通过发布前最终复验**。单一 CSS 根入口只有旧版本的交付证据，新配置需要针对性重新验证。当前**没有**执行 `npm publish`、创建 Git Tag / GitHub Release 或合并 `main`；`CHANGELOG.md` 仍为 `Unreleased`。P-07 需维护者**新的独立发布授权**。
 
 ## P-04 · npm `@adui` 发布权限
 
@@ -78,9 +82,10 @@ npm view "@adui/normalize.css" version --registry=https://registry.npmjs.org/
 
 ## P-07 · 发行与版本控制边界
 
-- **已通过**：P-01 pnpm 冻结安装、P-03 元数据与真实 tarball/Vite+ 消费、P-06 本地质量检查；证据详见 [W-07 质量审核](W07_RELEASE_READINESS_REVIEW.md)。
-- **待决策**：P-02 `0.1.0` 候选、P-04 `@adui` npm 发布权限、P-05 正式兼容矩阵与对外支持声明。
-- **单独授权后才能实施**：版本变更、`private:true` 移除、npm 发布、GitHub Release、`main` 分支合并。
-- **始终禁止**：为本项目新建 CI、GitHub Actions 发布工作流或在源码中保存认证令牌。
+- **已通过（旧开发版实际证据）**：P-01 pnpm 冻结安装、P-03 包元数据与真实 tarball/Vite+ 消费、P-06 本地质量回归，详见 [W-07 总审核](W07_RELEASE_READINESS_REVIEW.md)。
+- **P-02 已实施**：`version:"0.0.1"`、`private:false`，以及两处包契约测试断言；**修改后的本机回归尚未执行**。
+- **仍待完成**：P-04 首发包发布认证和安全要求，P-05 正式最低浏览器支持矩阵或经批准的替代验收决定。
+- **仍需单独授权**：`npm publish`、Git Tag、GitHub Release、`main` 分支合并；`private:false` 不构成上述任何授权。
+- **始终禁止**：新增 CI、GitHub Actions 发布工作流或提交 Token/OTP/密码。
 
-**总判定**：W-07 发行前审核继续进行，Issue #8 保持 Open。本轮仅新增研究文档和更新状态记录，不修改正式 CSS、包配置、依赖或发行状态。
+**总判定**：W-07 继续 Open；P-02 版本配置已实施，但最终包回归和其余发行门槛未完成。**首发候选 ≠ 已发布版本**。
