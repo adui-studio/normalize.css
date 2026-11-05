@@ -1,10 +1,9 @@
 # PROJECT_CONTEXT — 项目长期上下文
 
-**2026-11-05 · 新规则首批实现候选（Issue #18，待回归与最终准入）**：维护者已批准基于主流竞品筛选现代 Normalize 规则，并明确要求开始实现。本独立功能分支在 `src/normalize.css` 保留 R-003，同时新增 R-007 `:where(abbr[title]) { text-decoration: underline dotted; }` 和 R-008 `:where(table) { border-color: currentColor; }`；不增加默认 `@layer`、Reset、Forms、A11y、运行时 JS 或 CI。选择器零特异性降低影响但仍需验证。为避免单条规则时代的误判，同步更新真实包契约、T0/T2 两个新计算样式观察点、12 Probe 比较以及恰好三条规则的 CSSOM 校验。**已发布的 npm `0.0.1` 只含 R-003；当前 GitHub `main` 的 `0.0.2` 仅有 Keywords 元数据变更，本功能分支的 CSS 变更尚未合并、未获得新的发布版本决定，也未运行完整 Windows/浏览器回归。**先按新一轮待审核规则准入记录，不回写 W-05 首版历史验收结论。细节见 [竞品复核](research/COMPETITOR_REVIEW.md) 与 [Issue #18](https://github.com/adui-studio/normalize.css/issues/18)。
+**2026-11-05 · 最新主分支与版本策略（维护者确定）**：PR #19 已合并 `main@ed729527`，默认 Normalize 现正式包含 R-003、R-007、R-008 三条规则（低特异性 `:where()` 新增两条），配套测试/README/架构已更新。根 `package.json` **保持 `0.0.2/private:false`**，包含 7 个 npm Keywords；npm 对外已发布版本仍是 `0.0.1`。维护者明确决定：**默认 `normalize.css` 完成、必要回归验收后才使用 `0.1.0`**，此前不提前升级。未来每次正式发行（包括 `0.0.2`）必须**在 npm 发布成功并确认提交后**创建对应 `vX.Y.Z` Git Tag + GitHub Release；不提前创建，禁止 CI。记录见 [RELEASING](RELEASING.md)。W-07 Issue #8 已 Closed—completed，Issue #18 继续跟踪 Normalize 规则及可选模块。最新 HEAD 的完整 Windows/浏览器测试证据不应从旧版测试推定为 PASS。
 
 **最近更新**：2026-11-05  
-**最新发布事实**：维护者官方 npm Registry 查询返回 `@adui/normalize.css@0.0.1`，首版已公开发布；当前分支仅准备 `0.0.2` 包关键词补丁，**未发布下一版、未创建 Tag/Release/CI**。下方“尚未发布”属于原先阶段记录。
-**当前阶段**：五项 ADR 已接受／W-03 本地 Harness 已验收／W-04 包交付验收已结项（Issue #5 Closed）／W-05 36 条规则首版评审通过（Issue #6 Closed — completed）／W-06 已正式验收归档（Issue #7 Closed）／W-07 发行前审核待完成／PR #1/#9 已合并 main／尚未发布
+**当前工作阶段**：默认 Normalize 继续扩展；`0.0.2` 作为尚未发行的工作版本；`0.1.0` 是默认 Normalize 完成里程碑。历史阶段的“仅 R-003/尚未发布任一版本”等陈述以当时日期为准，不覆盖本节。
 
 **2026-11-05 · 当前配置更新（覆盖下方历史 private 状态）**：维护者已明确将首版候选调整为 `@adui/normalize.css@0.0.1`、`private:false`，手动 `release:publish` 脚本保留。两处真实包测试断言已同步调整为 `false`，不改隔离消费者自身 `private:true`。此操作仅变更包配置、断言和当前状态文档，**未执行 npm publish / Tag / GitHub Release，不增加 CI**。此前关于 `private:true` 及 PR #13 的记录属于历史阶段；旧版/候选 Windows 实测不自动证明本次新的 `main` 提交已经独立跑完回归。
 

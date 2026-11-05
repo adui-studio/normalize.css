@@ -1,5 +1,7 @@
 # CODEBASE_MAP — 仓库结构与定位
 
+**2026-11-05 · 最新文件与发行规范索引**：PR #19 已合并 main，`src/normalize.css` 现为 R-003、R-007、R-008 三条规则，T0/T2 为 12 个观测点。`package.json` 当前 `0.0.2/private:false`，npm 已发行 `0.0.1`；新建 [RELEASING.md](RELEASING.md) 记录维护者确定的 `0.0.2 → 默认 Normalize 完成后 0.1.0` 版本门槛及 npm 成功后创建 Git Tag + GitHub Release 的人工流程。以下旧的“仅 R-003/未发布”描述是历史记录。不新增 CI。
+
 **2026-11-05 · Issue #18 新规则功能分支（待验收）**：`feat/normalize-r007-r008-20261105` 的 `src/normalize.css` 拟包含 R-003、R-007、R-008 三条低侵入规则，T0/T2 Fixture 新增 `abbr-title` 与 `table-border` 两个计算样式点，CSSOM 检查从单规则升级为三规则，真实 npm tarball 契约同步检查三条规则；`main` 仍仅 R-003。原本的 CODEBASE_MAP 目录图属于已发布 `0.0.1` 的历史，功能分支的新增内容尚未合并/发布；不新增 CI。详见 [竞品研究](research/COMPETITOR_REVIEW.md)。
 
 **状态（2026-11-05）**：PR #1/#9 已按顺序合并 `main`；目前唯一正式默认 Normalize CSS 仍为 R-003；**W-05 36 条规则评审与 W-06 管理验收均已结项**。现已启动 W-07 发布前质量审核，新增未发布更新日志与审查矩阵；锁文件已提交；候选版本和 npm 包元数据已确定为 `0.0.1/private:false`；公开兼容范围与首次 npm 发行仍待审批，尚未发布。下方各批次保留历史阶段描述。

@@ -1,13 +1,11 @@
 # AGENTS.md — @adui/normalize.css
 
-> **最新开发阶段（2026-11-05）**：在维护者明确要求开始实现新 CSS 规则后，独立功能分支新增 R-007 `:where(abbr[title])` 与 R-008 `:where(table)`，连同已发布的 R-003 形成三条候选 Normalize 规则；本地 T0/T2、CSSOM、包契约同步调整。**该分支尚未合并 `main`、未获准发布新版本，Windows/浏览器回归尚无本轮 PASS**。`main` 已存在未发布的 `0.0.2` Keywords 元数据候选，不得把 CSS 行为变更混称为纯元数据修复。W-05 首版仅 R-003 的验收结论保持历史有效。无 CI、自动发行或依赖变更。
-
-> **最新发布事实（2026-11-05）**：维护者提供官方 npm Registry 查询，`@adui/normalize.css@0.0.1` 已首次公开发布。此分支仅准备 `0.0.2` 关键词元数据修复，**未获新版本合并或发行授权**；下方 `0.0.1` 尚未发布的阶段记录以本段为准。产品 CSS、单一入口、无 CI 约束不变。
-
-> **当前状态（2026-11-05）**：MVP 已通过 PR #1、PR #9 合并进入 `main`，当前候选配置为 `0.0.1/private:false`（维护者 2026-11-05 最新决定，尚未发布 npm），维护者已确认最终签收；W-02 #3 已按首版规则研究范围结项，W-03～W-06 已管理结项，W-01 #2 已按维护者研究验收范围结项，W-07 #8 仍 Open。产品 CSS 目前仅包含已批准的 R-003，公开入口只有 `@adui/normalize.css`；已合并 `main`，尚未发布 npm。五项 ADR 均 Accepted，统一采用 Vite+ 1.4.0 / pnpm 12.15.0，**绝不新增 CI**。
+> **当前主分支事实（2026-11-05）**：PR #19 已经维护者批准并合并 `main@ed729527142732cb18ffa8971e7bb701d120a026`。默认 `src/normalize.css` 现有 R-003、R-007、R-008 三条规则；T0/T2、CSSOM、真实包断言与双语 README 已同步。仓库 `package.json` 保持 `0.0.2/private:false`，单 CSS 根导出、无运行时 JavaScript 依赖；**公开 npm 已确认发行的是 `0.0.1`，不是 `0.0.2`**。W-07 Issue #8 已 Closed—completed；下一阶段由 Issue #18 继续跟踪。五项 ADR Accepted，Vite+ 1.4.0 / pnpm 12.15.0，**禁止增加 CI**。
 >
-> **验证及授权边界**：旧版 Windows `vp check`、`vp test`、离线 Node、`vp pack`、真实 tarball 和消费者测试有维护者提供的历史通过记录；最新测试断言及分支同步提交之后尚无完整 `pnpm run verify:mvp` 原始日志，不能作为本轮独立 PASS。W-06 正式签收不代表七项最低浏览器环境已有可公开审核的逐项证据。W-07 的 npm 首发认证、浏览器对外支持声明及单独发行授权仍未完成；**不得擅自合并后续 PR、再次修改发布配置、打 Tag/Release 或 npm 发布**。详见 [MVP 验收清单](docs/MVP_0_0_1_HANDOFF.md)、[W-07 发布门禁](docs/research/W07_RELEASE_GATES.md) 与 [HARNESS](docs/HARNESS.md)。
-
+> **版本策略（维护者已明确批准，2026-11-05）**：当前开发/下一候选版本**继续为 `0.0.2`**，它包含已合并的 CSS 变更和 npm Keywords，不再称为“纯关键词补丁”；**只有在默认 `normalize.css` 规则范围完成、验收并经维护者确认后才提升到 `0.1.0`**，不提前升级。公开发布版本必须同时对应 Git Tag `vX.Y.Z` 与 GitHub Release，具体人工清单见 [RELEASING](docs/RELEASING.md)；记录发行要求不等于已经执行发布。
+>
+> **验证与发行边界**：维护者已确认 MVP 回归通过；对 PR #19 新规则，已有静态、模拟 CSSOM 与比较器合成验证记录，但未在本轮取得绑定最新 `main` SHA 的全套 Windows/Vite+ 和所有目标浏览器实测日志，不能擅称全部通过。发布 `0.0.2` 仍需独立明确授权及维护者本机 npm 2FA，**不得提前创建对应 Tag/Release 或执行 npm publish**；旧版 `0.0.1` 的 Tag/Release 也不得在未确定准确发行提交时随意补建。**不新增 CI、自动发布、依赖或配置工作流**。
+>
 ## 1. 项目事实
 
 - 仓库：[adui-studio/normalize.css](https://github.com/adui-studio/normalize.css)，npm 包目标名：`@adui/normalize.css`。

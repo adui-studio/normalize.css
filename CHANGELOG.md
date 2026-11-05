@@ -4,8 +4,15 @@
 
 ## 未发布 · Unreleased
 
-- **`0.0.2` 元数据补丁**：搜索关键词及契约断言已合并到仓库，**未发布 npm `0.0.2`**；公开 npm `0.0.1` 不可覆盖。
-- **后续 CSS 变更候选（版本待审）**：新增 R-007 `:where(abbr[title])` 点状下划线、R-008 `:where(table)` 边框颜色修正，保留 R-003；同步 CSSOM 严格验收与 T0/T2 两个新观察点。**这是独立行为变更，不应直接视作已获批准的 `0.0.2` 发行内容**。
+### 0.0.2（下一候选版本，尚未发布）
+
+- 补充 7 个 npm Keywords、对应版本及真实 tarball 元数据契约。
+- 在 R-003 基础上新增 R-007 `:where(abbr[title]) { text-decoration: underline dotted; }`，以及 R-008 `:where(table) { border-color: currentColor; }`；采用低特异性选择器，保留默认 Normalize 的克制原则。
+- 扩展 T0/T2 至 12 个观察点与三条 CSSOM 严格校验，更新本地测试、双语 README 及规则证据。
+- 维护者已批准 **`0.0.2` 继续作为当前版本号**；本次更新**不仅是元数据补丁，也包含可观察 CSS 行为变化**。仍需按新规则证据边界、版本提交与发行验收单独确认，**没有执行 npm 发布**。
+- 正式发行后必须同步创建 **Git Tag `v0.0.2` 与 GitHub Release `v0.0.2`**，使用与实际 npm 发包内容一致的 Git 提交。详见 [人工发布规范](docs/RELEASING.md)。**本记录不等于已创建 Tag/Release**。
+
+**后续里程碑**：默认 `normalize.css` 规则集合完成、逐项评审和必要回归验收后才采用 `0.1.0`；可选 Reset/Forms/A11y 各自继续独立评审。
 
 ## 0.0.1 · 2026-11-05（首次 npm 发布）
 
@@ -33,4 +40,4 @@
 - 对外公开的具体浏览器最低版本兼容性声明及对应可审计环境证据。
 - npm `0.0.1` 已按维护者独立授权公开发布；未创建 Git Tag/GitHub Release，不增加 CI。
 
-**版本说明**：npm `0.0.1` 已发布。当前分支仅准备 `0.0.2/private:false` 关键词补丁候选，**不自动合并或发布新版本**。
+**版本说明（最新）**：npm `0.0.1` 已发布；`main` 为 **`0.0.2/private:false` 未发布候选**（包含新 CSS 和 Keywords）。`0.1.0` 等默认 Normalize 完成后再决定；本项目后续每次正式发行均需补齐对应 Git Tag 和 GitHub Release，无 CI。
