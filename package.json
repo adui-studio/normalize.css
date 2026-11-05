@@ -4,12 +4,12 @@
   "private": false,
   "description": "A minimal, evidence-driven CSS normalization library with no runtime JavaScript dependencies.",
   "keywords": [
+    "browser-defaults",
+    "cross-browser",
     "css",
+    "css-normalize",
     "normalize",
     "normalize.css",
-    "css-normalize",
-    "cross-browser",
-    "browser-defaults",
     "stylesheet"
   ],
   "homepage": "https://github.com/adui-studio/normalize.css#readme",
