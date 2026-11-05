@@ -90,3 +90,47 @@
 - **工程验收与浏览器验收分开**：PR #21 合并后的维护者本机 `verify:mvp` 为 60/60 PASS、CSS-only 311 B、npm dry-run 五文件，不能据此宣布浏览器矩阵 PASS。本轮未修改 `src/normalize.css`、版本、导出、依赖或 CI。
 
 **本次复核来源**： [WHATWG hr 渲染规范](https://html.spec.whatwg.org/multipage/rendering.html#the-hr-element)、[WHATWG details/summary 渲染规范](https://html.spec.whatwg.org/multipage/rendering.html#the-details-and-summary-elements)、[Chrome 149 发布说明](https://developer.chrome.com/release-notes/149)、[Edge 149 发布说明](https://learn.microsoft.com/microsoft-edge/web-platform/release-notes/149)。引用为标准与厂商资料核对，不冒充本库真实设备实测。
+
+## 六、2026-11-05 · 默认范围最终审核建议（待维护者裁定）
+
+### 6.1 结论分层
+
+- **事实 / 已实现**：`main` 的产品 CSS 只有 R-003/R-007/R-008；PR #21 的 15 个 T0/T2 观察点和边界合成用例已合并。当前 `package.json` 为 `0.0.2/private:false`，根入口 CSS-only，无运行时 JS 依赖。
+- **事实 / 已验证（限维护者提供的本机日志）**：合并 PR #21 后 `verify:mvp` 为 Vitest 7/7、离线 Node 51/51、真实包 1/1、Vite+ 消费 1/1，合计 60/60；npm dry-run 五文件；Git 工作区干净。日志未明确记录与该次执行绑定的完整 Git 提交 SHA，未单独提供 `vp build` 或各目标浏览器原始 T0/T2 证据。
+- **评审建议 / 尚未批准**：将 **R-003/R-007/R-008 三条**作为默认 Normalize 的 `0.1.0` **候选冻结范围**；17 条暂缓规则在此里程碑内以“不纳入默认”结案，保留未来明确缺陷证据出现时的重开路径；8 条可选设计与 8 条排除默认项不视为缺失实现。此建议并不表示范围已正式冻结、版本已升级或浏览器证据已补齐。
+- **仍待决策**：维护者是否批准候选冻结范围，以及对 R-007/R-008 的历史 Safari/Blink 兼容收益是否接受现有证据边界。尚不能把 `0.1.0` 标为已达到或可发行。
+
+### 6.2 17 条暂缓规则的本阶段退出原则
+
+本阶段**不**将“继续暂缓”误改为“永不允许实现”：对于 R-001、R-002、R-004～R-006、R-009～R-016、R-018、R-027、R-028、R-035，继续沿用第二节逐项列明的缺陷证据不足、浏览器原生行为风险或设计偏好理由。本轮不为凑规则数新增默认 CSS；未来每条规则须附目标浏览器/OS、最小复现、T0/T2 差异、侵入性评估、可追溯来源及独立准入决定后才重开。可选模块设计和默认规则范围验收分开进行。
+
+### 6.3 建议的正式范围验收门槛
+
+| 门槛 | 当前证据 | 审查状态 |
+| --- | --- | --- |
+| 36 条候选逐项分类与理由 | 本文第二节及 W-05、Issue #18 | 已完成研究；最终范围待维护者批准 |
+| 三条产品规则与低侵入边界检查 | PR #19/#21 合并；15 探针及合成测试 | 已实现且有工程验证；真实浏览器证据仍有限 |
+| 可重现的完整工程验收 | 维护者 `verify:mvp` 60/60；五文件 dry-run | 已提供日志；需记录执行当时完整 Git SHA |
+| 独立本地 Fixture 页面构建 | 既有 `vp build` 旧阶段日志 | 本轮提交绑定结果待补 |
+| 对外浏览器支持口径 | ADR-0004、W-07/P-05 证据分级 | 不声明未验证的具体最低版本 |
+| 版本与发行 | 当前 `0.0.2`；人工发行流程已文档化 | `0.1.0` 未批准，不执行发布 |
+
+建议维护者在同一次最终验收中记录以下信息，而**不是**反复为已有成熟同用途规则强制重做全部历史浏览器测试：
+
+```powershell
+git switch main
+git pull --ff-only origin main
+git rev-parse HEAD
+pnpm install --frozen-lockfile
+pnpm run verify:mvp
+pnpm exec vp build
+git status --short
+```
+
+逐项保存完整命令输出及退出码。涉及 R-007/R-008 的 Safari/Blink 专有风险，如决定对外承诺特定最低版本，则先补与该声明匹配的真实浏览器 T0/T2 原始证据；若不作数字承诺，也必须明确记录局限性，不能将推断写为浏览器 PASS。
+
+### 6.4 下一阶段的分离边界
+
+默认 Normalize 范围的“完整”指已审规则的合理取舍和可验证产品范围，**不**要求把 Reset/Forms/A11y 合并进默认入口。可选模块后续各自经过需求、ADR/SDD、exports、真实包和框架兼容性验收后再决定实现与发行。此处不新增源码、测试、CI、依赖或 npm 版本，不创建 Tag/Release。
+
+**裁定状态：范围冻结建议已形成，等待维护者正式批准；不能把研究审查当成 `0.1.0` 发行授权。**
