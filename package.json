@@ -29,7 +29,8 @@
     "test:consumer": "node --test tests/package-vite-consumer.node.test.mjs",
     "test:ecosystem": "node tests/ecosystem-consumer.mjs",
     "test:reset": "node tests/reset-consumer.mjs",
-    "verify:mvp": "vp check && vp test && pnpm run test:offline && vp pack && pnpm run test:package && pnpm run test:consumer && npm pack --dry-run --json --ignore-scripts"
+    "verify:mvp": "vp check && vp test && pnpm run test:offline && vp pack && pnpm run test:package && pnpm run test:consumer && npm pack --dry-run --json --ignore-scripts",
+    "release:publish": "vp pack && npm publish --access public --registry=https://registry.npmjs.org/"
   },
   "devDependencies": {
     "vite-plus": "1.4.0"
