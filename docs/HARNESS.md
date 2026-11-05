@@ -1,5 +1,7 @@
 # HARNESS — 执行、验证与反馈环境
 
+**2026-11-05 · `0.0.3` 合并后工程验收记录（最新）**：维护者提供 PR #25 合并前 Windows 日志：`vp check --fix`、`verify:mvp`（格式 86 文件、21 个 Lint 文件无错误、Vitest 7/7、离线 Node 52/52、真实包 1/1、Vite+ `all.css` 消费 1/1，**61/61 PASS**）、`vp build`（20 模块、8 Fixture 页 PASS）、`git diff --check` 与 `git status --short`（无输出），npm dry-run **10 文件、9,223 B / unpacked 21,440 B、bundled []、本地 SHA-1 `8f79c0bfd72db0a62e41facdcf788fdf0fbe6293`**。PR 已合并 `main@5e299a65e5a091d17ff6d329cadb166613bec332`；日志没有单独打印 `git rev-parse HEAD`，因此不能冒充对合并 SHA 的实测或完整浏览器矩阵。准备正式发行时在该准确 `main` HEAD（或后续唯一获准的发行提交）执行一次最终验证并归档 SHA，记录真实浏览器、UI 框架的未验证项。禁止 CI、未经授权不发布。下文“尚未执行”的旧记录是之前阶段的步骤。
+
 **2026-11-05 · `0.0.3` 全套 CSS 候选一次性验收指南（最新，尚未执行）**：在 PR #25 最终 HEAD 上依次执行：
 
 ```powershell
