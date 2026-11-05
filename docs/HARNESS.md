@@ -204,3 +204,5 @@ npm pack --dry-run --json --ignore-scripts --offline .
 记录：任务/需求编号、环境及浏览器版本、最小复现页面、实际/预期差异、受影响入口、测试证据、原因分析、修复结果、无法验证事项。
 
 **更新约定**：在明确批准开发后，新增真实本地脚本、测试或运行环境时，以可执行命令更新本页；**项目不增加任何 CI**。如未运行必须明确记录原因。
+
+**2026-11-05 · MVP 验证顺序修正**：维护者 Windows 日志显示 `vp check` 格式 80/80、Lint 21 文件通过，Vitest 7/7、离线 Node 51/51、真实 tarball 1/1、Vite+ 消费 1/1、npm dry-run 五文件以及 `vp build` 均 PASS；此前离线检查在 `vp pack` 之前运行，读取旧的 `dist/normalize.css` 造成 50/51 FAIL。已将 `verify:mvp` 改为先 `vp pack` 再 `test:offline`，并同步 `tests/package.node.test.mjs` 的严格顺序断言。上述 PASS 属于**先手动 `vp pack` 后运行旧顺序命令**的维护者实测，**修订后的新顺序尚未重新实机验证**；不涉及 CI、发布、依赖或 CSS 产品规则。
