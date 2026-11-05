@@ -220,3 +220,5 @@
 本次文档迁移来源于 [adui-dev/normalize.css 的初始化提交](https://github.com/adui-dev/normalize.css/commit/7f9d4a1af3ea7fea6fb978378f93390ecd47271f)。目标仓库已独立存在，因此采用文档内容迁移而非 GitHub 原生 Transfer；两个仓库的 Git 历史没有合并。
 
 **2026-11-05 · MVP 验证顺序与本机验收更新**：维护者提供 `0.0.2` Windows 日志：首次在旧 `dist` 状态运行 `verify:mvp`，离线测试 50/51，失败原因是打包产物只包含 R-003；手动执行 `vp pack` 后再次运行旧命令，Vitest 7/7、Node 51/51、真实包 1/1、Vite+ 消费 1/1、npm dry-run 五文件以及独立 `vp build` 均 PASS。已最小调整 `package.json#scripts.verify:mvp` 为检查、Vitest、**打包**、离线测试、真实包、消费者、dry-run，并更新对应测试断言。修订后的顺序尚待维护者本机复跑，不宣称已验证；版本仍 `0.0.2`，产品 CSS 仍为 R-003/R-007/R-008，不新增 CI、不发布。
+
+**2026-11-05 · 最新 Windows 验收与 Issue #18 进度**：维护者完成修正顺序后的 `pnpm run verify:mvp`：格式 79 文件、Lint 21 文件 PASS；Vitest 7/7、Node 离线 49/49、真实包 1/1、Vite+ 消费 1/1、npm 五文件 dry-run PASS，`git status --short` 干净。此前 51 项与本次 49 项的差异已定位为前轮日志存在但当前 `main` 测试源码中没有的 R-007 非 `title`/作者装饰保护及 R-008 作者边框颜色保护两条独立用例；这是**覆盖差异待复核**，非本轮失败。Issue #18 的 Draft PR #21 计划增加 12→15 个观察点与错误注入边界；GitHub compare 显示其分支目前相对 `main` **ahead 2 / behind 5**，必须先同步新主分支并进行本机回归再评审合并。保持 `0.0.2`、三条产品规则、无 CI/发布；真实浏览器最低目标证据仍按独立矩阵审核。
