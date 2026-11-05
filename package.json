@@ -23,14 +23,20 @@
     "url": "git+https://github.com/adui-studio/normalize.css.git"
   },
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "type": "module",
   "sideEffects": [
     "**/*.css"
   ],
   "exports": {
-    ".": "./dist/normalize.css"
+    ".": "./dist/normalize.css",
+    "./normalize.css": "./dist/normalize.css",
+    "./reset.css": "./src/reset.css",
+    "./forms.css": "./src/forms.css",
+    "./a11y.css": "./src/a11y.css",
+    "./all.css": "./src/all.css"
   },
   "scripts": {
     "test:offline": "node --test tests/fixtures.node.test.mjs tests/package.node.test.mjs tests/package-smoke.node.test.mjs tests/probe.node.test.mjs tests/r003-evidence.node.test.mjs tests/t2-evidence.node.test.mjs tests/evidence-file.node.test.mjs tests/ecosystem-contract.node.test.mjs tests/reset-contract.node.test.mjs",
