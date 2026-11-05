@@ -7,7 +7,7 @@
 ## 一、当前实际情况
 
 - 已发布 npm `0.0.1` **只包含 R-003**；GitHub `main` 处于 **`0.0.2/private:false` 未发布候选**，默认 `src/normalize.css` 包含 R-003、R-007、R-008 共 3 条。
-- R-007 和 R-008 已经维护者批准合并，但这不意味着全部支持目标浏览器/组件库均有精确提交绑定的实测 PASS。当前 T0/T2 已有 12 个观察点，本轮独立测试候选拟增加不带 `title` 的 `abbr` 和应用自定义 CSS 覆盖案例至 **15 个**。
+- R-007 和 R-008 已经维护者批准合并，但这不意味着全部支持目标浏览器/组件库均有精确提交绑定的实测 PASS。T0/T2 已经通过 PR #21 合并从 12 个观察点扩展到 **15 个**（无 `title` 的 `abbr`、缩写作者样式、表格作者边框），维护者提供的合并后 Windows 工程日志为 Vitest 7/7、离线 Node 51/51、真实包与 Vite+ 消费各 1/1 PASS；尚未取得这些观察点在目标浏览器的完整真实 T0/T2 原始数据。
 - `0.0.2` **不得提前升至 `0.1.0`**。维护者要求只有在默认 `normalize.css` 规则范围和必要验证正式完成后，才使用 `0.1.0`。见 [人工发行规范](../RELEASING.md)。
 - **不以规则数量作为完成指标**：需要修复的现代浏览器差异即使只有三条，也不应复制已过时的浏览器补丁或变相 Reset。以下是现有 36 条候选的**下一轮处理建议**，最终范围由维护者审核。
 
@@ -78,4 +78,15 @@
 
 ## 四、本轮实际结果与未验证内容
 
-本轮已从 GitHub 读取当前 36 条评审矩阵，核对它们的原始分类并加入 Chrome/Edge 149 与 WebKit 证据。新增三类 T0/T2 边界探针及拒绝误报测试属于**独立代码候选**，在合并、Windows 完整回归或实机测试前均不能标注为已验收。后续可依据本表收敛默认规则或提出新的可复现浏览器差异，不默认写入任何未评审的 CSS 声明。
+本轮已从 GitHub 读取当前 36 条评审矩阵，核对它们的原始分类并加入 Chrome/Edge 149 与 WebKit 证据。新增的三类 T0/T2 边界探针和比较器拒绝误报测试已随 PR #21 合并，维护者 Windows 工程回归已 PASS；这仍不能替代浏览器真实 T0/T2 取证。后续可依据本表收敛默认规则或提出新的可复现浏览器差异，不默认写入任何未评审的 CSS 声明。
+
+## 五、2026-11-05 · 阶段性准入复核（分支清理后）
+
+- **分支状态**：GitHub 远程分支仅余 `main` 与历史发行准备分支 `release/prepare-npm-0.0.1-20261105`；后者尚有相对 `main` 的独立提交，保留待单独处置。本节不指示删除历史发布资料。
+- **R-007（保持已合并）**：只作用于带 `title` 的缩写，`:where()` 降低选择器特异性；PR #21 已增加无 `title` 与作者装饰样式保护的合成测试，尚不推断旧 Safari 及所有浏览器都已验证。**重开条件**：取得明确浏览器版本上的行为冲突或覆盖失效证据。
+- **R-008（保持已合并）**：Chrome 149、Edge 149 官方说明明确移除 `table` UA 旧 `border-color: gray`；这使其在这些版本中的修复价值降低，但旧 Blink 兼容价值仍可能存在。保留 `:where(table) { border-color: currentColor; }`，不凭现代上游修复记录直接删除。**重开条件**：旧版目标 UA 差异的真实 T0/T2 证据与作者边框覆盖回归。
+- **R-009（继续暂缓，不编码）**：现行 WHATWG HTML 渲染规范 15.3.11 为 `hr` 定义 `overflow: hidden`、边框、间距，并针对 `size`、`color`、`noshade`、`align` 等属性规定呈现行为。旧式 `overflow: visible`、`height: 0` 或盒模型统一规则有反向改变原生行为风险。**重开条件**：先给出受支持浏览器/OS 的可重复布局差异、最小页面和不破坏呈现属性的最小修复。
+- **R-011（继续暂缓，不编码）**：现行 WHATWG HTML 渲染规范 15.5.5 已定义 `details > summary:first-of-type` 为 `list-item`，附带 disclosure marker 与折叠状态处理；全局 `summary { display: list-item; }` 范围过广。**重开条件**：有目标 UA 的具体差异，且修复范围可限制为原生 `details` 场景并验证键盘、marker、开合与作者样式。
+- **工程验收与浏览器验收分开**：PR #21 合并后的维护者本机 `verify:mvp` 为 60/60 PASS、CSS-only 311 B、npm dry-run 五文件，不能据此宣布浏览器矩阵 PASS。本轮未修改 `src/normalize.css`、版本、导出、依赖或 CI。
+
+**本次复核来源**： [WHATWG hr 渲染规范](https://html.spec.whatwg.org/multipage/rendering.html#the-hr-element)、[WHATWG details/summary 渲染规范](https://html.spec.whatwg.org/multipage/rendering.html#the-details-and-summary-elements)、[Chrome 149 发布说明](https://developer.chrome.com/release-notes/149)、[Edge 149 发布说明](https://learn.microsoft.com/microsoft-edge/web-platform/release-notes/149)。引用为标准与厂商资料核对，不冒充本库真实设备实测。
