@@ -80,7 +80,9 @@ test("W-06 T0/T2 pages share probe targets and only T2 loads the real packed CSS
   assert.equal(bodyOf(baseline), bodyOf(integrated));
   assert.equal(firstStyle(baseline), firstStyle(integrated));
   assert.deepEqual(measuredIds(baseline), measuredIds(integrated));
-  assert.equal(measuredIds(baseline).length, 10);
+  assert.equal(measuredIds(baseline).length, 12);
+  assert.ok(measuredIds(baseline).includes("abbr-title"));
+  assert.ok(measuredIds(baseline).includes("table-border"));
   assert.doesNotMatch(baseline, /id="package-css"|dist\/normalize\.css/);
   assert.match(
     integrated,

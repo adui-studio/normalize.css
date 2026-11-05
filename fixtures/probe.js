@@ -11,6 +11,10 @@ const rows = [...document.querySelectorAll("[data-probe]")].map((element) => {
     parentFontSize: parentStyle.fontSize,
     fontSize: style.fontSize,
     fontFamily: style.fontFamily,
+    textDecorationLine: style.textDecorationLine,
+    textDecorationStyle: style.textDecorationStyle,
+    borderTopColor: style.borderTopColor,
+    color: style.color,
   };
 });
 
@@ -30,9 +34,13 @@ if (packageLink) {
       rules = Array.from(sheet.cssRules, (rule) => ({
         type: rule.type,
         selector: rule.selectorText ?? null,
-        fontWeight: rule.style?.getPropertyValue("font-weight") ?? null,
-        propertyCount: rule.style?.length ?? null,
-        priority: rule.style?.getPropertyPriority("font-weight") ?? null,
+        declarations: rule.style
+          ? Array.from(rule.style, (name) => ({
+              name,
+              value: rule.style.getPropertyValue(name),
+              priority: rule.style.getPropertyPriority(name),
+            }))
+          : null,
       }));
     } catch {
       // CSSOM 可能因访问限制不可读：保留 null 证据，不误判通过。

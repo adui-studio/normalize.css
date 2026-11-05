@@ -4,7 +4,12 @@ import { readEvidenceFile } from "./evidence-file.mjs";
 const WEIGHTS = [400, 600, 700];
 const TAGS = ["b", "strong"];
 const MONO = ["code", "kbd", "samp", "pre"];
-const IDS = [...WEIGHTS.flatMap((weight) => TAGS.map((tag) => tag + "-" + weight)), ...MONO];
+const IDS = [
+  ...WEIGHTS.flatMap((weight) => TAGS.map((tag) => tag + "-" + weight)),
+  ...MONO,
+  "abbr-title",
+  "table-border",
+];
 
 function object(value, label) {
   if (!value || typeof value !== "object" || Array.isArray(value)) {
@@ -52,7 +57,7 @@ function validate(input, role) {
     }
   }
   if (!Array.isArray(data.rows) || data.rows.length !== IDS.length) {
-    throw new Error(role + ".rows must contain exactly 10 probes");
+    throw new Error(role + ".rows must contain exactly 12 probes");
   }
   const rows = new Map();
   for (const raw of data.rows) {
@@ -60,7 +65,15 @@ function validate(input, role) {
     const id = text(item.id, role + ".row.id");
     if (!IDS.includes(id) || rows.has(id))
       throw new Error(role + " unknown or duplicate probe: " + id);
-    const tag = id.startsWith("strong-") ? "strong" : id.startsWith("b-") ? "b" : id;
+    const tag = id.startsWith("strong-")
+      ? "strong"
+      : id.startsWith("b-")
+        ? "b"
+        : id === "abbr-title"
+          ? "abbr"
+          : id === "table-border"
+            ? "table"
+            : id;
     if (item.tagName !== tag) throw new Error(role + "." + id + " wrong tagName");
     const parent = weight(item.parentFontWeight, role + "." + id + ".parentFontWeight");
     if ((tag === "b" || tag === "strong") && parent !== Number(id.split("-")[1])) {
@@ -72,6 +85,18 @@ function validate(input, role) {
       parentFontSize: text(item.parentFontSize, role + "." + id + ".parentFontSize"),
       fontSize: text(item.fontSize, role + "." + id + ".fontSize"),
       fontFamily: text(item.fontFamily, role + "." + id + ".fontFamily"),
+      ...(tag === "abbr"
+        ? {
+            textDecorationLine: text(item.textDecorationLine, role + "." + id + ".textDecorationLine"),
+            textDecorationStyle: text(item.textDecorationStyle, role + "." + id + ".textDecorationStyle"),
+          }
+        : {}),
+      ...(tag === "table"
+        ? {
+            color: text(item.color, role + "." + id + ".color"),
+            borderTopColor: text(item.borderTopColor, role + "." + id + ".borderTopColor"),
+          }
+        : {}),
     });
   }
   return {
@@ -104,7 +129,14 @@ export function compareT2Evidence(nativeJson, packageJson) {
       }
       if (before.weight !== after.weight) weightDifferences += 1;
     } else if (before.weight !== after.weight) {
-      issues.push(id + ": monospace font-weight changed");
+      issues.push(id + ": font-weight changed unexpectedly");
+    }
+    if (id === "abbr-title" &&
+        (after.textDecorationLine !== "underline" || after.textDecorationStyle !== "dotted")) {
+      issues.push("R-007: abbr[title] must have a dotted underline");
+    }
+    if (id === "table-border" && after.borderTopColor !== after.color) {
+      issues.push("R-008: table border color must match currentColor");
     }
     rows.push({
       id,
@@ -115,20 +147,34 @@ export function compareT2Evidence(nativeJson, packageJson) {
     });
   }
   const rules = packed.rules;
-  const rule = Array.isArray(rules) && rules.length === 1 ? rules[0] : null;
+  const expectedRules = [
+    ["b,strong", "font-weight", "bolder"],
+    [":where(abbr[title])", "text-decoration", "underline dotted"],
+    [":where(table)", "border-color", "currentcolor"],
+  ];
   const contentMatches = Boolean(
-    rule &&
-    rule.type === 1 &&
-    typeof rule.selector === "string" &&
-    rule.selector.replace(/\s+/g, "").toLowerCase() === "b,strong" &&
-    rule.fontWeight === "bolder" &&
-    rule.propertyCount === 1 &&
-    rule.priority === "",
+    Array.isArray(rules) &&
+      rules.length === expectedRules.length &&
+      rules.every((rule, index) => {
+        const [selector, name, value] = expectedRules[index];
+        return (
+          rule &&
+          rule.type === 1 &&
+          typeof rule.selector === "string" &&
+          rule.selector.replace(/\s+/g, "").toLowerCase() === selector &&
+          Array.isArray(rule.declarations) &&
+          rule.declarations.length === 1 &&
+          rule.declarations[0]?.name === name &&
+          typeof rule.declarations[0]?.value === "string" &&
+          rule.declarations[0].value.trim().replace(/\s+/g, " ").toLowerCase() === value &&
+          rule.declarations[0].priority === ""
+        );
+      }),
   );
   if (!packed.loaded) {
     issues.unshift("T2 packed stylesheet is not loaded");
   } else if (!contentMatches) {
-    issues.unshift("T2 CSSOM must contain only the b,strong font-weight:bolder rule");
+    issues.unshift("T2 CSSOM must contain only the three approved R-003/R-007/R-008 rules");
   }
   return {
     userAgent: native.userAgent,

@@ -33,8 +33,11 @@ test("W-04 package exports only the Normalize CSS root", () => {
   assert.deepEqual(pkg.sideEffects, ["**/*.css"]);
 });
 
-test("R-003 is the only product rule; browser-default monospace remains untouched", () => {
-  assert.equal(normalizeCss(stylesheet), "b,strong{font-weight:bolder;}");
+test("only reviewed R-003, R-007 and R-008 rules ship; default fonts remain untouched", () => {
+  assert.equal(
+    normalizeCss(stylesheet),
+    "b,strong{font-weight:bolder;}:where(abbr[title]){text-decoration:underlinedotted;}:where(table){border-color:currentColor;}",
+  );
   assert.doesNotMatch(stylesheet, /@import|@layer|!important|font-size\s*:/i);
   assert.equal(stylesheet.includes("https://"), false);
 });

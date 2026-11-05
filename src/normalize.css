@@ -8,3 +8,13 @@ b,
 strong {
   font-weight: bolder;
 }
+
+/* R-007: Restore dotted abbreviation underlines without increasing specificity. */
+:where(abbr[title]) {
+  text-decoration: underline dotted;
+}
+
+/* R-008: Make table border color follow the element text color. */
+:where(table) {
+  border-color: currentColor;
+}

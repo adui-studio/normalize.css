@@ -30,6 +30,28 @@ function fixture(role, oldBlink = false) {
       fontFamily: "monospace",
     });
   }
+  rows.push({
+    id: "abbr-title",
+    tagName: "abbr",
+    parentFontWeight: "400",
+    fontWeight: "400",
+    parentFontSize: "16px",
+    fontSize: "16px",
+    fontFamily: "serif",
+    textDecorationLine: role === "package" ? "underline" : "none",
+    textDecorationStyle: role === "package" ? "dotted" : "solid",
+  });
+  rows.push({
+    id: "table-border",
+    tagName: "table",
+    parentFontWeight: "400",
+    fontWeight: "400",
+    parentFontSize: "16px",
+    fontSize: "16px",
+    fontFamily: "serif",
+    color: "rgb(0, 0, 0)",
+    borderTopColor: role === "package" ? "rgb(0, 0, 0)" : "rgb(128, 128, 128)",
+  });
   return {
     userAgent: "Synthetic Browser/120 (not real evidence)",
     location: "/fixtures/t2-" + role + ".html",
@@ -42,9 +64,17 @@ function fixture(role, oldBlink = false) {
               {
                 type: 1,
                 selector: "b, strong",
-                fontWeight: "bolder",
-                propertyCount: 1,
-                priority: "",
+                declarations: [{ name: "font-weight", value: "bolder", priority: "" }],
+              },
+              {
+                type: 1,
+                selector: ":where(abbr[title])",
+                declarations: [{ name: "text-decoration", value: "underline dotted", priority: "" }],
+              },
+              {
+                type: 1,
+                selector: ":where(table)",
+                declarations: [{ name: "border-color", value: "currentcolor", priority: "" }],
               },
             ],
           },
@@ -58,7 +88,7 @@ test("R-003 old Blink synthetic T0/T2 has four intended bolder differences", () 
   const result = compareT2Evidence(fixture("native", true), fixture("package"));
   assert.equal(result.status, "PROBE_PASS");
   assert.equal(result.weightDifferences, 4);
-  assert.equal(result.rows.length, 10);
+  assert.equal(result.rows.length, 12);
   assert.match(result.limitations[0], /not actual browser identity/);
 });
 
@@ -105,7 +135,7 @@ test("CSSOM rejects an extra rule, a forced priority or an unreadable stylesheet
   assert.equal(compareT2Evidence(fixture("native"), packed).status, "STYLESHEET_CONTENT_MISMATCH");
 
   packed.packageStylesheet.rules.pop();
-  packed.packageStylesheet.rules[0].priority = "important";
+  packed.packageStylesheet.rules[0].declarations[0].priority = "important";
   assert.equal(compareT2Evidence(fixture("native"), packed).status, "STYLESHEET_CONTENT_MISMATCH");
 
   packed.packageStylesheet.rules = null;
@@ -113,6 +143,25 @@ test("CSSOM rejects an extra rule, a forced priority or an unreadable stylesheet
 
   delete packed.packageStylesheet.rules;
   assert.throws(() => compareT2Evidence(fixture("native"), packed), /CSSOM rules/);
+});
+
+test("R-007 and R-008 computed style regressions are detected", () => {
+  const packed = fixture("package");
+  packed.rows[10].textDecorationStyle = "solid";
+  packed.rows[11].borderTopColor = "rgb(128, 128, 128)";
+  const result = compareT2Evidence(fixture("native"), packed);
+  assert.equal(result.status, "STYLE_MISMATCH");
+  assert.ok(result.issues.some((issue) => issue.includes("R-007")));
+  assert.ok(result.issues.some((issue) => issue.includes("R-008")));
+});
+
+test("R-007 and R-008 incorrect CSSOM declarations are rejected", () => {
+  const packed = fixture("package");
+  packed.packageStylesheet.rules[1].declarations[0].value = "underline solid";
+  assert.equal(compareT2Evidence(fixture("native"), packed).status, "STYLESHEET_CONTENT_MISMATCH");
+  packed.packageStylesheet.rules[1].declarations[0].value = "underline dotted";
+  packed.packageStylesheet.rules[2].declarations[0].value = "red";
+  assert.equal(compareT2Evidence(fixture("native"), packed).status, "STYLESHEET_CONTENT_MISMATCH");
 });
 
 test("missing bolder normalization is a mismatch", () => {
