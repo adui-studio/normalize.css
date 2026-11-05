@@ -1,5 +1,7 @@
 # SDD — 详细设计草案
 
+**2026-11-05 · `0.0.3` 完整实现方案（最新开发候选）**：公开 CSS 根入口 `exports["."] → ./dist/normalize.css` 维持已发布 R-003/R-007/R-008 的默认语义；新建 `exports["./normalize.css"] → ./dist/normalize.css` 作为别名，`./reset.css`、`./forms.css`、`./a11y.css`、`./all.css` 对应 `src/*.css`。`all.css` 为相对 CSS `@import` 顺序组合（normalize → reset → forms → a11y），不通过 JavaScript、重复声明或打包时拼接实现；`vp pack` 仍只生成 `dist/normalize.css`，npm `files:["dist","src"]` 携带可选 CSS 源文件。所有可选样式显式 opt-in：Reset 不清除列表 marker/焦点；Forms 不去除 UA 控件外观；A11y 不全局消除动画且尊重 forced-colors/reduced-motion。10 文件 tarball 与 Vite+ 组合入口消费按本轮测试契约复核。该变更须最终集中验证，不宣称已通过浏览器全矩阵或已发行。
+
 **2026-11-05 · 默认入口设计冻结（当前决定）**：默认单一 CSS 根入口的产品规则范围经维护者确认仅为 R-003、R-007、R-008；17 条暂缓不在本里程碑编码，Reset/Forms/A11y 均不公开导出，仍独立设计。`0.0.2`、`exports["."]`、Vite+ CSS-only 包契约不变。规则范围批准不替代目标浏览器实测，不授权 `0.1.0` 或发布；参考 [最终范围冻结记录](research/DEFAULT_NORMALIZE_V01_READINESS.md)。
 
 **2026-11-05 · 当前主分支与回归扩展（最新）**：PR #19 已按维护者批准合并，`main` 默认 `src/normalize.css` 包含 R-003、R-007、R-008 三条规则；`package.json` 仍为 `0.0.2/private:false`，npm 已发布 `0.0.1`。本次仅扩展 T0/T2 验收覆盖（12→15 个探针），测试无 `title` 缩写与作者明示的缩写/表格样式能否优先于低特异性 `:where()`；完整覆盖矩阵见 [默认 Normalize 完整性门槛](research/DEFAULT_NORMALIZE_V01_READINESS.md)。此前 W-05 首版决议保留历史效力，暂缓项不因竞品存在就自动准入；`0.1.0` 只在默认 Normalize 完成且维护者验收后采用。当前尚无最新提交完整 Windows/Vite+ 与浏览器回归的实测日志，不增加 CI。
