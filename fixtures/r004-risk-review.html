@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>R-004 / T1 / 字号偏好风险对照</title>
+    <style id="risk-review-only">
+      /* 仅用于观察用户等宽字号偏好被覆盖的风险，绝不作为默认 CSS。 */
+      code,
+      kbd,
+      samp,
+      pre {
+        font-size: 1em;
+      }
+    </style>
+    <script type="module" src="./probe.js"></script>
+  </head>
+  <body>
+    <h1>R-004 · T1 · 字号风险对照</h1>
+    <p>正文：<code id="code" data-probe>const value = 1; 中文</code></p>
+    <p>按键：<kbd id="kbd" data-probe>Ctrl + K</kbd></p>
+    <p>输出：<samp id="samp" data-probe>OK · 中文</samp></p>
+    <pre id="pre" data-probe>
+const value = 1;
+console.log(value);</pre>
+    <h2>计算样式证据</h2>
+    <pre id="probe-output" aria-live="polite">读取中</pre>
+  </body>
+</html>

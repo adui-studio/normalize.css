@@ -9,11 +9,11 @@
 
 以下是本次审查所用的 **Git 提交快照**，并非已安装的 npm 版本或当前产品支持范围。以后实际执行 Fixture 时，仍须记录**安装版本、锁文件、发布包 CSS 哈希、打包产物**，不能自动将主分支源码等同于 npm 发布产物。
 
-| 方案 | 固定快照 | 本次核对文件 |
-| --- | --- | --- |
-| Tailwind CSS | [2626ae6](https://github.com/tailwindlabs/tailwindcss/commit/2626ae6ceddf36069ab6d55c53a5857c1e2e360a) | [index.css](https://github.com/tailwindlabs/tailwindcss/blob/2626ae6ceddf36069ab6d55c53a5857c1e2e360a/packages/tailwindcss/index.css)、[preflight.css](https://github.com/tailwindlabs/tailwindcss/blob/2626ae6ceddf36069ab6d55c53a5857c1e2e360a/packages/tailwindcss/preflight.css) |
-| UnoCSS | [f8d08ca](https://github.com/unocss/unocss/commit/f8d08ca55176955a331911b2fd55738fe6c7c493) | [tailwind-v4.css](https://github.com/unocss/unocss/blob/f8d08ca55176955a331911b2fd55738fe6c7c493/packages-presets/reset/tailwind-v4.css)、[tailwind-compat.css](https://github.com/unocss/unocss/blob/f8d08ca55176955a331911b2fd55738fe6c7c493/packages-presets/reset/tailwind-compat.css)、[Wind4 选项定义](https://github.com/unocss/unocss/blob/f8d08ca55176955a331911b2fd55738fe6c7c493/packages-presets/preset-wind4/src/index.ts) |
-| TDesign Vue Next | [9325818](https://github.com/Tencent/tdesign-vue-next/commit/9325818db2a69debce4df5bdf126dafdbebe1f56) | [getting-started.md](https://github.com/Tencent/tdesign-vue-next/blob/9325818db2a69debce4df5bdf126dafdbebe1f56/packages/tdesign-vue-next/site/docs/getting-started.md) |
+| 方案             | 固定快照                                                                                               | 本次核对文件                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| ---------------- | ------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Tailwind CSS     | [2626ae6](https://github.com/tailwindlabs/tailwindcss/commit/2626ae6ceddf36069ab6d55c53a5857c1e2e360a) | [index.css](https://github.com/tailwindlabs/tailwindcss/blob/2626ae6ceddf36069ab6d55c53a5857c1e2e360a/packages/tailwindcss/index.css)、[preflight.css](https://github.com/tailwindlabs/tailwindcss/blob/2626ae6ceddf36069ab6d55c53a5857c1e2e360a/packages/tailwindcss/preflight.css)                                                                                                                                                    |
+| UnoCSS           | [f8d08ca](https://github.com/unocss/unocss/commit/f8d08ca55176955a331911b2fd55738fe6c7c493)            | [tailwind-v4.css](https://github.com/unocss/unocss/blob/f8d08ca55176955a331911b2fd55738fe6c7c493/packages-presets/reset/tailwind-v4.css)、[tailwind-compat.css](https://github.com/unocss/unocss/blob/f8d08ca55176955a331911b2fd55738fe6c7c493/packages-presets/reset/tailwind-compat.css)、[Wind4 选项定义](https://github.com/unocss/unocss/blob/f8d08ca55176955a331911b2fd55738fe6c7c493/packages-presets/preset-wind4/src/index.ts) |
+| TDesign Vue Next | [9325818](https://github.com/Tencent/tdesign-vue-next/commit/9325818db2a69debce4df5bdf126dafdbebe1f56) | [getting-started.md](https://github.com/Tencent/tdesign-vue-next/blob/9325818db2a69debce4df5bdf126dafdbebe1f56/packages/tdesign-vue-next/site/docs/getting-started.md)                                                                                                                                                                                                                                                                  |
 
 ## 2. 已确认的源码事实
 
@@ -25,15 +25,15 @@
 
 ## 3. 冲突候选与测试优先级（推断，待实测）
 
-| 优先级 | 元素/属性 | 源码观察 | 需要证明或否证的问题 |
-| --- | --- | --- | --- |
-| P0 | TDesign Button/Input 的 `box-sizing`、`border`、`font`、`background-color` | Tailwind v4 / UnoCSS tailwind-v4 均有较广泛的盒模型与表单重置；TDesign Reset 可独立引入 | 是否存在不受控的全局 Reset；组件库样式是否被覆盖 |
-| P0 | CSS Cascade Layers | Tailwind 标准入口进入 `base` 层；UnoCSS 独立 Reset 文件不自带 `@layer` | 正反导入顺序是否真正改变优先级；未分层作者样式是否优先 |
-| P0 | `[hidden]` 与 `[hidden="until-found"]` | Tailwind v4 / UnoCSS tailwind-v4 使用特定选择器加 `display: none !important`；compat 入口的 `display: none` 没有 `!important` | 隐藏行为与业务强制显示的优先级是否不同；不得破坏 until-found |
-| P1 | `h1`–`h6`、`ol`、`ul`、margin/padding | Tailwind v4 / UnoCSS tailwind-v4 清理标题字体与列表标记，且全局去除间距 | 是否违背本项目“默认不清除所有间距、不抹除原生语义”的设计红线 |
-| P1 | `button`、`[role="button"]` 的 cursor | compat 提供 `cursor: pointer`，Tailwind v4 默认光标策略不同 | 用户可感知的悬浮态、disabled 光标是否出现区别 |
-| P1 | `input::placeholder`、`textarea::placeholder` | compat 使用固定浅灰色；v4 体系采用不同的占位符颜色策略 | 与组件库输入框颜色、深色模式/强制色是否冲突 |
-| P2 | `img`、`video`、`svg` 的 `display` / `max-width` | 多个 Reset 具有块级展示及宽度限制 | 是否影响图标、组件内部 SVG 或图片纵横比 |
+| 优先级 | 元素/属性                                                                  | 源码观察                                                                                                                      | 需要证明或否证的问题                                         |
+| ------ | -------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| P0     | TDesign Button/Input 的 `box-sizing`、`border`、`font`、`background-color` | Tailwind v4 / UnoCSS tailwind-v4 均有较广泛的盒模型与表单重置；TDesign Reset 可独立引入                                       | 是否存在不受控的全局 Reset；组件库样式是否被覆盖             |
+| P0     | CSS Cascade Layers                                                         | Tailwind 标准入口进入 `base` 层；UnoCSS 独立 Reset 文件不自带 `@layer`                                                        | 正反导入顺序是否真正改变优先级；未分层作者样式是否优先       |
+| P0     | `[hidden]` 与 `[hidden="until-found"]`                                     | Tailwind v4 / UnoCSS tailwind-v4 使用特定选择器加 `display: none !important`；compat 入口的 `display: none` 没有 `!important` | 隐藏行为与业务强制显示的优先级是否不同；不得破坏 until-found |
+| P1     | `h1`–`h6`、`ol`、`ul`、margin/padding                                      | Tailwind v4 / UnoCSS tailwind-v4 清理标题字体与列表标记，且全局去除间距                                                       | 是否违背本项目“默认不清除所有间距、不抹除原生语义”的设计红线 |
+| P1     | `button`、`[role="button"]` 的 cursor                                      | compat 提供 `cursor: pointer`，Tailwind v4 默认光标策略不同                                                                   | 用户可感知的悬浮态、disabled 光标是否出现区别                |
+| P1     | `input::placeholder`、`textarea::placeholder`                              | compat 使用固定浅灰色；v4 体系采用不同的占位符颜色策略                                                                        | 与组件库输入框颜色、深色模式/强制色是否冲突                  |
+| P2     | `img`、`video`、`svg` 的 `display` / `max-width`                           | 多个 Reset 具有块级展示及宽度限制                                                                                             | 是否影响图标、组件内部 SVG 或图片纵横比                      |
 
 **归因提醒**：规则出现不等于发生了冲突；必须根据真实加载顺序、origin、importance、layer、specificity、作用域和声明次序判断。独立 UnoCSS Reset 默认无层这一点与 Tailwind 标准入口的 `base` 层是结构差异，不应只交换 import 文本就宣称已验证顺序敏感性。
 

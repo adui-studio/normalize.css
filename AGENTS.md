@@ -1,27 +1,29 @@
 # AGENTS.md — @adui/normalize.css
 
-> 本文件是项目 Agent 的简明规则入口。**ADR-0001～0005 已接受，首版实施计划及最低浏览器测试目标已批准；当前仅授权文档与任务规划。未经新的开发指令，不编写 CSS/脚本、不安装依赖、不发布或部署。** 以用户最新要求为准。
+> **当前状态（2026-11-05）**：MVP `0.0.1/private:true` 已在开发分支实现，维护者已确认最终签收；W-03～W-06 已管理结项，W-01/W-02 与 W-07 仍 Open。产品 CSS 目前仅包含已批准的 R-003，公开入口只有 `@adui/normalize.css`；尚未合并 `main` 或发布 npm。五项 ADR 均 Accepted，统一采用 Vite+ 1.4.0 / pnpm 12.15.0，**绝不新增 CI**。
+>
+> **验证及授权边界**：旧版 Windows `vp check`、`vp test`、离线 Node、`vp pack`、真实 tarball 和消费者测试有维护者提供的历史通过记录；最新测试断言及分支同步提交之后尚无完整 `pnpm run verify:mvp` 原始日志，不能作为本轮独立 PASS。W-06 正式签收不代表七项最低浏览器环境已有可公开审核的逐项证据。W-07 的 npm 首发认证、浏览器对外支持声明及单独发行授权仍未完成；**不得擅自合并 PR、修改 `private:true`、打 Tag/Release 或 npm 发布**。详见 [MVP 验收清单](docs/MVP_0_0_1_HANDOFF.md)、[W-07 发布门禁](docs/research/W07_RELEASE_GATES.md) 与 [HARNESS](docs/HARNESS.md)。
 
 ## 1. 项目事实
 
 - 仓库：[adui-studio/normalize.css](https://github.com/adui-studio/normalize.css)，npm 包目标名：`@adui/normalize.css`。
-- 当前已确认：GitHub 仓库已建立并包含 MIT LICENSE；五项 ADR 已接受，首版只规划默认 Normalize 入口；Chrome/Edge 120、Firefox 121、Safari 17.2（及对应核心移动版本）已确定为**最低测试目标而非已验证兼容范围**，参见 [MVP 计划](docs/plans/MVP_IMPLEMENTATION_PLAN.md)。
-- 目前没有实现源码、可运行包、已安装项目工具链或已执行的浏览器兼容测试；**后续开发工具链已选 Vite+（ADR-0005 Accepted），但尚未安装或运行**。
+- 当前已确认：正式仓库包含 MIT LICENSE，五项 ADR 已接受，首版默认 Normalize 已实现唯一 R-003；Chrome/Edge 120、Firefox 121、Safari 17.2（及对应核心移动版本）是**批准的最低测试目标，而非已公开承诺的最低支持版本**。参见 [MVP 计划](docs/plans/MVP_IMPLEMENTATION_PLAN.md)。
+- 当前工程事实：开发分支已有 `package.json`、`pnpm-lock.yaml`、`vite.config.ts`、`src/normalize.css`、`fixtures/` 与 `tests/`。`vp pack` 只生成静态 CSS，真实包安装和 Vite+ 消费已有历史验证；最新变更的本机全量测试尚待归档。开发范围及状态以 [项目上下文](docs/PROJECT_CONTEXT.md) 和 [W-07 审核记录](docs/research/W07_RELEASE_READINESS_REVIEW.md) 为准。
 - 目标：低侵入 CSS 标准化基础库；Reset、A11y、Forms 是已接受的长期可选模块方向，**首版延期**；默认不内置 `@layer`，固定 Baseline 2023 作为特性参考。
-- **工具链决策**：后续开发统一 Vite+，参见 [ADR-0005](docs/adr/0005-viteplus-toolchain.md)。工具链已选定不构成开始编写 CSS 或安装依赖的授权。
+- **工具链决策**：后续开发统一 Vite+，参见 [ADR-0005](docs/adr/0005-viteplus-toolchain.md)。工具链保持 Vite+；本次已明确授权首批 CSS 开发，不据此推定 npm 发布、引入新依赖或增加 CI 的权限。
 
 ## 2. 单一事实来源
 
-| 问题 | 优先文档 |
-| --- | --- |
-| 要实现什么及如何验收 | [REQUIREMENTS](docs/REQUIREMENTS.md) |
-| 架构边界与原因 | [ARCHITECTURE](docs/ARCHITECTURE.md) 和 [ADR](docs/adr/0001-css-base-strategy.md) |
-| 模块接口及具体设计 | [SDD](docs/SDD.md) |
-| 当前进度和待决策 | [PROJECT_CONTEXT](docs/PROJECT_CONTEXT.md) |
-| 文件位置 | [CODEBASE_MAP](docs/CODEBASE_MAP.md) |
-| 可用 Skills | [SKILLS](docs/SKILLS.md)：第三方原版技能的来源与使用边界 |
-| 可执行检查 | [HARNESS](docs/HARNESS.md) |
-| 文档一致性 | [DOCUMENTATION_VALIDATION](docs/DOCUMENTATION_VALIDATION.md) |
+| 问题                 | 优先文档                                                                          |
+| -------------------- | --------------------------------------------------------------------------------- |
+| 要实现什么及如何验收 | [REQUIREMENTS](docs/REQUIREMENTS.md)                                              |
+| 架构边界与原因       | [ARCHITECTURE](docs/ARCHITECTURE.md) 和 [ADR](docs/adr/0001-css-base-strategy.md) |
+| 模块接口及具体设计   | [SDD](docs/SDD.md)                                                                |
+| 当前进度和待决策     | [PROJECT_CONTEXT](docs/PROJECT_CONTEXT.md)                                        |
+| 文件位置             | [CODEBASE_MAP](docs/CODEBASE_MAP.md)                                              |
+| 可用 Skills          | [SKILLS](docs/SKILLS.md)：第三方原版技能的来源与使用边界                          |
+| 可执行检查           | [HARNESS](docs/HARNESS.md)                                                        |
+| 文档一致性           | [DOCUMENTATION_VALIDATION](docs/DOCUMENTATION_VALIDATION.md)                      |
 
 ## 3. 规则优先级
 
@@ -50,7 +52,7 @@
 - 本项目明确**不增加任何 CI**；Harness 只讨论本地人工触发的验证，不新增任何工作流。
 - 未经明确要求不创建发布/部署工作流、不推送发布版本、不运行不可信第三方脚本。
 - Git 提交建议遵循 Conventional Commits、中文主题、适当 emoji；以仓库未来正式规范为准。
-- 文档阶段不为形式创建空 Skill、空源码目录、虚构脚本或通过状态。
+- 不为形式创建空 Skill、空源码目录、虚构脚本或通过状态。W-03 Fixture 测试代码不属于发布 CSS 源码，不能把候选规则测试写作产品实现。
 - 第三方 Skills 固定上游 SHA、许可证和来源，见 [记录](.agents/skills/UPSTREAM.md)；工具调用必须匹配当前连接与权限。
 
 ## 7. 完成判定

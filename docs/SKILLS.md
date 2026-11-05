@@ -6,11 +6,11 @@
 
 来源：[github/awesome-copilot](https://github.com/github/awesome-copilot)，固定上游提交 [`8178d1939a203f691067073dcab2a3f1e14072d3`](https://github.com/github/awesome-copilot/tree/8178d1939a203f691067073dcab2a3f1e14072d3/skills)。
 
-| Skill | 原版入口 | 使用场景 | 本轮状态 |
-| --- | --- | --- | --- |
-| github-issues | [SKILL.md](../.agents/skills/github-issues/SKILL.md) | 先核对仓库与 Issue 类型，再提供可复现问题、功能或任务的结构化提交 | 已用于 Issue Forms；尚未新建 Issue |
-| conventional-commit | [SKILL.md](../.agents/skills/conventional-commit/SKILL.md) | 结构化提交标题与中文变更说明 | 已用于本轮文档提交 |
-| bug-reproduction-brief | [SKILL.md](../.agents/skills/bug-reproduction-brief/SKILL.md) | 先记录环境、最小复现、期望与实际，暂缓未经证实的修复 | 已用于浏览器 Issue Form 和 [表单规则研究](research/FORM_CONTROLS_REVIEW.md)；尚未做浏览器实测 |
+| Skill                  | 原版入口                                                      | 使用场景                                                          | 本轮状态                                                                                      |
+| ---------------------- | ------------------------------------------------------------- | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| github-issues          | [SKILL.md](../.agents/skills/github-issues/SKILL.md)          | 先核对仓库与 Issue 类型，再提供可复现问题、功能或任务的结构化提交 | 已用于 Issue Forms；尚未新建 Issue                                                            |
+| conventional-commit    | [SKILL.md](../.agents/skills/conventional-commit/SKILL.md)    | 结构化提交标题与中文变更说明                                      | 已用于本轮文档提交                                                                            |
+| bug-reproduction-brief | [SKILL.md](../.agents/skills/bug-reproduction-brief/SKILL.md) | 先记录环境、最小复现、期望与实际，暂缓未经证实的修复              | 已用于浏览器 Issue Form 和 [表单规则研究](research/FORM_CONTROLS_REVIEW.md)；尚未做浏览器实测 |
 
 这些是**直接使用上游 Skills 文件**，不是只借鉴后自编；完整来源、许可证和本地命令见 [UPSTREAM.md](../.agents/skills/UPSTREAM.md)。
 

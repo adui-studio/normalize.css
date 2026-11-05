@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>R-003 / T1 / 仅候选规则</title>
+    <style>
+      .weight-400 {
+        font-weight: 400;
+      }
+      .weight-600 {
+        font-weight: 600;
+      }
+      .weight-700 {
+        font-weight: 700;
+      }
+    </style>
+    <style id="candidate-rule">
+      /* 仅用于 T1 复现；不是项目发布的 Normalize 源码。 */
+      b,
+      strong {
+        font-weight: bolder;
+      }
+    </style>
+    <script type="module" src="./probe.js"></script>
+  </head>
+  <body>
+    <h1>R-003 · T1 · 仅单条候选</h1>
+    <p>相较 T0，仅增加 b/strong 的候选规则。</p>
+    <section class="weight-400">
+      <h2>父级 400</h2>
+      <b id="b-400" data-probe>b 标签</b>
+      <strong id="strong-400" data-probe>strong 标签</strong>
+    </section>
+    <section class="weight-600">
+      <h2>父级 600</h2>
+      <b id="b-600" data-probe>b 标签</b>
+      <strong id="strong-600" data-probe>strong 标签</strong>
+    </section>
+    <section class="weight-700">
+      <h2>父级 700</h2>
+      <b id="b-700" data-probe>b 标签</b>
+      <strong id="strong-700" data-probe>strong 标签</strong>
+    </section>
+    <h2>计算样式证据</h2>
+    <pre id="probe-output" aria-live="polite">读取中</pre>
+  </body>
+</html>

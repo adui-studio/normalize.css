@@ -1,33 +1,35 @@
 # PROJECT_CONTEXT — 项目长期上下文
 
-**最近更新**：2026-11-04  
-**当前阶段**：五项 ADR 已接受／最低浏览器测试目标已批准／尚未开发
+**最近更新**：2026-11-05  
+**当前阶段**：五项 ADR 已接受／W-03 本地 Harness 已验收／W-04 包交付验收已结项（Issue #5 Closed）／W-05 36 条规则首版评审通过（Issue #6 Closed — completed）／W-06 已正式验收归档（Issue #7 Closed）／W-07 发行前审核待完成／尚未发布
+
+**MVP 最终验收补充（2026-11-05）**：维护者在当前项目会话明确确认“最终验收完成”。此项记录为**维护者正式签收**，不冒充本工具对最近一次测试断言变更提交 `80f637ed` 的独立完整回归。公开发行前的 P-04 npm 认证、P-05 浏览器最低支持证据以及 P-07 单独发布授权仍未完成；W-07 Issue #8 保持 Open，PR #1/#9 仍为 Draft，尚未合并 `main` 或发布 npm。
 
 ## 1. 项目概况
 
 - 名称：`@adui/normalize.css`
 - GitHub：[adui-studio/normalize.css](https://github.com/adui-studio/normalize.css)
-- 类型：计划中的 CSS 标准化 npm 库
+- 类型：开发中的 CSS 标准化 npm 库（MVP 已实现，尚未发布）
 - 目标：吸收主流 Normalize/Reset 方案中有证据的优点，舍弃过时、过度或高侵入的默认规则。
 - 已确认许可证：MIT（见根目录 [LICENSE](../LICENSE)）。
 - 团队沟通语言：中文优先，英文作为必要的项目概览。
 
 ## 2. 事实状态
 
-| 项目 | 状态 | 证据/说明 |
-| --- | --- | --- |
-| GitHub 仓库 | 已创建 | 根目录已有 LICENSE |
-| LICENSE | 已存在 | MIT，Copyright © 2026 ADui Studio |
-| 八类工程资产 | 文档初始化 | [AGENTS](../AGENTS.md)、需求、SDD、架构、上下文、代码地图、Skills、Harness |
-| CSS 源码 | **未实现** | 仓库无 src/ 或发布 CSS 文件 |
-| package.json、依赖、构建脚本 | **未实现** | Vite+ 已选为开发工具链（ADR-0005 Accepted），但未安装、未运行、未生成配置 |
-| 自动化测试、浏览器回归 | **未实现/未运行** | 只规划本地运行，不得声称通过 |
-| CI | **明确不规划** | 项目约束：不增加任何 CI |
-| npm 包发布、版本号 | **未发布/未确定** | 不能将先前讨论的草案版本当成仓库发布事实 |
-| 架构方案 | **已接受／未实现** | ADR-0001～0005 均 Accepted；[MVP 实施计划](plans/MVP_IMPLEMENTATION_PLAN.md) 已建立，浏览器兼容承诺仍待验证 |
-| 自研 Skills | **未创建** | 目前没有项目自研技能 |
-| 第三方 Skills | **评审分支已纳入** | 3 个 awesome-copilot 原版 Skill，CLI 未执行，本机发现未验证；见 [索引](SKILLS.md) |
-| Harness | **未搭建** | 仅建立 [验证计划](HARNESS.md) |
+| 项目                         | 状态               | 证据/说明                                                                                                   |
+| ---------------------------- | ------------------ | ----------------------------------------------------------------------------------------------------------- |
+| GitHub 仓库                  | 已创建             | 根目录已有 LICENSE                                                                                          |
+| LICENSE                      | 已存在             | MIT，Copyright © 2026 ADui Studio                                                                           |
+| 八类工程资产                 | 文档初始化         | [AGENTS](../AGENTS.md)、需求、SDD、架构、上下文、代码地图、Skills、Harness                                  |
+| CSS 源码                     | **首条已实现**     | 开发分支 `src/normalize.css` 仅包含 R-003；R-004 保留原生默认                                               |
+| package.json、依赖、构建脚本 | **部分实现**       | 单根 CSS、Vite+ 打包已实测；真实包与生产消费者测试均通过；仍 private                                        |
+| 自动化测试、浏览器回归       | **部分实现**       | 离线 Node 26/26、真实包 1/1、Vite+ 消费 1/1；浏览器仅部分完成                                               |
+| CI                           | **明确不规划**     | 项目约束：不增加任何 CI                                                                                     |
+| npm 包发布、版本号           | **未发布/已定**    | 候选 `0.0.1/private:true`；未公开发行，合并和发布另需授权                                                   |
+| 架构方案                     | **已接受／未实现** | ADR-0001～0005 均 Accepted；[MVP 实施计划](plans/MVP_IMPLEMENTATION_PLAN.md) 已建立，浏览器兼容承诺仍待验证 |
+| 自研 Skills                  | **未创建**         | 目前没有项目自研技能                                                                                        |
+| 第三方 Skills                | **评审分支已纳入** | 3 个 awesome-copilot 原版 Skill，CLI 未执行，本机发现未验证；见 [索引](SKILLS.md)                           |
+| Harness                      | **部分实现**       | 已有 Fixture 与测试；首批 CSS 构建和定向 Node 测试通过；Vite+ 最新改动未重跑                                |
 
 ## 3. 已接受架构与仍待验证的事项
 
@@ -35,50 +37,175 @@
 - **ADR-0002 Accepted**：首版默认不内置 `@layer`，按规则评估 `:where()`。
 - **ADR-0003 Accepted**：首版只规划 `@adui/normalize.css` 默认根入口；`all.css` 等路径延期。
 - **ADR-0004 Accepted**：固定 Baseline 2023 作为特性准入参考，七项 [最低浏览器测试目标](research/BASELINE_2023_MAPPING.md) 已批准并依据时间线核对；实际兼容性声明、OS/设备/WebView 仍未实测。
-- **ADR-0005 Accepted**：开发工具链统一使用 Vite+，具体版本、纯 CSS 打包方式和本地运行结果尚未确定。
-- **W-02 部分研究**：已批准最低测试目标包含旧 Blink/WebKit，因此 R-003 成为首版必测条件性候选；R-004 不宜在默认 Normalize 中覆盖用户等宽字号偏好。[专项证据](research/RULE_EVIDENCE_R003_R004.md) 与 [本地执行指南](research/R003_R004_LOCAL_VERIFICATION.md) 已建立，真实浏览器复现未执行。
-- 仍需实测 Vue/React、Element Plus、Ant Design、TDesign、Tailwind/UnoCSS Reset 兼容性；所有候选规则均未获准实现。
+- **ADR-0005 Accepted**：开发工具链统一使用 Vite+ 1.4.0；`vp pack` 已实际验证输出唯一 CSS、真实 tarball 与 Vite+ 生产消费者已有历史 PASS 记录。最新测试断言和分支合并后的完整回归尚无对应原始日志。
+- **W-02 部分研究**：已批准最低测试目标包含旧 Blink/WebKit，因此 R-003 成为首版必测条件性候选；R-004 不宜在默认 Normalize 中覆盖用户等宽字号偏好；Chrome 156 T0/T1/T1b 已观察到 13px/13px/16px 的局部差异。[专项证据](research/RULE_EVIDENCE_R003_R004.md) 与 [本地执行指南](research/R003_R004_LOCAL_VERIFICATION.md) 已建立；Chrome 156 已完成 R-003 六组真实 JSON 对照（0 差异）；Chrome for Testing 120.0.6099.109 / Windows 11 的真实 JSON 已独立核对（4 组差异），Firefox 121 的真实 T0/T1 JSON 与 Windows CLI 实测均为零差异；Edge 120、Safari 17.2 与移动端、UA 声明来源和生态回归尚未实测。
+- **W-05/W-06 实际进度**：R-003 已获准并实现，其他 35 条未纳入首版；Vue/React 组件及三套 Reset 的既有验证已由维护者完成 W-06 管理验收。各最低目标浏览器的可审计原始 T0/T2 证据仍需按 P-05 单独归档。
 
 ## 4. 当前工作与后续顺序
 
-1. **已完成决策和任务拆分**：ADR-0001～0004 Accepted；[W-01～W-07 MVP 计划](plans/MVP_IMPLEMENTATION_PLAN.md) 已建立；GitHub [Issue #2～#8](https://github.com/adui-studio/normalize.css/issues) 均为待执行任务。
-2. **研究任务（可继续文档工作）**：W-01 七项最低目标已批准、Apple 官方确认 Safari 17.2 平台范围；实际浏览器/OS/设备尚未验证。W-02 已有 R-003/004 的标准及源码证据，R-003 需在目标最低版本实测，R-004 不进入默认字号统一。
-3. **开发阶段（需新指令）**：W-03 已形成 [Vite+ 本地 Harness 设计](plans/VITEPLUS_LOCAL_HARNESS_DESIGN.md)，W-04 已形成 [CSS-only 包交付研究](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)；真实安装、Fixture、包导出、CSS 和兼容性回归均未启动。
-4. **发布阶段（另行授权）**：W-07 质量和许可证审核；npm 和 Release 单独批准；不增加 CI。
+1. **已完成的工程与管理验收**：ADR-0001～0005 Accepted；W-03 #4、W-04 #5、W-05 #6、W-06 #7 均已按原验收范围 Closed。当前开发分支已实现 R-003 唯一默认 CSS、Vite+ Fixture、真实 npm 包入口和本地验证脚本，维护者已确认 MVP 最终签收。
+2. **仍然开放的证据研究**：W-01 #2、W-02 #3 保持 Open；Chrome 120 / Firefox 121 有 R-003 局部 T0/T1 证据，公开最低浏览器兼容承诺仍需按 W-07 P-05 补充正式 T0/T2 等环境资料。
+3. **已完成的合并冲突协调**：PR #1 文档分支及 PR #9 MVP 分支已同步 `main` 的固定源码研究，GitHub 现为 `clean`；两者仍处 Draft，未合并 `main`。最新提交之后未取得新的维护者 Windows `pnpm run verify:mvp` 原始执行记录。
+4. **发布审核（独立授权）**：W-07 #8 仍为 Open；P-04 首次 npm 发布认证、P-05 最低浏览器对外支持声明、P-07 正式发行与分支合并授权尚未完成。不增加 CI。
 
 ## 5. 当前风险与阻塞
 
-- **2026-11-04 新增研究来源**：main 分支已建立 [TDesign、Tailwind v4 Preflight、UnoCSS Reset 固定源码审查](research/2026-11-04-reset-source-audit.md)；已识别层叠、样式来源和原生交互的待证风险，但不能视为浏览器或组件库的实际测试 PASS。相关隔离验证原则已关联 [HARNESS §6](HARNESS.md)。
-
-- 浏览器最低**测试目标**已批准但**未实测**，系统 WebView、真实硬件和正式发布支持声明仍未确定。
-- npm `@adui` 作用域的发布权限未验证。
-- 首版不内建 Layers 的策略已接受，实际选择器层叠、消费者覆盖和组件库兼容性仍需实测。
-- 第三方规则借鉴需独立审查许可证、差异证据和破坏性影响。
-- 本轮只能完成文档一致性检查，不能验证运行时与视觉兼容性。
+- 七项目标浏览器是测试目标，不是已冻结的对外支持承诺；Chrome 120 和 Firefox 121 仅有部分 R-003 证据，Edge 120、真实 Safari 17.2 和对应移动版本缺少仓库可定位的逐环境正式 T2 记录。W-06 管理验收不因此撤销。
+- npm 官方 Registry 与 `adui` 账户/个人 `@adui` 作用域已由维护者核验；**首次发布可用性、实际认证和安全要求尚未完成最终确认**。
+- 开发分支已固定 `0.0.1/private:true` 与唯一 CSS 根导出；发布前不得解除 `private` 或执行 npm 发布、Git Tag、GitHub Release、主分支合并。
+- 最新的测试与文档提交没有独立的完整本机 `verify:mvp` 原始终端日志；不能把旧提交的 PASS 当作新提交实测通过。
+- 第三方规则许可、实际浏览器兼容性以及后续增强模块继续按已有 ADR 和证据流程审查；不增加任何 CI。
 
 ## 6. 文档索引和变更记录
 
 [README](../README.md) · [AGENTS](../AGENTS.md) · [REQUIREMENTS](REQUIREMENTS.md) · [ARCHITECTURE](ARCHITECTURE.md) · [SDD](SDD.md) · [CODEBASE_MAP](CODEBASE_MAP.md) · [SKILLS](SKILLS.md) · [HARNESS](HARNESS.md) · [ADR](adr/0001-css-base-strategy.md) · [文档校验](DOCUMENTATION_VALIDATION.md)
 
-| 日期 | 事件 | 备注 |
-| --- | --- | --- |
-| 2026-11-03 | 初始工程文档创建于 adui-dev/normalize.css | 仅文档，无 CSS 或 CI |
-| 2026-11-03 | 迁移文档到 adui-studio/normalize.css | 保留目标仓库原有 LICENSE；原仓库未删除，Git 历史独立 |
-| 2026-11-03 | 文档评审分支增加规则、浏览器、Layers 研究 | 未合并 main；全部为研究/Proposed，明确不增加 CI |
-| 2026-11-03 | 核验首批 11 条候选的上游规范与修复记录 | R-007/008/009/010/011 调整为暂缓，未实测；见 [证据记录](research/RULE_EVIDENCE_BATCH1.md) |
-| 2026-11-03 | 纳入 3 个 awesome-copilot Skills、Issue/PR 模板和第二批表单规则审查 | 文档评审分支，未合并 main；不增加 CI、CSS 或 npm 依赖 |
-| 2026-11-03 | 第三批 17 条规则资料核查及 ADR-0003 初稿 | 36 条初始候选均已进行首轮资料研究；未实测、未接受 ADR、未合并 main |
-| 2026-11-03 | 增加浏览器支持 ADR-0004 与开发准入清单 | 历史记录：当时均未批准 |
-| 2026-11-03 | 维护者接受四项 ADR 并要求转化首版实施任务 | ADR-0001～0004 Accepted，W-01～W-07 未实施 |
-| 2026-11-03 | 在 GitHub 创建 W-01～W-07 对应 Issues #2～#8 | 任务待执行，未开始实现；不增加 CI |
-| 2026-11-03 | 维护者指定 Vite+ 开发工具链，并完成 Baseline 2023 固定映射数据核查 | ADR-0005 Accepted；工具链未安装，候选最低版本非实际浏览器兼容承诺 |
-| 2026-11-03 | W-02 完成 R-003/R-004 第一轮 UA 源码与用户偏好研究 | R-003 条件性候选，R-004 默认不采纳；未执行本项目真实浏览器测试 |
-| 2026-11-03 | 维护者批准 Baseline 2023 七项最低测试目标，补充 WebKit 2023 UA 证据 | R-003 首版必测，R-004 维持默认不采纳；正式浏览器兼容声明仍未验证 |
-| 2026-11-03 | W-02 补充 Firefox 121 发行日期前的 Gecko 源码和官方旧版浏览器获取线索 | 本地验证执行指南已形成；未安装旧浏览器或运行 Fixture |
-| 2026-11-03 | W-03 补充 Vite+ 本地 Harness 开发前设计 | 仅更新计划，不创建 package.json、Fixture、源码、依赖或 CI |
-| 2026-11-03 | W-04 完成纯 CSS 根入口、exports、sideEffects 与消费者验收方案研究 | 仅新增方案文档；未运行 vp pack、未建包配置与 CSS、未加 CI |
+| 日期       | 事件                                                                     | 备注                                                                                                                                                                   |
+| ---------- | ------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-11-03 | 初始工程文档创建于 adui-dev/normalize.css                                | 仅文档，无 CSS 或 CI                                                                                                                                                   |
+| 2026-11-03 | 迁移文档到 adui-studio/normalize.css                                     | 保留目标仓库原有 LICENSE；原仓库未删除，Git 历史独立                                                                                                                   |
+| 2026-11-03 | 文档评审分支增加规则、浏览器、Layers 研究                                | 未合并 main；全部为研究/Proposed，明确不增加 CI                                                                                                                        |
+| 2026-11-03 | 核验首批 11 条候选的上游规范与修复记录                                   | R-007/008/009/010/011 调整为暂缓，未实测；见 [证据记录](research/RULE_EVIDENCE_BATCH1.md)                                                                              |
+| 2026-11-03 | 纳入 3 个 awesome-copilot Skills、Issue/PR 模板和第二批表单规则审查      | 文档评审分支，未合并 main；不增加 CI、CSS 或 npm 依赖                                                                                                                  |
+| 2026-11-03 | 第三批 17 条规则资料核查及 ADR-0003 初稿                                 | 36 条初始候选均已进行首轮资料研究；未实测、未接受 ADR、未合并 main                                                                                                     |
+| 2026-11-03 | 增加浏览器支持 ADR-0004 与开发准入清单                                   | 历史记录：当时均未批准                                                                                                                                                 |
+| 2026-11-03 | 维护者接受四项 ADR 并要求转化首版实施任务                                | ADR-0001～0004 Accepted，W-01～W-07 未实施                                                                                                                             |
+| 2026-11-03 | 在 GitHub 创建 W-01～W-07 对应 Issues #2～#8                             | 任务待执行，未开始实现；不增加 CI                                                                                                                                      |
+| 2026-11-03 | 维护者指定 Vite+ 开发工具链，并完成 Baseline 2023 固定映射数据核查       | ADR-0005 Accepted；工具链未安装，候选最低版本非实际浏览器兼容承诺                                                                                                      |
+| 2026-11-03 | W-02 完成 R-003/R-004 第一轮 UA 源码与用户偏好研究                       | R-003 条件性候选，R-004 默认不采纳；未执行本项目真实浏览器测试                                                                                                         |
+| 2026-11-03 | 维护者批准 Baseline 2023 七项最低测试目标，补充 WebKit 2023 UA 证据      | R-003 首版必测，R-004 维持默认不采纳；正式浏览器兼容声明仍未验证                                                                                                       |
+| 2026-11-03 | W-02 补充 Firefox 121 发行日期前的 Gecko 源码和官方旧版浏览器获取线索    | 本地验证执行指南已形成；未安装旧浏览器或运行 Fixture                                                                                                                   |
+| 2026-11-03 | W-03 补充 Vite+ 本地 Harness 开发前设计                                  | 仅更新计划，不创建 package.json、Fixture、源码、依赖或 CI                                                                                                              |
+| 2026-11-03 | W-04 完成纯 CSS 根入口、exports、sideEffects 与消费者验收方案研究        | 仅新增方案文档；未运行 vp pack、未建包配置与 CSS、未加 CI                                                                                                              |
+| 2026-11-03 | 维护者授权开始开发，独立分支实现 W-03 初始本地 Fixture 与 Vite+ 工程配置 | Node 测试 2/2 通过；Vite+ 安装/浏览器运行受环境限制，未添加 Normalize CSS 或 CI                                                                                        |
+| 2026-11-03 | 继续 W-03 离线契约测试与 W-04 包元数据预检                               | 本地 Node 8/8 通过，npm pack dry-run 退出码 0；真实 CSS/exports/浏览器测试未完成                                                                                       |
+| 2026-11-03 | W-04 增加真实 npm 离线合成 CSS 包打包、安装和根路径封装测试              | 本地 Node 总计 10/10 通过；只验证临时合成包，真实 Normalize CSS/Vite+/Webpack 尚未验证                                                                                 |
+| 2026-11-03 | W-02/W-03 增加 R-003 的 T0/T1 JSON 比较器、CLI 与合成数据回归            | 当前离线 Node 测试 18/18 通过；仅测试比较器逻辑，实际旧浏览器证据仍无                                                                                                  |
+| 2026-11-03 | 修复 R-003 输入文件先读取后限长的问题                                    | 原 18 项复测通过，新增 4 项边界测试单独通过；完整 22 项未同批运行，未执行真实浏览器验证                                                                                |
+| 2026-11-04 | 维护者本机完成 Vite+ 和 Chrome 156 第一轮执行                            | Node 22/22、Vitest 5/5、dev 启动；check 因 66 个格式问题失败；R-003 无差异，R-004 T1 未如预期生效，旧版目标待测。见 [运行记录](research/LOCAL_BROWSER_RUN_20261104.md) |
+| 2026-11-04 | R-004 Console 复核与独立字体族 T1b 对照页面                              | T1 CSSOM 已包含 1em 声明、当前与探针均为 13px；新增 T1b 字体族偏好对照                                                                                                 |
+| 2026-11-04 | 维护者提交 Chrome 156 的 T1b 真实截图                                    | T0/T1 四元素均为 13px；T1b 四元素均为 16px，fontFamily 为 monospace, monospace；仅为当前环境计算样式，R-004 默认不准入，旧版目标仍未实测                               |
+| 2026-11-04 | W-03 配置 Vite+ 格式检查隔离上游 Skills                                  | `vite.config.ts` 增加 `fmt.ignorePatterns` 排除 `.agents/skills/**`；第一方仍纳入检查；初始 66 文件为旧基线                                                            |
 
-**更新约定**：重大进度、已完成验证、关键决策、阻塞与下一阶段变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
+| 2026-11-04 | 维护者第二轮本机静态检查与测试 | `vp fmt --check` / `vp check` 仍 FAIL（报告 54 个第一方文件）；离线 Node 23/23、Vitest 6/6 PASS；Windows `DEP0190` 警告待处理，未执行正式 CSS 打包/旧版浏览器矩阵 |
+
+**最新状态补充（2026-11-04）**：R-003 新增 Chrome for Testing 120.0.6099.109、Windows 11 25H2 真实 T0/T1 JSON：父级 600/700 下 T0 700、T1 900，四组计算字重差异；数据已独立解析，CLI 对该批文件的终端执行日志尚未收到。详见[研究记录 §2.2](research/LOCAL_BROWSER_RUN_20261104.md)。维护者完成 Windows 修复后回归：`vp check` 54 文件格式正确、11 文件 Lint 无错误，`vp test` 6/6、离线 Node 23/23、独立 npm 烟测 1/1 均通过，`DEP0190` 未再出现。随后真实运行 R-003 T0/T1 JSON 比较器，得到 `NO_COMPUTED_DIFFERENCE`、零差异（Chrome 156，见[记录 §2.1](research/LOCAL_BROWSER_RUN_20261104.md)）。这不是 Chrome/Edge 120、Firefox 121、Safari 17.2 及移动端的兼容验收。W-03 仍需最低浏览器证据，W-04 仍缺正式 CSS 包与消费端验收，无 CI、无发布。
+
+**最新补充（2026-11-04，Firefox 121）**：维护者 Windows Firefox 121 的 R-003 T0/T1 CLI 结果为 `NO_COMPUTED_DIFFERENCE`、0 差异/0 候选失败；两份原始 JSON 已独立解析核对。具体指纹与六组数值见[本机记录 §2.4](research/LOCAL_BROWSER_RUN_20261104.md)。Chrome 120 与 Firefox 121 的局部真实测试并不等于所有目标浏览器兼容性已通过；R-003 继续评审，不准入发布 CSS。
+
+**Firefox 121 的 R-004 补充（2026-11-04）**：维护者使用 PowerShell 读取 T0/T1/T1b 三组 JSON，四个等宽元素在三页的父级和自身计算字号均为 16px；T1b 仅计算字体族变为 `monospace, monospace`。原始三份 JSON 本轮未上传，助手没有独立校验。另从 Firefox `about:support` JSON 核实正式 release `121.0`、Build ID `20231211174248`、Windows OS build `26200`；完整报告不公开。见[运行记录 §3.2.1](research/LOCAL_BROWSER_RUN_20261104.md)。R-004 继续不准入默认 CSS，Chrome 120/Edge 120/Safari 17.2 的 R-004 同类实验及用户偏好模拟仍缺。
+
+**R-004 Chrome 120 补充（2026-11-04）**：维护者从现有三个 Fixture 的本地 JSON 读取到四元素相同结果：T0/T1 为 13px、T1b 为 16px，与 Chrome 156 一致；Firefox 121 的三页均为 16px。Chrome 120 原始三份 JSON 未上传，记录为终端实测而非助手独立文件复核。该对照不证明用户主动修改字体偏好的结果，R-004 继续排除默认 CSS。详见[运行记录 §3.2.2](research/LOCAL_BROWSER_RUN_20261104.md)。
+
+**首批产品代码开发（2026-11-04）**：维护者明确要求按浏览器默认使用并停止额外字体偏好专项测试。开发分支新增 `src/normalize.css`（唯一 R-003 的 `b, strong { font-weight: bolder; }`）、最初的 Node 复制脚本（后续已移除）、单一 CSS 根 `exports`，保持 `private: true`、`0.0.0`、无新增依赖及 CI。定向 Node 测试 5/5、静态 CSS 输出字节检查、离线本地 tarball 安装/根路径解析/未公开子路径拒绝已在独立 Linux Node 22.16.0 复刻目录实测通过；该运行时低于项目要求，Windows 上最新 `vp check`、完整 Node/Vitest 与实际 Vite+/Webpack 消费端验证仍待执行。R-004 不进入产品 CSS，Chrome 120/Firefox 121/Safari 等完整发布兼容范围未验收。详见[SDD](SDD.md)、[包方案](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)与[代码地图](CODEBASE_MAP.md)。
+
+**Vite+ 构建命令迁移（2026-11-04）**：维护者确认旧版 `npm run build` 运行成功、离线 Node 25/25 PASS，并要求直接使用 `vp dev`、`vp build`、`vp pack`。已移除 `scripts/build.mjs` 及旧 build script，`vite.config.ts` 新增 Vite CSS-only 库构建配置（目标 `dist/normalize.css`）和独立 tsdown CSS-only 试验配置（`dist-pack/`，不覆盖包根导出），Git 忽略该试验目录。新定向 Node 契约测试在独立 Node 22.16.0 环境 5/5 PASS；尚未在 Windows Vite+ 1.4.0 执行迁移后的 build/pack/check/test。仍保持 private、无新依赖、无 CI、无发布。详见[W-04 记录 §7.2](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)。
+
+**Vite+ 本机实测与后续修正（2026-11-04）**：维护者执行 `vp check` 55 文件格式与 11 Lint PASS，`vp test` 6/6，离线 Node 25/25，`vp dev` 成功；`vp pack` 生成仅一个 `dist-pack/normalize.css`（约 200 字节，无 JS），但 `vp build` 以 CSS 作为 Vite 库输入时触发 `cssCodeSplit: false` 错误。确认原 `dist/normalize.css` 的时间早于失败构建。开发分支已据此修改 `vite.config.ts`：`vp build` 只构建现有六张 Fixture HTML 到 `dist-fixtures/`，`vp pack` 使用实测的 CSS-only 入口生成 `dist/normalize.css`，包根导出不变。新配置在独立 Linux Node 22.16.0 中完成 Git blob 指纹匹配、定向契约测试 **6/6 PASS**，尚未重新执行 Windows 版 Vite+ build/pack。仍保持 `private: true`、无 CI、无 npm 发布。详见[W-04 记录 §7.3](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)。
+
+**W-03 本地 Harness 结项（2026-11-04）**：维护者提供最终 Vite+ 1.4.0 终端结果：`vp build` 正常构建六张 HTML Fixture 与一个探针 JS 至 `dist-fixtures/`；`vp pack` 成功生成 `dist/normalize.css` 单文件（200 字节），无发布 JS；`npm run test:offline` **26/26 PASS**。此前同轮 `vp check` 55 文件格式/11 Lint PASS、`vp test` 6/6 PASS、`vp dev` 启动成功。依据[W-03 退出门槛](plans/VITEPLUS_LOCAL_HARNESS_DESIGN.md)，GitHub [Issue #4](https://github.com/adui-studio/normalize.css/issues/4) 已以 `completed` 关闭并记录范围：T0/T1 本地复现 Harness 已具备，但 T2 真实包集成、键盘焦点、hidden/dialog、移动端/真实 Safari、组件库等完整测试仍归 W-06（#7），不因关闭 W-03 视作通过。W-04（#5）仍缺 Vite+/Webpack 生产消费者和正式 npm tarball 验收；开发 Draft PR #9 依赖未合并的文档 Draft PR #1，本次不关闭/合并任一 PR、不发布 npm 或新增 CI。
+
+**W-04 真实 tarball 验收补充（2026-11-04）**：在既有合成包烟测之外新增独立 `tests/package-real.node.test.mjs` 和 `npm run test:package`，要求先 `vp pack`。脚本对真实 `dist/normalize.css` 执行当前仓库 `npm pack --offline`、临时消费者安装、文件白名单、根导出和子路径封装验证；不会写入或发布正式 tarball，不新增依赖/CI。提交的脚本 Git blob SHA 与独立 Linux Node 22.16.0 代表性包目录运行的文件完全一致，**代表性目录 1/1 PASS**；真实 Windows 仓库测试尚未执行，故 W-04 #5 继续 Open，Vite+/Webpack 生产消费与 CSS tree shaking 仍未通过。详见[W-04 §7.4](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)。
+
+**W-04 生产消费者补充（2026-11-04）**：新增 `tests/package-vite-consumer.node.test.mjs` 和 `npm run test:consumer`，在 `vp pack` 后将真实 CSS tarball 离线安装到临时独立 Vite+ 1.4.0 消费项目，以 JS 副作用导入 `@adui/normalize.css` 并执行生产构建，再检查 CSS 产物保留。新增脚本已通过 Node 语法检查和 Git blob 指纹核对，但当前环境没有 Vite+ 1.4.0，**尚未获得真实生产构建输出**；P-02 继续待实测，P-03 Webpack 5 未测。`test:consumer` 与 `test:package` 均独立于 26 项普通离线测试，不引入额外依赖/CI。详见[W-04 §7.5](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)。
+
+**W-04 Windows 验收与 LF 规范（2026-11-04）**：维护者提供真实终端日志：`vp pack` 仅生成单个 `dist/normalize.css`（约 200 字节）；`npm run test:package` **1/1 PASS**，验证真实 tarball 清单、离线安装与根入口/私有子路径；`npm run test:consumer` **1/1 PASS**，验证独立 Vite+ 1.4.0 生产构建保留 CSS。P-01/P-06/P-07/P-09 已通过，P-02 生产打包子项通过（开发态及页面渲染待测），P-03 Webpack 5 尚未执行，W-04 [Issue #5](https://github.com/adui-studio/normalize.css/issues/5) 保持 Open。用户说明反复运行 `vp check --fix` 是为解决 Windows CRLF → LF；开发分支新增 `.gitattributes`（`* text=auto eol=lf`）与 `.editorconfig`（UTF-8、LF、末尾换行），配置需在维护者 Windows 本机复核，未批量重写追踪文件、不改变产品 CSS。没有新增依赖/CI、未发布 npm。见[W-04 §7.6](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)。
+
+**W-04 Webpack 5 消费端脚本与格式诊断（2026-11-04）**：维护者 `git check-attr text eol` 已确认样本为 `text: auto`、`eol: lf`。最新 `vp check` 报告仅三个 Markdown 格式问题，随后 `vp check --fix` 格式修复成功、13 文件 Lint PASS；GitHub 新提交的实际补丁显示是表格宽度与空格对齐变化，未显示 CRLF 归一化。因此 LF 策略生效与 Markdown 格式问题须区分，修复后再次 `vp check` 的完整结果尚未提供。针对 W-04 P-03 已增加显式独立 `npm run test:webpack`，在临时目录中从真实 tarball 安装 CSS 包和固定 Webpack 5.112.2，利用原生 `experiments.css` 做生产构建和 CSS 副作用保留检查。不添加根项目依赖、CI，不发布；新测试文件已通过 Node `--check` 和 Git blob 指纹核对，但当前容器不能访问 npm registry，**未实际安装 Webpack 或运行其构建**。W-04 Issue #5 仍 Open，详见[W-04 §7.7](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)。
+
+**W-04 范围收敛与结项决策（2026-11-04）**：维护者明确 Vite+ 为唯一开发与打包工具链，Webpack 不参与本库 CSS 生成与使用，亦不作为 W-04 必须测试的生产消费者。已删除 `tests/package-webpack-consumer.node.test.mjs` 和 `test:webpack` 命令，修订[包验收矩阵](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)和 ADR-0005 后续实施说明。既有真实结果：`vp pack` 唯一 CSS、`test:package` 1/1 PASS、`test:consumer` 1/1 PASS，满足当前包交付 DoD；P-03 记为**范围外**，不伪装成测试通过。开发态/浏览器直接引用/无障碍/组件库回归留 W-06，公开 npm 发布/Release 留 W-07；保持 `private: true`、`0.0.0`，不改产品 CSS、不新增依赖或 CI。前文有关 Webpack 阶段计划与待测的记录属于历史事实，以本条决策为当前状态。GitHub [Issue #5](https://github.com/adui-studio/normalize.css/issues/5) 已以 Completed 关闭；不等于 W-06/W-07 通过。**本轮更改后最新 Windows `vp check` 和全套测试尚待执行**。
+
+**最新 Windows 回归与 GitHub 任务列表清理（2026-11-04）**：维护者提供 `vp check` 57 文件格式与 13 文件 Lint PASS、`vp test` 6/6 PASS、`vp pack` 单 CSS PASS、离线 Node 26/26、真实包 1/1、独立 Vite+ 生产消费 1/1 PASS。原已 Closed 的 Issue #4 仍显示 23/48、Issue #5 仍显示 9/14，是因为历史阶段中的 `[ ]` Markdown 清单也被 GitHub 累计。现保留全部历史状态文本但退出当前待办统计，两个已结项 Issue 顶部当前验收清单分别 4/4、4/4；尚未验证的 T2、系统偏好、浏览器/组件库回归明确转交 W-06 #7，开发环境锁文件策略核对转交 W-07 #8。PR 仍未合并，包仍 private，未发布、无 CI。
+
+**W-06 首批 T2 开发（2026-11-04）**：在已结项 W-03/W-04 后，开发分支新增 `fixtures/t2-native.html` / `fixtures/t2-package.html`，将 R-003 六组 b/strong 父级字重、R-004 四组原生等宽元素及按钮/搜索/details/hidden 观察点放入一致 DOM。T2 仅引用已存在的 `vp pack` 产物 `../dist/normalize.css`，不复制 T1 候选 CSS，也不安装框架依赖；探针在 T2 记录 CSS 链接是否挂载。`vp build` 增加两张页面，Node/Vitest 契约随之调整。本轮 GitHub 文件静态一致性核对已通过；**尚无最新 Vite+ 命令与真实浏览器 T2 输出**，不得写作浏览器回归通过。仍不修改 R-003 产品规则、不增加 CI、不发布；详见[W-06 T2 验证说明](research/W06_T2_LOCAL_VERIFICATION.md)。
+
+**W-06 T2 本地反馈与原生交互第二批（2026-11-04）**：维护者表示此前 `vp pack`/T0/T2 本地验证流程通过，但未提供该轮命令日志、浏览器精确版本、T0/T2 导出 JSON 或截图；因此仅登记为**维护者报告 T2 基础验证通过**，不认定完整浏览器 F-001～F-010 通过。继续在两张内容一致的 T0/T2 页面中添加原生 fieldset/select/textarea/checkbox/dialog 观察点，原有 10 个 R003/R004 探针不变，仍没有新产品 CSS、JS runtime、依赖或 CI；新增 F-003～F-007 的键盘、Esc、hidden 和系统偏好手工操作尚未执行。W-06 Issue #7 继续 Open；详见[本地验证指南](research/W06_T2_LOCAL_VERIFICATION.md)。
+
+**W-06 Chrome 156 T0/T2 截图结果（2026-11-04）**：维护者提交两张相同 Chrome 156 环境下的 T0 原生与 T2 实际 CSS 页面截图，并确认验证通过。T2 探针显示 `packageStylesheet.href = "../dist/normalize.css"`、`loaded = true`，两页 10 个计算样式探针行一致：六组 `b/strong` 字重及四组原生等宽元素（截图显示 `13px`、`monospace`）未发生额外变化；原生表单、details 等在两页可见。该结论仅是 **Chrome 156 本地 CSS 加载与静态样式对照 PASS（用户截图及反馈）**，不是 T2 Chrome 120 的新证据，也不代表 dialog/Esc、键盘焦点、hidden/until-found 查找、系统偏好、Safari/移动端、组件库或 F-001～F-010 全矩阵通过。验证细节已更新至 [W-06 T2 记录](research/W06_T2_LOCAL_VERIFICATION.md)。W-06 Issue #7 仍 Open；不修改产品 CSS、不加 CI、不发布。
+
+**W-06 原生交互实际操作补充（2026-11-04）**：维护者进一步明确“`dialog` 打开、Esc 关闭、键盘焦点或 `hidden="until-found"` 的实际操作过了，验证通过”。据此将 Chrome 156 的 **dialog 打开/Esc 关闭（F-005 子项）、until-found 查找揭示（F-006 子项）、键盘焦点（F-007 子项）**登记为维护者人工操作 PASS，与此前同浏览器 T0/T2 静态计算样式截图证据分别记录。无逐事件日志/录屏，不能推断 dialog 的关闭按钮、完整表单键盘流程、`details/summary` 实际展开、系统偏好切换、其他浏览器及组件库均通过；这些继续 NOT_RUN 或部分完成。W-06 Issue #7 保持 Open；本轮只更新证据文档/Issue，不修改 CSS 产品或 CI。[详细记录](research/W06_T2_LOCAL_VERIFICATION.md)。
+
+**W-06 Vue/React 生态消费第一批（2026-11-04）**：依据当前 Issue #7 的生态回归要求，新增两个**隔离、可选执行**的测试消费者：Vue 3.5.44 + Element Plus 2.14.7、React 19.3.1 + Ant Design 6.6.8。实际源码生成器与测试脚本位于 `tests/ecosystem-*.mjs`，先 `vp pack` 再用真实 npm tarball 安装，Vite+ 1.4.0 分别构建 native/T2，T2 独有 CSS 根导入。框架与组件库仅在用户显式运行命令时安装到被 Git 忽略的临时目录，根 `package.json` 只增加无依赖的 `test:ecosystem` 脚本，并将两项离线契约加入 `test:offline`；未修改产品 CSS、根运行时依赖、CI 或 npm 发布。已用 Code Mode 检查生成器语法、T0/T2 仅差一个 CSS import，**尚无真实依赖安装/Vite+ 生产消费者构建或浏览器 UI 比对结果**，状态 NOT_RUN。TDesign、Tailwind Preflight、UnoCSS Reset 留到后续范围；详见[W-06 生态本地验证说明](research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)。
+
+**W-06 Vue/React 实际构建与离线测试修复（2026-11-04）**：维护者 Windows 实测 `npm run test:ecosystem -- vue-element` **PASS**（T0 CSS 360171 字节，T2 360362 字节）、`npm run test:ecosystem -- react-antd` **PASS**（T0 静态 CSS 0，T2 192 字节；Ant Design 可在运行时注入样式）；再次执行 `vue-element --keep` PASS，并保留真实 tarball 临时消费者目录用于浏览器 T0/T2 对照。同期 `npm run test:offline` **29/30 PASS、1 FAIL**，唯一失败在 `tests/package.node.test.mjs:95`：新增第七项 `ecosystem-contract.node.test.mjs` 后，脚本全等断言仍要求旧六项列表。已只更新该断言使其与 `package.json` 对齐，未改生态构建逻辑或产品 CSS；**修复后 30/30 尚待维护者本机复验**。Vue/React 真实生产构建验证已通过，但组件实际挂载、UI 外观、键盘焦点仍为 NOT_RUN，W-06 #7 保持 Open。详情见[生态记录](research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)。无新增根依赖或 CI。
+
+**W-06 Vue + Element Plus 浏览器截图结果（2026-11-04）**：维护者提供两张 Chrome 156 的真实页面+控制台截图，T0 `localhost:5174` 和 T2 `localhost:5175` 的 Element Plus Button/Input 均挂载（`true/true`），页面静态外观一致；计算样式的五行完全一致，父级 600/700 的 b/strong 均为 `900`，`code` 均为 `13px`、`monospace`。综合此前 Vue 真实 tarball Vite+ 构建 PASS，**Vue 3.5.44 + Element Plus 2.14.7 在 Chrome 156 的静态 UI 与 R-003/R-004 代表性计算样式对照 PASS（截图证据）**；未运行 Vue 组件实际输入/键盘回归，React+Ant Design 仅生产构建 PASS，其他浏览器未测。两页面有相同 Vue feature flags 警告及本地 favicon 404，均不视作由 Normalize 引起的样式失败。W-06 #7 保持 Open；修复后的 Node 30/30 仍待本机回归。[详情](research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)。
+
+**W-06 React + Ant Design 浏览器截图结果（2026-11-04）**：维护者提供 React 19.3.1 + React DOM 19.3.1 + Ant Design 6.6.8 的 Chrome 156 T0/T2 页面与 Console 截图，两页 Button/Input 均已挂载（`true/true`）、静态外观一致；b/strong 四组计算字重皆 `900`，`code` 为 `13px`/`monospace`，两页五项数据一致。结合该组合真实 npm tarball 的 Vite+ 生产构建 PASS，**React+Ant Design 的 Chrome 156 静态 UI/计算样式对照 PASS（截图）**；Vue+Element Plus 在该浏览器的同类对照此前亦已 PASS。未执行 UI 输入/焦点交互、其他目标浏览器、TDesign、Tailwind/UnoCSS 回归；修复后的离线 Node 30/30 仍待本机验证。F-009、W-06 Issue #7 保持部分完成/Open。详见[生态验证说明](research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)，未改产品 CSS、依赖或 CI。
+
+**W-06 离线 Node 30/30 与 TDesign 生态场景（2026-11-04）**：维护者 Windows 最新 `npm run test:offline` 实际 **30/30 PASS、0 FAIL**（1101.97ms），证明此前 `test:offline` 的旧清单断言已修复；此结论针对**新增 TDesign 代码之前**的实际版本。当前开发分支已在原 `tests/ecosystem-fixtures.mjs` 中增加 `vue-tdesign`，固定 Vue 3.5.44 + TDesign Vue Next 1.20.10，使用官方 `tdesign-vue-next/es/style/index.css`，保留真实 npm tarball + Vite+ 1.4.0 的 T0/T2 独立构建模式，无根项目新增依赖。离线契约测试扩充组件导入及样式路径核查；通过源生成器静态确认三组案例仅 CSS 导入不同，**新代码的 `vp check`、完整 Node 测试、TDesign 安装/生产构建/浏览器测试仍未取得维护者结果**。Vue+Element Plus、React+Ant Design 的既有 Chrome 156 静态回归 PASS 继续有效；Tailwind/UnoCSS Reset 仍未实现，W-06 #7 继续 Open。详细见 [W-06 生态本地验证](research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)。不改产品 CSS、不增加 CI、不发布 npm。
+
+**2026-11-04 · W-06 最新推进**：维护者反馈 TDesign 对照已完成；本轮未新提供逐浏览器 JSON、交互日志及截图，记录为“维护者报告完成，证据待归档”，不擅自扩展为全部平台 PASS。已在 `feat/viteplus-local-harness` 建立 F-010 的三个独立 Reset 测试场景与 `npm run test:reset` 命令，新增 [本地执行指南](research/W06_RESET_LOCAL_VERIFICATION.md)。目前仅完成代码/隔离逻辑的静态核对；**尚未安装 Reset、运行新 Vite+ 构建、采集浏览器结果或更新产品 CSS**。保持 W-06 #7 Open、禁止新增 CI、禁止发布及合并 main。
+
+**2026-11-04 · W-06 UnoCSS Reset 两组构建实测回填**：维护者 Windows 实际运行 `npm run test:reset -- unocss-tailwind-v4 --keep` 和 `npm run test:reset -- unocss-tailwind-compat --keep`；两套彼此隔离的真实 tarball 消费者各自 `baseline`、`normalize-first`、`normalize-last` 三种 Vite+ 生产构建均成功，合计 **6/6 BUILD_PASS**，输出均显示 `hasLayer:false`。已记录每组产物字节数、SHA-256 及临时目录于 [W-06 Reset 实测指南](research/W06_RESET_LOCAL_VERIFICATION.md)。**本轮没有浏览器最终计算样式/交互证据、Tailwind Preflight 实跑日志或新离线全量测试日志**，F-010 尚未整体 PASS；未修改产品 CSS、CI、npm 发布或 main。
+
+**2026-11-04 · W-06 UnoCSS Chrome 156 静态结果**：维护者提供三份 `window.__aduiResetEvidence` JSON，均为 Chrome 156 / Windows NT UA，12 个相同元素各采集 14 项计算样式，三份逐项一致（本次审阅未发现差异）。暂按此前顺序归为 `unocss-tailwind-v4` 的 `baseline → normalize-first → normalize-last`；由于数据未含页面 URL、模式 ID 或 CSS 来源，该归类仍需由页面地址或资源证据确认。只记录 **静态计算样式零差异**，不得记为完整浏览器/交互 PASS；兼容组、Tailwind 与规则胜出来源待测。详见 [W-06 Reset 记录](research/W06_RESET_LOCAL_VERIFICATION.md)。产品 CSS 未改。
+
+**2026-11-04 · W-06 UnoCSS v4 页面来源复核**：维护者随后在 Chrome 156 的 `http://localhost:5180/`、`:5181/`、`:5182/` 提供 `document.styleSheets` 记录，首个样式表的 `data-vite-dev-id` 分别指向同一已保留的 `adui-reset-UQvmww` 消费者中的 `baseline/style.css`、`normalize-first/style.css`、`normalize-last/style.css`。三组页面来源已核实，与之前按顺序采集的三份 12×14 项静态计算结果一致形成更完整的证据链；但原 JSON 本身未携带 URL，且第二个无来源样式表及最终胜出规则、交互尚未审查。只将 **PAGE_SOURCE_CONFIRMED + 静态采样零差异**作为阶段结论，F-010 仍未整体 PASS。见 [Reset 实验记录](research/W06_RESET_LOCAL_VERIFICATION.md)；下一步分别核对 compat 与 Tailwind，不修改产品 CSS。
+
+**2026-11-04 · UnoCSS tailwind-compat 页面来源与基线**：维护者提供 Chrome 156 的 5180、5181、5182 三个端口的 Vite CSS 来源，分别匹配已保留的 `adui-reset-8TXDC6/baseline`、`normalize-first`、`normalize-last`。仅 5180 的 baseline 附完整 12×14 计算样式；5181、5182 当前没有 evidence，因此只确认三模式样式来源，**不能宣称 compat 静态零差异**。compat 与 v4 的 baseline 在字体族、按钮背景/光标、输入框背景和 dialog margin 存在不同 Reset 自身的差异，不能归因 Normalize。详见 [W-06 Reset 记录](research/W06_RESET_LOCAL_VERIFICATION.md)，仍待补齐两份 JSON 和 Tailwind 测试；未修改产品 CSS。
+
+**2026-11-04 · UnoCSS tailwind-compat 三模式静态对照已补齐**：维护者提供 Chrome 156 中 `http://localhost:5181/`、`:5182/` 的完整 `window.__aduiResetEvidence`，与此前 `:5180` baseline 三份数据逐项一致，均为 12 元素 × 14 属性，正反引入顺序均相对 baseline **0 静态计算值差异**。三页 `adui-reset-8TXDC6` 的 Vite CSS 来源此前已核实，真实 tarball + Vite+ 三模式构建 3/3 PASS。至此 UnoCSS `tailwind-v4` 与 `tailwind-compat` 两套**独立场景**均完成 Chrome 156 的三模式静态采样且无差异，但交互、`:focus-visible`、CSS 胜出声明及其他引擎未验收，Tailwind Preflight 仍未提供运行日志，**F-010 仅部分完成**。本轮未修改产品 CSS；详见 [W-06 Reset 记录](research/W06_RESET_LOCAL_VERIFICATION.md)。
+
+**2026-11-04 · Tailwind v4 Preflight 生产构建回填**：维护者 Windows 实际运行 `npm run test:reset -- tailwind-preflight --keep`，在独立 `adui-reset-JQcSHX` 消费者目录完成 `baseline`、`normalize-first`、`normalize-last` 三组真实 Normalize tarball + Vite+ 构建，均 **BUILD_PASS（3/3）**。CSS 字节数为 4586/4786/4786，三份 SHA-256 不同，均有 `hasLayer:true`；脚本针对 Tailwind 还验证了产物存在 `@layer base`。详见 [W-06 Reset 记录](research/W06_RESET_LOCAL_VERIFICATION.md)。**本轮没有浏览器计算样式、交互或 CSS 最终胜出声明证据**，不能将 F-010 标为完整 PASS；UnoCSS 两套独立静态采样的既有结果仍有效。无产品 CSS、根依赖、CI 或发布变更。
+
+**2026-11-04 · Tailwind Preflight Chrome 156 静态对照完成**：维护者提供 `http://localhost:5180/`、`:5181/`、`:5182/` 三页的完整计算样式 JSON 与 Vite CSS 来源，分别对应 `adui-reset-JQcSHX/baseline/style.css`、`normalize-first/style.css`、`normalize-last/style.css`。三页每页均为 12 元素 × 14 项属性，与 baseline 比较正反顺序均 **0 项静态计算值差异**；此前真实 tarball + Vite+ 三模式构建已 3/3 PASS。至此 **Tailwind Preflight、UnoCSS tailwind-v4、UnoCSS tailwind-compat** 三种互相隔离的 Reset 测试共 **9/9 生产构建通过**，各自 Chrome 156 三模式静态采样均一致；仍未验证 CSS 最终胜出声明、焦点/交互和完整浏览器矩阵，**F-010/W-06 不整体标记 PASS**。详见 [W-06 Reset 记录](research/W06_RESET_LOCAL_VERIFICATION.md)，暂无产品 CSS 修改依据，不新增 CI 或发布。
+
+**2026-11-04 · Tailwind Preflight Chrome 156 CSS Layer 胜出声明核实**：维护者提供 `localhost:5181`（Normalize First）与 `localhost:5182`（Normalize Last）的 DevTools Elements → Styles 截图；两页选中的 `b#bold` 均显示未分层 `b,strong { font-weight: bolder }` **有效**，而标记“级联层 base”的同名声明**被划线覆盖**。结合 `src/normalize.css` 现有唯一 R-003 及已核实的隔离导入，可将此场景记为 **CASCADE_WINNER_CONFIRMED（Chrome 156，b#bold，两种顺序）**；此前三模式 `fontWeight:900` 计算值一致。该结论符合普通作者声明中未分层样式优先于具名层样式的规则，不推广到 `!important`、其他选择器/浏览器。此前三个独立 Reset 方案 9/9 构建和各自 Chrome 156 静态采样零差异仍成立；F-010 仅部分完成，交互、`:focus-visible` 和其他引擎仍待验。详见 [Reset 实测记录](research/W06_RESET_LOCAL_VERIFICATION.md)。截图源于维护者对话附件，未作为仓库二进制资产提交；无产品 CSS、CI 或发布改动。
+
+**2026-11-04 · W-06 F-010 原生交互验收准备**：基于已确认的三套互不混合 Reset 共 9/9 生产构建、Chrome 156 三模式静态样式零差异以及 Tailwind `b#bold` CSS Layer 胜出声明证据，现已在 [Reset 本地验证记录](research/W06_RESET_LOCAL_VERIFICATION.md) 补充可直接粘贴到 DevTools Console 的**临时人工取证代码**和操作步骤：物理 Tab/焦点可见、Button 可信点击、Input 可信输入、details 键盘切换、dialog 真实 Esc 关闭、`hidden=until-found` 浏览器查找揭示。复用已有临时消费者，不重新打包、不引入依赖或 CI；当前**仅已编写并静态检查采集代码，交互实测均 NOT_RUN**，未将 DevTools 代码存在误写为浏览器 PASS。现有 Fixture 没有真实业务按钮处理器和完整表单元素，不能据此扩展验收范围。下阶段采集三个模式的交互事件日志并对照各自 baseline，其他引擎及系统偏好仍待验。未修改产品 CSS、不合并或发布。
+
+**2026-11-04 · Tailwind Preflight Chrome 156 三模式交互日志回填**：维护者已提交 `localhost:5180`、`:5181` 和 `:5182` 的完整 `window.__aduiF010.report()`，且随后补齐 `normalize-last` 可信按钮点击（3 次）和输入（长度逐步达到 9）的事件。三页均有 `button-click`、`input`（`trusted:true`）、`details-toggle` 展开与收起、`dialog-cancel`/`dialog-close`、按钮/输入/summary 的 `focusVisible:true` 及 `outlineStyle:auto` 实测证据；普通 hidden 的 `display:none` 也一致。`detailsOpen` 最终状态因操作次数有差异，不属于 CSS 属性差异。三份记录均未出现 `beforematch`，且 `untilFoundAttribute` 均仍为 `until-found`，**不能确认浏览器查找揭示已通过**。F-010 继续部分完成，其他两个 UnoCSS 方案的交互及其他浏览器仍待验，暂无产品 CSS 改动依据。已同步 [W-06 Reset 实测文档](research/W06_RESET_LOCAL_VERIFICATION.md)，无 CI、依赖或发布改动。
+
+**2026-11-04 · Tailwind Preflight 三模式 `hidden="until-found"` 补验通过**：维护者补充 Chrome 156 的三个独立消费者（`localhost:5180/5181/5182`）最新 `window.__aduiF010.report()`；三份均出现 `beforematch` 且 `trusted:true`，最终 `untilFoundAttribute:null`，证明当前 Fixture 的浏览器查找揭示路径已触发，普通 `#hidden` 仍保持 `display:none`。这一**最新证据替代**上一条“查找揭示尚未确认”的历史阶段状态。结合已有可信按钮点击/输入、details 展开收起、dialog 取消关闭和焦点可见性记录，**Tailwind Preflight 在 Chrome 156 下三模式已覆盖的原生交互子项全部通过**，未发现 Normalize 引入顺序造成的回归。仍不能扩展为 Firefox/WebKit、系统偏好、复杂表单或 UnoCSS 独立交互的通过结论，F-010/W-06 保持部分完成。见 [W-06 Reset 验证记录](research/W06_RESET_LOCAL_VERIFICATION.md)；无产品 CSS、依赖、CI、发布或主分支合并变更。
+
+**2026-11-04 · UnoCSS 双 Reset 原生交互完成反馈（最新）**：维护者在前述 Tailwind 原生交互逐页 JSON 验证通过后，对接下来的 UnoCSS `tailwind-v4` 和 `tailwind-compat` 两套独立方案明确反馈“全部验证通过了”。按既定 Chrome 156 / baseline、normalize-first、normalize-last 原生交互验收范围登记为 **维护者人工反馈 PASS**；此轮并未附带 UnoCSS 三页逐项事件 JSON，不能把该反馈写作助手已独立核查的 `trusted:true` 或 `beforematch` 原始记录。两套 UnoCSS 此前各自 3/3 真实构建及三模式 168 项静态零差异证据保持有效；三套独立 Reset 在 Chrome 156 的本地阶段可记已完成，未发现 R-003 引入顺序问题。**W-06 Issue #7 仍 Open**：Firefox/WebKit/目标旧版、系统偏好和完整表单/无障碍仍未获本批证据，不将单一 Chrome 环境的完成扩大为全平台 PASS。见 [W-06 Reset 验证记录](research/W06_RESET_LOCAL_VERIFICATION.md)，未修改产品 CSS、依赖或 CI。
+
+**2026-11-04 · W-06 跨浏览器回归已完成（维护者反馈）**：维护者在三套独立 Reset 的 Chrome 156 构建、静态对照和原生交互验证后，进一步确认“回归完成”。按最新反馈记录为 **“回归操作已完成，逐环境报告待归档”**，不安排重复已完成的本机操作。既有 Chrome 156 的 9/9 生产构建、三方案静态采样零差异、Tailwind Styles/原生交互日志以及 UnoCSS 人工交互 PASS 均保持有效。由于本轮未提供跨引擎回归的完整浏览器版本、OS/设备、Fixture、测试结果和豁免清单，**不擅自声明 Edge 120、Firefox 121、Safari 17.2、移动端、强制色与减少动效等逐项验收 PASS**；此前 Chrome 120 和 Firefox 121 的早期 R-003 数据仍按原记录看待。详见 [浏览器回归状态](research/BROWSER_REVIEW.md) 与 [Reset 验证记录](research/W06_RESET_LOCAL_VERIFICATION.md)。W-06 #7 保持 Open，下一步为正式验收材料归档与覆盖缺口裁定，暂不修改 CSS 或增加 CI/依赖/发布。
+
+**2026-11-04 · W-06 正式验收与归档确认（最新）**：维护者进一步明确“已经正式验收归档”。按维护者的正式管理验收结论，W-06 #7 可结项，已建立 [W-06 验收归档索引](research/W06_ACCEPTANCE_INDEX.md)，引用既有构建、浏览器、生态组件与 Reset 回归证据，并保留不同证据等级。当前仍未在仓库取得本次签核的逐 UA/OS/设备/最低版本结果附件，**管理验收完成不等于对外公开承诺全部最低版本已取得可复核 PASS**；后续发布浏览器支持范围须另行核对原始归档，不擅自补写。**不修改产品 CSS、依赖、CI、不发布、不合并 main**。
+
+**2026-11-04 · W-05 全部 36 条候选规则评审结论通过（最新）**：维护者明确确认“全部规则评审通过”。已根据 [规则总表](research/RULE_REVIEW.md) 与 [正式评审归档](research/W05_RULE_ACCEPTANCE.md) 确认首版分类：**仅 R-003 准入默认 Normalize 且已在 `src/normalize.css` 实现**；其余 35 条按 19 条暂缓/不纳入默认、8 条可选模块设计、8 条排除默认处理，不代表 36 条 CSS 均被批准实现。R-004 继续保留浏览器默认等宽字体字号，默认不添加 `font-size:1em` 等规则。W-06 已由维护者正式验收（#7 Closed），W-05 评审与现有最小实现具备管理结项条件；W-02 #3 的证据维护和 W-07 #8 的发布前审核不因该结论自动关闭。未修改 CSS 产品、依赖、CI、发布或 `main`，公开浏览器支持范围仍以可追溯原始证据为准。
+
+**2026-11-04 · W-07 发布前质量审核第一轮（最新）**：已读取当前开发分支的 `package.json`、唯一 R-003 CSS、Vite+ 配置、真实 tarball 测试、双语 README、MIT 与上游 Skills 许可证，以及完整提交树。**确认**根入口单一、`files:["dist"]`、`sideEffects:["**/*.css"]`、无运行时 dependencies、`private:true` 和 `version:0.0.0`；GitHub 根目录没有锁文件或 CHANGELOG（后者已于本轮补建），`.github/` 下无 workflows。使用 11 份核心与规则/验收文档的 **252 个 Markdown 本地文件链接**做提交树路径静态核对，未发现目标缺失，外链/锚点未测。已更新中英文 README 当前阶段说明，并建立 [W-07 审核报告](research/W07_RELEASE_READINESS_REVIEW.md) 与根 [CHANGELOG](../CHANGELOG.md)（仅 Unreleased）。**未解决**：包管理器/lockfile、npm manifest 中缺少 `license` 等公开元数据、首发正式版本与 scope 权限、最新本机检查和对外浏览器版本承诺；Issue #8 保持 Open。前序 W-03～W-06 工作项的完成决定不因此撤销。未修改 CSS/根依赖/CI，不合并、不发布。
+
+**2026-11-04 · W-07 P-01 单一包管理器策略已确认（最新）**：维护者同意统一采用 pnpm。根据此前 Windows PowerShell 的实际 pnpm 12.15.0 使用记录，在开发分支 `package.json` **仅新增** `"packageManager":"pnpm@12.15.0"`，保留既有 `vite-plus@1.4.0`、Node engines、`private:true` 与 `version:0.0.0`；中英文 README 及 [W-07 审核记录](research/W07_RELEASE_READINESS_REVIEW.md) 已同步。本执行环境 pnpm 未安装，npm Registry 请求返回 `EAI_AGAIN`，且 Node 22.16 不满足项目最低 Node 22.18 要求，**未生成任何 pnpm-lock.yaml 或完成冻结安装**。P-01 状态为「版本与包管理器决策已实现、锁文件和本机验证仍阻塞」，W-07 #8 保持 Open；维护者应使用 pnpm 12.15.0 在 Windows 生成真实锁文件并提交，不手工伪造。无产品 CSS / CI / 发布 / main 合并变更。
+
+**2026-11-04 · W-07 P-01 已提交锁文件的静态复核（最新）**：维护者确认已提交；经 GitHub 开发分支读取，`pnpm-lock.yaml` 确实已入库（blob SHA `b2a572124b5434bc10fdf91c4f2c4aefcf426520`），为唯一根锁文件。文件采用 pnpm 12 的**双 YAML 文档**格式：环境文档的 `packageManagerDependencies.pnpm` 锁定 **12.15.0**，项目依赖文档的 root importer 锁定 **`vite-plus@1.4.0`**，与 `package.json` 一致，且包含 sha512 完整性记录。**P-01 的缺锁文件阻塞已解除（GitHub 静态 PASS）**；当前对话尚未附本次 `pnpm install --frozen-lockfile`、`vp check`、`vp test`、`test:offline`、真实包与消费测试日志，因此冻结安装与最终 P-06 复核均未宣称 PASS。已同步 [W-07 审核记录](research/W07_RELEASE_READINESS_REVIEW.md) 与双语 README；W-07 Issue #8 保持 Open，正式版本、npm metadata、scope 授权和公开浏览器兼容声明仍需审查。无产品 CSS、依赖、CI、发布或主分支变更。
+
+**2026-11-05 · W-07 P-06 最新 Windows 本地质量回归**：维护者提供完整 PowerShell 输出：`vp check --fix` 格式化完成、19 个文件 Lint 无警告错误；`vp test` **7/7 PASS**；`pnpm run test:offline` **33/33 PASS**；`vp pack` 输出唯一 `dist/normalize.css`（0.20 kB，gzip 0.18 kB）；`pnpm run test:package` **1/1 PASS**；`pnpm run test:consumer` **1/1 PASS**。这些均是维护者实际日志，不是助手独立运行，已纳入 [W-07 最新审核记录](research/W07_RELEASE_READINESS_REVIEW.md)。**尚无本轮 `pnpm install --frozen-lockfile` 输出、`git status`（`vp check --fix` 可能修改文件）和 `npm pack --dry-run` 日志**；W-07 Issue #8 不关闭。包元数据、正式版本、npm scope 及对外兼容性声明仍待单独核实；未修改产品 CSS、CI、发布开关或合并 main。
+
+**2026-11-05 · W-07 P-01/P-06 剩余本机验收补齐（最新）**：维护者补充完整 Windows PowerShell 结果：`pnpm install --frozen-lockfile` 显示锁文件符合供应链策略、无须重新解析、**83ms 使用 pnpm 12.15.0 成功**；`git status --short` **只有 `?? .idea/`**，无已跟踪文件改动；`git diff --check` 无输出；`npm pack --dry-run --json --ignore-scripts` 返回 **5 文件**（LICENSE、中文和英文 README、`dist/normalize.css` 200 B、package.json），包体积 13562 B，无 bundled 依赖，符合真实包测试白名单。结合前一批 7/7 Vitest、33/33 Node、CSS-only 打包、真实包/消费端各 1/1 PASS，**W-07 P-01 冻结安装和 P-06 当前本地质量回归完成 PASS**。为处理 JetBrains 本机目录误提交风险，已在开发分支 `.gitignore` 最小新增 `.idea/`；不删除本地目录，生效需维护者更新工作树后确认。详见 [W-07 最新审核](research/W07_RELEASE_READINESS_REVIEW.md)；**P-02 版本/private 开关、P-03 包公开元数据、P-04 npm scope 权限、P-05 兼容性声明和 P-07 独立发布授权仍未通过**，Issue #8 Open，不修改产品 CSS、增加 CI、合并或发布。
+
+**2026-11-05 · W-07 P-03 npm 公开包元数据已获批准实施（最新）**：维护者明确批准按原方案最小完善，已在开发分支 `package.json` 补充英文 `description`、`license:"MIT"`、正式仓库 `repository/homepage/bugs`，提交 `cdace17a290afb6a752537f29fbefaa37132617f`。经 GitHub 实时回读 JSON 可解析且字段与 MIT 许可证、唯一正式仓库匹配，原有 `private:true`、`version:0.0.0`、`pnpm@12.15.0`、`vite-plus@1.4.0`、唯一 CSS 根导出及 `sideEffects` 均不变，锁文件 blob SHA 不变。维护者前一次 `git status --short` 无输出，工作区在这次改动前干净。**P-03 元数据静态核对 PASS，但新版 manifest 的本机打包、真实安装与消费端复验仍 NOT_RUN**；此前 P-01/P-06 真实 PASS 继续作为旧 manifest 基线，不能直接用于新变更通过判定。详见 [W-07 审核记录](research/W07_RELEASE_READINESS_REVIEW.md)。Issue #8 仍 Open，未修改 CSS、增加 CI、变更版本/private 或发布。
+
+**2026-11-05 · W-07 P-03 作者 ADui 与新一轮回归（最新）**：维护者发现上次 npm 公开元数据漏掉了作者字段，明确要求 `author: "ADui"`。当前已在开发分支 `package.json` 最小补充，保留 `LICENSE` 中的 `Copyright (c) 2026 ADui Studio`，两者身份概念不同。本次用户 Windows 日志证明**此前五项元数据**下 `pnpm install --frozen-lockfile` 28ms PASS、`vp check` 初次因 `package.json` 与 W-07 Markdown 格式 FAIL，`vp check --fix` 后 19 文件零 Lint 错误/警告、Node 离线 **33/33 PASS**、`vp pack` 仅一份 CSS 200 B、真实包及 Vite+ 消费各 **1/1 PASS**，`npm pack --dry-run` 五文件 PASS（13655 B），最终 `git status --short` 无输出。**新增作者字段后的最终 manifest 尚未运行新一轮本地检查和真实包消费**，不可冒充已通过；当前 P-03 仅配置静态 PASS。见 [W-07 审核](research/W07_RELEASE_READINESS_REVIEW.md)。包版本 `0.0.0`、`private:true`、锁文件、CSS、CI 和发布权限均不变，Issue #8 Open。
+
+**2026-11-05 · W-07 P-03 含作者字段最终包复验通过（最新）**：维护者提供含 `author:"ADui"` 的 Windows 真实验收日志：首次 `vp check` 只有 W-07 文档格式问题（FAIL），随后 `vp check --fix` 修复成功且 19 文件零 Lint 错误/警告；`vp pack` 唯一 `dist/normalize.css` 200 B；真实 tarball 安装 `test:package` **1/1 PASS**、Vite+ 生产消费者 `test:consumer` **1/1 PASS**；`npm pack --dry-run --json --ignore-scripts` 五文件白名单 PASS（压缩包 13663 B，解包 33335 B，`package.json` 1355 B、`bundled:[]`），`git status --short` 无输出。**P-03 元数据和最终包验收 PASS**。本轮没有再执行 Vitest 7/7、Node 33/33 或冻结安装，它们的历史 PASS 仍有效但不冒充本轮复测。依据 [W-07 验收报告](research/W07_RELEASE_READINESS_REVIEW.md)，P-02 首发版本/private 开关、P-04 npm scope、P-05 对外兼容性承诺、P-07 发布授权仍待决策，Issue #8 Open。不修改 CSS、不新增 CI、不发布或合并 main。
+
+**2026-11-05 · W-07 P-02/P-04/P-05 首发决策审核（最新）**：依据最新 GitHub `package.json`、ADR-0004 与 W-06 正式验收索引，并核对 SemVer 和 npm scopes 官方规范，建立 [首发决策审核文档](research/W07_RELEASE_GATES.md)。**P-02** 建议将 `0.1.0` 作为首个公开版本候选，但维护者尚未批准正式版本，`0.0.0` 与 `private:true` 不变；**P-04** npm `@adui` 的账户/组织归属、包名状态和写权限尚未验证，GitHub `adui-studio` 与作者 `ADui` 不自动证明所有权；**P-05** 公开支持文案已拟定证据边界，但原 Chrome/Edge 120、Firefox 121、Safari 17.2 与核心移动目标缺完整逐 UA/OS/设备矩阵，未冻结兼容性声明。W-06 管理验收不撤销，ADR-0004 的发行前证据要求不因谨慎文案而跳过。P-01/P-03/P-06 真实质量结果继续有效。**未改变版本、private、CSS、CI、依赖或发布/合并状态**，W-07 Issue #8 仍 Open。
+
+**2026-11-05 · W-07 P-04 官方 npm 用户作用域核验（最新）**：维护者在 Windows PowerShell 使用官方 Registry `https://registry.npmjs.org/` 查询，`npm whoami` 返回 `adui`。结合 npm 官方个人 scope 与用户名对应的规则，现可判定 **`@adui` 个人作用域与当前认证账户匹配**，此前“npm scope 归属未确认”的阶段记录已被新证据覆盖。`npm view "@adui/normalize.css" version` 返回 E404 Not Found，只证明本次未取到可访问发行版本，不证明包名可首次发布或发布认证条件全部满足。**P-04 已通过账户身份和作用域检查，整体仍为部分完成**：待 npm 网页确认首发资格与认证/双因素安全要求；未获取 Token、未调用 publish。P-01/P-03/P-06 通过结果继续有效，P-02 首版候选和 P-05 对外浏览器支持范围仍需正式决策。见 [W-07 首发决策审核](research/W07_RELEASE_GATES.md) 与 [总报告](research/W07_RELEASE_READINESS_REVIEW.md)。仍保持 `version:"0.0.0"`、`private:true`，不增加 CI、不合并或发布。
+
+**2026-11-05 · W-07 P-02 候选版号和发布开关已获维护者批准（最新）**：维护者因首版产品 CSS 仅一条 R-003（`b,strong { font-weight:bolder; }`）明确决定不采用此前建议 `0.1.0`，而将首发候选定为 **`0.0.1`**，同时将根包 `private` 从 `true` 改为 **`false`**。已在开发分支仅修改 `package.json` 两字段并同步两处真实包测试的版本/private 断言；模拟 smoke 和消费者自身的 `private:true` 仍按测试隔离需求保留。产品 CSS、根导出、开发依赖、pnpm lockfile、MIT 与作者 ADui 不变，`CHANGELOG` 仍为 Unreleased。**这只是可以被公开发布的候选配置，并非 npm 已发布/得到发布授权**；`private:false` 解除防误发布保护，必须避免误执行 npm publish。当前新版本本机 `vp check`、离线 33 项、真实包 1/1、Vite+ 消费、冻结安装和 npm 预打包仍 **NOT_RUN（本次改动后）**；旧 `0.0.0` 回归结果不冒充新测试。W-07 P-04 首发发布认证、P-05 公开兼容性声明、P-07 独立发行授权仍待完成。见 [W-07 总审核](research/W07_RELEASE_READINESS_REVIEW.md) 与 [首发门槛](research/W07_RELEASE_GATES.md)。未合并 main、未发包、未创建 Release/Tag，**不增加 CI**。
+
+**2026-11-05 · W-07 P-02 恢复 private 安全保护（最新）**：维护者最新决定**保留首发候选 `0.0.1`，将根 `package.json#private` 恢复为 `true`**。先前 `private:false` 的提交及上下文段落现为历史过程，非当前状态；两项正式包测试 `tests/package.node.test.mjs` / `tests/package-real.node.test.mjs` 的 private 断言同步恢复为 true，版本校验仍是 0.0.1，安装后 manifest 一致性断言保留。正式 CSS 仅 R-003，不改依赖、锁文件、导出、MIT、作者或 CI。**当前尚无新 `0.0.1/private:true` 组合的 Windows 实测结果（NOT_RUN）**，此前成功数据不冒充新回归；`CHANGELOG.md` 仍为 Unreleased。W-07 Issue #8 保持 Open；npm scope 发布认证、公开兼容性声明与 P-07 单独发布授权仍待处理。见 [W-07 首发审核](research/W07_RELEASE_GATES.md) 和 [总审核](research/W07_RELEASE_READINESS_REVIEW.md)。
+
+**2026-11-05 · W-07 `0.0.1/private:true` 真实包验收通过（最新）**：维护者提供新一轮 Windows PowerShell 输出：`vp check --fix` 格式完成、19 个文件无 Lint 错误/警告；`pnpm run test:offline` 在 pnpm 12.15.0 锁文件策略检查通过后 Node **33/33 PASS**；`vp pack` 生成唯一 CSS 200 B；`pnpm run test:package` 真实 tarball 离线安装 **1/1 PASS**；`pnpm run test:consumer` Vite+ 生产消费 **1/1 PASS**；`npm pack --dry-run --json --ignore-scripts` 返回 `@adui/normalize.css@0.0.1`、5 文件（LICENSE、双语 README、dist/normalize.css、package.json）、`size:13871` B、`unpackedSize:33846` B、`bundled:[]`，并且 `git status --short` **无输出**。**P-02 候选版本及此轮包交付验收 PASS，P-06 本轮已执行检查 PASS**。没有单独执行 `vp test` 或 `pnpm install --frozen-lockfile`；其较早阶段 PASS 保留独立证据，不冒充本轮复测。当前 `private:true` 保持防误发布，CHANGELOG 仍 Unreleased。W-07 P-04 首发认证、P-05 浏览器支持声明与 P-07 正式授权未完成，Issue #8 Open；没有新增 CSS、CI、依赖，也未合并或发布。详见 [W-07 审核报告](research/W07_RELEASE_READINESS_REVIEW.md)。
+
+**2026-11-05 · W-07 `0.0.1/private:true` 完整本地回归补验（最新）**：维护者新提供 Windows PowerShell 日志，**`pnpm install --frozen-lockfile` 24ms PASS**，`vp check --fix` 格式完成且 19 文件零 Lint 错误/警告，`vp test` **Vitest 7/7 PASS**，`pnpm run test:offline` **Node 33/33 PASS**，`vp pack` 唯一 CSS 200 B，真实 `test:package`、`test:consumer` 各 **1/1 PASS**，`npm pack --dry-run --json --ignore-scripts` 五文件 13871 B、解包 33846 B，`git status --short` 无输出。当前 `0.0.1/private:true` 的 **P-01/P-02/P-03/P-06 本机质量门槛全部有最新真实执行证据**。先前批次“Vitest/冻结安装未重跑”是历史状态，不再是最新检查缺口。当前开发依赖保持 `vite-plus@1.4.0`，工具仅提示有 1.5.0 可用，未升级。P-04 首发认证、P-05 公开浏览器支持证据及 P-07 发布授权仍未完成；Issue #8 保持 Open。不更改 CSS/根依赖、不新增 CI、不合并或发布。见 [W-07 审核](research/W07_RELEASE_READINESS_REVIEW.md)。
+
+**2026-11-05 · W-07 P-05 浏览器支持证据矩阵（最新）**：基于正式 ADR-0004 七项目标、W-06 已完成的管理验收和历史实测文档，新增 [P-05 七项最低浏览器证据矩阵](research/W07_P05_BROWSER_EVIDENCE_MATRIX.md)。Chrome for Testing 120 与 Firefox 121 的 R-003 T0/T1 实测有局部证据（4/6 个字重变化与零差异），Chrome 156 的真实 T0/T2/交互/生态结果也已归档，但不能将它们扩大为 Edge 120、真实 Safari 17.2 或三项移动最低版本的通过。其他目标当前**未见可审计的逐环境 T2 原始附件**；不把“未见附件”误称“维护者没有运行”，W-06 正式结项也不撤销。新文件提供已有 Fixture 的本机复用路径、元数据模板、期望差异判据和安全边界；**本轮没有执行新浏览器测试或更改浏览器支持 ADR**，P-05 仍 OPEN。版本继续 `0.0.1/private:true`，W-07 Issue #8 Open，不增加 CI、修改产品 CSS、合并或发布。
+
+**2026-11-05 · W-07 P-05 Issue #7 原始资料再审计（最新）**：进一步读取 W-06 已结项 Issue #7 的 **22 条讨论评论**。可定位 Chrome 156 的 T0/T2、Vue/React 生态、Tailwind/UnoCSS Reset 构建/静态样式及维护者跨浏览器回归完成、正式结项的记录，但未发现可单独补齐七项最低浏览器的完整版本/OS/设备/T0/T2 附件。**并非认定 W-06 未测试或撤销正式验收**。已向 [P-05 证据矩阵](research/W07_P05_BROWSER_EVIDENCE_MATRIX.md) 增加具体 Issue 链接及**先行复用 Chrome 120 / Firefox 121 的 T0/T2 操作卡**；新浏览器实测仍 NOT_RUN，P-05 仍 OPEN。当前仍是 `0.0.1/private:true`，不增依赖、CI、CSS、不合并或发布。
+
+**2026-11-05 · MVP v0.0.1 开发能力收尾（最新）**：维护者明确授权先完成第一个 MVP 工程开发，实机验证随后统一进行。按已接受 ADR-0003 与 W-05 规则准入，产品 `src/normalize.css` 仍只有证据支持的 R-003，**不会为了填充 CSS 擅自加入其他 35 条**。已新增 `tests/t2-evidence.mjs`（真实包 T0/T2 的 10 项计算值/加载标记对照，复用现有证据文件安全读取）和 `tests/t2-evidence.node.test.mjs` 的合成用例；`package.json` 新增本地 `verify:mvp` 脚本并将新测试纳入 `test:offline`，`tests/package.node.test.mjs` 同步严格脚本契约。新增 [MVP 交付与验收清单](MVP_0_0_1_HANDOFF.md)。**本轮仅纯 JS 对照逻辑的局部模拟已检查，新版本完整 Node/Vite+ 命令和真实目标浏览器尚待维护者执行，不宣称整体 PASS**。版本 `0.0.1/private:true`、正式 CSS、包入口、根依赖、pnpm 锁文件、CI 和发布状态不变；W-07 Issue #8 保持 Open。
+
+**2026-11-05 · MVP T0/T2 CSSOM 内容防误判修补（最新）**：复查发现先前 T2 取证以 `link.sheet !== null` 判定正式 CSS 已挂载，存在**空 CSS/错误规则但计算结果恰好一致**时的假阳性风险。仅在本地 Fixture `fixtures/probe.js` 增加同源 CSSOM 规则摘要，`tests/t2-evidence.mjs` 对唯一 R-003 CSS 选择器、声明数量、属性值和优先级进行严格检查；扩充两套 Node 合成测试以覆盖错误 CSSOM/不可读取情况。旧版 T2 JSON 若缺 `rules` 则不可据此判 PASS，需要重新采样。新增的纯 JS 逻辑合成检查 12/12 PASS，但完整 Node/Vite+/Windows 浏览器未重新运行。正式 `src/normalize.css`、包入口、版本 `0.0.1/private:true`、依赖/锁文件/CI 不变；W-07 Issue #8 继续 Open，不合并、不发布。
+
+**2026-11-05 · MVP 真实 tarball 五文件契约收紧（最新）**：在已实现的 `test:package` 中发现英文 README 虽被文档列为五文件必需项，却在断言里被当作可选项；当它漏包时此前测试可能假阳性通过。已最小修改 `tests/package-real.node.test.mjs`：精确要求 LICENSE、README.en.md、README.md、dist/normalize.css、package.json 五项，并对真实 npm 打包 `id/name/version/bundled`、消费者安装后的 `name/author/license` 增加一致性断言。不修改产品 CSS、版本 `0.0.1`、`private:true`、锁文件、依赖或 CI。**本次新增断言尚需最后在 Windows 统一运行 `pnpm run verify:mvp` 验证**；之前测试通过不能替代本轮实际执行。W-07 Issue #8 仍 Open，禁止未经授权发布。
+
+**更新约定**：重大进度、已完成验证、关键决策、阻塞与待决策变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源
 

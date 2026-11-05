@@ -7,26 +7,26 @@
 
 ## 一、规则级结论（不是实测结论）
 
-| ID | 主要证据 | 初步判断 | 待验证 |
-| --- | --- | --- | --- |
-| R-012 表单 margin | [WHATWG HTML：Form controls](https://html.spec.whatwg.org/multipage/rendering.html#form-controls) | 普通表单 margin 标准化须先证明不同 UA 仍有差异；维持暂缓 | button/input/select/textarea 的原生计算 margin 与文本基线 |
-| R-013 搜索框外观 | [WHATWG HTML](https://html.spec.whatwg.org/multipage/rendering.html#form-controls) 和 [MDN appearance](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/appearance) | 不在默认 Normalize 中全局设置 `appearance:none`，否则可能移除原生交互提示 | 搜索取消按钮、内边距、触摸、暗色模式 |
-| R-014 WebKit 搜索装饰 | [MDN WebKit Extensions](https://developer.mozilla.org/en-US/docs/Web/CSS/WebKit_Extensions) | 厂商私有伪元素不形成跨引擎稳定契约，维持暂缓 | search 的清除按钮与键盘/辅助技术行为 |
-| R-015 文件选择按钮 | [MDN ::file-selector-button](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::file-selector-button) / [BCD](https://github.com/mdn/browser-compat-data/blob/main/css/selectors/file-selector-button.json) | 标准伪元素已广泛支持；旧 `::-webkit-file-upload-button` 不应仅因历史存在就进入默认模块 | file 上传控件字体、按钮聚焦、交互区域和组件库冲突 |
-| R-016 placeholder 颜色与透明度 | [MDN ::placeholder](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::placeholder) / [BCD](https://github.com/mdn/browser-compat-data/blob/main/css/selectors/placeholder.json) | 浏览器默认配色可能不同，但不一定是应统一的默认视觉；维持暂缓 | 当前 Gecko/Blink/WebKit 的计算 color、opacity、forced-colors |
-| R-026 表单字体继承 | [WHATWG HTML：Form controls](https://html.spec.whatwg.org/multipage/rendering.html#form-controls) | 应作为可选 Forms 的设计偏好，不自动影响 UI 组件库 | 原生与 Element Plus/AntD/TDesign 字体覆盖 |
-| R-027 清空表单样式 | [MDN appearance](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/appearance) | 会干扰 select 箭头、原生 checkbox/radio、系统颜色；维持暂缓，不加入默认 Normalize | 聚焦、禁用、暗色/高对比、触摸响应 |
-| R-028 `:user-invalid` 规则 | [MDN :user-invalid](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/:user-invalid) | 校验视觉属于 Forms 或应用设计偏好，不加入默认 Normalize；维持暂缓 | 是否仅在交互后反馈、错误可读性和辅助技术 |
+| ID                             | 主要证据                                                                                                                                                                                                                        | 初步判断                                                                               | 待验证                                                       |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| R-012 表单 margin              | [WHATWG HTML：Form controls](https://html.spec.whatwg.org/multipage/rendering.html#form-controls)                                                                                                                               | 普通表单 margin 标准化须先证明不同 UA 仍有差异；维持暂缓                               | button/input/select/textarea 的原生计算 margin 与文本基线    |
+| R-013 搜索框外观               | [WHATWG HTML](https://html.spec.whatwg.org/multipage/rendering.html#form-controls) 和 [MDN appearance](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/appearance)                                        | 不在默认 Normalize 中全局设置 `appearance:none`，否则可能移除原生交互提示              | 搜索取消按钮、内边距、触摸、暗色模式                         |
+| R-014 WebKit 搜索装饰          | [MDN WebKit Extensions](https://developer.mozilla.org/en-US/docs/Web/CSS/WebKit_Extensions)                                                                                                                                     | 厂商私有伪元素不形成跨引擎稳定契约，维持暂缓                                           | search 的清除按钮与键盘/辅助技术行为                         |
+| R-015 文件选择按钮             | [MDN ::file-selector-button](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::file-selector-button) / [BCD](https://github.com/mdn/browser-compat-data/blob/main/css/selectors/file-selector-button.json) | 标准伪元素已广泛支持；旧 `::-webkit-file-upload-button` 不应仅因历史存在就进入默认模块 | file 上传控件字体、按钮聚焦、交互区域和组件库冲突            |
+| R-016 placeholder 颜色与透明度 | [MDN ::placeholder](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::placeholder) / [BCD](https://github.com/mdn/browser-compat-data/blob/main/css/selectors/placeholder.json)                            | 浏览器默认配色可能不同，但不一定是应统一的默认视觉；维持暂缓                           | 当前 Gecko/Blink/WebKit 的计算 color、opacity、forced-colors |
+| R-026 表单字体继承             | [WHATWG HTML：Form controls](https://html.spec.whatwg.org/multipage/rendering.html#form-controls)                                                                                                                               | 应作为可选 Forms 的设计偏好，不自动影响 UI 组件库                                      | 原生与 Element Plus/AntD/TDesign 字体覆盖                    |
+| R-027 清空表单样式             | [MDN appearance](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/appearance)                                                                                                                              | 会干扰 select 箭头、原生 checkbox/radio、系统颜色；维持暂缓，不加入默认 Normalize      | 聚焦、禁用、暗色/高对比、触摸响应                            |
+| R-028 `:user-invalid` 规则     | [MDN :user-invalid](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/:user-invalid)                                                                                                                         | 校验视觉属于 Forms 或应用设计偏好，不加入默认 Normalize；维持暂缓                      | 是否仅在交互后反馈、错误可读性和辅助技术                     |
 
 ## 二、CSS 特性支持起点（来自 MDN Browser Compatibility Data）
 
 读取日期：2026-11-03。以下仅表示**标准未前缀写法**首次支持的版本，不等于具体浏览器默认渲染已经一致。
 
-| 特性 | Chrome | Firefox | Safari (macOS) | Safari iOS |
-| --- | ---: | ---: | ---: | ---: |
-| `::file-selector-button` | 89 | 82 | 14.1 | 14.5 |
-| `::placeholder` | 57 | 51 | 10.1 | 按 BCD mirror |
-| `appearance` | 84 | 80 | 15.4 | 15.4 |
+| 特性                     | Chrome | Firefox | Safari (macOS) |    Safari iOS |
+| ------------------------ | -----: | ------: | -------------: | ------------: |
+| `::file-selector-button` |     89 |      82 |           14.1 |          14.5 |
+| `::placeholder`          |     57 |      51 |           10.1 | 按 BCD mirror |
+| `appearance`             |     84 |      80 |           15.4 |          15.4 |
 
 数据来源：[file-selector-button.json](https://github.com/mdn/browser-compat-data/blob/main/css/selectors/file-selector-button.json)、[placeholder.json](https://github.com/mdn/browser-compat-data/blob/main/css/selectors/placeholder.json)、[appearance.json](https://github.com/mdn/browser-compat-data/blob/main/css/properties/appearance.json)。
 

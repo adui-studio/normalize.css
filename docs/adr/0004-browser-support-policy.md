@@ -16,12 +16,12 @@
 
 ## 2. 方案对比
 
-| 方案 | 描述 | 优点 | 缺点 |
-| --- | --- | --- | --- |
+| 方案                      | 描述                                                                             | 优点                                     | 缺点                                           |
+| ------------------------- | -------------------------------------------------------------------------------- | ---------------------------------------- | ---------------------------------------------- |
 | A（**已接受的基线策略**） | 选定 **Baseline 2023** 固定年份作为 CSS **特性准入参考**，再核定各浏览器最低版本 | 基线可复现，现代能力与旧设备覆盖相对平衡 | 不自动证明 UA 样式一致，必须后续计算版本与实测 |
-| B | Baseline 2024 固定年份 | 可使用更新的互操作特性 | 可能收窄旧 Safari、Android 系统支持 |
-| C | 动态 Baseline Widely available | 跟随最新互操作进展 | 30 个月移动窗口改变，难作固定 npm 发行承诺 |
-| D | 最新两个主要版本 | 简单 | 随时间变化，无法复现历史支持承诺 |
+| B                         | Baseline 2024 固定年份                                                           | 可使用更新的互操作特性                   | 可能收窄旧 Safari、Android 系统支持            |
+| C                         | 动态 Baseline Widely available                                                   | 跟随最新互操作进展                       | 30 个月移动窗口改变，难作固定 npm 发行承诺     |
+| D                         | 最新两个主要版本                                                                 | 简单                                     | 随时间变化，无法复现历史支持承诺               |
 
 [web.dev Baseline](https://web.dev/baseline) 说明 Newly available 与 Widely available 的区别；[如何选择 Baseline](https://web.dev/how-to-use-baseline) 明确区分固定年份与动态目标。Widely available 的时间条件为 30 个月。
 
@@ -31,15 +31,15 @@
 
 固定 WebDX 上游提交 [`f0a635b`](https://github.com/web-platform-dx/baseline-browser-mapping/tree/f0a635b134cdeef3b82804a057bcb96796d42a2f) 的 `targetYear: 2023` 时间线截至 2023-12-31，可得到以下七项**验收目标下限**：
 
-| 浏览器家族 | 首版目标最低版本 | 状态 |
-| --- | --- | --- |
-| Chrome 桌面 | 120 | 目标已批准；未测试 |
-| Edge 桌面 | 120 | 目标已批准；未测试 |
-| Firefox 桌面 | 121 | 目标已批准；未测试 |
-| Safari macOS | 17.2 | 目标已批准；未测试 |
-| Chrome Android | 120 | 目标已批准；未测试 |
-| Firefox Android | 121 | 目标已批准；未测试 |
-| Safari iOS | 17.2 / iOS 17.2 | 目标已批准；未测试 |
+| 浏览器家族      | 首版目标最低版本 | 状态               |
+| --------------- | ---------------- | ------------------ |
+| Chrome 桌面     | 120              | 目标已批准；未测试 |
+| Edge 桌面       | 120              | 目标已批准；未测试 |
+| Firefox 桌面    | 121              | 目标已批准；未测试 |
+| Safari macOS    | 17.2             | 目标已批准；未测试 |
+| Chrome Android  | 120              | 目标已批准；未测试 |
+| Firefox Android | 121              | 目标已批准；未测试 |
+| Safari iOS      | 17.2 / iOS 17.2  | 目标已批准；未测试 |
 
 **目标版本的规则**：发布前必须在目标最低版本或可验证的等效真实环境运行适用 Fixture；若无法获得旧版本环境，不得假称通过，也不得将未验证环境自动列入正式“已支持”声明。如实测发现重大兼容性缺陷，需补充最小修复并复测，或单独提交修订支持范围的 ADR 给维护者批准。
 
@@ -49,12 +49,12 @@ Apple 官方 [Safari 17.2 Release Notes](https://developer.apple.com/documentati
 
 ## 4. 已接受的支持层次策略（实际覆盖仍待核验）
 
-| 范围 | 浏览器 | 当前立场 |
-| --- | --- | --- |
-| 核心桌面 | Chrome、Edge、Firefox、Safari macOS | 计划覆盖，最低版本待确认 |
-| 核心移动 | Chrome Android、Firefox Android、Safari iOS | 计划覆盖，OS / 设备 / 真实版本待核验 |
+| 范围       | 浏览器                                                                            | 当前立场                                                            |
+| ---------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| 核心桌面   | Chrome、Edge、Firefox、Safari macOS                                               | 计划覆盖，最低版本待确认                                            |
+| 核心移动   | Chrome Android、Firefox Android、Safari iOS                                       | 计划覆盖，OS / 设备 / 真实版本待核验                                |
 | 条件性验证 | Android System WebView、Windows WebView2、微信/X5 内置浏览器、Samsung Internet 等 | 不能通过共享内核自动推导支持；有具体设备、宿主与 Fixture 后逐项评审 |
-| 非首版承诺 | IE 与无测试条件的停维护旧浏览器 | 不承诺；如有场景需求则另行评审 |
+| 非首版承诺 | IE 与无测试条件的停维护旧浏览器                                                   | 不承诺；如有场景需求则另行评审                                      |
 
 [MDN Baseline](https://developer.mozilla.org/en-US/docs/Glossary/Baseline/Compatibility) 明确：Baseline 不能取代无障碍与浏览器测试，也不能天然覆盖所有系统 WebView。
 

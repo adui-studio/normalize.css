@@ -1,0 +1,9 @@
+node_modules/
+.idea/
+dist/
+.vite/
+.vitest/
+coverage/
+*.tgz
+dist-pack/
+dist-fixtures/

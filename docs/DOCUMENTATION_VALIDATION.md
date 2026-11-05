@@ -1,28 +1,28 @@
 # DOCUMENTATION_VALIDATION — 文档校验规范
 
-**当前状态**：人工校验规范已定义，自动校验工具未实现；项目明确**不增加任何 CI**，本阶段不新增脚本。
+**当前状态（2026-11-04）**：人工校验规范仍然有效，自动文档校验脚本未实现；W-07 第一轮使用 GitHub 开发分支提交树核对 11 份核心及规则/验收文档的 **252 个 Markdown 本地文件链接**，目标路径均存在（未验证外链或锚点）。记录见 [W-07 审核](research/W07_RELEASE_READINESS_REVIEW.md)。本项目明确**不增加任何 CI**。
 
 ## 1. 校验对象和真实状态
 
-根目录：[README](../README.md)、[README.en](../README.en.md)、[AGENTS](../AGENTS.md)、[LICENSE](../LICENSE)。
+根目录：[README](../README.md)、[README.en](../README.en.md)、[CHANGELOG](../CHANGELOG.md)、[AGENTS](../AGENTS.md)、[LICENSE](../LICENSE)。
 
 核心八类资产：AGENTS、[REQUIREMENTS](REQUIREMENTS.md)、[SDD](SDD.md)、[ARCHITECTURE](ARCHITECTURE.md)、[PROJECT_CONTEXT](PROJECT_CONTEXT.md)、[CODEBASE_MAP](CODEBASE_MAP.md)、[SKILLS](SKILLS.md)、[HARNESS](HARNESS.md)。
 
-增强机制：[ADR-0001](adr/0001-css-base-strategy.md)、[ADR-0002](adr/0002-cascade-layers.md)、[ADR-0003](adr/0003-mvp-package-contract.md)、[ADR-0004](adr/0004-browser-support-policy.md)、[ADR-0005](adr/0005-viteplus-toolchain.md) 均为 Accepted；[MVP 实施计划](plans/MVP_IMPLEMENTATION_PLAN.md) 已存在。评审分支有三个第三方 Skills 文件，但无自研 Skill、执行脚本、CI 工作流或 CSS 发布文件。
+增强机制：[ADR-0001](adr/0001-css-base-strategy.md)、[ADR-0002](adr/0002-cascade-layers.md)、[ADR-0003](adr/0003-mvp-package-contract.md)、[ADR-0004](adr/0004-browser-support-policy.md)、[ADR-0005](adr/0005-viteplus-toolchain.md) 均为 Accepted；[MVP 实施计划](plans/MVP_IMPLEMENTATION_PLAN.md) 已存在。开发分支已有一个正式 CSS 源文件、Vite+ 及本地测试脚本，并包含三个固定上游版本的第三方 Skills；**没有 CI 工作流或已公开发布的 CSS 包**。
 
 ## 2. 核查规则
 
-| 类型 | 本阶段人工检查 | 未来自动化方向 |
-| --- | --- | --- |
-| 文件结构 | 所有链接的本地 Markdown/许可证存在 | 路径存在性扫描 |
-| 链接有效 | 相对路径可解析；外链 URL 规范 | 本地路径检查；可选外链检查 |
-| 需求 | FR/NFR 编号唯一，状态/优先级/验收明确 | 编号与交叉引用分析 |
-| ADR | 编号唯一，Proposed/Accepted 等合法状态；索引可追踪 | front matter 或标题/索引检查 |
-| Skills | SKILLS 索引与实际技能目录一致 | SKILL.md 规则和资源路径校验 |
-| Harness | 不能将规划命令宣称已运行 | 检查脚本与 package.json 一致性 |
-| CODEBASE_MAP | 已存在/尚未创建两类分明 | 使用文件树自动核对 |
-| 安全 | 无凭据、无未经许可代码或发布承诺 | 密钥扫描、许可证检查 |
-| 语义一致性 | “已确认/已实现/已验证/待决策”没有混淆 | 继续人工复核，不能依赖字符串就认定正确 |
+| 类型         | 本阶段人工检查                                     | 未来自动化方向                         |
+| ------------ | -------------------------------------------------- | -------------------------------------- |
+| 文件结构     | 所有链接的本地 Markdown/许可证存在                 | 路径存在性扫描                         |
+| 链接有效     | 相对路径可解析；外链 URL 规范                      | 本地路径检查；可选外链检查             |
+| 需求         | FR/NFR 编号唯一，状态/优先级/验收明确              | 编号与交叉引用分析                     |
+| ADR          | 编号唯一，Proposed/Accepted 等合法状态；索引可追踪 | front matter 或标题/索引检查           |
+| Skills       | SKILLS 索引与实际技能目录一致                      | SKILL.md 规则和资源路径校验            |
+| Harness      | 不能将规划命令宣称已运行                           | 检查脚本与 package.json 一致性         |
+| CODEBASE_MAP | 已存在/尚未创建两类分明                            | 使用文件树自动核对                     |
+| 安全         | 无凭据、无未经许可代码或发布承诺                   | 密钥扫描、许可证检查                   |
+| 语义一致性   | “已确认/已实现/已验证/待决策”没有混淆              | 继续人工复核，不能依赖字符串就认定正确 |
 
 ## 3. 文档状态约束
 

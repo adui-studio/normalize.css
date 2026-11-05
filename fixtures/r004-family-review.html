@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>R-004 / T1b / 等宽字体族风险对照</title>
+    <style id="risk-review-only">
+      /* 与 T1 一致，仅用于风险对照，不属于正式 Normalize。 */
+      code,
+      kbd,
+      samp,
+      pre {
+        font-size: 1em;
+      }
+    </style>
+    <style id="family-review-only">
+      /* T1b 相对 T1 唯一新增声明：测试 monospace 字号偏好差异。 */
+      code,
+      kbd,
+      samp,
+      pre {
+        font-family: monospace, monospace;
+      }
+    </style>
+    <script type="module" src="./probe.js"></script>
+  </head>
+  <body>
+    <h1>R-004 · T1b · 等宽字体族风险对照</h1>
+    <p>
+      在 T1 的 font-size: 1em 基础上，仅增加重复的 monospace
+      字体族，观察字号偏好变化；不代表建议发布该规则。
+    </p>
+    <p>正文：<code id="code" data-probe>const value = 1; 中文</code></p>
+    <p>按键：<kbd id="kbd" data-probe>Ctrl + K</kbd></p>
+    <p>输出：<samp id="samp" data-probe>OK · 中文</samp></p>
+    <pre id="pre" data-probe>
+const value = 1;
+console.log(value);</pre>
+    <h2>计算样式证据</h2>
+    <pre id="probe-output" aria-live="polite">读取中</pre>
+  </body>
+</html>

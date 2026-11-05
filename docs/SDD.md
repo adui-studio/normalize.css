@@ -1,30 +1,167 @@
 # SDD — 详细设计草案
 
-**状态：首版契约已批准 / 未实现**。ADR-0001～0005 已 Accepted（含 Vite+ 工具链）；尚无 CSS、包配置、可运行测试或产物。除默认入口外的文件路径仍为未来候选。
+**历史状态（2026-11-04）**：首版公开 CSS 契约与 ADR-0001～0005 已批准，**W-05 的 36 条规则首版评审结论已由维护者全部确认**；唯一默认准入 R-003（`b, strong { font-weight: bolder; }`）已实现，R-004 和其他 34 条按暂缓、可选或排除决定不进入首版默认 CSS。W-06 已正式验收归档（证据等级见归档索引）；开发包仍保持 `private: true`，尚未 npm 发布，公开支持范围属于后续发行审核。详见 [W-05 规则评审归档](research/W05_RULE_ACCEPTANCE.md)。
+
+**2026-11-05 · W-07 发行候选配置（最新）**：维护者已将单一 CSS 规则 R-003 的首发候选版本确认为 `0.0.1`，并将 `package.json#private` 设置为 `false`；此前 `0.0.0/private:true` 的实施阶段描述现为历史记录。唯一 `exports["."]`、CSS `sideEffects`、`vp pack` CSS-only 构建与全部可选模块的未实现状态均不改变；两项包测试的断言已更新，最新本机回归待完成。不因发行候选配置变更而推导已支持的浏览器版本或 npm 发布权限。详见 [W-07 记录](research/W07_RELEASE_READINESS_REVIEW.md)。
+
+**2026-11-05 · W-07 private 保护恢复（最新）**：版本继续 `0.0.1`，维护者已将包 `private` 恢复为 `true`；前段 `private:false` 仅为历史状态。单一 CSS 入口、R-003 规则、Vite+ 打包行为不变；离线/真实 tarball 测试的正式包 private 断言同步恢复。本版本组合的 Windows 回归待执行，不代表已经发布。详见 [W-07 审核](research/W07_RELEASE_READINESS_REVIEW.md)。
+
+**2026-11-05 · MVP 本地证据工具设计增量（最新）**：在已证明可运行的 R-003 单规则、CSS-only `exports`、Vite+ 打包及原有 Probe 之上，新增仅用于开发测试的 T0/T2 JSON 对照 CLI（`tests/t2-evidence.mjs`）与合成用例。CLI 依赖现有 `tests/evidence-file.mjs`，只读取本机 JSON、检查 T2 CSS 加载标记、相同 UA、六组 R-003 字重与四组 R-004 等宽字体不变性；它不会进入 npm CSS 包，且不能代替 Network/OS/设备/交互的人工验收。本地 `verify:mvp` 串联既有检查，**不安装新依赖、不运行 CI**。代码已准备，最新整组 Windows 回归待维护者执行，见 [MVP 交付清单](MVP_0_0_1_HANDOFF.md)。
+
+**2026-11-05 · T2 比较器正确性补丁（最新）**：开发测试层发现不能凭 `link.sheet` 存在断言加载了正确的 CSS。T2 探针同源读取 CSSOM 的一条普通 `b,strong` 字重 `bolder` 规则及其声明数、优先级，离线比较器以 `STYLESHEET_CONTENT_MISMATCH` 区分已挂载但内容不匹配（包括 CSSOM 不可读）；缺失新 `rules` 字段则拒绝旧格式数据，不给 PASS。修改只在 `fixtures/`、`tests/` 和证据文档，npm 包内容与 CSS API 完全不变；仍须留存真实 Network 与目标浏览器证据。见 [MVP 交付清单](MVP_0_0_1_HANDOFF.md)。
 
 ## 1. 设计范围与需求映射
 
-| 候选模块 | 需求 | 拟议接口/职责 | 实现状态 |
-| --- | --- | --- | --- |
-| Normalize | FR-001、NFR-001 | 默认标准化样式表 | 未实现 |
-| Reset | FR-002 | 显式导入的 Reset | 未实现 |
-| A11y | FR-003 | 焦点与系统偏好增强 | 未实现 |
-| Forms | FR-004 | 原生表单增强 | 未实现 |
-| Combined | FR-005 | 显式组合入口 | 未实现 |
-| Exports | FR-006 | npm 导出映射 | 未实现 |
-| 规则追踪 | FR-007、NFR-002/003/007 | 兼容性证据与回归用例 | 未实现 |
+| 候选模块  | 需求                    | 拟议接口/职责        | 实现状态 |
+| --------- | ----------------------- | -------------------- | -------- |
+| Normalize | FR-001、NFR-001         | 默认标准化样式表     | 已实现   |
+| Reset     | FR-002                  | 显式导入的 Reset     | 未实现   |
+| A11y      | FR-003                  | 焦点与系统偏好增强   | 未实现   |
+| Forms     | FR-004                  | 原生表单增强         | 未实现   |
+| Combined  | FR-005                  | 显式组合入口         | 未实现   |
+| Exports   | FR-006                  | npm 导出映射         | 已配置   |
+| 规则追踪  | FR-007、NFR-002/003/007 | 兼容性证据与回归用例 | 部分完成 |
 
 ## 2. 首版正式设计契约（尚不可使用）
 
-| 导入路径（候选） | 返回内容 | 副作用边界 |
-| --- | --- | --- |
-| `@adui/normalize.css` | **首版唯一已批准的 CSS 入口**（未实现） | 只包含有证据的 Normalize，且不内置 `@layer` |
-| `@adui/normalize.css/reset.css` | Reset CSS | **首版延期**；未来版本单独决策 |
-| `@adui/normalize.css/a11y.css` | A11y CSS | **首版延期**；未来版本单独决策 |
-| `@adui/normalize.css/forms.css` | Forms CSS | **首版延期**；未来版本单独决策 |
-| `@adui/normalize.css/all.css` | 经评审的组合 CSS | **首版延期**；未来版本单独决策 |
+| 导入路径（候选）                | 返回内容                                | 副作用边界                                  |
+| ------------------------------- | --------------------------------------- | ------------------------------------------- |
+| `@adui/normalize.css`           | **首版唯一已批准的 CSS 入口**（未实现） | 只包含有证据的 Normalize，且不内置 `@layer` |
+| `@adui/normalize.css/reset.css` | Reset CSS                               | **首版延期**；未来版本单独决策              |
+| `@adui/normalize.css/a11y.css`  | A11y CSS                                | **首版延期**；未来版本单独决策              |
+| `@adui/normalize.css/forms.css` | Forms CSS                               | **首版延期**；未来版本单独决策              |
+| `@adui/normalize.css/all.css`   | 经评审的组合 CSS                        | **首版延期**；未来版本单独决策              |
 
-首版只规划 `@adui/normalize.css` 根入口，**不发布四个候选子路径**；未来版本可重新评审。开发工具链统一 Vite+（[ADR-0005](adr/0005-viteplus-toolchain.md)），但 CSS-only 的 `vp pack` 产物适配仍需在 W-04 实测，不能提前承诺 JS 入口或已编译 CSS。具体 `package.json` exports、文件名、CSS 编译方式和 `sideEffects` 标记须在实际开发后做构建验证，参阅 [ADR-0003](adr/0003-mvp-package-contract.md)、[W-04 包交付验收研究](plans/CSS_PACKAGE_DELIVERY_REVIEW.md) 和 [实施计划](plans/MVP_IMPLEMENTATION_PLAN.md)。
+首版只规划 `@adui/normalize.css` 根入口，**不发布四个候选子路径**；未来版本可重新评审。开发工具链统一 Vite+（[ADR-0005](adr/0005-viteplus-toolchain.md)），但 CSS-only 的 `vp pack` 产物适配仍需在 W-04 实测，不能提前承诺 JS 入口或已编译 CSS。目前 `package.json` 已配置 `files: ["dist"]`、`sideEffects: ["**/*.css"]` 与唯一根 CSS `exports`，`src/normalize.css` 经 `vp pack` 输出 `dist/normalize.css`；已做标准库构建和离线安装局部验证，并已完成真实 tarball 与独立 Vite+ 生产消费验证；完整浏览器、组件库和发布验收仍未完成。具体 exports、CSS 文件名与编译方式仍须在实际开发后做构建验证，参阅 [ADR-0003](adr/0003-mvp-package-contract.md)、[W-04 包交付验收研究](plans/CSS_PACKAGE_DELIVERY_REVIEW.md) 和 [实施计划](plans/MVP_IMPLEMENTATION_PLAN.md)。
+
+### 2.1 首个最小交付切片（2026-11-04 开发决策）
+
+- **首批源文件**：`src/normalize.css`，只纳入 R-003：`b, strong { font-weight: bolder; }`。依据真实 Chrome for Testing 120.0.6099.109 T0/T1 对照（父级 600/700 时四组计算字重由 700 → 900），Firefox 121 / Chrome 156 中候选无额外计算值变化；[证据卡](research/RULE_EVIDENCE_R003_R004.md)。
+- **明确不纳入**：R-004 `font-size: 1em`、重复 `monospace`、统一代码字体栈；不添加 Reset、Forms、A11y、全局视觉规则、`@layer`、`!important`。
+- **开发期根入口**：`package.json` 的唯一 `exports["."]` 指向 `./dist/normalize.css`；仍 `private: true`、版本 `0.0.0`，不能公开发布。Vite+ 继续承担开发与本机检查；维护者实际验证 `vp pack` 可以独立打包 CSS，而原 CSS-entry `vp build` 因默认关闭 CSS 拆分而失败；当前由 `vp pack` 输出根导出产物，`vp build` 负责构建测试 Fixture。修订后需本机复测。
+- **验证边界**：构建字节完整性、文件封装、离线 npm smoke 可以本地验证；实际消费端的 Vite+ 生产构建现已通过；WebKit/Safari、Edge/移动端、组件库及最终 CSS 准入仍应在对应 W-06/W-07 审核。维护者当前要求停止额外字体偏好专项测试，按浏览器原生行为使用。
+
+### 2.2 统一 Vite+ 命令与 CSS-only 构建（2026-11-04）
+
+维护者明确要求使用 Vite+ 原生命令 `vp dev`、`vp build`、`vp pack`，替代 `npm run build` 调用 Node 文件复制脚本。三条命令功能不同（[Vite+ Build](https://viteplus.dev/guide/build)、[Dev](https://viteplus.dev/guide/dev)、[Pack](https://viteplus.dev/guide/pack)）：
+
+- `vp dev`：仍从项目根目录启动本地 Vite 开发服务器，访问现有 `/fixtures/`；不发布 CSS。
+- `vp build`：现已修订为六张现有 HTML Fixture 的预览构建，输出到 `dist-fixtures/`；不进入 npm 包。此前直接以 CSS 作为库构建入口在 Vite+ 1.4.0 本机失败，实际根因与修正见 §2.3。
+- `vp pack`：已在维护者 Windows Vite+ 1.4.0 实测可直接以 CSS 为唯一入口生成单个文件（原验证输出 `dist-pack/normalize.css`），现改为输出 `dist/normalize.css`，作为唯一 npm 根导出目标；修订配置仍需重新运行。
+- `vp pack` 不是 `npm pack`：真正检查 npm tarball 应使用 `npm pack --dry-run`，任何发布仍需维护者单独授权。
+
+不增加发布用 JS、额外打包依赖、公开子路径或 CI；保留 `private: true`。`vp pack` 已是正式候选 CSS 产物构建命令，但是否可以公开发布仍受 tarball、消费端和兼容性验收约束。
+
+### 2.3 Vite+ 1.4.0 本机实测后的构建职责修订（2026-11-04）
+
+维护者在 Windows 报告：`vp check` PASS（55 个文件格式、11 个文件 Lint）、`vp test` 6/6、`npm run test:offline` 25/25、`vp dev` 成功启动、`vp pack` **成功生成仅一个** `dist-pack/normalize.css`（约 200 字节，无 JS），唯独 `vp build` 报错：`When "build.cssCodeSplit: false" is set, "rolldownOptions.input" should not include CSS files.`。原 `dist/normalize.css` 时间早于该次失败构建，不能视为 `vp build` 的产物。
+
+根因是 `build.lib` 默认 `cssCodeSplit: false`，与直接作为构建入口的 CSS 文件发生冲突。既然 `vp pack` 的 CSS-only 入口已在真实 Vite+ 1.4.0 上产出准确的单 CSS 文件，**不再将 `vp build` 当作库发布构建命令**：
+
+- `vp dev`：浏览器访问现有 `/fixtures/`，供本地原生对照。
+- `vp build`：使用 Vite 多页面 HTML 输入构建现有六张 Fixture 页面，输出到**私有**的 `dist-fixtures/`，不进入 npm 包；其 HTML/JS 仅用于测试，不属于 CSS 库运行时依赖。
+- `vp pack`：直接以 `src/normalize.css` 为唯一入口，输出到 **`dist/normalize.css`**；开发包 `exports["."]` 保持指向此文件，且不添加 JS 包装和其他公开子路径。
+- `npm pack`：独立的 npm tarball 清单检查，不能与 `vp pack` 混为一谈。
+
+本次 Vite+ 命令配置修订后，仍需维护者重新执行 `vp build`、`vp pack` 和离线测试，核实 HTML 预览与 CSS 发布产物各自只有预期内容；未执行的测试不得记为通过。保留 `private: true` 和禁用 CI、发布的约束。
+
+### 2.4 W-04 真实包离线安装检查（2026-11-04）
+
+W-03 已验收后，W-04 下一项最小必要检查是 **`vp pack` 的真实 `dist/normalize.css`，而非合成 CSS 烟测**。为不打断普通单测，在 `npm run test:offline` 之外提供单独的 `npm run test:package`（先运行 `vp pack`）：
+
+- 对完整当前仓库执行 `npm pack --offline --ignore-scripts --json`，将临时 tarball 定向到系统临时目录；不调用 `npm publish`。
+- 核对真实包的 `LICENSE`、`README.md`、`dist/normalize.css`、`package.json`，拒绝发布测试资产、源码和 JS 包装文件。
+- 从临时 tarball 离线安装到新的独立临时消费目录，对照实际构建 CSS 的字节、根 `exports`、`sideEffects` 和未公开子路径限制；清理全部临时内容。
+- 此项**仅覆盖实际打包、安装和文件解析**，并不等于 Vite+/Webpack 生产消费者的 CSS 副作用保留和页面视觉效果已通过。后两项仍需独立验证。
+
+新增测试应当不依赖网络、无新增依赖，且没有生成任何 GitHub Actions 或 CI。实际运行结果以维护者的本机输出为准。
+
+### 2.5 W-04 独立 Vite+ 生产消费者（开发中／尚未执行）
+
+新增独立的 `npm run test:consumer`：在已经 `vp pack` 的前提下，重新对真实仓库 `npm pack --offline`，安装到 `node_modules/.cache/` 下临时隔离的小型 Vite+ 应用；复用项目固定的 `vite-plus@1.4.0`，不安装第二套构建工具。应用的 JS 入口使用 `import "@adui/normalize.css"`，执行真实 `vp build`，再检查 `dist/assets/*.css` 是否包含 R-003 的 `b,strong { font-weight:bolder }`；结束后清理临时目录。该测试用于 P-02 的生产构建 CSS 保留证据，**不证明浏览器渲染和 UI 框架兼容**。
+
+维护者后来在 Windows Vite+ 1.4.0 实测 `npm run test:consumer` 1/1 PASS。其验证范围是生产 CSS 保留，开发态及页面实际计算样式仍归 W-06；Webpack 专项验收已按 §2.7 取消。
+
+### 2.6 W-04 Windows 真实验收与行尾规则（2026-11-04）
+
+维护者确认 `vp pack` 输出唯一 `dist/normalize.css`（约 200 字节）；`npm run test:package` **1/1 PASS**，验证完整仓库真实 tarball 的文件白名单、导出、离线安装与子路径封装；`npm run test:consumer` **1/1 PASS**，验证独立 Vite+ 1.4.0 **生产**消费应用的 CSS 导入未被丢弃。W-04 的 P-01/P-06/P-07/P-09 已满足当前包契约；P-02 生产 CSS 保留子项已通过，但 Vite+ 开发态与浏览器实际渲染未测试；P-03 Webpack 5 已由维护者调整为范围外，不属于 W-04 阻塞。详见[W-04 §7.6](plans/CSS_PACKAGE_DELIVERY_REVIEW.md)。
+
+维护者反映 Windows 上反复 `vp check --fix` 是 CRLF→LF 行尾纠正。新增 `.gitattributes` 的 `* text=auto eol=lf` 与 `.editorconfig` 的 `end_of_line = lf`、UTF-8 和末尾换行规定，**不修改产品 CSS**。这解决后续 Git 检出与编辑器保存的统一策略，但是否消除既有工作区行尾问题，仍待维护者拉取后执行 `vp check` 核对；不对第三方 Skills 执行大规模 renormalize。
+
+### 2.7 W-04 范围调整与完成结论（2026-11-04）
+
+维护者重申**工程统一 Vite+**；生成和消费标准 CSS 不依赖 Webpack。撤销上一轮未执行的 Webpack 5 测试，并从 `package.json` 删除 `test:webpack`、从 `tests/` 删除相关脚本，不增加其他依赖。外部消费者可以使用自己的工具链，但本项目**不以某一外部工具链的生产构建作为必过验收**。
+
+W-04 仅要求 `vp pack` CSS-only 真实产物、npm 根 `exports`、文件白名单、`sideEffects`、零运行时依赖、真实 tarball 独立安装与 Vite+ 生产消费验证。维护者已实测 `npm run test:package` 1/1、`npm run test:consumer` 1/1，故**开发分支上的包交付契约已满足**。Vite+ 开发态、浏览器直接加载和 UI 组件库样式回归仍应在 W-06 验证；正式 npm 发布须经 W-07 单独批准。
+
+此次调整只收敛测试范围，**不修改** ADR-0003 的唯一根入口、CSS 语义、`private: true`、已有包元数据或发布授权。[W-04 最新 DoD](plans/CSS_PACKAGE_DELIVERY_REVIEW.md#77-最新范围决策只使用-vite撤销-webpack-强制验收2026-11-04) 为当前实施基准。
+
+### 2.8 W-06 首批 T2 实际 CSS 页面对照（2026-11-04）
+
+W-03 的 T0/T1 只验证浏览器原生值与孤立候选规则；W-04 已证明真实 npm tarball 可以被 Vite+ 生产消费者保留，但尚未在真实浏览器里采集**实际 `vp pack` CSS 加载后的计算样式**。W-06 第一阶段新增两张 HTML Fixture：
+
+- `fixtures/t2-native.html`：T0，保留原生样式；只设置 R-003 测试用父级 font-weight（400/600/700），不加载任何产品 CSS。
+- `fixtures/t2-package.html`：T2，与 T0 **相同 body、被测元素和测试用父级样式**，仅在 `head` 增加 `<link id="package-css" rel="stylesheet" href="../dist/normalize.css">`。引用的是 `vp pack` 真正输出的 CSS 文件，而不是复制粘贴候选声明或新增 JS 包装。
+- 复用 `fixtures/probe.js` 采集原有的计算 fontWeight、fontSize、fontFamily；仅在存在 `package-css` 链接时，额外记录同源样式表的 `href` 和是否成功挂载 `sheet`。若未加载则证据无效，不能把零差异误判为无回归。
+- 首批被测元素：`b`/`strong`（父级 400/600/700）、`code`/`kbd`/`samp`/`pre`；同时保留原生 button、search input、details/summary、hidden 与 `hidden="until-found"` 作为后续手工交互观察点。**存在 DOM 不等于交互测试已通过**。
+- 构建前需执行 `vp pack`；`vp dev` 访问 `/fixtures/t2-native.html` 和 `/fixtures/t2-package.html`；`vp build` 的多页面输入须同时包含这两页。`dist-fixtures/` 仍是私有测试预览产物，npm `files: ["dist"]` 不包含它。
+
+本阶段只开发本地可复现实验，不新增产品 CSS、UI 框架依赖、浏览器自动化提供者或 CI；通过 Node/Vitest 的静态契约不等于任何浏览器 T2 真正通过。见[W-06 T2 本地验证说明](research/W06_T2_LOCAL_VERIFICATION.md)。
+
+### 2.9 W-06 第二批：原生交互观察点（2026-11-04）
+
+维护者反馈前一轮 T2 本地验证**通过**，但未提供浏览器版本、逐项控制台 JSON、键盘操作录屏或截图；因此可记录为“维护者报告 T2 基础回归通过”，**不能标记 F-001～F-010 全矩阵 PASS**，也不外推到 Safari、Edge 或移动端。
+
+第二批仍只扩展现有 `t2-native.html` 与 `t2-package.html` 两页，维持两页 **body 完全一致、T2 唯一新增实际 CSS link** 的隔离契约。添加原生 `select`、`textarea`、`checkbox`、`fieldset`、`dialog` 作为 F-004/F-005 观察点，复用既有 `button`、`input[type=search]`、`details/summary` 和 `hidden` 作为 F-003/F-006/F-007 观察点。通过原生 `dialog.showModal()`、`<form method="dialog">`、键盘 Tab/Esc、页面查找等手工操作确认行为；不添加交互模拟脚本、CSS 覆盖、依赖或 CI。
+
+此阶段只提供可复现**操作和证据采集入口**。用户反馈的上一轮 T2 通过不能自动成为这些新交互项目的 PASS；按浏览器/系统/功能逐项记录 PASS、FAIL、NOT_RUN。[W-06 验证说明](research/W06_T2_LOCAL_VERIFICATION.md)持续维护具体操作。
+
+### 2.10 W-06 原生交互实测反馈（2026-11-04）
+
+维护者在 Chrome 156 的 T0/T2 截图确认真实 CSS 加载、10 个计算样式点一致后，进一步明确**已经实际操作并通过** `dialog` 打开及 Esc 关闭、键盘焦点、`hidden="until-found"` 的页面查找揭示。验收记录分别对应 **F-005/F-006/F-007 的具体子项人工 PASS**；不是 F-003～F-007 整体的自动化 PASS，且该轮并无逐操作录屏/原始交互日志。
+
+仍需保留 NOT_RUN / 部分完成状态：`details/summary` 键盘展开、完整表单交互、dialog `method="dialog"` 关闭按钮、系统 `prefers-reduced-motion` / `forced-colors` 切换，以及最低目标浏览器与 Vue/React/UI 组件库回归。对同一操作不再重复要求维护者执行；完整支持声明仍须分别取得环境和结果证据。[W-06 记录](research/W06_T2_LOCAL_VERIFICATION.md)。
+
+### 2.11 W-06 第三批：Vue/React 真实组件库消费对照（2026-11-04）
+
+在 W-06 已取得 Chrome 156 的 T0/T2 静态对照、dialog/Esc、键盘焦点及 until-found 实操反馈之后，生态测试先实现两个可复现的**隔离消费者**：Vue 3 + Element Plus、React + Ant Design。TDesign、Tailwind Preflight 与 UnoCSS Reset 留到后续批次，避免一次扩大变量和安装范围。
+
+- **Vite+ 唯一工具链**：调用仓库现有 `vite-plus@1.4.0` 的 `vp build`，不新增 Webpack、React/Vue 插件或项目根依赖。消费者使用纯 JavaScript 的 Vue `h()` / React `createElement()`，无需 SFC/JSX 转换。
+- **真实包而非源码捷径**：先 `vp pack`，消费者通过当前项目 `npm pack --offline` 制作的临时 tarball 安装 `@adui/normalize.css`；核对产物来自唯一 CSS 根导出。组件库与框架只安装在 Git 忽略的临时消费目录，`--ignore-scripts`、`--no-save`、`--package-lock=false`，不改动本库 `package.json` 或锁文件。
+- **两组对照**：同一个消费者生成 `native`（只使用框架与组件库样式）和 `package`（在库样式之前引入真实 `@adui/normalize.css`）两份独立 Vite+ 生产构建，避免 CSS 提取后在多页面共享 chunk 中相互污染。两页相同原生元素与 UI Button/Input，组件库主题与版本一致。
+- **自动化检查只针对构建**：两组生产构建均可完成、T2 输出包含 R-003 CSS、根导出与已安装依赖版本正确、T0/T2 页面源码隔离；**不把构建成功冒充浏览器渲染或 UI 组件库交互兼容 PASS**。
+- **手工复测**：提供可选的 `--keep` 保留 Git 忽略的临时工程，通过两个本地 `vp dev` 端口在同一浏览器中观察按钮、输入框、字重、焦点和 UI 样式，并记录精确版本与 T0/T2 对比。临时产物不进入 `files: ["dist"]`，普通 `npm run test:offline` 不触发网络安装。
+- **阶段门槛**：先实现可单独执行的 `npm run test:ecosystem -- vue-element` / `react-antd`，实际运行结果由维护者 Windows 本地决定。需要 npm registry 时如实提示网络依赖，不将 NOT_RUN 说成 PASS。所有新测试均无 CI、无发布行为。
+
+### 2.12 W-06 生态生产构建实测与离线清单修复（2026-11-04）
+
+维护者已经在 Windows 实际执行 Vue 3 + Element Plus 与 React + Ant Design 两组 `test:ecosystem`，均完成真实 tarball 安装与两个隔离 Vite+ **生产构建**：Vue T0/T2 静态 CSS 分别 360171/360362 字节；React T0/T2 分别 0/192 字节。React 的 0 字节是构建时静态 CSS 结果，不能排除 Ant Design 在浏览器运行时生成样式。Vue `--keep` 再次执行通过，临时消费者保留供真实浏览器比较。
+
+同轮离线 Node 29/30 PASS、1 FAIL；原因是旧 `tests/package.node.test.mjs` 严格断言六项测试清单，而 `package.json` 已加入第七项 `ecosystem-contract.node.test.mjs`。仅同步断言的预期字符串，不改执行脚本或产品 CSS。**修复后尚未重跑完整离线测试**；浏览器 UI/交互、其他框架及目标旧版浏览器结果仍待测试，W-06 Issue #7 不结项。
+
+### 2.13 W-06 Vue/Element Plus Chrome 156 静态生态对照（2026-11-04）
+
+维护者在完成 Vue 3.5.44 + Element Plus 2.14.7 的真实 npm tarball Vite+ 双生产构建之后，提供 T0（`localhost:5174`）与 T2（`localhost:5175`）的 Chrome 156 页面/DevTools 截图。两边 `ui.buttonMounted`、`ui.inputMounted` 均为 `true`，Element Plus Button/Input 外观一致；`b-600`、`strong-600`、`b-700`、`strong-700` 均计算为 `fontWeight: 900`、`fontSize: 16px`、`fontFamily: Noto Sans SC`，`code` 均为 `fontWeight: 400`、`fontSize: 13px`、`fontFamily: monospace`。**本环境静态 UI 与五项计算样式对照 PASS（截图）**；此结论不等于组件输入/焦点交互 PASS，也不代表 React/Ant Design 或其他浏览器支持已确认。两组共有 Vue esm-bundler feature flag 警告、favicon 404，不视为 Normalize 引起的样式失败。详情见[生态记录](research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)，Issue #7 保持 Open。
+
+### 2.14 W-06 React + Ant Design Chrome 156 静态 UI 对照（2026-11-04）
+
+维护者完成 React+Ant Design 真实 tarball 的隔离 Vite+ 生产构建后，又提供 Chrome 156 的 T0/T2 页面与 Console 截图。Ant Design Button/Input 在两组均挂载，四项 b/strong 计算字重均 900，code 为 13px/monospace，五个样式测量点、组件静态外观一致。记录 **React 19.3.1 + Ant Design 6.6.8 的 Chrome 156 静态 UI PASS（截图）**，不等于 CSS-in-JS 全组件或键盘/输入行为通过。当前 Vue+Element Plus、React+Ant Design 的 Chrome 156 静态对照均已 PASS，但完整 F-009 还缺其他生态、浏览器与实际交互，且修复后的离线测试尚未复验。见[生态证据](research/W06_ECOSYSTEM_LOCAL_VERIFICATION.md)。
+
+### 2.15 W-06 第四批：Vue + TDesign 独立生态对照（2026-11-04）
+
+前一轮 Vue + Element Plus、React + Ant Design 的真实 npm tarball Vite+ 生产构建与 Chrome 156 T0/T2 静态样式均已有 PASS 证据。维护者最新 Windows `npm run test:offline` **30/30 PASS**，确认此前测试脚本清单断言已修复；不需要重做这些既有通过项。
+
+下一批只在已有 `tests/ecosystem-fixtures.mjs` 的 `ecosystemCases` 新增 **`vue-tdesign`**：固定 `vue@3.5.44` 和 `tdesign-vue-next@1.20.10`，引用 TDesign Vue Next 官方 CSS 入口 `tdesign-vue-next/es/style/index.css`，用 Vue `createApp` / `h()` 生成 TDesign Button/Input，继续避免引入 `.vue`、JSX、额外 Vite 插件或新的根依赖。按照现有隔离消费者测试脚本，从真实 `vp pack` CSS tarball 安装并生成 native/T2 两组独立 Vite+ 生产构建；T2 只增加 `import "@adui/normalize.css"`。安装和临时清理逻辑复用现有实现，不扩大 CSS 包出口或修改产品规则。
+
+自动构建门槛是两组 Vite+ 构建与真实 CSS 保留；浏览器门槛是相同 Chrome/系统环境的 T0/T2 Button/Input 成功挂载、R-003/R-004 五个计算样式点以及实际焦点/输入表现单独核验。测试场景以官方包的实际导出为准，错误不得解释成 Normalize 兼容失败。此测试脚本在开发分支提交后状态为 **NOT_RUN**，直到维护者 Windows 实际执行。未来 Tailwind Preflight 与 UnoCSS Reset 仍按各自引入顺序独立研究，不与 UI 库混合测试。
+
+### 2.16 W-06 / F-010 双 Reset 互不污染的实际测试资产（2026-11-04）
+
+TDesign 对照已获维护者完成反馈，后续直接验证第三方 Reset。开发分支新增 `tests/reset-fixtures.mjs`、`tests/reset-consumer.mjs`、`tests/reset-contract.node.test.mjs`，并在 `package.json` 中添加手动 `test:reset` 与离线测试引用。每个被测 Reset 在 Git 忽略的独立临时消费者中使用真实 `vp pack` tarball，仅以 CSS 导入顺序区分 `baseline`、`normalize-first` 和 `normalize-last`；Tailwind Preflight、UnoCSS v4、UnoCSS compat **互不同时加载**。继续复用 Vite+ 1.4.0 和当前唯一 CSS 根导出；默认 Normalize CSS 仍只有 R-003，未增加 Layer、Reset 或其他产品规则。
+
+**测试结果边界**：代码及生成隔离关系已静态核对；维护者 Windows 上的第三方依赖安装、生产构建与浏览器渲染/交互未运行。后续依据 [F-010 独立执行指南](research/W06_RESET_LOCAL_VERIFICATION.md) 保存实际产物哈希、计算样式和 CSS Cascade 胜出规则，不能将 `b,strong` 重复的 `bolder` 声明自动视为破坏性冲突。
+
+**W-05 首版准入结果（2026-11-04）**：36 条候选的**评审决定**已获得维护者批准；本章后续规则准入流程只用于未来新增或重新提出的候选，不代表需要继续向首版补足 36 条 CSS。已实现且唯一准入 R-003；R-004 继续保留原生等宽字体字号，其他候选不进入默认入口。具体分组及测试证据见 [W-05 结项索引](research/W05_RULE_ACCEPTANCE.md)。
 
 ## 3. CSS 规则准入流程（拟议）
 
@@ -73,17 +210,15 @@
 
 ## 6. 测试设计（未来工作）
 
-| 用例类别 | 场景 | 需求 | 状态 |
-| --- | --- | --- | --- |
-| 规则静态审查 | 默认模块禁止高侵入全局声明；选择器和注释合理 | FR-001、NFR-001 | 未实现 |
-| 原生语义 | button、input、select、textarea、fieldset、details、dialog、summary | FR-001/002/004 | 未实现 |
-| 浏览器差异 | Chromium / Firefox / WebKit 前后对照 | NFR-002/003 | 未实现 |
-| 交互无障碍 | 键盘焦点、高对比度、减少动画设置 | FR-003 | 未实现 |
-| 组件库回归 | Element Plus / Ant Design / TDesign 的表单与弹窗等 | NFR-007 | 未实现 |
-| TDesign 独立回归 | 核对是否引入额外 Reset，对比 native/package 的实际样式来源、焦点与表单交互 | NFR-007 | 未实现 |
-| Reset 隔离与层叠 | Tailwind v4 Preflight、UnoCSS tailwind-v4 / compat 分组验证；不同时加载两套 Reset | NFR-001/003/007 | 未实现 |
-| 包导出检查 | npm tarball 中所有公开路径存在且可解析 | FR-005/006 | 未实现 |
-| 体积与许可证 | 原始/Gzip 比较、许可证归属与发布清单 | NFR-004/006 | 未实现 |
+| 用例类别     | 场景                                                                | 需求            | 状态   |
+| ------------ | ------------------------------------------------------------------- | --------------- | ------ |
+| 规则静态审查 | 默认模块禁止高侵入全局声明；选择器和注释合理                        | FR-001、NFR-001 | 未实现 |
+| 原生语义     | button、input、select、textarea、fieldset、details、dialog、summary | FR-001/002/004  | 未实现 |
+| 浏览器差异   | Chromium / Firefox / WebKit 前后对照                                | NFR-002/003     | 未实现 |
+| 交互无障碍   | 键盘焦点、高对比度、减少动画设置                                    | FR-003          | 未实现 |
+| 组件库回归   | Element Plus / Ant Design / TDesign 的表单与弹窗等                  | NFR-007         | 未实现 |
+| 包导出检查   | npm tarball 中所有公开路径存在且可解析                              | FR-005/006      | 未实现 |
+| 体积与许可证 | 原始/Gzip 比较、许可证归属与发布清单                                | NFR-004/006     | 未实现 |
 
 **禁止**用单元文本检查代替浏览器对照并宣称兼容性通过。
 
