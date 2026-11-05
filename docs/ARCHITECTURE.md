@@ -1,12 +1,12 @@
 # ARCHITECTURE — 总体架构
 
-**状态**：规划中，尚无源码与构建系统。本文描述拟议方向而非当前实现。  
+**状态**：首版设计决策已批准；尚无源码与构建系统。架构约束已经生效，代码和测试仍未开始。  
 **关联**：[需求](REQUIREMENTS.md) · [SDD](SDD.md) · [ADR-0001](adr/0001-css-base-strategy.md)
 
 ## 1. 架构目标和质量属性
 
 - **规范化与重置分离**：默认规则只纠正可复现的浏览器差异；高侵入性行为显式选择。
-- **可组合**：使用者可以选择 Normalize，或进一步选择 Reset、A11y、Forms 等独立能力。
+- **可组合（长期架构）**：首版仅默认 Normalize；Reset、A11y、Forms 独立入口延后至未来版本单独评审。
 - **可审计**：以规则证据、浏览器对照用例、兼容性回归和变更记录支撑发布。
 - **可覆盖**：降低选择器特异性；评估 CSS Cascade Layers 的顺序、未分层规则优先级。
 - **无运行时业务耦合**：候选产物为静态 CSS，不承担路由、API、认证、存储、运行时状态管理。
@@ -44,18 +44,14 @@ flowchart TD
 
 模块默认**逻辑上独立**；最终物理文件与产物由 SDD 评审确定。
 
-## 4. 层级与覆盖设计（候选）
+## 4. 已接受的默认 CSS 级联策略
 
-```css
-@layer adui.normalize, adui.reset, adui.a11y, adui.forms;
-```
-
-同一个 origin、importance 下，未分层的普通样式通常优先于分层普通样式，这有助于消费者覆盖。但必须明确处理层声明先后、可选入口的统一层顺序、第三方框架自身 layers、`!important` 反转等问题。**以上仅是设计提案，尚未在浏览器验证。**
+依据 [ADR-0002 Accepted](adr/0002-cascade-layers.md)，首版默认 Normalize CSS **不内置 `@layer`**；只在有证据的规则上逐条考虑 `:where()`。不要在默认入口自动创建命名层，也不要为了增加覆盖性而使用 `!important`。未来如需对外提供分层变体必须另行决策和验证。**此处是架构约束，非已经通过浏览器测试的结论。**
 
 ## 5. 浏览器、生态与部署边界
 
-- 目标是现代 Chromium、Firefox、WebKit；最低支持版本、Android/iOS WebView 边界未决。
-- 面向多种构建环境；不能因为支持 Vite 就假定无需验证 Webpack、SSR 构建或 CSS 导入路径。
+- 依 [ADR-0004 Accepted](adr/0004-browser-support-policy.md) 将固定 Baseline 2023 作为 CSS 特性准入参考；核心桌面/移动浏览器的**最低版本仍未冻结**，系统 WebView 的支持须按实际设备另行确认。
+- 开发工具链已按 [ADR-0005](adr/0005-viteplus-toolchain.md) 选定 **Vite+**；CSS 仍应是无运行时 JS 依赖的独立文件。不能因为在 Vite+ 中构建通过就假定无需验证 Webpack、SSR 构建或原生 CSS 导入路径。
 - 原生 HTML、Vue、React 只是**使用场景**，不是本库的运行时框架依赖。
 - 预期发布介质是 npm 静态 CSS 包（尚未发布）；无需数据库、缓存、后端服务、环境变量、账号认证和外部 API。
 - 许可证已确认为 MIT，第三方来源授权仍须逐项核查。
@@ -64,8 +60,9 @@ flowchart TD
 
 - 安全：不得在发布 CSS 中隐藏外部跟踪、加载非必要第三方远程资源或内置不可信脚本；核查源码来源和依赖供应链。
 - 性能：规则最小化；按各个入口记录体积与变化；不预先编造性能提升数据。
-- 观测：后续以本地测试报告、视觉回归截图、浏览器版本和发布清单追踪，不涉及运行时遥测。本项目不增加 CI；TDesign 与两套第三方 Reset 的隔离回归参见 [HARNESS](HARNESS.md) 第 6 节。
+- 观测：后续以测试报告、视觉回归截图、浏览器版本和发布清单追踪，不涉及运行时遥测。
 - 故障处理：出现样式回归时定位入口 → 规则 → 浏览器 → UI 场景 → 关联需求/提交，必要时移除单条规则而非整体叠加覆盖。
+- **2026-11-04 源码审查补充**：TDesign、Tailwind v4 Preflight、UnoCSS Reset 的来源与潜在层叠风险详见 [独立研究归档](research/2026-11-04-reset-source-audit.md)。仅属于上游源码核查，不能作为浏览器兼容性测试 PASS；后续各 Reset 须隔离验证。
 
 ## 7. 技术选型与待决策
 
@@ -73,13 +70,20 @@ flowchart TD
 | --- | --- | --- |
 | 纯 CSS、无运行时 JS | 候选方向 | 降低宿主框架耦合 |
 | npm 包名 `@adui/normalize.css` | 项目目标已明确 | 与仓库定位一致；发布权限待确认 |
-| CSS Cascade Layers | 候选 | 控制规则层级，但需多入口与跨库验证 |
-| CSS 构建/压缩工具 | 未选型 | 先明确可执行验证需求，不提前锁版本 |
-| 本地浏览器验证 | 验证工具未选型；不增加 CI | 先定义浏览器与 Fixtures，再决定是否使用 Playwright 等本地工具 |
-| 首版包含哪些增强模块 | 待评审 | 以可验证性和低侵入为准 |
+| CSS Cascade Layers | 首版默认不内置（Accepted） | ADR-0002；逐条评估 `:where()` 和覆盖风险 |
+| 开发工具链 | **Vite+（Accepted）** | [ADR-0005](adr/0005-viteplus-toolchain.md)；开发期统一 Vite+，无运行时 JS |
+| 纯 CSS 库打包方式 | 待实测 | 先验证 Vite+ `vp pack` 是否适合无 JS 包产物，再决定最小方案 |
+| 具体 Vite+ 版本与包管理器 | 未冻结 | 获开发授权后核对环境、锁文件与最小依赖 |
+| 本地浏览器自动化 | 未选型 | 定义浏览器与 Fixtures，再选本地执行工具；**不增加 CI** |
+| 首版包含哪些增强模块 | 已决定：只含 Normalize | ADR-0003；Reset/Forms/A11y/all.css 延后 |
 
 ## 8. ADR 索引
 
-- [ADR-0001：CSS 基础策略与模块边界](adr/0001-css-base-strategy.md) — **Proposed**；尚未接受。
+- [ADR-0001：CSS 基础策略与模块边界](adr/0001-css-base-strategy.md) — **Accepted**。
+- [ADR-0002：默认不内置 Cascade Layers](adr/0002-cascade-layers.md) — **Accepted**。
+- [ADR-0003：首版只提供默认 Normalize 入口](adr/0003-mvp-package-contract.md) — **Accepted**。
+- [ADR-0004：固定 Baseline 2023 特性准入参考](adr/0004-browser-support-policy.md) — **Accepted**；[映射研究](research/BASELINE_2023_MAPPING.md) 已得到候选版本，实际最低支持声明仍未冻结。
+- [ADR-0005：开发工具链统一采用 Vite+](adr/0005-viteplus-toolchain.md) — **Accepted**；尚未安装或运行。
+- [MVP 实施计划](plans/MVP_IMPLEMENTATION_PLAN.md) — 可执行的任务与验收门槛；**尚未开发**。
 
 **更新约定**：模块职责、技术选型、对外依赖和浏览器支持矩阵变化时更新本文件与 ADR，并评估 SDD/需求影响。

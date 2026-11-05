@@ -1,0 +1,48 @@
+name: "📝 文档与架构讨论"
+description: "讨论需求、模块接口、ADR、规则依据、浏览器矩阵及贡献流程。"
+title: "[文档] "
+body:
+  - type: dropdown
+    id: category
+    attributes:
+      label: "议题类型"
+      options:
+        - "需求与验收标准"
+        - "架构 / ADR"
+        - "SDD / CSS 模块边界"
+        - "规则依据 / 浏览器矩阵"
+        - "README / 贡献流程"
+        - "其他"
+    validations:
+      required: true
+  - type: input
+    id: location
+    attributes:
+      label: "涉及的文档与编号"
+      placeholder: "docs/SDD.md / FR-001 / ADR-0002"
+  - type: textarea
+    id: context
+    attributes:
+      label: "背景与现存问题"
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: "修改建议及理由"
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: "验收条件及文档同步范围"
+      description: "REQUIREMENTS、SDD、ARCHITECTURE、ADR、README、PROJECT_CONTEXT、CODEBASE_MAP 哪些需要更新？"
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: "事实状态"
+      options:
+        - label: "我已将已确认、计划、待评审和未知情况区分开来。"
+          required: true

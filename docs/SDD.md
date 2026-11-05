@@ -1,6 +1,6 @@
 # SDD — 详细设计草案
 
-**状态：待评审 / 未实现**。所有文件路径、入口和 CSS 规则均为候选设计；本仓库目前没有对应代码。
+**状态：首版契约已批准 / 未实现**。ADR-0001～0005 已 Accepted（含 Vite+ 工具链）；尚无 CSS、包配置、可运行测试或产物。除默认入口外的文件路径仍为未来候选。
 
 ## 1. 设计范围与需求映射
 
@@ -14,17 +14,17 @@
 | Exports | FR-006 | npm 导出映射 | 未实现 |
 | 规则追踪 | FR-007、NFR-002/003/007 | 兼容性证据与回归用例 | 未实现 |
 
-## 2. 对外契约草案（不代表已可使用）
+## 2. 首版正式设计契约（尚不可使用）
 
 | 导入路径（候选） | 返回内容 | 副作用边界 |
 | --- | --- | --- |
-| `@adui/normalize.css` | Normalize 基础 CSS | 不隐式附加 Reset/A11y/Forms |
-| `@adui/normalize.css/reset.css` | Reset CSS | 仅显式使用时生效 |
-| `@adui/normalize.css/a11y.css` | A11y CSS | 仅显式使用时生效 |
-| `@adui/normalize.css/forms.css` | Forms CSS | 仅显式使用时生效 |
-| `@adui/normalize.css/all.css` | 经评审的组合 CSS | 不应产生重复/互斥规则 |
+| `@adui/normalize.css` | **首版唯一已批准的 CSS 入口**（未实现） | 只包含有证据的 Normalize，且不内置 `@layer` |
+| `@adui/normalize.css/reset.css` | Reset CSS | **首版延期**；未来版本单独决策 |
+| `@adui/normalize.css/a11y.css` | A11y CSS | **首版延期**；未来版本单独决策 |
+| `@adui/normalize.css/forms.css` | Forms CSS | **首版延期**；未来版本单独决策 |
+| `@adui/normalize.css/all.css` | 经评审的组合 CSS | **首版延期**；未来版本单独决策 |
 
-具体 `package.json` exports、文件名、CSS 编译方式和 `sideEffects` 标记，均须在开始开发前审定。
+首版只规划 `@adui/normalize.css` 根入口，**不发布四个候选子路径**；未来版本可重新评审。开发工具链统一 Vite+（[ADR-0005](adr/0005-viteplus-toolchain.md)），但 CSS-only 的 `vp pack` 产物适配仍需在 W-04 实测，不能提前承诺 JS 入口或已编译 CSS。具体 `package.json` exports、文件名、CSS 编译方式和 `sideEffects` 标记须在实际开发后做构建验证，参阅 [ADR-0003](adr/0003-mvp-package-contract.md)、[W-04 包交付验收研究](plans/CSS_PACKAGE_DELIVERY_REVIEW.md) 和 [实施计划](plans/MVP_IMPLEMENTATION_PLAN.md)。
 
 ## 3. CSS 规则准入流程（拟议）
 
@@ -61,10 +61,11 @@
 - 审视输入字体、尺寸、触摸交互、原生验证状态；避免影响组件库自定义按钮与输入框。
 - 不默认使用 `:user-invalid` 改写所有表单背景或边框。
 
-### Cascade Layers（候选）
+### Cascade Layers（首版已决定）
 
-- 层名提案：`adui.normalize`、`adui.reset`、`adui.a11y`、`adui.forms`。
-- 每个独立入口必须声明一致顺序；明确未分层样式、`!important`、Tailwind/UnoCSS 预设间交互；相关用例验证后再接受。
+- [ADR-0002](adr/0002-cascade-layers.md) 已接受：**首版默认 CSS 不内建 `@layer`**。
+- 仅逐条评估 `:where()` 的必要性和 CSS 优先级；不能承诺消费者不受导入顺序影响。
+- 命名层、组合入口与可选模块属于后续独立设计议题。
 
 ## 5. 数据模型、状态机、接口与并发
 
@@ -78,8 +79,9 @@
 | 原生语义 | button、input、select、textarea、fieldset、details、dialog、summary | FR-001/002/004 | 未实现 |
 | 浏览器差异 | Chromium / Firefox / WebKit 前后对照 | NFR-002/003 | 未实现 |
 | 交互无障碍 | 键盘焦点、高对比度、减少动画设置 | FR-003 | 未实现 |
-| 组件库回归 | Element Plus / Ant Design / TDesign 的表单与弹窗等；优先完成 W-06 TDesign 三引擎 native/package 基线对照 | NFR-007 | 未实现 |
-| Reset 生态隔离 | Tailwind v4 Preflight 与 UnoCSS Reset 分别做基线、前后加载顺序测试；不得叠加两套 Reset，并记录 Cascade Layers/最终产物 | FR-001/007、NFR-001/003/007 | 未实现 |
+| 组件库回归 | Element Plus / Ant Design / TDesign 的表单与弹窗等 | NFR-007 | 未实现 |
+| TDesign 独立回归 | 核对是否引入额外 Reset，对比 native/package 的实际样式来源、焦点与表单交互 | NFR-007 | 未实现 |
+| Reset 隔离与层叠 | Tailwind v4 Preflight、UnoCSS tailwind-v4 / compat 分组验证；不同时加载两套 Reset | NFR-001/003/007 | 未实现 |
 | 包导出检查 | npm tarball 中所有公开路径存在且可解析 | FR-005/006 | 未实现 |
 | 体积与许可证 | 原始/Gzip 比较、许可证归属与发布清单 | NFR-004/006 | 未实现 |
 
@@ -91,8 +93,19 @@
 - 规则变更若可能影响消费者样式，应视为潜在破坏性变更，提供变更说明和回归证据。
 - 发布导出路径、版本策略和升级说明在真实打包与测试环境确定后再冻结。
 
-## 8. 未决事项
+## 8. 补充研究（规则证据尚未批准）
 
-浏览器最低版本；是否发布 `all.css`；是否采用 `@layer`；是否需要更细的模块拆分；首次发布支持范围；CSS 格式化和测试工具；组件库 Fixture 版本。
+- [规则候选](research/RULE_REVIEW.md)、[首批证据审查](research/RULE_EVIDENCE_BATCH1.md) 与 [竞品研究](research/COMPETITOR_REVIEW.md)：用于规则证据审查，不代表实现。
+- [浏览器支持矩阵](research/BROWSER_REVIEW.md) 和 [表单规则研究](research/FORM_CONTROLS_REVIEW.md)：最低**测试目标已批准**，但未做任何实际浏览器测试；不代表已完成正式支持验证。
+- [ADR-0002](adr/0002-cascade-layers.md)：**Accepted**，首版不内建 `@layer`。
+- [ADR-0003](adr/0003-mvp-package-contract.md)：**Accepted**，单一默认 CSS 入口；具体构建行为待验证。
+- [ADR-0004](adr/0004-browser-support-policy.md)：**Accepted**，Baseline 2023 为特性准入参考；[七项最低测试目标](research/BASELINE_2023_MAPPING.md) 已批准并复核时间线，正式支持声明尚待实测。
+- [ADR-0005](adr/0005-viteplus-toolchain.md)：**Accepted**，开发工具链统一 Vite+；[工具链研究](research/VITEPLUS_TOOLCHAIN_REVIEW.md) 仅查阅官方文档，未运行。
+- [开发准入清单](research/REVIEW_GATE.md) 与 [实施计划](plans/MVP_IMPLEMENTATION_PLAN.md)：任务和实施门槛。
+- [第三批规则证据审查](research/RULE_EVIDENCE_BATCH3.md)：排版、Reset、系统偏好等剩余 17 条规则的来源与风险。
+
+## 9. 未决事项
+
+Baseline 2023 映射候选版本能否在实际浏览器和 OS 上兑现；纯 CSS 在 Vite+ 内采用哪种打包方式；开发工具链实际版本、组件库 Fixture 版本与 npm 发行支持范围。**首版不发布 `all.css`，默认不内置 `@layer` 的架构选择已经 Accepted，不再视为未决选型。**
 
 **更新约定**：对外 CSS 导出、模块边界、单条关键规则、测试设计变化时维护本文件；高层变化同步 [ARCHITECTURE](ARCHITECTURE.md) 与 [ADR](adr/0001-css-base-strategy.md)。

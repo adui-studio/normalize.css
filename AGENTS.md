@@ -1,13 +1,14 @@
 # AGENTS.md — @adui/normalize.css
 
-> 本文件是项目 Agent 的简明规则入口。**当前阶段仅允许文档规划与维护，不进行 CSS/脚本实现、依赖安装、发布或部署**；用户后续明确变更范围时，以最新要求为准。
+> 本文件是项目 Agent 的简明规则入口。**ADR-0001～0005 已接受，首版实施计划及最低浏览器测试目标已批准；当前仅授权文档与任务规划。未经新的开发指令，不编写 CSS/脚本、不安装依赖、不发布或部署。** 以用户最新要求为准。
 
 ## 1. 项目事实
 
 - 仓库：[adui-studio/normalize.css](https://github.com/adui-studio/normalize.css)，npm 包目标名：`@adui/normalize.css`。
-- 当前已确认：GitHub 仓库已建立；仓库包含 MIT LICENSE；本轮仅初始化文档。
-- 目前没有实现源码、可运行包、已选定工具链或已执行的浏览器兼容测试。
-- 目标：低侵入 CSS 标准化基础库；Reset、A11y、Forms 为**拟议**可选增强。
+- 当前已确认：GitHub 仓库已建立并包含 MIT LICENSE；五项 ADR 已接受，首版只规划默认 Normalize 入口；Chrome/Edge 120、Firefox 121、Safari 17.2（及对应核心移动版本）已确定为**最低测试目标而非已验证兼容范围**，参见 [MVP 计划](docs/plans/MVP_IMPLEMENTATION_PLAN.md)。
+- 目前没有实现源码、可运行包、已安装项目工具链或已执行的浏览器兼容测试；**后续开发工具链已选 Vite+（ADR-0005 Accepted），但尚未安装或运行**。
+- 目标：低侵入 CSS 标准化基础库；Reset、A11y、Forms 是已接受的长期可选模块方向，**首版延期**；默认不内置 `@layer`，固定 Baseline 2023 作为特性参考。
+- **工具链决策**：后续开发统一 Vite+，参见 [ADR-0005](docs/adr/0005-viteplus-toolchain.md)。工具链已选定不构成开始编写 CSS 或安装依赖的授权。
 
 ## 2. 单一事实来源
 
@@ -18,7 +19,7 @@
 | 模块接口及具体设计 | [SDD](docs/SDD.md) |
 | 当前进度和待决策 | [PROJECT_CONTEXT](docs/PROJECT_CONTEXT.md) |
 | 文件位置 | [CODEBASE_MAP](docs/CODEBASE_MAP.md) |
-| 可用 Skills | [SKILLS](docs/SKILLS.md) |
+| 可用 Skills | [SKILLS](docs/SKILLS.md)：第三方原版技能的来源与使用边界 |
 | 可执行检查 | [HARNESS](docs/HARNESS.md) |
 | 文档一致性 | [DOCUMENTATION_VALIDATION](docs/DOCUMENTATION_VALIDATION.md) |
 
@@ -40,15 +41,17 @@
 - 默认 Normalize 只修复可说明的差异；不要复制整个竞品 CSS。
 - 不在默认模块中强制根字号、主题配色、滚动条、按钮清空样式、通用间距归零。
 - 不全局强制取消动画或抹除焦点标记；无障碍增强需要考虑系统偏好与回退。
-- 尽可能降低选择器特异性；使用 Cascade Layers 前需验证层优先级及消费者覆盖行为。
+- 首版默认不内置 `@layer`（ADR-0002 Accepted）；逐条审查 `:where()`，任何未来分层变体须独立决策和测试。
 - 兼容性、包体积、浏览器版本和 UI 库结论必须由实际测试支持。
 
 ## 6. Git、权限与安全
 
 - 最小变更；不擅自覆盖其他人工作、不执行强推、不提交密钥或令牌。
+- 本项目明确**不增加任何 CI**；Harness 只讨论本地人工触发的验证，不新增任何工作流。
 - 未经明确要求不创建发布/部署工作流、不推送发布版本、不运行不可信第三方脚本。
 - Git 提交建议遵循 Conventional Commits、中文主题、适当 emoji；以仓库未来正式规范为准。
 - 文档阶段不为形式创建空 Skill、空源码目录、虚构脚本或通过状态。
+- 第三方 Skills 固定上游 SHA、许可证和来源，见 [记录](.agents/skills/UPSTREAM.md)；工具调用必须匹配当前连接与权限。
 
 ## 7. 完成判定
 

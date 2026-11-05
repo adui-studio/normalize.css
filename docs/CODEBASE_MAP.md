@@ -1,6 +1,6 @@
 # CODEBASE_MAP — 仓库结构与定位
 
-**状态**：文档初始化完成后的目录索引。严格区分**已经存在**和**仅规划**的路径。
+**状态**：评审分支已接受五项 ADR，首版最低浏览器测试目标已批准但尚未实测，代码尚未实现；区分评审分支、main 和规划路径。
 
 ## 1. 当前真实文件
 
@@ -10,6 +10,19 @@ normalize.css/
 ├── README.md                 # 本轮文档：中文项目入口
 ├── README.en.md              # 本轮文档：英文概览
 ├── AGENTS.md                 # 本轮文档：Agent 规则入口
+├── .github/                  # 评审分支：Issue/PR 模板，无 CI
+│   ├── ISSUE_TEMPLATE/
+│   │   ├── bug-report.yml
+│   │   ├── rule-proposal.yml
+│   │   ├── documentation.yml
+│   │   └── config.yml
+│   └── pull_request_template.md
+├── .agents/skills/           # 评审分支：上游原版第三方 Skills
+│   ├── github-issues/        # SKILL.md 与 10 个 references
+│   ├── conventional-commit/  # SKILL.md
+│   ├── bug-reproduction-brief/ # SKILL.md
+│   ├── UPSTREAM.md
+│   └── UPSTREAM_LICENSE.txt
 └── docs/
     ├── REQUIREMENTS.md      # 本轮文档：需求与验收
     ├── ARCHITECTURE.md      # 本轮文档：总体架构草案
@@ -19,13 +32,32 @@ normalize.css/
     ├── SKILLS.md            # 本轮文档：Skill 索引
     ├── HARNESS.md           # 本轮文档：验证机制规划
     ├── DOCUMENTATION_VALIDATION.md # 本轮文档：校验计划
-    ├── research/
-    │   └── 2026-11-04-reset-source-audit.md # 已存在：上游源码核查与待测风险
+    ├── research/                # 文档评审分支：研究资料；包含 main 独立研究归档
+    │   ├── 2026-11-04-reset-source-audit.md # main 归档：TDesign/Tailwind/UnoCSS 源码研究
+    │   ├── RULE_REVIEW.md
+    │   ├── RULE_EVIDENCE_BATCH1.md
+    │   ├── RULE_EVIDENCE_R003_R004.md
+    │   ├── R003_R004_LOCAL_VERIFICATION.md
+    │   ├── FORM_CONTROLS_REVIEW.md
+    │   ├── RULE_EVIDENCE_BATCH3.md
+    │   ├── REVIEW_GATE.md
+    │   ├── BROWSER_REVIEW.md
+    │   ├── BASELINE_2023_MAPPING.md
+    │   ├── VITEPLUS_TOOLCHAIN_REVIEW.md
+    │   └── COMPETITOR_REVIEW.md
+    ├── plans/
+    │   ├── MVP_IMPLEMENTATION_PLAN.md
+    │   ├── VITEPLUS_LOCAL_HARNESS_DESIGN.md
+    │   └── CSS_PACKAGE_DELIVERY_REVIEW.md
     └── adr/
-        └── 0001-css-base-strategy.md # 本轮文档：Proposed
+        ├── 0001-css-base-strategy.md # Accepted
+        ├── 0002-cascade-layers.md # Accepted
+        ├── 0003-mvp-package-contract.md # Accepted
+        ├── 0004-browser-support-policy.md # Accepted
+        └── 0005-viteplus-toolchain.md # Accepted
 ```
 
-本轮创建文件均为 Markdown，不包含任何实现源码。此目录图要与**本轮实际成功提交**同步；若提交未完成，必须标记为待提交而非已存在。
+研究文档、ADR-0002～0005、实施计划、Issue/PR 模板及第三方 Skills 均为**评审分支内容**，合并前不能描述为 main 已存在；没有新增可执行脚本、CSS、npm 依赖或 CI。
 
 ## 2. 尚不存在的路径（不据此创建占位）
 
@@ -36,8 +68,8 @@ normalize.css/
 | `package.json` | 包导出、开发命令、依赖 | 规划中，**不存在** |
 | `tests/` | Fixtures、静态与浏览器测试 | 规划中，**不存在** |
 | `scripts/` | 文档校验、构建与质量脚本 | 规划中，**不存在** |
-| `.github/workflows/` | CI 工作流 | **不规划、不新增 CI**；当前不存在 |
-| `.agents/skills/` | 经审核、确有价值的项目技能 | 尚无已安装 Skill |
+| `.github/workflows/` | CI/发布工作流 | **明确不规划**，项目禁止增加 CI；当前不存在 |
+| `.agents/skills/` | 第三方原版 Skills | 评审分支已纳入，main 尚无；来源见 [SKILLS](SKILLS.md) |
 
 ## 3. 程序入口与依赖调用链
 
@@ -48,7 +80,7 @@ normalize.css/
 ```text
 消费者应用
   -> npm package CSS entry (待实现)
-     -> 默认 Normalize / 显式可选模块 (待实现)
+     -> 默认 Normalize（MVP 唯一入口，待实现）
         -> 目标浏览器渲染 (待测试)
 ```
 
@@ -58,7 +90,7 @@ normalize.css/
 | --- | --- | --- |
 | 确认新规则是否属于 Normalize | [REQUIREMENTS](REQUIREMENTS.md)、[SDD](SDD.md) | 需求、设计、测试计划 |
 | 讨论 CSS Layers 或模块导出 | [ARCHITECTURE](ARCHITECTURE.md)、[ADR-0001](adr/0001-css-base-strategy.md) | SDD、ADR |
-| 判断能否开始开发 | [PROJECT_CONTEXT](PROJECT_CONTEXT.md) | HARNESS 与状态 |
+| 判断能否开始开发 | [PROJECT_CONTEXT](PROJECT_CONTEXT.md)、[MVP 计划](plans/MVP_IMPLEMENTATION_PLAN.md) | HARNESS 与状态 |
 | 设计浏览器兼容性回归 | [HARNESS](HARNESS.md) | SDD、要求与产物 |
 | 新增 Skill | [SKILLS](SKILLS.md) | AGENTS、校验规则 |
 | 新增/重命名重要目录 | 本文 | README 导航 |

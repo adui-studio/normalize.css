@@ -1,6 +1,6 @@
 # DOCUMENTATION_VALIDATION — 文档校验规范
 
-**当前状态**：人工校验规范已定义，自动校验工具尚未实现；本项目不增加 CI，本阶段不新增脚本。
+**当前状态**：人工校验规范已定义，自动校验工具未实现；项目明确**不增加任何 CI**，本阶段不新增脚本。
 
 ## 1. 校验对象和真实状态
 
@@ -8,7 +8,7 @@
 
 核心八类资产：AGENTS、[REQUIREMENTS](REQUIREMENTS.md)、[SDD](SDD.md)、[ARCHITECTURE](ARCHITECTURE.md)、[PROJECT_CONTEXT](PROJECT_CONTEXT.md)、[CODEBASE_MAP](CODEBASE_MAP.md)、[SKILLS](SKILLS.md)、[HARNESS](HARNESS.md)。
 
-增强机制：[ADR-0001](adr/0001-css-base-strategy.md) 与本文。当前无实际 Skills、脚本、工作流或 CSS 发布文件。
+增强机制：[ADR-0001](adr/0001-css-base-strategy.md)、[ADR-0002](adr/0002-cascade-layers.md)、[ADR-0003](adr/0003-mvp-package-contract.md)、[ADR-0004](adr/0004-browser-support-policy.md)、[ADR-0005](adr/0005-viteplus-toolchain.md) 均为 Accepted；[MVP 实施计划](plans/MVP_IMPLEMENTATION_PLAN.md) 已存在。评审分支有三个第三方 Skills 文件，但无自研 Skill、执行脚本、CI 工作流或 CSS 发布文件。
 
 ## 2. 核查规则
 
@@ -40,11 +40,17 @@
 
 - 初始化文档时：结构、相对链接、编号、状态、CODEBASE_MAP 一致性。
 - 修改需求/设计/架构/ADR 时：关联文件及影响分析。
-- 未来 PR 阶段：仅按需在本地执行真实存在的文档检查与 Harness 命令；不增加 CI。
+- 未来 PR 阶段：只执行相关文档检查与实际 Harness 命令。
 - 对未执行的检查按“未执行/环境受限/不适用”记录，不记为通过。
 
 ## 6. 开发前待落实
 
-待明确进入开发阶段后，再评审是否需要少依赖、可维护的本地文档验证脚本和必要单元测试；**不增加 CI，本文件不表示自动校验已经存在。**
+未来进入开发阶段后，仅评估可由维护者本地触发的少依赖文档检查命令，不引入任何 CI。**本文件不表示自动校验已经存在。**
+
+## GitHub 协作模板检查（文档阶段）
+
+目前评审分支已有三个 Issue Forms、`config.yml` 与 PR 模板。对照 [GitHub issue form schema](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-githubs-form-schema) 的字段类型及 ID 规范完成**结构性检查**：各表单字段 ID 不重复，所用类型均在官方枚举内，存在 name、description、body；这不是 YAML 全量 schema 校验，也不是 GitHub UI 实际渲染。
+
+[GitHub 官方模板文档](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/about-issue-and-pull-request-templates) 指出默认分支规则：模板只有进入 `main` 才可供新建 Issue/PR 的普通流程使用；**Draft PR 分支中的文件不能被当成已经上线的模板**。合并前检查链接与文档说明一致；如需验证 UI，需要在维护者批准合并后实际使用 GitHub 页面确认。
 
 **更新约定**：文档目录、需求/ADR 格式、Skills 结构、命令或验证机制变化时维护；失败不得通过删除检查来掩盖。
