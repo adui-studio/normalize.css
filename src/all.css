@@ -1,0 +1,9 @@
+/*!
+ * @adui/normalize.css/all.css
+ * Opt-in full bundle. Import ONLY this file, not individual modules as well.
+ */
+
+@import "./normalize.css";
+@import "./reset.css";
+@import "./forms.css";
+@import "./a11y.css";
