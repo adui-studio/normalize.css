@@ -11,9 +11,10 @@ const normalizeCss = (source) =>
     .replace(/\s+/g, "")
     .replace(/;?}/g, ";}");
 
-test("W-04 development package exports only the Normalize CSS root", () => {
+test("W-04 package exports only the Normalize CSS root", () => {
   assert.equal(pkg.name, "@adui/normalize.css");
-  assert.equal(pkg.private, true);
+  assert.equal(pkg.version, "0.0.1");
+  assert.equal(pkg.private, false);
   assert.equal(pkg.devDependencies["vite-plus"], "1.4.0");
   assert.equal(Object.hasOwn(pkg, "dependencies"), false);
   assert.equal(Object.hasOwn(pkg, "main"), false);

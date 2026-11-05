@@ -1,7 +1,7 @@
 {
   "name": "@adui/normalize.css",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.0.1",
+  "private": false,
   "description": "A minimal, evidence-driven CSS normalization library with no runtime JavaScript dependencies.",
   "homepage": "https://github.com/adui-studio/normalize.css#readme",
   "bugs": {
