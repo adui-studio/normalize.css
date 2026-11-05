@@ -57,14 +57,14 @@ R-003 preserves relative emphasis; R-007 standardizes dotted underlines on title
 
 ### `0.0.3` development candidate: complete CSS modules
 
-| Entry | Scope |
-| --- | --- |
-| `@adui/normalize.css` | **Default Normalize**: only R-003, R-007, and R-008, preserving the low-intrusion published behavior |
-| `@adui/normalize.css/normalize.css` | Explicit alias for the default CSS root |
-| `@adui/normalize.css/reset.css` | Optional layout Reset: border-box sizing, selected margins, responsive media sizing, table collapse; preserves list markers and focus |
-| `@adui/normalize.css/forms.css` | Optional forms typography, margins, fieldset/legend sizing, native file button font; does not repaint native controls |
-| `@adui/normalize.css/a11y.css` | Optional focus-visible, forced-colors, and reduced-motion root scrolling enhancements; does not disable animations globally |
-| `@adui/normalize.css/all.css` | Full opt-in composition: Normalize → Reset → Forms → Accessibility |
+| Entry                               | Scope                                                                                                                                 |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `@adui/normalize.css`               | **Default Normalize**: only R-003, R-007, and R-008, preserving the low-intrusion published behavior                                  |
+| `@adui/normalize.css/normalize.css` | Explicit alias for the default CSS root                                                                                               |
+| `@adui/normalize.css/reset.css`     | Optional layout Reset: border-box sizing, selected margins, responsive media sizing, table collapse; preserves list markers and focus |
+| `@adui/normalize.css/forms.css`     | Optional forms typography, margins, fieldset/legend sizing, native file button font; does not repaint native controls                 |
+| `@adui/normalize.css/a11y.css`      | Optional focus-visible, forced-colors, and reduced-motion root scrolling enhancements; does not disable animations globally           |
+| `@adui/normalize.css/all.css`       | Full opt-in composition: Normalize → Reset → Forms → Accessibility                                                                    |
 
 **Recommended selective imports:**
 

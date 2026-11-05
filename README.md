@@ -57,14 +57,14 @@ R-003 保留相对字重；R-007 对含 `title` 的缩写补齐点状下划线�
 
 ### `0.0.3` 开发候选：完整 CSS 模块
 
-| 引入路径 | 内容与影响范围 |
-| --- | --- |
-| `@adui/normalize.css` | **默认 Normalize**，保持已发布的 R-003 / R-007 / R-008 三条低侵入规则；不自动执行 Reset |
-| `@adui/normalize.css/normalize.css` | 默认 Normalize 的显式别名，功能与根入口相同 |
-| `@adui/normalize.css/reset.css` | 可选布局 Reset：`border-box`、主体及常见文本间距、媒体最大宽度、表格折叠；保留列表 marker 与原生焦点 |
-| `@adui/normalize.css/forms.css` | 可选表单排版：字体继承、外边距、fieldset/legend、标准文件按钮字体；不移除原生控件外观 |
-| `@adui/normalize.css/a11y.css` | 可选无障碍增强：键盘焦点可见、强制颜色模式、减少动态偏好下关闭根平滑滚动；不全局禁用动画 |
-| `@adui/normalize.css/all.css` | 显式完整组合包，按 Normalize → Reset → Forms → A11y 导入上述模块 |
+| 引入路径                            | 内容与影响范围                                                                                       |
+| ----------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `@adui/normalize.css`               | **默认 Normalize**，保持已发布的 R-003 / R-007 / R-008 三条低侵入规则；不自动执行 Reset              |
+| `@adui/normalize.css/normalize.css` | 默认 Normalize 的显式别名，功能与根入口相同                                                          |
+| `@adui/normalize.css/reset.css`     | 可选布局 Reset：`border-box`、主体及常见文本间距、媒体最大宽度、表格折叠；保留列表 marker 与原生焦点 |
+| `@adui/normalize.css/forms.css`     | 可选表单排版：字体继承、外边距、fieldset/legend、标准文件按钮字体；不移除原生控件外观                |
+| `@adui/normalize.css/a11y.css`      | 可选无障碍增强：键盘焦点可见、强制颜色模式、减少动态偏好下关闭根平滑滚动；不全局禁用动画             |
+| `@adui/normalize.css/all.css`       | 显式完整组合包，按 Normalize → Reset → Forms → A11y 导入上述模块                                     |
 
 **按需组合（推荐）：**
 

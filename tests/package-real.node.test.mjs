@@ -169,10 +169,13 @@ test(
       const expected = name === "normalize" ? cssFile : join(projectRoot, "src", `${name}.css`);
       assert.equal(readFileSync(resolved, "utf8"), readFileSync(expected, "utf8"));
     }
-    assert.deepEqual(
-      readdirSync(join(packageDir, "src")).sort(),
-      ["a11y.css", "all.css", "forms.css", "normalize.css", "reset.css"],
-    );
+    assert.deepEqual(readdirSync(join(packageDir, "src")).sort(), [
+      "a11y.css",
+      "all.css",
+      "forms.css",
+      "normalize.css",
+      "reset.css",
+    ]);
 
     for (const subpath of [
       "src/normalize.css",
