@@ -23,13 +23,13 @@
 维护者明确要求：**“别的竞品库已经使用的，不需要再验证了。”** 对首版仅有的 R-003（`b, strong { font-weight: bolder; }`），现有 [WHATWG 建议样式](https://html.spec.whatwg.org/multipage/rendering.html#phrasing-content-3)、[normalize.css 源码](https://github.com/necolas/normalize.css/blob/master/normalize.css)、[modern-normalize 3.0.0](https://app.unpkg.com/modern-normalize@3.0.0/files/modern-normalize.css) 加上本仓库既有 Chrome 120、Firefox 121 局部证据和 W-06 管理验收，已满足**成熟低侵入规则的来源与准入复核**。不要求重新在七个历史目标浏览器逐项跑同一规则的 T0/T2 才允许进入发行评审。
 
 **调整 P-05 发行判断**：
+
 - **允许采用不承诺具体数字最低版本的发布说明**：表述 Baseline 2023 是**CSS 特性选择参考和内部测试目标**，而不是声称 `Chrome 120/Edge 120/Firefox 121/Safari 17.2` 及移动端均已完整通过。此时逐环境正式 T2 原始证据**不再构成 v0.0.1 发行阻塞**，但证据状态仍保持 PARTIAL / EVIDENCE_MISSING，不能写成 PASS。
 - 若发布材料要声明“最低支持某浏览器某版本”，仍需匹配可审计证据或独立批准的政策修订；成熟竞品用了相同 CSS 不等于本项目按全部历史系统实测。
 - 仍需确保本仓库真实打包/消费行为、源文件、许可证、样式副作用及已发现的层叠/组件冲突有可追溯处理；对**新规则、改变选择器/作用范围、系统交互风险**不自动免测。首版 R-003 产品 CSS 和发布保护不变。
 - **P-04 首发认证/2FA 和 P-07 正式 npm/Tag/Release 独立授权保持不变**。本段只是验证策略调整，不准许修改 `private:true` 或发布。
 
 **本次评审结论**：P-05 的“R-003 必须重复完成七项正式 T0/T2”门槛已由维护者**正式豁免**；不承诺明确最低数字版本时，P-05 **不再单独阻断 v0.0.1 首发审核**。过去缺少原始附件的事实原样保留。
-
 
 ## 2026-11-05 · P-04 账户 2FA 已确认，手动发布脚本已准备（最新）
 
@@ -38,6 +38,7 @@
 维护者还要求在 `package.json` 直接增加一条手动发布命令。已创建 [PR #12](https://github.com/adui-studio/normalize.css/pull/12)，新增 `scripts["release:publish"] = "vp pack && npm publish --access public --registry=https://registry.npmjs.org/"`。该 PR **仍待合并**，本轮没有运行脚本或进行 npm 发布，也不增加任何 CI。
 
 **发行前必须同步核对两项配置，避免发布脚本失效**：
+
 1. 目前 `package.json` 为 `version:"0.0.1"`、`private:true`。npm 不允许公开发布 `private:true` 包；**仅在维护者单独授权公开发行之后**，才允许将其改为 `private:false` 并合并相应变更。
 2. `tests/package.node.test.mjs` 与 `tests/package-real.node.test.mjs` 仍包含 `private === true` 的实际包断言。发布配置如果变化，必须一并最小调整断言，再对最终一致的 `0.0.1/private:false` 版本运行现有 `pnpm run verify:mvp`；不能把 `private:true` 时的 PASS 当成公开版本的 PASS。
 
@@ -49,10 +50,10 @@
 
 维护者在 Windows PowerShell 的 `D:\Workspace\adui-studio\normalize.css` 中实际提供以下**不执行发布**的终端结果：
 
-| 检查 | 实际结果 | 结论边界 |
-| --- | --- | --- |
-| `npm config get registry` | `https://registry.npmjs.org/` | 官方 npm Registry 配置已核验 |
-| `npm whoami --registry=https://registry.npmjs.org/` | `adui` | 当前 npm CLI 身份核验成功；不等于已通过发布 2FA |
+| 检查                                                                          | 实际结果                                                       | 结论边界                                                                                       |
+| ----------------------------------------------------------------------------- | -------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `npm config get registry`                                                     | `https://registry.npmjs.org/`                                  | 官方 npm Registry 配置已核验                                                                   |
+| `npm whoami --registry=https://registry.npmjs.org/`                           | `adui`                                                         | 当前 npm CLI 身份核验成功；不等于已通过发布 2FA                                                |
 | `npm view @adui/normalize.css version --registry=https://registry.npmjs.org/` | `E404 Not Found`（公开 Registry GET `/@adui%2fnormalize.css`） | **没有取得公开版本**；与尚未发布状态一致，但也可能受权限影响，不能证明名称可用或首次发布必成功 |
 
 **P-04 最新判定**：上述三项**已按维护者真实输出完成非发布检查**，无需重复要求。仍需维护者**自行确认 npm 账户 2FA 的当前启用状态及首次发布所需权限**；不在聊天或仓库中提交 OTP、Token、恢复码或用户级 `.npmrc`。在 P-07 未获得独立发布授权前，继续保持 `0.0.1/private:true`、不运行 `npm publish`。

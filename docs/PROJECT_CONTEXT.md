@@ -28,10 +28,10 @@
 | LICENSE                      | 已存在             | MIT，Copyright © 2026 ADui Studio                                                                           |
 | 八类工程资产                 | 文档初始化         | [AGENTS](../AGENTS.md)、需求、SDD、架构、上下文、代码地图、Skills、Harness                                  |
 | CSS 源码                     | **首条已实现**     | 开发分支 `src/normalize.css` 仅包含 R-003；R-004 保留原生默认                                               |
-| package.json、依赖、构建脚本 | **部分实现**       | 单根 CSS、Vite+ 打包已实测；真实包与生产消费者已有测试记录；当前 private:false、尚未发布                                        |
+| package.json、依赖、构建脚本 | **部分实现**       | 单根 CSS、Vite+ 打包已实测；真实包与生产消费者已有测试记录；当前 private:false、尚未发布                    |
 | 自动化测试、浏览器回归       | **部分实现**       | 离线 Node 26/26、真实包 1/1、Vite+ 消费 1/1；浏览器仅部分完成                                               |
 | CI                           | **明确不规划**     | 项目约束：不增加任何 CI                                                                                     |
-| npm 包发布、版本号           | **未发布/已定**    | 候选 `0.0.1/private:false`；未公开发行，发布仍需明确授权                                                   |
+| npm 包发布、版本号           | **未发布/已定**    | 候选 `0.0.1/private:false`；未公开发行，发布仍需明确授权                                                    |
 | 架构方案                     | **已接受／未实现** | ADR-0001～0005 均 Accepted；[MVP 实施计划](plans/MVP_IMPLEMENTATION_PLAN.md) 已建立，浏览器兼容承诺仍待验证 |
 | 自研 Skills                  | **未创建**         | 目前没有项目自研技能                                                                                        |
 | 第三方 Skills                | **评审分支已纳入** | 3 个 awesome-copilot 原版 Skill，CLI 未执行，本机发现未验证；见 [索引](SKILLS.md)                           |

@@ -13,17 +13,17 @@
 
 维护者曾提供 Windows PowerShell 全量输出（**当时工作树，未包含 `git rev-parse HEAD`**）：
 
-| 关卡 | 维护者提供的实际结果 | 证据等级 |
-| --- | --- | --- |
-| `pnpm install --frozen-lockfile` | pnpm 12.15.0，锁文件策略通过，24 ms | PASS（用户本机日志） |
-| `vp check` | 78 个文件格式正确、21 个文件 lint 零警告/错误 | PASS（用户本机日志） |
-| `vp test` | Vitest 5.0.5，7/7 | PASS（用户本机日志） |
-| `pnpm run test:offline` | Node 47/47 | PASS（用户本机日志） |
-| `vp pack` | 仅 `dist/normalize.css` 200 B | PASS（用户本机日志） |
-| `pnpm run test:package` / `test:consumer` | 真实 tarball 1/1、Vite+ 消费 1/1 | PASS（用户本机日志） |
-| `npm pack --dry-run --json --ignore-scripts` | `0.0.1`，5 文件、`bundled:[]`，tgz 15177 B | PASS（仅预览包，不是发布） |
-| `pnpm exec vp build` | 八张 HTML Fixture 与本地 CSS/JS 资源构建成功 | PASS（用户本机日志） |
-| `git diff --check` / `git status --short` | 均无输出 | PASS（当时工作树） |
+| 关卡                                         | 维护者提供的实际结果                          | 证据等级                   |
+| -------------------------------------------- | --------------------------------------------- | -------------------------- |
+| `pnpm install --frozen-lockfile`             | pnpm 12.15.0，锁文件策略通过，24 ms           | PASS（用户本机日志）       |
+| `vp check`                                   | 78 个文件格式正确、21 个文件 lint 零警告/错误 | PASS（用户本机日志）       |
+| `vp test`                                    | Vitest 5.0.5，7/7                             | PASS（用户本机日志）       |
+| `pnpm run test:offline`                      | Node 47/47                                    | PASS（用户本机日志）       |
+| `vp pack`                                    | 仅 `dist/normalize.css` 200 B                 | PASS（用户本机日志）       |
+| `pnpm run test:package` / `test:consumer`    | 真实 tarball 1/1、Vite+ 消费 1/1              | PASS（用户本机日志）       |
+| `npm pack --dry-run --json --ignore-scripts` | `0.0.1`，5 文件、`bundled:[]`，tgz 15177 B    | PASS（仅预览包，不是发布） |
+| `pnpm exec vp build`                         | 八张 HTML Fixture 与本地 CSS/JS 资源构建成功  | PASS（用户本机日志）       |
+| `git diff --check` / `git status --short`    | 均无输出                                      | PASS（当时工作树）         |
 
 **GitHub 静态关联**：现行 `main` 与此前候选分支在 `package.json`、两份真实包测试、`src/normalize.css`、`pnpm-lock.yaml`、`vite.config.ts` 的 Git Blob SHA **逐项相同**。因此可复用该候选的真实本机验证事实，**无需对完全相同的文件组合无理由重复运行整套测试**；但当时日志没有具体提交号、完整环境附件，不能写成助手亲自在 `main@5fef6d47` 独立执行，也不声称七项目标浏览器全部 PASS。
 
@@ -34,7 +34,6 @@
 维护者已明确要求已在竞品使用的成熟规则无需再重复验证。当前唯一 R-003 的选择器与声明可从 WHATWG HTML、necolas/normalize.css、modern-normalize 3.0.0 源码追溯；其余 35 条候选保持首版不准入。根据 [W-07 P-05 调整](W07_RELEASE_GATES.md)，**R-003 不再以七个历史最低测试目标逐个重跑 T0/T2 作为发行阻塞**，既有历史测试仍按原证据等级保留。
 
 **不得因此增加未经证明的兼容承诺**。候选包如不向公众声明准确数字最低版本，只介绍固定 Baseline 2023 特性参考、已批准规则与已知验证范围，P-05 的重复浏览器测试**不再阻止首发准备**。发行前仍受 P-04 实际 npm 认证和 P-07 独立授权控制，`private:true` 未修改；本轮未运行浏览器/Vite+ 全量回归，未变更 CSS/依赖/CI、未发版。
-
 
 ## 2026-11-05 · PR #1/#9 已合并 main（最新代码状态）
 
