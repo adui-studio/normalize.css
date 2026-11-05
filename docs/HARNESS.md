@@ -1,5 +1,21 @@
 # HARNESS — 执行、验证与反馈环境
 
+**2026-11-05 · `0.0.3` 全套 CSS 候选一次性验收指南（最新，尚未执行）**：在 PR #25 最终 HEAD 上依次执行：
+
+```powershell
+git fetch origin
+git switch docs/v003-r010-r015-r018-review-20261105
+git pull --ff-only
+git rev-parse HEAD
+pnpm install --frozen-lockfile
+pnpm run verify:mvp
+pnpm exec vp build
+git diff --check
+git status --short
+```
+
+`vp pack` 只生成默认 `dist/normalize.css`；`src/reset.css`、`src/forms.css`、`src/a11y.css`、`src/all.css` 经 npm `files` 原样进入 tarball，预期只有 LICENSE、双语 README、package.json、dist/normalize.css 与 5 个 src CSS（**共 10 文件**）。真实打包测试需验证所有 6 个 public CSS exports 能解析、所有非授权子路径不可解析；Vite+ 生产消费者使用 `all.css` 以复核相对 `@import` 的打包行为。仍须人工检查 Forms/Reset 与 Vue/React/UI 库冲突、键盘焦点、强制颜色和减少动态偏好，`verify:mvp` 不等于全部浏览器实测。以上全部是**待运行步骤**，不冒充 PASS，不发布 npm 或增加 CI。
+
 **当前状态：W-03 已在独立开发分支实现首批本地 Harness 资产**：`package.json`、`vite.config.ts`、R-003/R-004 Fixture、`tests/fixtures.test.ts` 与 Node 探针测试。维护者最新本机 `vp check`（55 文件格式、11 Lint）、Vitest 6/6、离线 Node 25/25 均通过，Windows `DEP0190` 在修复后未复现；R-003 已有 Chrome 156 / Firefox 121 零差异与 Chrome 120 四组差异的 T0/T1 对照；Edge 120、Safari 17.2 及移动端未测。无 CSS 发布产物或 CI。
 
 **本机首次实测（2026-11-04）**：维护者在 Windows 上用 pnpm 11.24.0 安装了 Vite+ 1.4.0，`npm run test:offline` **22/22 PASS**，`npm exec -- vp test` **5/5 PASS**，`npm exec -- vp dev` 启动成功并访问四个 Fixture；`npm exec -- vp check` **FAIL**（当时报告 66 个文件格式问题）。Chrome 156 的 R-003 T0/T1 字重无差异；R-004 T1 声明效果不符合预期，待诊断。完整记录见 [首次本地运行](research/LOCAL_BROWSER_RUN_20261104.md)。上述结果**来自维护者提供的本地截图/终端日志**，不是本执行容器独立重跑。
