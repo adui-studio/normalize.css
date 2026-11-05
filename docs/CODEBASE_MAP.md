@@ -99,6 +99,7 @@ normalize.css/
     ├── HARNESS.md           # 本轮文档：验证机制规划
     ├── DOCUMENTATION_VALIDATION.md # 本轮文档：校验计划
     ├── research/                # 文档评审分支：研究资料
+    │   ├── 2026-11-04-reset-source-audit.md # main 分支固定源码审查（历史研究，非 W-06 实测）
     │   ├── RULE_REVIEW.md
     │   ├── RULE_EVIDENCE_BATCH1.md
     │   ├── RULE_EVIDENCE_R003_R004.md

@@ -432,6 +432,7 @@ vp dev --port 5180
 - [reset-consumer.mjs](../../tests/reset-consumer.mjs)：真实 tarball + Vite+ 三组生产构建命令；
 - [reset-contract.node.test.mjs](../../tests/reset-contract.node.test.mjs)：无需网络的 Fixture 隔离契约；
 - [既有生态测试记录](W06_ECOSYSTEM_LOCAL_VERIFICATION.md)；[W-06 Issue #7](https://github.com/adui-studio/normalize.css/issues/7)；
+- [2026-11-04 上游 Reset 固定源码审查](2026-11-04-reset-source-audit.md)：来自 `main` 的早期静态研究；仅用于来源追溯，不替代本文件后续实际浏览器测试和维护者签收；
 - [Tailwind 官方 Preflight](https://tailwindcss.com/docs/preflight)；[UnoCSS 官方 Reset](https://unocss.dev/guide/style-reset)；[Cascade Layers](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Cascade/Introduction)。
 
 **下一条有效更新应来自真实命令输出和浏览器结果，而不是继续累加未运行的测试计划。**
