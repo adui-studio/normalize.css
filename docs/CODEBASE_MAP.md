@@ -120,7 +120,7 @@ W-03/W-04/W-05 开发分支基于尚未合并的文档评审分支；已增加�
 | -------------------------------- | ----------------------------------- | ----------------------------------------------------- |
 | `src/normalize.css`              | 默认 Normalize 唯一源码             | **开发分支已实现：仅 R-003**                          |
 | `dist/`                          | CSS 发布产物                        | 规划中，**不存在**                                    |
-| `package.json` 的 CSS `exports`  | 唯一根 CSS 入口                     | **已实现**；首发候选 `private: false`、`0.0.1`                |
+| `package.json` 的 CSS `exports`  | 唯一根 CSS 入口                     | **已实现**；`0.0.1`、`private:false`                  |
 | `tests/`                         | Fixture 契约、离线 Node 测试        | **已实现**；真实 tarball 与 Vite+ 生产消费均通过      |
 | `vite.config.ts` 的 `build/pack` | Vite+ Fixture 预览构建与单 CSS 打包 | **已实测 vp build / vp pack 产物**                    |
 | `.github/workflows/`             | CI/发布工作流                       | **明确不规划**，项目禁止增加 CI；当前不存在           |
