@@ -6,6 +6,17 @@
 - **状态**：P-02 **`0.0.1/private:true` 候选包已通过本机交付回归**；P-04 **账户/用户作用域通过核验，首次发布权限与认证仍待确认**；P-05 **最低浏览器支持矩阵未冻结**；P-07 **未授权发布**。
 - **范围**：维护者已同意将 PR #1/#9 按 Merge commit 顺序合并 `main`，GitHub 已确认两者合并完成；`0.0.1/private:true` 继续保留。**这不等于授权 npm 发布、Tag、Release 或任何后续 PR 合并**。
 
+## 2026-11-05 · P-07 npm 首发候选配置已准备（仅 PR，待独立授权）
+
+维护者本轮明确批准先依次合并 PR #10/#11/#12，三者已分别通过 **Merge commit** 合并 `main`（最新基线 `4925fe04`）。随后根据本次授权，准备一个**独立待审核的发行候选变更**。
+
+- **该候选分支拟更改** `package.json#private: true → false`；`version:0.0.1`、唯一 CSS 根导出、`files:["dist"]`、Vite+ 1.4.0、pnpm 12.15.0、无运行时 JS 依赖及现有手动发布脚本保持不变。
+- **两处同步断言**：`tests/package.node.test.mjs` 中 `pkg.private` 和 `tests/package-real.node.test.mjs` 中 `manifest.private` 调整为 `false`；测试隔离消费者自己的 `private:true` 不改。
+- **风险与门禁**：此 PR 如未来获批合并，就会解除 npm 防误发布限制。运行已进入 `main` 的 `pnpm run release:publish` 会尝试真实公开发布。**本轮只准备 PR，不合并发行配置、不运行 publish、不创建 Tag/Release**；必须另获正式授权。
+- **测试验证**：需在维护者 Windows 环境对 `private:false` 候选运行 `pnpm install --frozen-lockfile`、`pnpm run verify:mvp`，复核五文件预打包白名单；本轮只进行 GitHub 静态断言与差异核对，没有执行本地 Vite+ 回归，历史 `private:true` PASS 不能替代候选回归。
+- **P-04**：维护者已确认 npm Registry、`whoami=adui`、账户 2FA，公开版本查询 E404；首次发布 scope 写权限仍未知。**P-05**：成熟竞品相同 R-003 免重复七环境规则测试，不对外承诺尚未实证的数字最低浏览器版本。
+- **无 CI、自动发版、Token、依赖或 CSS 变更**；本段只是候选范围与验收条件，不代表已发布。
+
 ## 2026-11-05 · P-05 成熟竞品规则免重复实测（最新维护者决定）
 
 维护者明确要求：**“别的竞品库已经使用的，不需要再验证了。”** 对首版仅有的 R-003（`b, strong { font-weight: bolder; }`），现有 [WHATWG 建议样式](https://html.spec.whatwg.org/multipage/rendering.html#phrasing-content-3)、[normalize.css 源码](https://github.com/necolas/normalize.css/blob/master/normalize.css)、[modern-normalize 3.0.0](https://app.unpkg.com/modern-normalize@3.0.0/files/modern-normalize.css) 加上本仓库既有 Chrome 120、Firefox 121 局部证据和 W-06 管理验收，已满足**成熟低侵入规则的来源与准入复核**。不要求重新在七个历史目标浏览器逐项跑同一规则的 T0/T2 才允许进入发行评审。
