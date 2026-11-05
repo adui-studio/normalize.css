@@ -50,11 +50,10 @@ test("only reviewed R-003, R-007 and R-008 ship by default; optional modules sta
   assert.equal(stylesheet.includes("https://"), false);
 });
 
-
 test("all.css composes four local CSS modules without automatic defaults or duplicate imports", () => {
   const modules = ["normalize", "reset", "forms", "a11y"];
   const full = readFileSync(new URL("src/all.css", root), "utf8");
-  const imports = [...full.matchAll(/@import\s+"\.\/([a-z]+)\.css";/g)].map((match) => match[1]);
+  const imports = [...full.matchAll(/@import\s+"\.\/([a-z0-9]+)\.css";/g)].map((match) => match[1]);
   assert.deepEqual(imports, modules);
 
   for (const module of modules) {
