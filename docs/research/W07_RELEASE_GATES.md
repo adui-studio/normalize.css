@@ -2,9 +2,9 @@
 
 - **审核日期**：2026-11-05
 - **工作项**：[W-07 / Issue #8](https://github.com/adui-studio/normalize.css/issues/8)
-- **所属分支**：`feat/viteplus-local-harness`
+- **所属分支**：`main`（原研究与开发记录保留在 `feat/viteplus-local-harness` 历史分支）
 - **状态**：P-02 **`0.0.1/private:true` 候选包已通过本机交付回归**；P-04 **账户/用户作用域通过核验，首次发布权限与认证仍待确认**；P-05 **最低浏览器支持矩阵未冻结**；P-07 **未授权发布**。
-- **范围**：维护者已授权在开发分支确定 `0.0.1` 并恢复 `private:true`；**不等于已授权 npm 发布、Tag、Release 或合并主分支**。
+- **范围**：维护者已同意将 PR #1/#9 按 Merge commit 顺序合并 `main`，GitHub 已确认两者合并完成；`0.0.1/private:true` 继续保留。**这不等于授权 npm 发布、Tag、Release 或任何后续 PR 合并**。
 
 ## 2026-11-05 · P-04 npm 官方认证与公开作用域流程复核（规则已查证，账户状态待验）
 
@@ -132,7 +132,7 @@ npm view "@adui/normalize.css" version --registry=https://registry.npmjs.org/
 - **已通过（旧开发版实际证据）**：P-01 pnpm 冻结安装、P-03 包元数据与真实 tarball/Vite+ 消费、P-06 本地质量回归，详见 [W-07 总审核](W07_RELEASE_READINESS_REVIEW.md)。
 - **P-02 已实施并验收（最新）**：`version:"0.0.1"`、`private:true`，两处包契约测试断言一致；**本地离线/真实包/消费者回归 PASS**，不构成发布授权。
 - **仍待完成**：P-04 首发包发布认证和安全要求，P-05 正式最低浏览器支持矩阵或经批准的替代验收决定。
-- **仍需单独授权**：更改 `private:true` 的发布保护、`npm publish`、Git Tag、GitHub Release、`main` 分支合并。
+- **已单独批准并执行**：PR #1、PR #9 以 Merge commit 合并 `main`，未使用 Squash 或强制推送。**仍需单独授权**：解除 `private:true` 的发布保护、`npm publish`、Git Tag、GitHub Release 及后续 `main` 合并。
 - **始终禁止**：新增 CI、GitHub Actions 发布工作流或提交 Token/OTP/密码。
 
 **总判定（最新）**：W-07 继续 Open；P-01/P-02/P-03/P-06 已完成最新 `0.0.1/private:true` 完整本地回归，P-04/P-05/P-07 发行门槛仍未完成。**首发候选 ≠ 已发布版本**。

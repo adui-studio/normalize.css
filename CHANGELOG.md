@@ -1,6 +1,6 @@
 # 更新日志 · Changelog
 
-本文件记录 `@adui/normalize.css` 的正式版本变更。**截至 2026-11-05 尚未发布任何 npm 版本或 GitHub Release。** 下列内容属于开发分支的待发布候选，不是已交付给公众的版本。
+本文件记录 `@adui/normalize.css` 的正式版本变更。**截至 2026-11-05 尚未发布任何 npm 版本或 GitHub Release。** 下列内容已通过 PR #1/#9 合并进入 `main`，但仍为**待发布候选**，不是已交付给公众的 npm 版本。
 
 ## 未发布 · Unreleased
 

@@ -1,14 +1,14 @@
 # AGENTS.md — @adui/normalize.css
 
-> **当前状态（2026-11-05）**：MVP `0.0.1/private:true` 已在开发分支实现，维护者已确认最终签收；W-03～W-06 已管理结项，W-01/W-02 与 W-07 仍 Open。产品 CSS 目前仅包含已批准的 R-003，公开入口只有 `@adui/normalize.css`；尚未合并 `main` 或发布 npm。五项 ADR 均 Accepted，统一采用 Vite+ 1.4.0 / pnpm 12.15.0，**绝不新增 CI**。
+> **当前状态（2026-11-05）**：MVP `0.0.1/private:true` 已通过 PR #1、PR #9 以 Merge commit 合并进入 `main`，维护者已确认最终签收；W-03～W-06 已管理结项，W-01/W-02 与 W-07 仍 Open。产品 CSS 目前仅包含已批准的 R-003，公开入口只有 `@adui/normalize.css`；已合并 `main`，尚未发布 npm。五项 ADR 均 Accepted，统一采用 Vite+ 1.4.0 / pnpm 12.15.0，**绝不新增 CI**。
 >
-> **验证及授权边界**：旧版 Windows `vp check`、`vp test`、离线 Node、`vp pack`、真实 tarball 和消费者测试有维护者提供的历史通过记录；最新测试断言及分支同步提交之后尚无完整 `pnpm run verify:mvp` 原始日志，不能作为本轮独立 PASS。W-06 正式签收不代表七项最低浏览器环境已有可公开审核的逐项证据。W-07 的 npm 首发认证、浏览器对外支持声明及单独发行授权仍未完成；**不得擅自合并 PR、修改 `private:true`、打 Tag/Release 或 npm 发布**。详见 [MVP 验收清单](docs/MVP_0_0_1_HANDOFF.md)、[W-07 发布门禁](docs/research/W07_RELEASE_GATES.md) 与 [HARNESS](docs/HARNESS.md)。
+> **验证及授权边界**：旧版 Windows `vp check`、`vp test`、离线 Node、`vp pack`、真实 tarball 和消费者测试有维护者提供的历史通过记录；最新测试断言及分支同步提交之后尚无完整 `pnpm run verify:mvp` 原始日志，不能作为本轮独立 PASS。W-06 正式签收不代表七项最低浏览器环境已有可公开审核的逐项证据。W-07 的 npm 首发认证、浏览器对外支持声明及单独发行授权仍未完成；**不得擅自合并后续 PR、修改 `private:true`、打 Tag/Release 或 npm 发布**。详见 [MVP 验收清单](docs/MVP_0_0_1_HANDOFF.md)、[W-07 发布门禁](docs/research/W07_RELEASE_GATES.md) 与 [HARNESS](docs/HARNESS.md)。
 
 ## 1. 项目事实
 
 - 仓库：[adui-studio/normalize.css](https://github.com/adui-studio/normalize.css)，npm 包目标名：`@adui/normalize.css`。
 - 当前已确认：正式仓库包含 MIT LICENSE，五项 ADR 已接受，首版默认 Normalize 已实现唯一 R-003；Chrome/Edge 120、Firefox 121、Safari 17.2（及对应核心移动版本）是**批准的最低测试目标，而非已公开承诺的最低支持版本**。参见 [MVP 计划](docs/plans/MVP_IMPLEMENTATION_PLAN.md)。
-- 当前工程事实：开发分支已有 `package.json`、`pnpm-lock.yaml`、`vite.config.ts`、`src/normalize.css`、`fixtures/` 与 `tests/`。`vp pack` 只生成静态 CSS，真实包安装和 Vite+ 消费已有历史验证；最新变更的本机全量测试尚待归档。开发范围及状态以 [项目上下文](docs/PROJECT_CONTEXT.md) 和 [W-07 审核记录](docs/research/W07_RELEASE_READINESS_REVIEW.md) 为准。
+- 当前工程事实：`main` 现已包含 `package.json`、`pnpm-lock.yaml`、`vite.config.ts`、`src/normalize.css`、`fixtures/` 与 `tests/`。`vp pack` 只生成静态 CSS，真实包安装和 Vite+ 消费已有历史验证；最新变更的本机全量测试尚待归档。开发范围及状态以 [项目上下文](docs/PROJECT_CONTEXT.md) 和 [W-07 审核记录](docs/research/W07_RELEASE_READINESS_REVIEW.md) 为准。
 - 目标：低侵入 CSS 标准化基础库；Reset、A11y、Forms 是已接受的长期可选模块方向，**首版延期**；默认不内置 `@layer`，固定 Baseline 2023 作为特性参考。
 - **工具链决策**：后续开发统一 Vite+，参见 [ADR-0005](docs/adr/0005-viteplus-toolchain.md)。工具链保持 Vite+；本次已明确授权首批 CSS 开发，不据此推定 npm 发布、引入新依赖或增加 CI 的权限。
 

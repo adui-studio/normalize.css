@@ -1,11 +1,15 @@
 # W-07 · MVP 发布前质量审核记录
 
 - **首次审查日期**：2026-11-04
-- **分支**：`feat/viteplus-local-harness`
+- **分支**：`main`（开发历史来自 `feat/viteplus-local-harness`）
 - **工作项**：[W-07 / Issue #8](https://github.com/adui-studio/normalize.css/issues/8)
 - **审查形式**：读取 GitHub 开发分支当前文件及提交树，并核对维护者提供的 Windows PowerShell 原始命令输出；**本助手没有直接在维护者 Windows 环境运行命令**。
 - **审核判断**：**部分通过，发布准备尚未就绪；Issue #8 保持 Open**。
-- **红线**：不修改产品 CSS 或既定包根入口；不新增依赖/CI、GitHub Actions、自动发布；不执行 npm publish、GitHub Release、`main` 合并。
+- **红线**：不修改产品 CSS 或既定包根入口；不新增依赖/CI、GitHub Actions、自动发布；不执行 npm publish、GitHub Release 或未经批准的后续 `main` 合并。
+
+## 2026-11-05 · PR #1/#9 已合并 main（最新代码状态）
+
+维护者已同意按 Merge commit 顺序合并两项既定 PR，GitHub 已确认 [PR #1](https://github.com/adui-studio/normalize.css/pull/1) 对应提交 `1d1e9b5c`、[PR #9](https://github.com/adui-studio/normalize.css/pull/9) 对应提交 `f92e9457` 均已进入 `main`。当前 `main` 的 `src/normalize.css` 与 `package.json` Blob 与合并前一致，继续为唯一 R-003 规则、`0.0.1/private:true`、无运行时 JS 依赖；没有 CI、npm 发布或 Tag/Release。最新合并后的完整 Windows `verify:mvp`、八张 Fixture `vp build` 原始输出尚未从仓库核验；P-04/P-05 和正式发行 P-07 仍然待完成。以下旧日期的“未合并”陈述属于历史阶段，不覆盖本节当前状态。
 
 ## 2026-11-05 · MVP 维护者最终验收确认（最新归档）
 
