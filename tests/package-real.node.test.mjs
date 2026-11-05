@@ -67,7 +67,7 @@ test(
     assert.deepEqual(manifest.sideEffects, ["**/*.css"]);
     assert.deepEqual(manifest.files, ["dist"]);
     assert.equal(Object.hasOwn(manifest, "dependencies"), false);
-    assert.equal(manifest.version, "0.0.1");
+    assert.equal(manifest.version, "0.0.2");
     assert.equal(manifest.private, false);
 
     const tmp = mkdtempSync(join(tmpdir(), "adui-real-css-pack-"));
@@ -132,6 +132,7 @@ test(
     );
     assert.equal(installed.name, manifest.name);
     assert.equal(installed.version, manifest.version);
+    assert.deepEqual(installed.keywords, manifest.keywords);
     assert.equal(installed.private, manifest.private);
     assert.equal(installed.author, manifest.author);
     assert.equal(installed.license, manifest.license);

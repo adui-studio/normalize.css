@@ -1,6 +1,7 @@
 # PROJECT_CONTEXT — 项目长期上下文
 
 **最近更新**：2026-11-05  
+**最新发布事实**：维护者官方 npm Registry 查询返回 `@adui/normalize.css@0.0.1`，首版已公开发布；当前分支仅准备 `0.0.2` 包关键词补丁，**未发布下一版、未创建 Tag/Release/CI**。下方“尚未发布”属于原先阶段记录。
 **当前阶段**：五项 ADR 已接受／W-03 本地 Harness 已验收／W-04 包交付验收已结项（Issue #5 Closed）／W-05 36 条规则首版评审通过（Issue #6 Closed — completed）／W-06 已正式验收归档（Issue #7 Closed）／W-07 发行前审核待完成／PR #1/#9 已合并 main／尚未发布
 
 **2026-11-05 · 当前配置更新（覆盖下方历史 private 状态）**：维护者已明确将首版候选调整为 `@adui/normalize.css@0.0.1`、`private:false`，手动 `release:publish` 脚本保留。两处真实包测试断言已同步调整为 `false`，不改隔离消费者自身 `private:true`。此操作仅变更包配置、断言和当前状态文档，**未执行 npm publish / Tag / GitHub Release，不增加 CI**。此前关于 `private:true` 及 PR #13 的记录属于历史阶段；旧版/候选 Windows 实测不自动证明本次新的 `main` 提交已经独立跑完回归。
