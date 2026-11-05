@@ -44,7 +44,10 @@ function validate(input, role) {
     if (stylesheet.href !== "../dist/normalize.css" || typeof stylesheet.loaded !== "boolean") {
       throw new Error("T2 must report the packed CSS href and boolean loaded flag");
     }
-    if (!Object.hasOwn(stylesheet, "rules") || (stylesheet.rules !== null && !Array.isArray(stylesheet.rules))) {
+    if (
+      !Object.hasOwn(stylesheet, "rules") ||
+      (stylesheet.rules !== null && !Array.isArray(stylesheet.rules))
+    ) {
       throw new Error("T2 must include CSSOM rules (array or null if unavailable)");
     }
   }
@@ -115,12 +118,12 @@ export function compareT2Evidence(nativeJson, packageJson) {
   const rule = Array.isArray(rules) && rules.length === 1 ? rules[0] : null;
   const contentMatches = Boolean(
     rule &&
-      rule.type === 1 &&
-      typeof rule.selector === "string" &&
-      rule.selector.replace(/\s+/g, "").toLowerCase() === "b,strong" &&
-      rule.fontWeight === "bolder" &&
-      rule.propertyCount === 1 &&
-      rule.priority === "",
+    rule.type === 1 &&
+    typeof rule.selector === "string" &&
+    rule.selector.replace(/\s+/g, "").toLowerCase() === "b,strong" &&
+    rule.fontWeight === "bolder" &&
+    rule.propertyCount === 1 &&
+    rule.priority === "",
   );
   if (!packed.loaded) {
     issues.unshift("T2 packed stylesheet is not loaded");

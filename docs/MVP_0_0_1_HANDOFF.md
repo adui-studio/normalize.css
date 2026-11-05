@@ -70,7 +70,7 @@ CLI 仅使用 Node 内置模块，复用现有 **256 KiB 普通文件限长读�
 | `PROBE_PASS`                         |          0 | 包 CSS link 为已挂载，10 项静态探针满足当前 R-003/R-004 的有限契约 |
 | `STYLE_MISMATCH`                     |          1 | 字重、等宽字体或对照上下文出现不符合预期的变化                     |
 | `STYLESHEET_NOT_LOADED`              |          1 | 正式 CSS link 未挂载；**不能判通过**                               |
-| `STYLESHEET_CONTENT_MISMATCH`         |          1 | CSSOM 内容与唯一 R-003 规则不一致，或 CSSOM 不可读                 |
+| `STYLESHEET_CONTENT_MISMATCH`        |          1 | CSSOM 内容与唯一 R-003 规则不一致，或 CSSOM 不可读                 |
 | 输入错误、混合 UA、错误页或非法 JSON |          2 | 证据不可比较，需检查文件/版本/来源                                 |
 
 比较器会输出 R-003 六组字重、R-004 四组等宽元素的值与差异；Chrome 120 的四组**预期修复差异**不属于失败，而 Firefox 121 的零差异也可能是正确结果。**静态 PROBE_PASS 虽已核对本地解析后的 CSSOM，但不能证明 Network 响应原始字节、真实浏览器构建版本、原生交互、无障碍或全七项目标支持范围**；仍需手工版本截图、Network、操作记录。详见 [P-05 浏览器证据矩阵](research/W07_P05_BROWSER_EVIDENCE_MATRIX.md)。
