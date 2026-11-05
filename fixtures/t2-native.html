@@ -14,6 +14,13 @@
       .weight-700 {
         font-weight: 700;
       }
+      .abbr-author {
+        text-decoration: overline solid;
+      }
+      .table-author {
+        color: rgb(20, 40, 60);
+        border-color: rgb(120, 80, 40);
+      }
     </style>
     <script type="module" src="./probe.js"></script>
   </head>
@@ -45,10 +52,23 @@
     <section aria-label="默认缩写与表格样式">
       <h2>缩写与表格</h2>
       <p><abbr id="abbr-title" data-probe title="HyperText Markup Language">HTML</abbr></p>
+      <p><abbr id="abbr-plain" data-probe>CSS</abbr></p>
+      <p>
+        <abbr id="abbr-author" data-probe class="abbr-author" title="Web Accessibility Initiative"
+          >WAI</abbr
+        >
+      </p>
       <table id="table-border" data-probe border="1">
         <tbody>
           <tr>
             <td>原生表格边框</td>
+          </tr>
+        </tbody>
+      </table>
+      <table id="table-author" data-probe class="table-author" border="1">
+        <tbody>
+          <tr>
+            <td>应用自定义表格边框</td>
           </tr>
         </tbody>
       </table>

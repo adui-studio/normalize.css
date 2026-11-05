@@ -1,5 +1,7 @@
 # CODEBASE_MAP — 仓库结构与定位
 
+**2026-11-05 · 当前新测试位置（待审）**：既有 `fixtures/t2-native.html`、`fixtures/t2-package.html` 增加 `abbr-plain`、`abbr-author`、`table-author` 三种测试元素；`tests/t2-evidence.mjs`、`tests/t2-evidence.node.test.mjs`、`tests/fixtures.node.test.mjs` 同步扩展拒绝误报逻辑，合计 15 个探针。新增 [DEFAULT_NORMALIZE_V01_READINESS.md](research/DEFAULT_NORMALIZE_V01_READINESS.md) 对 36 条规则及默认 Normalize 完成条件复核。**不改产品 CSS、包导出、0.0.2 版本或 CI**。旧表格的“只有 R-003/未发布”是历史阶段记录。
+
 **2026-11-05 · 最新文件与发行规范索引**：PR #19 已合并 main，`src/normalize.css` 现为 R-003、R-007、R-008 三条规则，T0/T2 为 12 个观测点。`package.json` 当前 `0.0.2/private:false`，npm 已发行 `0.0.1`；新建 [RELEASING.md](RELEASING.md) 记录维护者确定的 `0.0.2 → 默认 Normalize 完成后 0.1.0` 版本门槛及 npm 成功后创建 Git Tag + GitHub Release 的人工流程。以下旧的“仅 R-003/未发布”描述是历史记录。不新增 CI。
 
 **2026-11-05 · Issue #18 新规则功能分支（待验收）**：`feat/normalize-r007-r008-20261105` 的 `src/normalize.css` 拟包含 R-003、R-007、R-008 三条低侵入规则，T0/T2 Fixture 新增 `abbr-title` 与 `table-border` 两个计算样式点，CSSOM 检查从单规则升级为三规则，真实 npm tarball 契约同步检查三条规则；`main` 仍仅 R-003。原本的 CODEBASE_MAP 目录图属于已发布 `0.0.1` 的历史，功能分支的新增内容尚未合并/发布；不新增 CI。详见 [竞品研究](research/COMPETITOR_REVIEW.md)。
