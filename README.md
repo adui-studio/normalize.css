@@ -204,7 +204,7 @@ pnpm exec vp check --no-fmt  # 仅隔离格式问题排查 lint，不等于完�
 
 ## 开发前门槛
 
-维护者已批准首批最小实现，开发工具链统一使用 **Vite+**。W-03 本地 Harness、W-04 真实 CSS 包交付、W-05 首版 36 条规则去留评审、W-06 回归工作项均已按正式记录结项；W-02 的来源证据维护与 W-07 发布前审核为独立事项。**已确定首个公开候选版本 `0.0.1`，但尚未发布**：pnpm 12.15.0 锁文件已提交并经过先前版本的本机冻结安装验收；`package.json` 已恢复并保持 `private: true` 以防误发布，**仍未获 npm 发布、Tag、Release 或主分支合并授权**。新版本的包契约测试需要重新执行。参见 [W-07 审核矩阵](docs/research/W07_RELEASE_READINESS_REVIEW.md)和[首发决策审核](docs/research/W07_RELEASE_GATES.md)。项目明确不增加任何 CI。
+维护者已批准首批最小实现，开发工具链统一使用 **Vite+**。W-03 本地 Harness、W-04 真实 CSS 包交付、W-05 首版 36 条规则去留评审、W-06 回归工作项均已按正式记录结项；W-02 #3 已按 MVP 首版规则证据研究完成结项；后续新增规则证据维护须另立任务，W-01 浏览器环境与 W-07 发布前审核仍为独立事项。**已确定首个公开候选版本 `0.0.1`，但尚未发布**：pnpm 12.15.0 锁文件已提交并经过先前版本的本机冻结安装验收；`package.json` 已恢复并保持 `private: true` 以防误发布，**PR #1/#9 已获批准并合并主分支；仍未获 npm 发布、Tag 或 Release 授权**。新版本的包契约测试需要重新执行。参见 [W-07 审核矩阵](docs/research/W07_RELEASE_READINESS_REVIEW.md)和[首发决策审核](docs/research/W07_RELEASE_GATES.md)。项目明确不增加任何 CI。
 
 ## 许可证
 
