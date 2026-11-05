@@ -19,7 +19,10 @@ test("W-04 package exports only the Normalize CSS root", () => {
   assert.ok(pkg.keywords.includes("css"));
   assert.ok(pkg.keywords.includes("normalize"));
   assert.equal(new Set(pkg.keywords).size, pkg.keywords.length);
-  assert.ok(pkg.keywords.every((keyword) => typeof keyword === "string" && keyword.trim().length > 0));
+  for (const keyword of pkg.keywords) {
+    assert.equal(typeof keyword, "string");
+    assert.ok(keyword.trim().length > 0);
+  }
   assert.equal(pkg.devDependencies["vite-plus"], "1.4.0");
   assert.equal(Object.hasOwn(pkg, "dependencies"), false);
   assert.equal(Object.hasOwn(pkg, "main"), false);
