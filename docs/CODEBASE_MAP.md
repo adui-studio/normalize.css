@@ -129,15 +129,15 @@ normalize.css/
 
 ## 2. 关键路径的实际状态（区分 Git 文件与构建产物）
 
-| 候选路径                         | 拟承担职责                          | 状态                                                  |
-| -------------------------------- | ----------------------------------- | ----------------------------------------------------- |
-| `src/normalize.css`              | 默认 Normalize 唯一源码             | **main 已存在**：仅 R-003                             |
-| `dist/`                          | CSS 发布产物                        | **Git 不跟踪**；执行 `vp pack` 时生成                  |
-| `package.json` 的 CSS `exports`  | 唯一根 CSS 入口                     | **已实现**；`0.0.1`、`private:true`                   |
-| `tests/`                         | Fixture 契约、离线 Node 测试        | **已实现**；真实 tarball 与 Vite+ 生产消费均通过      |
-| `vite.config.ts` 的 `build/pack` | Vite+ Fixture 预览构建与单 CSS 打包 | **已实测 vp build / vp pack 产物**                    |
-| `.github/workflows/`             | CI/发布工作流                       | **明确不规划**，项目禁止增加 CI；当前不存在           |
-| `.agents/skills/`                | 第三方原版 Skills                   | **main 已存在**；来源见 [SKILLS](SKILLS.md)           |
+| 候选路径                         | 拟承担职责                          | 状态                                             |
+| -------------------------------- | ----------------------------------- | ------------------------------------------------ |
+| `src/normalize.css`              | 默认 Normalize 唯一源码             | **main 已存在**：仅 R-003                        |
+| `dist/`                          | CSS 发布产物                        | **Git 不跟踪**；执行 `vp pack` 时生成            |
+| `package.json` 的 CSS `exports`  | 唯一根 CSS 入口                     | **已实现**；`0.0.1`、`private:true`              |
+| `tests/`                         | Fixture 契约、离线 Node 测试        | **已实现**；真实 tarball 与 Vite+ 生产消费均通过 |
+| `vite.config.ts` 的 `build/pack` | Vite+ Fixture 预览构建与单 CSS 打包 | **已实测 vp build / vp pack 产物**               |
+| `.github/workflows/`             | CI/发布工作流                       | **明确不规划**，项目禁止增加 CI；当前不存在      |
+| `.agents/skills/`                | 第三方原版 Skills                   | **main 已存在**；来源见 [SKILLS](SKILLS.md)      |
 
 ## 3. 程序入口与依赖调用链
 

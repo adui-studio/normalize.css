@@ -18,6 +18,7 @@
 当前唯一 R-003：`b, strong { font-weight: bolder; }`。独立来源：[WHATWG HTML 建议渲染](https://html.spec.whatwg.org/multipage/rendering.html#phrasing-content-3)、[necolas/normalize.css 源码](https://github.com/necolas/normalize.css/blob/master/normalize.css)、[modern-normalize 3.0.0 固定版本](https://app.unpkg.com/modern-normalize@3.0.0/files/modern-normalize.css)。这组证据证明该规则的标准依据与成熟竞品采用情况，**不证明竞品覆盖本仓库原批准的全部七个最低历史版本**。本项目另已有 Chrome 120/Firefox 121 的局部 R-003 实测与 W-06 管理验收，均按原证据等级保留。
 
 **调整后的发行判断**：
+
 - 对 R-003 **不再强制重新寻找 Edge 120、Safari 17.2、Android/iOS 历史环境重复验证同一已采用规则**；既有本地包打包、导出、消费者与源码一致性结果仍需保持可追溯。
 - 仍检查规则来源/适用背景/许可证，特别是选择器特异性、导入顺序、`@layer`、`!important`、默认语义、系统偏好、与框架 Reset 混用造成的**本库新增风险**。发现实质冲突时需针对性复现和修复；新增或实质修改的规则不自动享有豁免。
 - **明确数字最低兼容版本的公开承诺仍需对应的证据**。若 `0.0.1` 的 README/npm 描述**仅说明采用 Baseline 2023 作为特性研究参考，不宣称七个最低历史浏览器已全部通过**，则七项正式 T2 证据归档从“发行阻塞”调整为**后续可选补充**；不虚构 PASS。
