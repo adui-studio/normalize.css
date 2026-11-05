@@ -4,18 +4,18 @@
 **仓库**：[adui-studio/normalize.css](https://github.com/adui-studio/normalize.css)  
 **性质**：维护者批准的**人工版本管理和发行流程**；不使用 CI、GitHub Actions、自动发布服务或运行时 JavaScript。
 
-**最新版本事实（2026-11-05）**：`package.json` 已为未发布 `0.0.3/private:false`；上一正式 npm/Tag/Release 仍是 `0.0.2`。维护者授权开发完整 CSS 套件，在 PR #25 中新增 Reset、Forms、A11y 及 all.css 显式子路径，等待一次集中验收。不得把旧文中“`0.0.3` 尚未实现模块”“`0.0.2` 是当前工作版”的历史段落当作最新状态。新增 CSS 子路径属于对外接口扩展，必须在最终准确 HEAD 下完成打包/真实消费和组件回归后才能申请发行。当前没有 npm 发布、Tag 或 Release 的授权；禁止增加 CI。
+**最新版本事实（2026-11-05）**：`package.json` 为未发布的 `0.0.3/private:false`；[PR #25](https://github.com/adui-studio/normalize.css/pull/25) 已获维护者批准并合并 `main@5e299a65e5a091d17ff6d329cadb166613bec332`。新增 Reset、Forms、A11y、all.css 子路径，默认 Normalize 行为不变。维护者提供合并前实际 Windows `verify:mvp` **61/61 PASS**、8 Fixture 构建和 10 文件 npm dry-run；日志未提供精确 HEAD，也不证明全部浏览器/组件库行为。最新 GitHub 正式 Release 仍为 `v0.0.2`，`v0.0.3` Tag 未创建；当前助手运行环境无法访问 npm Registry，因此 **`0.0.3` Registry 版本占用尚须维护者本机核实**。此次通过的是 PR 合并审批，**不是 npm publish、Git Tag 或 GitHub Release 授权**；禁止新增 CI。下文 `0.0.2` 发布命令为已执行的历史示例，严禁照抄重发。
 
 ## 版本策略
 
-| 版本    | 定位                                                        | 状态                                                                                 |
-| ------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------ |
-| `0.0.1` | 首次 MVP：默认 R-003                                        | **npm 已发布**（维护者实际 `npm view` 及截图确认）；首次发布时未创建 Git Tag/Release |
-| `0.0.2` | R-003、R-007、R-008 与 npm Keywords                         | **已发行**：npm 版本可查；`v0.0.2` Tag 已核验，GitHub Release 已发布（2026-11-05）   |
-| `0.0.3` | 默认 Normalize + 可选 Reset/Forms/A11y + `all.css` 整套候选 | **开发中**：完整模块已写入 PR #25，最终本机/浏览器验收及 npm/Tag/Release 未授权      |
-| `0.1.0` | 默认 `normalize.css` 规则范围完成、评审与必要验证后的里程碑 | **未来规划**；不因为增加一两条规则或发出 `0.0.2` 而提前升级                          |
+| 版本    | 定位                                                        | 状态                                                                                                   |
+| ------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| `0.0.1` | 首次 MVP：默认 R-003                                        | **npm 已发布**（维护者实际 `npm view` 及截图确认）；首次发布时未创建 Git Tag/Release                   |
+| `0.0.2` | R-003、R-007、R-008 与 npm Keywords                         | **已发行**：npm 版本可查；`v0.0.2` Tag 已核验，GitHub Release 已发布（2026-11-05）                     |
+| `0.0.3` | 默认 Normalize + 可选 Reset/Forms/A11y + `all.css` 整套候选 | **源码已合并**：工程测试 61/61 PASS；发行前 SHA/Registry/兼容风险核查及 npm/Tag/Release 单独授权待完成 |
+| `0.1.0` | 默认 `normalize.css` 规则范围完成、评审与必要验证后的里程碑 | **未来规划**；不因为增加一两条规则或发出 `0.0.2` 而提前升级                                            |
 
-**最新版本决议（2026-11-05）**：维护者选择先交付并已完成 `0.0.2` 的 npm 与 GitHub Release；`package.json` 继续保持 `0.0.2`。Normalize 尚需持续完善和必要验收，**不会仅因当前三条规则范围已冻结就提前升级或发布 `0.1.0`**。Reset、Forms、A11y 可选模块仍独立审议。
+**当前版本决议（2026-11-05）**：正式发行至 `0.0.2`；仓库已合并 `0.0.3` 套件源码，但尚未向 npm 或 GitHub 发布。可选模块已作为显式子路径实现，默认 CSS 不变。`0.1.0` 仍属于未来完整性里程碑，不能提前升级或发布。
 
 已经公开到 npm 的版本不可原地替换。若 `0.0.2` 发布后还需提前发行其他改进，**必须重新评审未被使用的版本号**，不能重发同版本，也不能为了方便提前占用 `0.1.0`。
 
@@ -23,10 +23,37 @@
 
 - 上一正式版本为 `0.0.2`，其 npm、Tag、GitHub Release 已归档；不要重复发布或移动历史 Tag。
 - 维护者明确要求开始 `0.0.3`：在独立开发分支中调整 `package.json#version`，同步 `tests/package.node.test.mjs`、`tests/package-real.node.test.mjs` 的固定版本断言；**创建候选不代表已经发布**。
-- 范围先以 [Issue #22](https://github.com/adui-studio/normalize.css/issues/22) 的必要浏览器差异研究为准；尚未批准任何新增 CSS 规则、Reset/Forms/A11y 子路径、运行时依赖或 CI。
+- 范围已按维护者最新指令一次完成并经 PR #25 正式合并：默认仍为三条已发行规则，Reset、Forms、A11y 与组合入口作为**显式可选模块**已实装；没有运行时依赖或 CI。其余研究候选不自动进入默认模块。
 - `pnpm-lock.yaml` 的当前根 importer 不含包版本字段，不因改版本手工修改；候选合并前执行 `pnpm install --frozen-lockfile`，如出现真实锁文件差异再由包管理工具处理。
-- 候选需完成 `pnpm run verify:mvp` 与 `pnpm exec vp build` 并记录完整 Git SHA、实际结果及剩余浏览器证据。正式 npm、Tag、Release 需要再次单独授权，**禁止提前执行 `pnpm run release:publish` 或创建 `v0.0.3` Tag**。
+- 维护者已经提供合并前 `pnpm run verify:mvp` 61/61 PASS 与 `pnpm exec vp build` 八页成功的原始日志，但缺少这组日志的独立 Git SHA 输出；最终发行前须在准确发行提交上再核对/执行并记录仍缺的浏览器证据。正式 npm、Tag、Release 需要再次单独授权，**禁止提前执行 `pnpm run release:publish` 或创建 `v0.0.3` Tag**。
 - `0.1.0` 仍是 Normalize 完整性里程碑，不因 `0.0.3` 立项而改变验收门槛。
+
+## 0.0.3 合并后的集中发行前置核查（尚未授权发布）
+
+以下是本次版本的**单次整体 Gate**，统一检查包契约与兼容性风险，不重新按 R-010/R-015/R-018 逐条要求维护者批准。2026-11-05 的 GitHub 远端回读确认 `main@5e299a65e5a091d17ff6d329cadb166613bec332`、PR #25 已合并，`v0.0.3` Tag 不存在，最新正式 Release 为 `v0.0.2`。**npm 远端版本占用尚未直接核实**。
+
+1. **源码与版本**：`package.json` 为 `0.0.3/private:false`，`exports` 的根和五个子路径均指向纯 CSS；根 CSS 保持 R-003/R-007/R-008，Reset/Forms/A11y 只有使用者显式导入才生效。无 `.github/workflows`/CI、运行时 JS、外部依赖变更。
+2. **工程证据**：维护者合并前实际日志为格式 86/86、Lint 21 无错误、Vitest 7/7、离线 Node 52/52、真实 tarball 1/1、Vite+ `all.css` 消费 1/1（总计 61/61 PASS），以及 `vp build` 八个 Fixture 页面成功；本地 npm dry-run 十文件、9,223 B，SHA-1 `8f79c0bfd72db0a62e41facdcf788fdf0fbe6293`。这些是**已取得的工程证据**，不是所有浏览器的 PASS。
+3. **最终发行提交绑定**：在维护者的 Windows PowerShell 中执行以下命令，确认 `git rev-parse HEAD` 是**之后获准用于发行的真实提交**，`git status --short` 干净；若发布文档发生变更，必须以新的准确 HEAD 为准，不能沿用合并前测试哈希：
+
+   ```powershell
+   git switch main
+   git pull --ff-only origin main
+   git rev-parse HEAD
+   git status --short
+
+   pnpm install --frozen-lockfile
+   pnpm run verify:mvp
+   pnpm exec vp build
+   git diff --check
+   git status --short
+   ```
+
+4. **Registry 及账号预检**：请维护者本机执行 `npm view @adui/normalize.css@0.0.3 version --registry=https://registry.npmjs.org/` 和 `npm whoami --registry=https://registry.npmjs.org/`。若 `0.0.3` 已存在则停止重复发布；若查询网络错误、权限问题或 2FA 问题，先诊断，不能根据失败直接宣布版本空闲。用户名、令牌或 2FA 验证码不回传聊天或提交仓库。
+5. **集中兼容风险评估**：历史 Safari/WebKit 的 R-007 无前缀装饰、早期 Blink 的 R-008 行为以及可选 Reset/Forms/A11y 对真实 Chrome/Firefox/Safari、Vue/React/Element Plus/Ant Design/TDesign 的影响仍缺完整可审计矩阵。对外不要声明未经验证的最低版本；接受风险前，应记录哪些环境实际测过、哪些没有。特别注意 `all.css` 与 Tailwind Preflight/UnoCSS Reset 的重复 Reset 风险，以及键盘焦点、强制颜色、系统减少动态偏好。
+6. **独立发行授权**：只在维护者明确批准**此 `0.0.3` 的 npm 发布**后，才按下方既有人工流程执行发布；再以准确**已发布源码 SHA** 创建 `v0.0.3` Tag / Release（需对应单独授权），核验 Registry、Git Tag 和 Release 三者一致。不添加 CI，不提前升级 `0.1.0`。
+
+**当前状态**：完整 CSS 套件已合并、工程验收已有实际通过记录；**正式发布没有发生**，仍存在 Registry 未核验与兼容性证据缺口。这不影响已验证的工程结论，也不能把项目判成“全面浏览器测试通过”。
 
 ## 0.1.0 版本准备专项审核（尚未授权升级）
 

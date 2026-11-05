@@ -10,9 +10,9 @@
 - 默认 CSS 暂继续保持 R-003、R-007、R-008 三条；下一步评审旧 WebKit/Blink 的真实差异与其余候选规则的必要性，未审核的规则不预先纳入本版本。
 - **整套 CSS 模块开发候选已实现**：新增 `src/reset.css`、`src/forms.css`、`src/a11y.css` 和 `src/all.css`；默认根入口仍只有 R-003/R-007/R-008。Reset（布局与间距）、Forms（字体与原生表单排版）、A11y（焦点与系统偏好）均显式导入，`all.css` 按固定次序组合四份 CSS。
 - `package.json` 保留原根 `./dist/normalize.css`，新增五个静态 CSS 子路径（包含 `normalize.css` 显式别名），将 `src` 纳入 npm `files`；Vite+ 继续仅用 `vp pack` 构建默认 `dist/normalize.css`，无 JavaScript 运行时、无额外构建依赖。
-- 扩展正式包、真实 tarball 和 Vite+ 生产消费测试，改为校验十文件 npm 包、可选入口解析及 `all.css` 组合；**本轮新分支上的完整 Windows 验收尚未执行，不声称测试已通过**。
+- 扩展正式包、真实 tarball 和 Vite+ 生产消费测试，校验十文件 npm 包、可选入口解析及 `all.css` 组合；维护者已提供 PR #25 合并前 Windows 实测：Vitest 7/7、离线 Node 52/52、真实包 1/1、Vite+ 消费 1/1，合计 **61/61 PASS**，以及 8 张 Fixture 构建成功。该日志未独立记录精确 Git HEAD，不能冒充全浏览器/组件库实测。
 - 完善中英文 README、需求、架构、设计和代码地图；默认不强制根字号、主题、按钮外观、滚动条、清空焦点，也不增加 CI。**本轮不执行 npm 发布或创建 `v0.0.3` Tag / Release**。
-- 对应 [0.0.3 迭代 Issue #22](https://github.com/adui-studio/normalize.css/issues/22)。该 Issue 覆盖这一轮完整实现；仍需集中审核和绑定最终提交的工程/兼容性验收，不能沿用 `0.0.2` 的测试日志作为本候选的 PASS。
+- [PR #25](https://github.com/adui-studio/normalize.css/pull/25) 已获维护者批准并合并 `main@5e299a65e5a091d17ff6d329cadb166613bec332`；[Issue #22](https://github.com/adui-studio/normalize.css/issues/22) 继续追踪正式发布前的 SHA 绑定、Registry 版本占用和未完成兼容性检查。**仅已合并，不等于已向 npm 发布。**
 
 **后续里程碑**：持续完善 Normalize，达到明确完整性与质量验收要求后，才独立评审并发布 `0.1.0`。
 
