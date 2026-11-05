@@ -136,7 +136,7 @@ npm view "@adui/normalize.css" version --registry=https://registry.npmjs.org/
 
 > This library provides a minimal CSS Normalize based on documented browser differences. Compatibility claims are limited to environments with auditable test evidence. Chrome/Edge 120, Firefox 121, Safari 17.2, and the corresponding mobile versions remain verification targets, not published minimum support guarantees. Embedded WebViews require separate validation.
 
-这段谨慎文案可避免无依据宣称，但**不能代替 ADR-0004 的发行前目标版本实测门槛**。正式发布前必须获得目标环境的可审核结果，或另行经维护者批准修改该兼容性 ADR 与正式验收要求；不能因没有写具体版本号就忽略原定最低验证目标。
+**2026-11-05 最新维护者决定已调整本段历史门槛**：对首版唯一、与 WHATWG/成熟竞品相同的 R-003，七项历史浏览器的重复 T0/T2 不再是发行前置条件；上面的谨慎文案可作为**不承诺尚未实证的具体数字最低版本**的首版兼容说明。若将来要公开保证某个最低版本，仍需相应证据或单独审批，不得虚构环境 PASS。
 
 **P-05 当前结论**：文字和证据边界审核已完成；目标版本承诺**未批准、未冻结**。已完成的 W-06 管理验收保持有效，不要求凭空重新执行过去的测试。
 
@@ -144,8 +144,8 @@ npm view "@adui/normalize.css" version --registry=https://registry.npmjs.org/
 
 - **已通过（旧开发版实际证据）**：P-01 pnpm 冻结安装、P-03 包元数据与真实 tarball/Vite+ 消费、P-06 本地质量回归，详见 [W-07 总审核](W07_RELEASE_READINESS_REVIEW.md)。
 - **P-02 已实施并验收（最新）**：`version:"0.0.1"`、`private:true`，两处包契约测试断言一致；**本地离线/真实包/消费者回归 PASS**，不构成发布授权。
-- **仍待完成**：P-04 首发包发布认证和安全要求，P-05 正式最低浏览器支持矩阵或经批准的替代验收决定。
+- **仍待完成**：P-04 首发账户 2FA/权限的实际核验，P-07 正式发布独立授权。**P-05 已批准 R-003 成熟竞品规则免重复实测**；在不承诺未验证数字最低版本的前提下，不再强制补七项历史 T2。
 - **已单独批准并执行**：PR #1、PR #9 以 Merge commit 合并 `main`，未使用 Squash 或强制推送。**仍需单独授权**：解除 `private:true` 的发布保护、`npm publish`、Git Tag、GitHub Release 及后续 `main` 合并。
 - **始终禁止**：新增 CI、GitHub Actions 发布工作流或提交 Token/OTP/密码。
 
-**总判定（最新）**：W-07 继续 Open；P-01/P-02/P-03/P-06 已完成最新 `0.0.1/private:true` 完整本地回归，P-04/P-05/P-07 发行门槛仍未完成。**首发候选 ≠ 已发布版本**。
+**总判定（按 2026-11-05 最新维护者决定）**：W-07 继续 Open；P-01/P-02/P-03/P-06 有历史完整本地回归与维护者验收，最新合并提交日志尚未独立归档。P-05 成熟规则免重复实测政策已批准，不声明未证实的数字最低版本即可不以七环境复验阻塞发行；P-04 认证和 P-07 独立发行授权仍未完成。**首发候选 ≠ 已发布版本**。

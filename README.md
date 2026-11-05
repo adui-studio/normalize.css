@@ -26,11 +26,11 @@
 | `@adui/normalize.css/forms.css` | 原生表单交互增强             | 首版延期；未来单独评审      |
 | `@adui/normalize.css/all.css`   | 显式组合入口                 | 首版延期；未来单独评审      |
 
-长期模块方向已经 [ADR-0001](docs/adr/0001-css-base-strategy.md) 批准，但首版只保留默认入口；默认**不内置 `@layer`**，固定 **Baseline 2023** 为特性准入参考。核心浏览器最低**测试目标**已批准：Chrome/Edge 120、Firefox 121、Safari 17.2（含对应移动浏览器），**尚未完整实测通过，不能视为已发布支持声明**。仓库已实现开发期根导出，但还未发布 npm 包。
+长期模块方向已经 [ADR-0001](docs/adr/0001-css-base-strategy.md) 批准，但首版只保留默认入口；默认**不内置 `@layer`**，固定 **Baseline 2023** 为特性准入参考。核心浏览器最低**内部测试目标**已批准：Chrome/Edge 120、Firefox 121、Safari 17.2（含对应移动浏览器）。**R-003 是 WHATWG 与成熟竞品已有的同用途规则，维护者已免除七环境重复规则测试；但不得以此宣称七项目标逐项实测 PASS 或已发布最低支持版本**。仓库已实现开发期根导出，但还未发布 npm 包。
 
 ## MVP `0.0.1` · 本地开发交付与最后验收
 
-首个 MVP 已按 [W-05 正式规则准入](docs/research/W05_RULE_ACCEPTANCE.md) 固定为**单一 Normalize CSS 根入口、唯一 R-003 规则**；本轮补充了 T0/T2 真实包 CSS 的离线证据比较器和**一键本地人工验证脚本**，不扩充未获批准的默认 Reset。**新脚本尚未在维护者 Windows 运行**。
+首个 MVP 已按 [W-05 正式规则准入](docs/research/W05_RULE_ACCEPTANCE.md) 固定为**单一 Normalize CSS 根入口、唯一 R-003 规则**；本轮补充了 T0/T2 真实包 CSS 的离线证据比较器和**一键本地人工验证脚本**，不扩充未获批准的默认 Reset。**维护者已确认 MVP 本机验收完成；最新 HEAD 的完整原始命令输出尚未在仓库归档，不能声称本工具独立复验**。
 
 ```powershell
 pnpm install --frozen-lockfile
@@ -41,7 +41,7 @@ pnpm run verify:mvp
 
 ## 本地构建与 CSS 使用（未发布）
 
-该开发分支已提供唯一 CSS 根入口，当前只有 R-003：
+`main` 已提供唯一 CSS 根入口，当前只有 R-003：
 
 ```css
 b,
@@ -83,7 +83,7 @@ pnpm exec vp test
 pnpm exec vp dev
 ```
 
-打开本地 Vite+ 服务器提示的地址下的 `/fixtures/`，选择 R-003 的 T0 原生与 T1 候选页面；R-004 提供 T0 原生、T1 单独 `font-size: 1em`、T1b 只额外添加 `monospace, monospace` 字体族的风险对照。T1b **只用于调查 Chrome 的等宽字体偏好，不能作为正式 Normalize 规则**。维护者已在 Chrome 156 实测四个元素的计算字号为 T0 13px、T1 13px、T1b **16px**；完整目标浏览器与用户设置验证未完成。每页会展示可复制的计算样式 JSON。无需 Vite+ 安装也可以使用**内置 Node 测试**检验探针逻辑：
+打开本地 Vite+ 服务器提示的地址下的 `/fixtures/`，选择 R-003 的 T0 原生与 T1 候选页面；R-004 提供 T0 原生、T1 单独 `font-size: 1em`、T1b 只额外添加 `monospace, monospace` 字体族的风险对照。T1b **只用于调查 Chrome 的等宽字体偏好，不能作为正式 Normalize 规则**。维护者已在 Chrome 156 实测四个元素的计算字号为 T0 13px、T1 13px、T1b **16px**；历史目标浏览器逐环境原始证据未完整归档；对 R-003 采用维护者已批准的成熟竞品规则免重复实测策略。每页会展示可复制的计算样式 JSON。无需 Vite+ 安装也可以使用**内置 Node 测试**检验探针逻辑：
 
 ```sh
 npm run test:offline
@@ -204,7 +204,7 @@ pnpm exec vp check --no-fmt  # 仅隔离格式问题排查 lint，不等于完�
 
 ## 开发前门槛
 
-维护者已批准首批最小实现，开发工具链统一使用 **Vite+**。W-03 本地 Harness、W-04 真实 CSS 包交付、W-05 首版 36 条规则去留评审、W-06 回归工作项均已按正式记录结项；W-02 #3 已按 MVP 首版规则证据研究完成结项；后续新增规则证据维护须另立任务，W-01 浏览器环境与 W-07 发布前审核仍为独立事项。**已确定首个公开候选版本 `0.0.1`，但尚未发布**：pnpm 12.15.0 锁文件已提交并经过先前版本的本机冻结安装验收；`package.json` 已恢复并保持 `private: true` 以防误发布，**PR #1/#9 已获批准并合并主分支；仍未获 npm 发布、Tag 或 Release 授权**。新版本的包契约测试需要重新执行。参见 [W-07 审核矩阵](docs/research/W07_RELEASE_READINESS_REVIEW.md)和[首发决策审核](docs/research/W07_RELEASE_GATES.md)。项目明确不增加任何 CI。
+维护者已批准首批最小实现，开发工具链统一使用 **Vite+**。W-03 本地 Harness、W-04 真实 CSS 包交付、W-05 首版 36 条规则去留评审、W-06 回归工作项均已按正式记录结项；W-02 #3 已按 MVP 首版规则证据研究完成结项；后续新增规则证据维护须另立任务，W-01 #2 已由维护者按研究范围验收结项，W-07 #8 的 npm 首发审核仍为独立事项。**已确定首个公开候选版本 `0.0.1`，但尚未发布**：pnpm 12.15.0 锁文件已提交并经过先前版本的本机冻结安装验收；`package.json` 已恢复并保持 `private: true` 以防误发布，**PR #1/#9 已获批准并合并主分支；仍未获 npm 发布、Tag 或 Release 授权**。新版本的包契约测试需要重新执行。参见 [W-07 审核矩阵](docs/research/W07_RELEASE_READINESS_REVIEW.md)和[首发决策审核](docs/research/W07_RELEASE_GATES.md)。项目明确不增加任何 CI。
 
 ## 许可证
 

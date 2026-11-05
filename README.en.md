@@ -4,7 +4,7 @@
 
 A minimal, evidence-driven CSS Normalize library. It aims to preserve native browser defaults while correcting demonstrated inconsistencies, without runtime JavaScript.
 
-> **Latest status (2026-11-05): PR #1 (architecture/docs) and PR #9 (MVP) have been merged into `main` using merge commits; the npm package is still unpublished.** W-03 (local harness), W-04 (package contract), W-05 (36-rule acceptance decisions), and W-06 (regression work) have been closed following maintainer approval. The MVP still contains **one** default Normalize rule, R-003, and one CSS root export; other candidates are excluded from the MVP. W-07 release-readiness review is in progress. The maintainer has selected a `0.0.1` first-release candidate with `private: true` restored for protection against accidental publication; **nothing has been published**. Maintainer acceptance of regression work must not be presented as independently auditable support for every proposed minimum browser version.
+> **Latest status (2026-11-05): PR #1 (architecture/docs) and PR #9 (MVP) have been merged into `main` using merge commits; the npm package is still unpublished.** W-03 (local harness), W-04 (package contract), W-05 (36-rule acceptance decisions), and W-06 (regression work) have been closed following maintainer approval. The MVP still contains **one** default Normalize rule, R-003, and one CSS root export; other candidates are excluded from the MVP. W-07 release-readiness review is in progress. The maintainer has selected a `0.0.1` first-release candidate with `private: true` restored for protection against accidental publication; **nothing has been published**. Maintainer acceptance and reuse of the identical R-003 rule from WHATWG/established Normalize libraries do not establish a separate PASS for every minimum browser target. Repeating seven historical browser tests for that mature rule is no longer required for the candidate release, provided no unverified numerical minimum is publicly claimed.
 
 **Current audit references:** [W-05 rule decisions](docs/research/W05_RULE_ACCEPTANCE.md) · [W-06 acceptance index](docs/research/W06_ACCEPTANCE_INDEX.md) · [W-07 release-readiness review](docs/research/W07_RELEASE_READINESS_REVIEW.md) · [Unreleased changelog](CHANGELOG.md). Earlier W-03/W-04/W-06 sections retain historical results and intermediate test states; use these latest acceptance records for current project status.
 
@@ -25,7 +25,7 @@ R-004 deliberately does **not** normalize the font size or font family of `code`
 
 ## Package manager policy (W-07)
 
-The project uses **pnpm 12.15.0** as its **only root dependency manager**, pinned by `package.json#packageManager`. Node must satisfy `^22.18.0 || ^24.11.0 || >=26.0.0`. The root `pnpm-lock.yaml` has **now been committed**. Its pnpm version and the project importer's pinned `vite-plus@1.4.0` match the manifest. A successful Windows frozen install still requires real command output before it can be marked verified.
+The project uses **pnpm 12.15.0** as its **only root dependency manager**, pinned by `package.json#packageManager`. Node must satisfy `^22.18.0 || ^24.11.0 || >=26.0.0`. The root `pnpm-lock.yaml` has **now been committed**. Its pnpm version and the project importer's pinned `vite-plus@1.4.0` match the manifest. The maintainer has previously provided a successful Windows frozen-install record; full raw logs corresponding to the latest merged HEAD have not been independently archived.
 
 ```sh
 pnpm --version               # Expected: 12.15.0
@@ -106,7 +106,7 @@ If previously checked-out files still contain CRLF, inspect local changes first,
 
 ## MVP 0.0.1 local handoff (not published)
 
-The approved MVP consists of the single Normalize CSS root export and the evidence-backed R-003 rule. A local T0/T2 evidence comparator and a manual, **non-CI** verification script are now implemented. **The latest changes still need to be tested in the maintainer's Windows environment.**
+The approved MVP consists of the single Normalize CSS root export and the evidence-backed R-003 rule. A local T0/T2 evidence comparator and a manual, **non-CI** verification script are now implemented. **The maintainer has confirmed final MVP acceptance; complete raw logs for the latest HEAD are not independently archived.**
 
 ```powershell
 pnpm install --frozen-lockfile
