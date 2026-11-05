@@ -6,15 +6,15 @@
 
 `@adui/normalize.css` 只修正经过评审的浏览器默认样式差异，尽量保留 HTML 原生语义、用户偏好及现有组件样式。提供纯 CSS 产物，**无运行时 JavaScript 依赖**。
 
-> **版本说明：** npm 最新已确认发行版本为 `0.0.2`（R-003、R-007、R-008），Git Tag 与 GitHub Release 为 `v0.0.2`；历史 `0.0.1` 仅含 R-003。仓库正在准备 **`0.0.3` 开发候选，尚未发布**，本轮仅同步版本契约与新迭代规划；**`0.1.0` 仍需在 Normalize 完善并完成必要验收后另行决定**。
+> **版本说明：** npm 最新已确认发行版本为 `0.0.2`（R-003、R-007、R-008），Git Tag 与 GitHub Release 为 `v0.0.2`；历史 `0.0.1` 仅含 R-003。仓库 **`0.0.3` 开发候选已实现默认 Normalize + 可选 Reset/Forms/A11y + 完整组合入口**，目前尚未发布；npm 上的 `0.0.2` 不包含这些新子路径；**`0.1.0` 仍需在 Normalize 完善并完成必要验收后另行决定**。
 
 ## 特性
 
 - **默认克制**：不清空全部元素的间距，不强制设置根字号、主题或按钮外观。
 - **尊重原生行为**：保留等宽字体的浏览器默认设置，不覆盖键盘焦点及系统无障碍偏好。
-- **纯 CSS 交付**：单一包根入口，产物由 Vite+ 构建，不附加运行时 JavaScript。
+- **纯 CSS 交付**：根入口继续由 Vite+ 构建，可选模块以静态 CSS 源文件随 npm 包发布，不附加运行时 JavaScript。
 - **规则可追溯**：每条正式规则都经过用途、作用范围和兼容风险评审。
-- **便于组合**：适用于原生 HTML，以及使用 CSS 导入能力的 Vue、React 等应用；与其他 Reset 混用时仍需评估层叠顺序。
+- **完整且可组合**：默认 Normalize、独立 Reset、Forms、A11y 及 `all.css` 组合入口；适用于原生 HTML、Vue、React，并保留按需选择的能力。
 
 ## 安装与使用
 
@@ -32,7 +32,7 @@ npm install @adui/normalize.css
 import "@adui/normalize.css";
 ```
 
-唯一包根入口是 `@adui/normalize.css`，对应 `dist/normalize.css`。如果 npm Registry 尚无所需版本，可按下文从仓库构建。
+默认根入口 `@adui/normalize.css` 仍对应 `dist/normalize.css`。**`0.0.3` 的子模块尚未发布到 npm**，以下子路径用法仅适用于此开发候选构建的本地包；请勿直接对已发布的 `0.0.2` 使用。
 
 ### 已发布的 `0.0.1` 与 `0.0.2`
 
@@ -55,7 +55,31 @@ strong {
 
 R-003 保留相对字重；R-007 对含 `title` 的缩写补齐点状下划线；R-008 将表格边框颜色与当前文字颜色对齐。后两者采用低特异性的 `:where()`。**三条规则属于已发布的 `0.0.2`，Windows 工程验证已通过；但不代表全部目标浏览器的真实 T0/T2 测试通过，也不构成最低浏览器版本兼容承诺。** 背景见 [规则证据](docs/research/RULE_EVIDENCE_R003_R004.md) 与 [默认规则范围审核](docs/research/DEFAULT_NORMALIZE_V01_READINESS.md)。
 
-首版**不提供** `reset.css`、`a11y.css`、`forms.css` 或 `all.css` 等子路径；它们是后续可选模块的设计方向，不属于当前已实现或可导入的功能。默认样式也不内置 `@layer`。
+### `0.0.3` 开发候选：完整 CSS 模块
+
+| 引入路径 | 内容与影响范围 |
+| --- | --- |
+| `@adui/normalize.css` | **默认 Normalize**，保持已发布的 R-003 / R-007 / R-008 三条低侵入规则；不自动执行 Reset |
+| `@adui/normalize.css/normalize.css` | 默认 Normalize 的显式别名，功能与根入口相同 |
+| `@adui/normalize.css/reset.css` | 可选布局 Reset：`border-box`、主体及常见文本间距、媒体最大宽度、表格折叠；保留列表 marker 与原生焦点 |
+| `@adui/normalize.css/forms.css` | 可选表单排版：字体继承、外边距、fieldset/legend、标准文件按钮字体；不移除原生控件外观 |
+| `@adui/normalize.css/a11y.css` | 可选无障碍增强：键盘焦点可见、强制颜色模式、减少动态偏好下关闭根平滑滚动；不全局禁用动画 |
+| `@adui/normalize.css/all.css` | 显式完整组合包，按 Normalize → Reset → Forms → A11y 导入上述模块 |
+
+**按需组合（推荐）：**
+
+```js
+import "@adui/normalize.css";
+import "@adui/normalize.css/forms.css";
+```
+
+**需要全部模块时，二选一使用组合入口，不要同时重复引入单模块：**
+
+```js
+import "@adui/normalize.css/all.css";
+```
+
+`all.css` 使用相对 `@import` 引入随包分发的 CSS 文件；Vite+ 等支持 CSS `@import` 内联的打包器可处理它们。默认入口**没有** `@layer`、全局主题、根字号覆盖、强制按钮外观或 `!important`。可选 Reset 会改变页面间距和表格布局，已有 Tailwind Preflight/UnoCSS Reset 的项目通常**不应再叠加** `reset.css` 或 `all.css`，避免重复重置。
 
 ## 兼容性与设计边界
 
@@ -72,7 +96,7 @@ git clone https://github.com/adui-studio/normalize.css.git
 cd normalize.css
 pnpm install --frozen-lockfile
 
-pnpm exec vp pack   # 构建 dist/normalize.css
+pnpm exec vp pack   # 构建默认 dist/normalize.css；可选模块直接来自 src/*.css
 pnpm exec vp dev    # 启动本地 Fixture 预览
 ```
 
