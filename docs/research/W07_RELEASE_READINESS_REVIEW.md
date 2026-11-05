@@ -7,6 +7,19 @@
 - **审核判断**：**部分通过，发布准备尚未就绪；Issue #8 保持 Open**。
 - **红线**：不修改产品 CSS 或既定包根入口；不新增依赖/CI、GitHub Actions、自动发布；不执行 npm publish、GitHub Release、`main` 合并。
 
+## 2026-11-05 · P-02/P-06 的 0.0.1 私有包本地验收完成（最新）
+
+维护者在 Windows PowerShell 的 `D:\Workspace\adui-studio\normalize.css` 项目目录实际执行了本轮测试，基于已提交的 `version:"0.0.1"`、`private:true` 和对应的两项正式包断言。以下状态**来自维护者提供的终端原始输出**，并非本助手独立运行：
+
+- `vp check --fix`：格式化完成（1.2s），19 文件无 Lint warnings/errors（183ms，16 threads），**PASS**。本轮使用修复模式；**没有单独执行无 `--fix` 的 `vp check`**。
+- `pnpm run test:offline`：执行前输出锁文件供应链检查通过、无需重新解析，pnpm **12.15.0**；随后 Node **33/33 PASS、0 FAIL/skip**（约 1.12s），**PASS**。但本轮**未单独运行** `pnpm install --frozen-lockfile`；先前该命令的真实 PASS 保留为独立证据。
+- `vp pack`：唯一 `dist/normalize.css`，**200 B**（gzip **180 B**），24ms，**PASS**。
+- `pnpm run test:package`：真实 tarball 的离线安装 **1/1 PASS**；`pnpm run test:consumer`：独立 Vite+ 生产消费 **1/1 PASS**。
+- `npm pack --dry-run --json --ignore-scripts`：`id:"@adui/normalize.css@0.0.1"`，**5 文件**：LICENSE（1089 B）、README.en.md（9821 B）、README.md（21381 B）、dist/normalize.css（200 B）、package.json（1355 B）；`size:13871` B、`unpackedSize:33846` B、`bundled:[]`。**PASS**；仅为预打包，不代表发布。
+- `git status --short`：无输出，维护者本机工作区**干净**。
+
+**当前结论**：**P-02 的 `0.0.1/private:true` 候选包配置及对应本地测试 PASS；P-06 本轮实际执行的质量检查 PASS**。原有 Vitest `vp test` 7/7 PASS 是**较早版本的独立证据**，本轮未重跑，不能算作这次重新执行。因 `private:true` 保持防误发布保护，没有执行 `npm publish`、Tag、Release 或 main 合并。P-04 首发认证条件、P-05 公开浏览器最低版本证据及 P-07 单独发布授权仍未完成，**W-07 Issue #8 继续 Open**。
+
 ## 2026-11-05 · P-02 保留 0.0.1 并恢复 private:true（最新）
 
 维护者最新要求：**保留版本号 `0.0.1`，将 `package.json#private` 从 `false` 恢复为 `true`**，继续避免在 W-07 未结束时误发布。GitHub 开发分支同步恢复 `tests/package.node.test.mjs` 与 `tests/package-real.node.test.mjs` 的正式包 `private:true` 断言，继续断言版本 `0.0.1` 和真实安装后 manifest 一致性。模拟 smoke Fixture 与独立消费者自己的 `private:true` 保持不变；产品 CSS、单一根导出、依赖与 pnpm 锁文件均未改动。
@@ -234,11 +247,11 @@ git push origin feat/viteplus-local-harness
 | 编号 | 事项                     | 当前证据                                                                                                                                                                                         | 风险/决定                                                                       |
 | ---- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------- |
 | P-01 | **锁文件与包管理器策略** | pnpm 12.15.0、唯一 `pnpm-lock.yaml` 已入库；维护者 Windows `pnpm install --frozen-lockfile` 83ms 成功且依赖解析跳过                                                                              | **PASS（真实冻结安装 + GitHub 静态核对）**                                      |
-| P-02 | **版本和 npm 发布开关**  | 维护者确定 `version:0.0.1`、`private:true`，两项正式包测试断言已恢复                                                                                                                             | **配置已实施；恢复 private 后的本机回归待验；未授权发布**                       |
+| P-02 | **版本和 npm 发布开关**  | `0.0.1/private:true` 已确认；本轮离线 33/33、真实 tarball 1/1、Vite+ 消费 1/1、五文件预打包 PASS                                                                                                 | **PASS：候选私有包已本机验收；未授权发布**                                      |
 | P-03 | **npm 公开元数据**       | `author:"ADui"` 等元数据齐全；真实 tarball 1/1、Vite+ 消费 1/1、npm 五文件 dry-run PASS                                                                                                          | **PASS：最终含 author 的 manifest 已通过真实包及消费验证**                      |
 | P-04 | **npm 组织/作用域权限**  | 官方 Registry 已核实，`npm whoami=adui`；个人 `@adui` 作用域归属已验证，`npm view` 返回 E404                                                                                                     | **PARTIAL PASS：账户/作用域匹配，首发包名及发布认证待核**                       |
 | P-05 | **公开兼容性范围**       | [W-06](W06_ACCEPTANCE_INDEX.md) 已获维护者管理验收；缺少本次逐目标 UA/OS/设备原始附件                                                                                                            | **文案门槛**：不得把目标最低版本清单直接写成已经可复核 PASS 的公开支持承诺      |
-| P-06 | **最终本机复核**         | 维护者 Windows 实际日志：19 文件格式/Lint 正常，Vitest 7/7、Node 33/33、唯一 CSS 打包、真实 tarball 1/1、Vite+ 消费 1/1、冻结安装成功、`git diff --check` 无输出、npm 预打包五文件白名单完全匹配 | **PASS（真实执行日志；`.idea/` 已在后续仓库规则中忽略，生效待下一次拉取确认）** |
+| P-06 | **最终本机复核**         | 本轮 `vp check --fix`、Node 33/33、CSS 200 B 打包、真实包 1/1、消费者 1/1 和 npm 五文件清单均 PASS；`vp test` 未重跑                                                                             | **PASS（本轮上述检查）；跨浏览器/发行另行审核**                                 |
 | P-07 | **最终发行准许**         | W-07 当前只获授权执行质量审核，**未授权发布、Release、合并或改生产配置**                                                                                                                         | **BLOCKER**：发布需维护者新的明确指令                                           |
 
 **许可证细节（最新）**：`LICENSE` 本来就是 MIT，`package.json` 现已显式补充 `license:"MIT"`；两者静态一致。该元数据变化不影响 R-003 CSS 或运行时依赖。
@@ -274,8 +287,8 @@ npm pack --dry-run --json --ignore-scripts
 
 ## 5. 本轮结论与后续决策
 
-**当前判断（2026-11-05，最新）**：维护者已确定版本 `0.0.1` 并恢复 `private:true`，GitHub 配置和两项正式包测试断言已同步；**新组合的 Windows 本机回归仍未运行**。此前阶段的 P-01/P-03/P-06 PASS 是旧 manifest 的历史证据，不自动适用于最新版。P-04 首发认证、P-05 公开最低浏览器兼容承诺、P-07 单独发布授权仍待完成。**Issue #8 继续 Open，不发布、不合并、不新增 CI。**
+**当前判断（2026-11-05，最新）**：维护者已针对 `0.0.1/private:true` 真实完成格式修复/Lint、离线 Node 33/33、CSS-only 打包、tarball 安装 1/1、Vite+ 消费 1/1、npm 五文件预打包及干净工作区回归，**本轮各已执行项 PASS**。本轮未单独运行 `vp test` 或 `pnpm install --frozen-lockfile`；其旧阶段 PASS 保留独立证据。P-04 首发认证、P-05 公开最低浏览器兼容证据、P-07 单独发布授权仍待完成。**Issue #8 继续 Open，不发布、不合并、不新增 CI。**
 
-优先级建议：**先针对 `0.0.1` 重新执行本地完整包契约检查，再处理 P-04 发布认证、P-05 对外兼容性声明，最终由维护者另行决定 P-07 npm 发布、Tag、Release 及主分支合并。**
+优先级建议：**`0.0.1/private:true` 的本地包交付回归已通过；下一步核验 P-04 发行认证条件、P-05 对外兼容性证据，最后再由维护者明确决定 P-07 npm 发布、Tag、Release 与主分支合并。**
 
 本轮已补建 `CHANGELOG.md`、更新中英文 README 的当前状态，并同步文档/Issue。未修订生产 CSS、未运行新的本地测试、未执行 CI、未变更包导出、未发布软件包、未创建 Release、未合并主分支。

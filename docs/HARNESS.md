@@ -179,6 +179,8 @@ npm pack --dry-run --json --ignore-scripts --offline .
 
 **2026-11-05 · W-07 `0.0.1/private:true` 的最新版验证门槛**：维护者保留 `0.0.1` 版本、恢复根 `private:true`，正式包的离线契约及真实 tarball 测试断言同步恢复；这覆盖了上一阶段 `private:false` 的决策。此版尚未取得 Windows 新执行日志（NOT_RUN），不得沿用 `0.0.0` 的测试输出冒充通过。下一次本地最小检查：`pnpm install --frozen-lockfile`、`vp check`、`pnpm run test:offline`、`vp pack`、`pnpm run test:package`、`pnpm run test:consumer`、`npm pack --dry-run --json --ignore-scripts`、`git status --short`。核对包标识为 `@adui/normalize.css@0.0.1`、实际只有 5 个预期文件，根项目私有开关不会影响本地 tarball 校验。仍不执行 npm publish、Release、合并 main 或添加 CI。详见 [W-07 总报告](research/W07_RELEASE_READINESS_REVIEW.md)。
 
+**2026-11-05 · W-07 最新私有候选包回归证据**：`0.0.1/private:true` 在维护者 Windows 本机已完成 `vp check --fix`（19 文件零格式/Lint 问题）、`pnpm run test:offline` **33/33 PASS**、`vp pack` 唯一 CSS **200 B**、真实 `pnpm run test:package` **1/1 PASS**、`pnpm run test:consumer` **1/1 PASS**、`npm pack --dry-run --json --ignore-scripts` **5 文件 PASS**（包标识 `@adui/normalize.css@0.0.1`，13871 B）和 `git status --short` 无输出。`pnpm run test:offline` 显示锁文件策略通过，不代表本轮单独执行冻结安装；`vp test` 7/7 为之前独立实测，本轮没有重新执行。当前版本/私有状态的包交付回归 PASS，仍不得宣称未验证的跨浏览器支持矩阵、npm 发布资格或发布成功；不新增 CI、不合并、不发布。见 [W-07 审核](research/W07_RELEASE_READINESS_REVIEW.md)。
+
 ## 6. 安全和发布门禁（规划）
 
 - 审核第三方规则的许可证及改写过程；不引入未经审批的远程字体、图片或跟踪请求。

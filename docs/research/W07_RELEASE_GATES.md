@@ -3,8 +3,14 @@
 - **审核日期**：2026-11-05
 - **工作项**：[W-07 / Issue #8](https://github.com/adui-studio/normalize.css/issues/8)
 - **所属分支**：`feat/viteplus-local-harness`
-- **状态**：P-02 **维护者已确定候选版号 `0.0.1`，并恢复 `private:true`**，待新版包测试；P-04 **账户/用户作用域通过核验，首次发布权限与认证仍待确认**；P-05 **最低浏览器支持矩阵未冻结**；P-07 **未授权发布**。
+- **状态**：P-02 **`0.0.1/private:true` 候选包已通过本机交付回归**；P-04 **账户/用户作用域通过核验，首次发布权限与认证仍待确认**；P-05 **最低浏览器支持矩阵未冻结**；P-07 **未授权发布**。
 - **范围**：维护者已授权在开发分支确定 `0.0.1` 并恢复 `private:true`；**不等于已授权 npm 发布、Tag、Release 或合并主分支**。
+
+## 2026-11-05 · P-02 候选私有包已完成本地交付复验（最新）
+
+维护者针对最终的 `version:"0.0.1"`、`private:true` 配置完成 Windows 本地回归：`vp check --fix` 格式/Lint PASS（19 文件）、Node 离线 **33/33 PASS**、`vp pack` 唯一 CSS **200 B**、真实 tarball 安装 **1/1 PASS**、Vite+ 生产消费 **1/1 PASS**，以及 `npm pack --dry-run --json --ignore-scripts` 的**五文件白名单 PASS**（`@adui/normalize.css@0.0.1`、打包 13871 B、`bundled:[]`）。最终 `git status --short` 无输出。
+
+**P-02 候选版本配置与包交付验证 PASS**。本轮 `pnpm run test:offline` 中自动输出锁文件供应链核验通过，但没有单独运行冻结安装；`vp test` 本轮也未重新执行（此前 7/7 PASS 继续保留历史记录）。这**不代表** P-04 发布认证、P-05 浏览器兼容范围及 P-07 发布授权已通过。私有安全开关仍保留，尚未发布。
 
 ## 2026-11-05 · P-02 private 安全开关恢复（最新决策）
 
@@ -90,9 +96,9 @@ npm view "@adui/normalize.css" version --registry=https://registry.npmjs.org/
 ## P-07 · 发行与版本控制边界
 
 - **已通过（旧开发版实际证据）**：P-01 pnpm 冻结安装、P-03 包元数据与真实 tarball/Vite+ 消费、P-06 本地质量回归，详见 [W-07 总审核](W07_RELEASE_READINESS_REVIEW.md)。
-- **P-02 已实施（最新）**：`version:"0.0.1"`、`private:true`，已同步两处包契约测试断言；**本次恢复后本机回归尚未执行**。
+- **P-02 已实施并验收（最新）**：`version:"0.0.1"`、`private:true`，两处包契约测试断言一致；**本地离线/真实包/消费者回归 PASS**，不构成发布授权。
 - **仍待完成**：P-04 首发包发布认证和安全要求，P-05 正式最低浏览器支持矩阵或经批准的替代验收决定。
 - **仍需单独授权**：更改 `private:true` 的发布保护、`npm publish`、Git Tag、GitHub Release、`main` 分支合并。
 - **始终禁止**：新增 CI、GitHub Actions 发布工作流或提交 Token/OTP/密码。
 
-**总判定（最新）**：W-07 继续 Open；P-02 版本 `0.0.1` 与私有安全开关 `true` 已配置，但最新包回归和其他发行门槛未完成。**首发候选 ≠ 已发布版本**。
+**总判定（最新）**：W-07 继续 Open；P-02 `0.0.1/private:true` 已配置并通过最新包交付回归，但 P-04/P-05/P-07 发行门槛仍未完成。**首发候选 ≠ 已发布版本**。

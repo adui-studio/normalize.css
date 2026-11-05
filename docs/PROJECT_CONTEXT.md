@@ -189,6 +189,8 @@
 
 **2026-11-05 · W-07 P-02 恢复 private 安全保护（最新）**：维护者最新决定**保留首发候选 `0.0.1`，将根 `package.json#private` 恢复为 `true`**。先前 `private:false` 的提交及上下文段落现为历史过程，非当前状态；两项正式包测试 `tests/package.node.test.mjs` / `tests/package-real.node.test.mjs` 的 private 断言同步恢复为 true，版本校验仍是 0.0.1，安装后 manifest 一致性断言保留。正式 CSS 仅 R-003，不改依赖、锁文件、导出、MIT、作者或 CI。**当前尚无新 `0.0.1/private:true` 组合的 Windows 实测结果（NOT_RUN）**，此前成功数据不冒充新回归；`CHANGELOG.md` 仍为 Unreleased。W-07 Issue #8 保持 Open；npm scope 发布认证、公开兼容性声明与 P-07 单独发布授权仍待处理。见 [W-07 首发审核](research/W07_RELEASE_GATES.md) 和 [总审核](research/W07_RELEASE_READINESS_REVIEW.md)。
 
+**2026-11-05 · W-07 `0.0.1/private:true` 真实包验收通过（最新）**：维护者提供新一轮 Windows PowerShell 输出：`vp check --fix` 格式完成、19 个文件无 Lint 错误/警告；`pnpm run test:offline` 在 pnpm 12.15.0 锁文件策略检查通过后 Node **33/33 PASS**；`vp pack` 生成唯一 CSS 200 B；`pnpm run test:package` 真实 tarball 离线安装 **1/1 PASS**；`pnpm run test:consumer` Vite+ 生产消费 **1/1 PASS**；`npm pack --dry-run --json --ignore-scripts` 返回 `@adui/normalize.css@0.0.1`、5 文件（LICENSE、双语 README、dist/normalize.css、package.json）、`size:13871` B、`unpackedSize:33846` B、`bundled:[]`，并且 `git status --short` **无输出**。**P-02 候选版本及此轮包交付验收 PASS，P-06 本轮已执行检查 PASS**。没有单独执行 `vp test` 或 `pnpm install --frozen-lockfile`；其较早阶段 PASS 保留独立证据，不冒充本轮复测。当前 `private:true` 保持防误发布，CHANGELOG 仍 Unreleased。W-07 P-04 首发认证、P-05 浏览器支持声明与 P-07 正式授权未完成，Issue #8 Open；没有新增 CSS、CI、依赖，也未合并或发布。详见 [W-07 审核报告](research/W07_RELEASE_READINESS_REVIEW.md)。
+
 **更新约定**：重大进度、已完成验证、关键决策、阻塞与待决策变化时更新；事实来源优先实际仓库、命令输出与正式 ADR，而非历史聊天。
 
 ## 7. 迁移来源
