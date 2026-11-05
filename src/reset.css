@@ -1,0 +1,37 @@
+/*!
+ * @adui/normalize.css/reset.css
+ * Optional layout reset. Never loaded by the default Normalize entry.
+ */
+
+/* Use border-box sizing only when the application opts in. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Normalize intentionally keeps the browser's body margin. */
+:where(body) {
+  margin: 0;
+}
+
+/* Preserve semantic font sizes and weights; remove spacing only. */
+:where(h1, h2, h3, h4, h5, h6, p, blockquote, pre, figure) {
+  margin-block: 0;
+}
+
+/* Preserve native list markers and indentation for accessibility. */
+:where(ul, ol) {
+  margin-block: 0;
+}
+
+/* Keep replaced content from overflowing its containing block. */
+:where(img, svg, video, canvas) {
+  max-inline-size: 100%;
+}
+
+/* A collapsed table model is a layout choice, not default Normalize. */
+:where(table) {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
