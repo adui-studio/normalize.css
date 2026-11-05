@@ -6,15 +6,15 @@ A lightweight, low-intrusion CSS Normalize library built around documented rule 
 
 `@adui/normalize.css` corrects selected browser-default differences while preserving native HTML semantics, user preferences, and existing component styles wherever possible. It ships **CSS only, with no runtime JavaScript dependencies**.
 
-> **Version note:** The latest confirmed published version is `0.0.2` (R-003, R-007, and R-008), with matching `v0.0.2` Git Tag and GitHub Release; earlier `0.0.1` includes R-003 only. The repository is preparing an **unpublished `0.0.3` development candidate**. **`0.1.0` remains a future milestone requiring further Normalize improvements and acceptance.**
+> **Version note:** The latest confirmed published version is `0.0.2` (R-003, R-007, and R-008), with matching `v0.0.2` Git Tag and GitHub Release; earlier `0.0.1` includes R-003 only. The repository has implemented a **still-unpublished `0.0.3` candidate** with optional Reset, Forms, Accessibility, and a combined CSS entry. These new subpaths are **not** available in npm `0.0.2`. **`0.1.0` remains a future milestone requiring further Normalize improvements and acceptance.**
 
 ## Features
 
 - **Conservative by default:** No blanket removal of element margins or forced root font size, theme, or button appearance.
 - **Native behavior first:** Keeps browser-default monospace settings, keyboard focus, and system accessibility preferences intact.
-- **CSS-only distribution:** One root package export, built with Vite+, without runtime JavaScript.
+- **CSS-only distribution:** The root export remains a Vite+-built CSS asset, and optional CSS sources are packaged as static files without runtime JavaScript.
 - **Evidence-driven rules:** Every included rule has an explicit purpose, scope, and compatibility review.
-- **Composable:** Suitable for plain HTML and Vue/React applications with CSS import support. When combining with other resets, review cascade order.
+- **Complete and composable:** Conservative Normalize, optional Reset, Forms, Accessibility, and a combined entry point for plain HTML, Vue, and React apps.
 
 ## Installation and usage
 
@@ -32,7 +32,7 @@ Import the stylesheet from an application entry point that supports package CSS 
 import "@adui/normalize.css";
 ```
 
-The sole package export is `@adui/normalize.css`, resolving to `dist/normalize.css`. If the version you need is not available on the npm registry, build it locally as described below.
+The default package root `@adui/normalize.css` still resolves to `dist/normalize.css`. **The new subpaths below belong to the unpublished `0.0.3` candidate** and must not be used with npm `0.0.2`.
 
 ### Published `0.0.1` versus `0.0.2`
 
@@ -55,7 +55,31 @@ strong {
 
 R-003 preserves relative emphasis; R-007 standardizes dotted underlines on titled abbreviations; R-008 aligns table border color with the current text color. The two newer rules use low-specificity `:where()` selectors. **These three rules ship in `0.0.2`, and Windows engineering checks passed; this does not constitute a full real-browser T0/T2 compatibility pass or a minimum-browser-version guarantee.** See the [rule evidence](docs/research/RULE_EVIDENCE_R003_R004.md) and [default scope review](docs/research/DEFAULT_NORMALIZE_V01_READINESS.md).
 
-This version **does not export** `reset.css`, `a11y.css`, `forms.css`, or `all.css`. Those are potential future optional modules, not features available to import today. The default stylesheet does not use `@layer`.
+### `0.0.3` development candidate: complete CSS modules
+
+| Entry | Scope |
+| --- | --- |
+| `@adui/normalize.css` | **Default Normalize**: only R-003, R-007, and R-008, preserving the low-intrusion published behavior |
+| `@adui/normalize.css/normalize.css` | Explicit alias for the default CSS root |
+| `@adui/normalize.css/reset.css` | Optional layout Reset: border-box sizing, selected margins, responsive media sizing, table collapse; preserves list markers and focus |
+| `@adui/normalize.css/forms.css` | Optional forms typography, margins, fieldset/legend sizing, native file button font; does not repaint native controls |
+| `@adui/normalize.css/a11y.css` | Optional focus-visible, forced-colors, and reduced-motion root scrolling enhancements; does not disable animations globally |
+| `@adui/normalize.css/all.css` | Full opt-in composition: Normalize → Reset → Forms → Accessibility |
+
+**Recommended selective imports:**
+
+```js
+import "@adui/normalize.css";
+import "@adui/normalize.css/forms.css";
+```
+
+**Use the combined entry by itself if you explicitly want all modules:**
+
+```js
+import "@adui/normalize.css/all.css";
+```
+
+The `all.css` entry uses relative CSS `@import` references to files shipped inside the package. Vite+ and other CSS-aware bundlers can inline these imports. The default CSS still avoids `@layer`, root font-size changes, global themes, invasive control resets, and `!important`. The optional Reset **changes margins and table layout**; projects already using Tailwind Preflight or UnoCSS Reset should normally avoid stacking `reset.css` or `all.css` on top of another reset.
 
 ## Browser compatibility and design boundaries
 
@@ -72,7 +96,7 @@ git clone https://github.com/adui-studio/normalize.css.git
 cd normalize.css
 pnpm install --frozen-lockfile
 
-pnpm exec vp pack   # Produce dist/normalize.css
+pnpm exec vp pack   # Build default dist/normalize.css; optional modules ship from src/*.css
 pnpm exec vp dev    # Start local fixtures
 ```
 
