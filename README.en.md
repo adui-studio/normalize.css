@@ -6,7 +6,7 @@ A lightweight, low-intrusion CSS Normalize library built around documented rule 
 
 `@adui/normalize.css` corrects selected browser-default differences while preserving native HTML semantics, user preferences, and existing component styles wherever possible. It ships **CSS only, with no runtime JavaScript dependencies**.
 
-> **Release status:** The initial `0.0.1` candidate has completed MVP development and maintainer acceptance but **has not yet been published to npm**. Package-manager installation commands below will work after the first release. Until then, you can build from this repository.
+> **Version note:** The initial `0.0.1` has completed MVP development and maintainer acceptance and contains one reviewed Normalize rule. Install versions available on the npm registry, or build from source if the version you need is not available yet.
 
 ## Features
 
@@ -18,7 +18,7 @@ A lightweight, low-intrusion CSS Normalize library built around documented rule 
 
 ## Installation and usage
 
-### Install (after npm publication)
+### Install from npm
 
 ```sh
 pnpm add @adui/normalize.css
@@ -32,7 +32,7 @@ Import the stylesheet from an application entry point that supports package CSS 
 import "@adui/normalize.css";
 ```
 
-The sole package export is `@adui/normalize.css`, resolving to `dist/normalize.css`. Because the package is not yet published to npm, build it locally using the instructions below rather than assuming the install command already works.
+The sole package export is `@adui/normalize.css`, resolving to `dist/normalize.css`. If the version you need is not available on the npm registry, build it locally as described below.
 
 ### What's included in `0.0.1`
 

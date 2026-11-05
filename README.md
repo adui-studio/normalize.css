@@ -6,7 +6,7 @@
 
 `@adui/normalize.css` 只修正经过评审的浏览器默认样式差异，尽量保留 HTML 原生语义、用户偏好及现有组件样式。提供纯 CSS 产物，**无运行时 JavaScript 依赖**。
 
-> **发布状态：** 首版候选版本为 `0.0.1`，已完成 MVP 开发与维护者验收，**尚未正式发布到 npm**。下方的包管理器安装命令将在首次发布后可用；当前可以从仓库源码构建试用。
+> **版本说明：** 首版 `0.0.1` 已完成 MVP 开发与维护者验收，当前仅包含一条正式 Normalize 规则。安装命令适用于 npm Registry 中已公开的版本；如需要的版本尚未上架，可从本仓库源码构建试用。
 
 ## 特性
 
@@ -18,7 +18,7 @@
 
 ## 安装与使用
 
-### 安装（npm 正式发布后）
+### 从 npm 安装
 
 ```sh
 pnpm add @adui/normalize.css
@@ -32,7 +32,7 @@ npm install @adui/normalize.css
 import "@adui/normalize.css";
 ```
 
-当前唯一公开设计入口是 `@adui/normalize.css`，对应 `dist/normalize.css`。项目尚未发布 npm 时，请按下文从仓库构建，不要将上述安装示例视为现已可下载的包。
+唯一包根入口是 `@adui/normalize.css`，对应 `dist/normalize.css`。如果 npm Registry 尚无所需版本，可按下文从仓库构建。
 
 ### 当前 `0.0.1` 实现
 
