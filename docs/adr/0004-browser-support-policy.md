@@ -3,7 +3,10 @@
 - **状态**：Accepted（2026-11-03，维护者明确同意方案 A：固定 Baseline 2023 作为特性准入参考）
 - **日期**：2026-11-03
 - **关联**：[NFR-002、NFR-003、NFR-007](../REQUIREMENTS.md) · [浏览器矩阵](../research/BROWSER_REVIEW.md) · [ADR-0003](0003-mvp-package-contract.md)
-- **事实**：仓库尚无 CSS 实现、可运行测试或浏览器兼容证明。
+- **接受时事实（2026-11-03）**：仓库当时尚无 CSS 实现、可运行测试或浏览器兼容证明。
+
+**2026-11-05 实施补记（不修改 Accepted 决策）**：PR #1/#9 已合并 main，R-003 唯一产品 CSS 已实现，W-06 已由维护者管理验收。Chrome 120、Firefox 121 有局部实测，仍不能认定七个最低目标的正式 CSS T2 全部通过。历史 OS/设备要求详见 [Baseline 映射研究](../research/BASELINE_2023_MAPPING.md)；对外支持声明须经 W-07/P-05 审核。
+
 
 ## 1. 决策问题
 

@@ -27,6 +27,18 @@
 - **已批准的最低测试目标**：Chrome/Edge 120、Firefox 121、Safari 17.2，以及对应 Chrome Android 120、Firefox Android 121、Safari iOS 17.2；来源与计算见 [WebDX 固定快照](BASELINE_2023_MAPPING.md)。这些版本**不是已经通过的兼容性声明**，OS、WebView、UA 样式和组件兼容仍待验证。
 - [Web Platform Baseline](https://web.dev/baseline) 可以用于特性准入参考，但不会自动证明一整套 CSS 样式安全。
 
+## 2026-11-05 · W-01 目标系统与宿主边界新增核查
+
+[固定映射研究与厂商逐版本系统条件](BASELINE_2023_MAPPING.md) 已补录 Firefox 121 桌面 Windows 10+/macOS 10.15+、Firefox Android 121 的 Android 5.0+、Chrome Android 120 的 Android 8.0+，以及 Safari macOS 17.2 的 Monterey/Ventura/Sonoma 与 iOS 17.2 设备系列。Edge 120 的历史最低 OS 与可获得测试介质仍未知；这些属于**浏览器能运行的前提资料**，不是本项目已通过的 CSS 测试。
+
+- **七个核心目标**：必须单独记录真实浏览器构建、OS、设备、T0/T2 正式 CSS、键盘/无障碍和组件库结果。Chrome 120 和 Firefox 121 的现有 T0/T1 不能自动代替 T2。
+- **Firefox ESR**：不因常规 Firefox 121 目标而自动承诺 ESR；拟覆盖版本、宿主系统及验收应另行裁定。
+- **Android WebView、WebView2、微信内置浏览器/X5**：作为**尚未承诺的条件性宿主**逐个评审，不根据共享 Chromium 内核推断支持；须记录宿主 App、内核/运行时版本、设备与实际 CSS 入口。
+- **iPadOS/WKWebView**：Apple 官方列有 iPadOS 17.2，但七个核心验收目标未另列 iPadOS；新增承诺应先确认使用场景与真实设备。
+- **旧版本测试安全**：只在受控本地环境运行，不用停更版本访问不可信网络，不关闭浏览器安全隔离，不以单独 Profile 代替系统级隔离。
+
+W-01 #2 继续 Open：OS/设备清单尚未冻结；W-07 #8/P-05 继续 Open：正式最低版本的公开兼容声明仍需原始证据和维护者裁定。
+
 ## 2026-11-04 · 跨浏览器回归完成反馈与证据状态
 
 维护者在三套独立 Reset（Tailwind Preflight、UnoCSS `tailwind-v4`、UnoCSS `tailwind-compat`）的 Chrome 156 本地构建、静态样式和约定交互阶段完成后，进一步明确反馈：**“回归完成”**。因此将**回归执行状态**登记为「维护者反馈已完成」，不要求重复已完成的回归操作。
