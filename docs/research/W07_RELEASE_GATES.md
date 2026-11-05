@@ -6,6 +6,19 @@
 - **状态**：P-02 **`0.0.1/private:true` 候选包已通过本机交付回归**；P-04 **账户/用户作用域通过核验，首次发布权限与认证仍待确认**；P-05 **最低浏览器支持矩阵未冻结**；P-07 **未授权发布**。
 - **范围**：维护者已同意将 PR #1/#9 按 Merge commit 顺序合并 `main`，GitHub 已确认两者合并完成；`0.0.1/private:true` 继续保留。**这不等于授权 npm 发布、Tag、Release 或任何后续 PR 合并**。
 
+## 2026-11-05 · P-05 成熟竞品规则免重复实测（最新维护者决定）
+
+维护者明确要求：**“别的竞品库已经使用的，不需要再验证了。”** 对首版仅有的 R-003（`b, strong { font-weight: bolder; }`），现有 [WHATWG 建议样式](https://html.spec.whatwg.org/multipage/rendering.html#phrasing-content-3)、[normalize.css 源码](https://github.com/necolas/normalize.css/blob/master/normalize.css)、[modern-normalize 3.0.0](https://app.unpkg.com/modern-normalize@3.0.0/files/modern-normalize.css) 加上本仓库既有 Chrome 120、Firefox 121 局部证据和 W-06 管理验收，已满足**成熟低侵入规则的来源与准入复核**。不要求重新在七个历史目标浏览器逐项跑同一规则的 T0/T2 才允许进入发行评审。
+
+**调整 P-05 发行判断**：
+- **允许采用不承诺具体数字最低版本的发布说明**：表述 Baseline 2023 是**CSS 特性选择参考和内部测试目标**，而不是声称 `Chrome 120/Edge 120/Firefox 121/Safari 17.2` 及移动端均已完整通过。此时逐环境正式 T2 原始证据**不再构成 v0.0.1 发行阻塞**，但证据状态仍保持 PARTIAL / EVIDENCE_MISSING，不能写成 PASS。
+- 若发布材料要声明“最低支持某浏览器某版本”，仍需匹配可审计证据或独立批准的政策修订；成熟竞品用了相同 CSS 不等于本项目按全部历史系统实测。
+- 仍需确保本仓库真实打包/消费行为、源文件、许可证、样式副作用及已发现的层叠/组件冲突有可追溯处理；对**新规则、改变选择器/作用范围、系统交互风险**不自动免测。首版 R-003 产品 CSS 和发布保护不变。
+- **P-04 首发认证/2FA 和 P-07 正式 npm/Tag/Release 独立授权保持不变**。本段只是验证策略调整，不准许修改 `private:true` 或发布。
+
+**本次评审结论**：P-05 的“R-003 必须重复完成七项正式 T0/T2”门槛已由维护者**正式豁免**；不承诺明确最低数字版本时，P-05 **不再单独阻断 v0.0.1 首发审核**。过去缺少原始附件的事实原样保留。
+
+
 ## 2026-11-05 · P-04 npm 官方认证与公开作用域流程复核（规则已查证，账户状态待验）
 
 本次只核对 npm 官方现行文档，**没有登录维护者 npm 账户、读取 Token/OTP、试发或执行发布**。与之前维护者提供的 `npm whoami=adui`、官方 Registry 及公开包版本查询 E404 的本机结果须区分：
@@ -14,7 +27,7 @@
 - **发布认证**：[Requiring 2FA for package publishing](https://docs.npmjs.com/requiring-2fa-for-package-publishing-and-settings-modification/) 明确创建与发行 npm 包须使用交互式双因素认证（2FA），或符合要求的 granular access token（bypass 2FA）；`npm whoami` 成功仅验证当前登录身份，**不能证明 2FA 已启用或首发认证能通过**。
 - **无 CI 的最小路线**：本项目可在维护者**独立授权公开发行后**，由其在本机按 npm 交互提示使用账户 2FA；不需要为此添加 CI、GitHub Actions、trusted publishing、访问令牌或自动发布工作流。验证码、恢复代码、Token 和 `.npmrc` 凭据不得提交或发送到 Issue/PR。
 - **发布前人工核对（尚未收到实际结果）**：维护者自行在 npm 网站确认账户 2FA 是否启用、恢复方式是否可用，结合 `@adui` 个人 scope 检查包名状态和账户异常。公开包查询 E404 **不代表**名称已预留、权限已通过或首次发布一定成功。
-- **公开发布动作**：只有 P-05 浏览器支持声明与证据条件满足、最新完整本地回归通过，并取得 **P-07 明确的合并/发行授权**后，才可讨论解除 `private:true` 和通过 `npm publish --access public` 正式发行。**此处只是操作要求说明，不授权执行该命令**。
+- **公开发布动作**：只有 P-05 按最新成熟规则免重测政策明确对外**不承诺尚未证实的数字最低浏览器版本**、最新完整本地回归条件达到批准的验收口径，并取得 **P-07 明确的发行授权**后，才可讨论解除 `private:true` 和通过 `npm publish --access public` 正式发行。**此处只是操作要求说明，不授权执行该命令**。
 
 **P-04 判定：官方规则已核实；维护者账户的 2FA/首发认证条件仍是未完成的实际验证项。**
 

@@ -7,6 +7,13 @@
 - **审核判断**：**部分通过，发布准备尚未就绪；Issue #8 保持 Open**。
 - **红线**：不修改产品 CSS 或既定包根入口；不新增依赖/CI、GitHub Actions、自动发布；不执行 npm publish、GitHub Release 或未经批准的后续 `main` 合并。
 
+## 2026-11-05 · 维护者免除成熟竞品规则重复测试（最新审核口径）
+
+维护者已明确要求已在竞品使用的成熟规则无需再重复验证。当前唯一 R-003 的选择器与声明可从 WHATWG HTML、necolas/normalize.css、modern-normalize 3.0.0 源码追溯；其余 35 条候选保持首版不准入。根据 [W-07 P-05 调整](W07_RELEASE_GATES.md)，**R-003 不再以七个历史最低测试目标逐个重跑 T0/T2 作为发行阻塞**，既有历史测试仍按原证据等级保留。
+
+**不得因此增加未经证明的兼容承诺**。候选包如不向公众声明准确数字最低版本，只介绍固定 Baseline 2023 特性参考、已批准规则与已知验证范围，P-05 的重复浏览器测试**不再阻止首发准备**。发行前仍受 P-04 实际 npm 认证和 P-07 独立授权控制，`private:true` 未修改；本轮未运行浏览器/Vite+ 全量回归，未变更 CSS/依赖/CI、未发版。
+
+
 ## 2026-11-05 · PR #1/#9 已合并 main（最新代码状态）
 
 维护者已同意按 Merge commit 顺序合并两项既定 PR，GitHub 已确认 [PR #1](https://github.com/adui-studio/normalize.css/pull/1) 对应提交 `1d1e9b5c`、[PR #9](https://github.com/adui-studio/normalize.css/pull/9) 对应提交 `f92e9457` 均已进入 `main`。当前 `main` 的 `src/normalize.css` 与 `package.json` Blob 与合并前一致，继续为唯一 R-003 规则、`0.0.1/private:true`、无运行时 JS 依赖；没有 CI、npm 发布或 Tag/Release。最新合并后的完整 Windows `verify:mvp`、八张 Fixture `vp build` 原始输出尚未从仓库核验；P-04/P-05 和正式发行 P-07 仍然待完成。以下旧日期的“未合并”陈述属于历史阶段，不覆盖本节当前状态。
