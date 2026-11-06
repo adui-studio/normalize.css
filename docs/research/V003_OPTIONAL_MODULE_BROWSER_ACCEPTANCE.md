@@ -96,7 +96,6 @@ node tests/t2-evidence.mjs .\t2-native.json .\t2-package.json
 
 **不可使用 `tests/t2-evidence.mjs` 去比较新 M0/M1**：它只认旧 T0/T2 的 15 探针、页面角色与 3 条默认规则的 CSSOM。`vp build` 原有 8 个 Fixture 入口保持不变；新 M0/M1 仅由 `vp dev` 直接服务，故 `vp build` 成功也不等于手工页面已验收。
 
-
 ### 5.1 Vite+ CSS @import 内联与缓存的判断
 
 Vite 官方文档明确支持经 postcss-import 内联 CSS `@import`（见 [Vite CSS @import Inlining](https://vite.dev/guide/features#css)）。因此开发服务的 Network 面板仅出现一个 `all.css` 很常见，并不能推导其余四个模块未加载。若显示 `304 Not Modified`，说明客户端缓存验证后可复用现有资源；也不应仅凭状态码认定所有规则正确。
@@ -122,7 +121,9 @@ function collectRules(rules) {
 collectRules(stylesheet.cssRules);
 console.table({
   normalize: selectors.includes("b,strong"),
-  reset: selectors.some((selector) => selector.includes("*::before") && selector.includes("*::after")),
+  reset: selectors.some(
+    (selector) => selector.includes("*::before") && selector.includes("*::after"),
+  ),
   forms: selectors.includes(":where(button,input,select,textarea)"),
   a11y: selectors.includes(":where(:focus-visible)"),
 });
@@ -136,7 +137,7 @@ console.table({
 | ----------------------------------------------- | ---------------- |
 | HEAD / 浏览器品牌与完整版本 / OS / 设备         | 待填写           |
 | M0 与 M1 两份原始 JSON                          | 待提供           |
-| `all.css` Network、CSSOM 四模块规则及缓存状态 | 待提供           |
+| `all.css` Network、CSSOM 四模块规则及缓存状态   | 待提供           |
 | Reset（布局、列表、媒体、表格）                 | EVIDENCE_MISSING |
 | Forms（字体、输入、原生控件）                   | EVIDENCE_MISSING |
 | A11y（键盘焦点、forced-colors、reduced-motion） | EVIDENCE_MISSING |
