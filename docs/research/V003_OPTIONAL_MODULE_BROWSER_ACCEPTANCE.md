@@ -1,5 +1,7 @@
 # v0.0.3 · 可选 CSS 模块真实浏览器验收矩阵
 
+**2026-11-06 · 维护者最终验收结论（本轮最新）**：维护者已明确确认“验收通过，跨浏览器验收也通过了”。据此，本 PR 的可选模块 Fixture 与跨浏览器回归在**项目管理验收层面**记为完成，并可进入代码评审；此前 Chrome 156 M0/M1 截图、Network `all.css` 304、CSSOM `normalize/forms/a11y:true` 以及重测 `resetCssom/resetComputed/reset:true` 均已有对话截图证据，键盘焦点和原生交互由维护者人工确认。**证据边界**：本轮没有新增完整浏览器品牌/构建号、OS/设备明细、各浏览器原始 JSON、系统偏好逐项日志或可归档的附件清单，因此下方各环境的 `EVIDENCE_MISSING` 仅表示**仓库可独立追溯的原始附件尚缺**，不是测试未执行或验收未通过。未经独立逐版本证据，不新增对外最低浏览器版本保证。工程 64/64 PASS 属此前维护者 Windows 日志，当前纯文档提交仍需格式核查。产品 CSS、依赖、CI、npm Tag/Release 不变。
+
 **日期**：2026-11-06  
 **任务**：[Issue #18](https://github.com/adui-studio/normalize.css/issues/18)  
 **基线**：已发行 `@adui/normalize.css@0.0.3`，Tag `v0.0.3` 对应源提交 `f5c08642e1ab6eaa1cb3d84782485f0298ae77be`；发行后的文档同步已合并到 `main@783c3b298adfbcfa6e4aae999073e12c01eeb626`。  
