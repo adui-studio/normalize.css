@@ -66,6 +66,23 @@ describe("规则复现 Fixture 契约", () => {
     expect(integrated).not.toContain('id="candidate-rule"');
   });
 
+  it("v0.0.3 可选模块 T0/T2 的 DOM 与作者样式严格一致", () => {
+    const native = readFixture("modules-native.html");
+    const all = readFixture("modules-all.html");
+    const body = (source: string) =>
+      source.slice(source.indexOf("<body>"), source.indexOf("</body>") + "</body>".length);
+    const style = (source: string) =>
+      source.slice(source.indexOf("<style>"), source.indexOf("</style>") + "</style>".length);
+    expect(body(native)).toBe(body(all));
+    expect(style(native)).toBe(style(all));
+    expect(native).not.toContain('id="modules-css"');
+    expect(all).toContain(
+      '<link id="modules-css" rel="stylesheet" href="../src/all.css" />',
+    );
+    expect(all).toContain('src="./modules-probe.js"');
+    expect(all).not.toMatch(/https?:\/\//);
+  });
+
   it("所有 Fixture 只读取数据，不依赖远程资源", () => {
     const files = [
       "r003-native.html",

@@ -131,3 +131,60 @@ test("fixture landing page links to every existing local test page", () => {
     assert.ok(existsSync(new URL(`../fixtures/${name}`, import.meta.url)));
   }
 });
+
+test("v0.0.3 optional modules T0/T2 fixtures only differ by all.css link", () => {
+  const native = read("modules-native.html");
+  const all = read("modules-all.html");
+  const bodyOf = (markup) => markup.match(/<body>[\s\S]*?<\/body>/)?.[0];
+  const styleOf = (markup) => markup.match(/<style>[\s\S]*?<\/style>/)?.[0];
+
+  assert.equal(bodyOf(native), bodyOf(all), "T0/T2 must share exactly the same DOM");
+  assert.equal(styleOf(native), styleOf(all), "T0/T2 must share author styles");
+  assert.doesNotMatch(native, /id="modules-css"|href="\.\.\/src\/all\.css"/);
+  assert.match(all, /<link id="modules-css" rel="stylesheet" href="\.\.\/src\/all\.css" \/>/);
+  for (const name of ["modules-native.html", "modules-all.html"]) {
+    const html = read(name);
+    const values = ids(html);
+    assert.equal(new Set(values).size, values.length, name + ": duplicate IDs");
+    assert.match(html, /<script type="module" src="\.\/modules-probe\.js"><\/script>/);
+    assert.match(html, /<pre id="module-output" aria-live="polite">/);
+    assert.doesNotMatch(html, /(?:src|href)="https?:\/\//i);
+  }
+  for (const id of [
+    "module-heading",
+    "module-paragraph",
+    "module-list",
+    "module-box",
+    "module-svg",
+    "module-table",
+    "module-button",
+    "module-input",
+    "module-select",
+    "module-textarea",
+    "module-checkbox",
+    "module-radio",
+    "module-file",
+    "module-fieldset",
+    "module-legend",
+    "module-details",
+    "module-dialog",
+    "module-hidden",
+    "module-link",
+  ]) {
+    assert.ok(ids(native).includes(id), "Missing module observation point: " + id);
+  }
+});
+
+test("v0.0.3 optional module probe has no network or storage dependencies", () => {
+  const source = readFileSync(new URL("../fixtures/modules-probe.js", import.meta.url), "utf8");
+  assert.match(source, /getComputedStyle/);
+  assert.match(source, /matchMedia/);
+  assert.match(source, /focusVisible/);
+  assert.match(source, /window\.__aduiModuleCapture = capture/);
+  assert.doesNotMatch(source, /fetch\s*\(|XMLHttpRequest|localStorage|sendBeacon/);
+  const index = read("index.html");
+  for (const name of ["modules-native.html", "modules-all.html"]) {
+    assert.ok(index.includes('href="./' + name + '"'));
+    assert.ok(existsSync(new URL("../fixtures/" + name, import.meta.url)));
+  }
+});

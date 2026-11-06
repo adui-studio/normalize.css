@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>v0.0.3 模块对照 · T2 显式 all.css</title>
+    <style>
+      :root {
+        scroll-behavior: smooth;
+      }
+      .form-context {
+        font: 18px/1.5 Arial, sans-serif;
+      }
+      .media-container {
+        inline-size: 120px;
+      }
+    </style>
+    <link id="modules-css" rel="stylesheet" href="../src/all.css" />
+    <script type="module" src="./modules-probe.js"></script>
+  </head>
+  <body>
+    <h1>v0.0.3 · 可选模块原生行为对照</h1>
+    <p>两页的 DOM 和作者样式一致；仅模块页额外加载本仓库实际 src/all.css。</p>
+    <section aria-label="Reset 观察点">
+      <h2 id="module-heading">标题与间距</h2>
+      <p id="module-paragraph">观察默认正文间距，注意 Reset 是显式选择的布局策略。</p>
+      <ul id="module-list">
+        <li>原生列表 marker 应保留</li>
+      </ul>
+      <div id="module-box">盒模型</div>
+      <div class="media-container">
+        <svg id="module-svg" width="240" height="40" viewBox="0 0 240 40" aria-label="宽幅图示" role="img">
+          <rect width="240" height="40" fill="currentColor"></rect>
+        </svg>
+      </div>
+      <table id="module-table" border="1">
+        <tbody>
+          <tr><td>表格边框</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="form-context" aria-label="Forms 与原生交互观察点">
+      <h2>表单排版与焦点</h2>
+      <button id="module-button" type="button">Tab 聚焦按钮</button>
+      <label for="module-input">输入框</label>
+      <input id="module-input" type="text" placeholder="输入文字" />
+      <label for="module-select">下拉选择</label>
+      <select id="module-select"><option>选项一</option><option>选项二</option></select>
+      <label for="module-textarea">多行文本</label>
+      <textarea id="module-textarea" rows="2">示例</textarea>
+      <label><input id="module-checkbox" type="checkbox" /> 原生复选框</label>
+      <label><input id="module-radio" type="radio" name="choice" /> 原生单选框</label>
+      <label for="module-file">文件选择</label>
+      <input id="module-file" type="file" />
+      <fieldset id="module-fieldset">
+        <legend id="module-legend">原生 fieldset / legend</legend>
+        <label><input type="checkbox" /> 保持原生外观</label>
+      </fieldset>
+      <details id="module-details">
+        <summary>展开原生 details</summary>
+        <p>确认 marker、展开收起及键盘交互未受破坏。</p>
+      </details>
+      <button id="show-dialog" type="button">打开原生 Dialog</button>
+      <dialog id="module-dialog">
+        <p>按 Esc 关闭，或激活下方原生关闭按钮。</p>
+        <form method="dialog"><button type="submit">关闭</button></form>
+      </dialog>
+      <p id="module-hidden" hidden>使用 hidden 属性的内容不得被重置显示。</p>
+    </section>
+    <section aria-label="无障碍与系统偏好观察点">
+      <h2>焦点、强制颜色与减少动态效果</h2>
+      <p>使用真实键盘 Tab 聚焦；在系统中切换强制颜色与减少动态效果后重新采样。</p>
+      <a id="module-link" href="#module-heading">跳转到标题</a>
+    </section>
+    <h2>计算样式证据（亦可在 Console 调用 window.__aduiModuleCapture()）</h2>
+    <pre id="module-output" aria-live="polite">读取中</pre>
+  </body>
+</html>
