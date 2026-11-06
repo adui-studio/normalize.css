@@ -1,5 +1,7 @@
 # RELEASING — 版本策略与人工发行清单
 
+**2026-11-06 · 下一里程碑已批准范围，不是发行授权**：维护者正式接受 [ADR-0006 方案 A](adr/0006-v01-default-scope-and-compatibility-risk.md)，默认 Normalize 继续仅 R-003/R-007/R-008，显式可选模块行为保持；旧 Safari/Blink 限定兼容风险已登记，不宣称未经逐版本验证的最低支持版本。**仅 D-01/D-02 范围及风险签收已完成，`0.1.0` 的新发布提交固定 SHA 工程验证、版本变更、npm 发布与 Git Tag/Release 尚未授权或执行**。现有正式 `v0.0.3` 不变，不增加 CI。
+
 **生效日期**：2026-11-05  
 **仓库**：[adui-studio/normalize.css](https://github.com/adui-studio/normalize.css)  
 **性质**：维护者批准的**人工版本管理和发行流程**；不使用 CI、GitHub Actions、自动发布服务或运行时 JavaScript。

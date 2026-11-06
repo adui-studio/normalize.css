@@ -1,5 +1,7 @@
 # SDD — 详细设计草案
 
+**2026-11-06 · ADR-0006 规则范围批准与设计冻结**：维护者已接受 [ADR-0006 方案 A](adr/0006-v01-default-scope-and-compatibility-risk.md)，确认默认三条 CSS 规则与既有六个 CSS-only exports 保持现状；历史 R-022/023/024 的部分 Reset 实现属于主动保留 HTML 语义，Forms R-012/015 的局部行为继续只在 opt-in 中出现。R-007/R-008 旧版本风险仅限定接受，不将缺失的真机结果标为 PASS。**没有批准新增产品 CSS、更新 package 版本、启动 `0.1.0` 发布或 CI**，现有代码不需变更。
+
 **2026-11-06 · `v0.0.3` 发行后生效设计（当前事实）**：正式 npm `0.0.3` 已发布；默认 `exports["."] → ./dist/normalize.css` 保持 R-003/R-007/R-008，别名 `./normalize.css` 指向相同产物，Reset/Forms/A11y/All 分别映射到 `src/*.css`。`all.css` 使用 Normalize → Reset → Forms → A11y 四条相对 CSS `@import`；`vp pack` 只生成默认 CSS，五份 `src` CSS 随 npm `files:["dist","src"]` 原样分发。发行源码 `f5c08642e1ab6eaa1cb3d84782485f0298ae77be` 已通过 61/61 自动化测试、真实 tarball 安装与 Vite+ 组合消费，Git Tag/Release `v0.0.3` 已正式发布。默认入口不隐式引入可选模块，无 JS 运行时或 CI。**真实浏览器及组件库完整交互兼容矩阵仍待完善**；下方 0.0.1/0.0.2 首版规划是历史记录，不代表当前导出接口。
 
 **2026-11-05 · `0.0.3` 完整实现方案（最新开发候选）**：公开 CSS 根入口 `exports["."] → ./dist/normalize.css` 维持已发布 R-003/R-007/R-008 的默认语义；新建 `exports["./normalize.css"] → ./dist/normalize.css` 作为别名，`./reset.css`、`./forms.css`、`./a11y.css`、`./all.css` 对应 `src/*.css`。`all.css` 为相对 CSS `@import` 顺序组合（normalize → reset → forms → a11y），不通过 JavaScript、重复声明或打包时拼接实现；`vp pack` 仍只生成 `dist/normalize.css`，npm `files:["dist","src"]` 携带可选 CSS 源文件。所有可选样式显式 opt-in：Reset 不清除列表 marker/焦点；Forms 不去除 UA 控件外观；A11y 不全局消除动画且尊重 forced-colors/reduced-motion。10 文件 tarball 与 Vite+ 组合入口消费按本轮测试契约复核。该变更须最终集中验证，不宣称已通过浏览器全矩阵或已发行。

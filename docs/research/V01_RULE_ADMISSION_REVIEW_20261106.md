@@ -1,5 +1,7 @@
 # v0.1.0 · 默认 Normalize 规则完整性与准入评审（草案）
 
+**2026-11-06 · 合并后的下一步**：本研究已经随 [PR #29](https://github.com/adui-studio/normalize.css/pull/29) 合并 `main@304b6e45ecbdfb7676831bf06cbc6c6ce320ab38`。对“默认仅保留三条规则”和“R-007/R-008 历史兼容风险”的**正式决策**现已由维护者单独批准为 [ADR-0006（Accepted，方案 A）](../adr/0006-v01-default-scope-and-compatibility-risk.md)。这是研究合并**之后的范围与风险签收**，并不授权 `0.1.0` 升级/发布，也不把缺失的旧版浏览器实测补写为 PASS。既有正文原始时点及证据边界不变。
+
 **建立日期**：2026-11-06  
 **任务**：[Issue #18](https://github.com/adui-studio/normalize.css/issues/18)  
 **研究基线**：`main@d29e92484278efb230ab4d179c5c608a1d99af5b`；已正式发布 `@adui/normalize.css@0.0.3`，对应 Git Tag/Release `v0.0.3` 的固定发行源码为 `f5c08642e1ab6eaa1cb3d84782485f0298ae77be`。  

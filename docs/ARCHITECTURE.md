@@ -1,5 +1,7 @@
 # ARCHITECTURE — 总体架构
 
+**2026-11-06 · ADR-0006 正式接受（方案 A）**：维护者批准默认 Normalize 继续仅 R-003/R-007/R-008；Reset/Forms/A11y/All 保持显式 opt-in，保留标题字号字重、列表 marker/缩进、媒体行内布局等有意低侵入边界。旧 Safari R-007 与旧 Blink R-008 的兼容性风险按 [ADR-0006](adr/0006-v01-default-scope-and-compatibility-risk.md) 限定接受，**不形成未经验证的最低浏览器支持承诺**。本次为**架构范围裁定，不是代码或版本变更**，`0.1.0` 尚未批准升级/发布，无 CI。
+
 **2026-11-06 · `v0.0.3` 已发布架构（当前事实）**：正式 CSS-only npm 包提供默认 Normalize 与四个显式可选模块入口（Reset、Forms、A11y、All），另有 `/normalize.css` 默认别名；`src/normalize.css` 的三条规则由 Vite+ `vp pack` 构建成 `dist/normalize.css`，四个可选模块从 `src` 直接分发，`all.css` 只使用标准相对 CSS `@import` 组合。已验收发行源码 `f5c08642e1ab6eaa1cb3d84782485f0298ae77be` 的本机测试 61/61 通过，npm/Git Tag/GitHub Release 皆已发行；不增加运行时 JavaScript、依赖或 CI。此前“首版仅根导出、可选模块尚未实现、版本待发行”的描述都是历史设计阶段；跨浏览器、移动端及 UI 组件库完整矩阵仍未全部验证。
 
 **2026-11-05 · `0.0.3` 模块化架构实施（最新开发候选）**：维持保守的默认 Normalize (`src/normalize.css` → `vp pack` → `dist/normalize.css`) 与现有 CSS-only 根入口；四个新增源码 `reset.css` / `forms.css` / `a11y.css` / `all.css` 通过显式 CSS 子路径导出并随 npm `src` 目录打包，`all.css` 仅借助原生相对 `@import` 串联模块。没有额外 Node 构建脚本、打包器、运行时 JS、第三方依赖或 CI；使用者能按需选模块，默认没有 Reset/Forms/A11y 的副作用。这是维护者要求一次性交付整套的**待验证实现**，不能将新模块预先视为已在 npm `0.0.2` 发布；后续版本、浏览器最低支持和 npm/Tag/Release 仍独立审核。旧版“全部可选模块仅设计/未公开”的段落属于之前阶段事实。
