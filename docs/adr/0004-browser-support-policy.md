@@ -1,5 +1,7 @@
 # ADR-0004 — 首版浏览器特性基线及支持范围
 
+**2026-11-06 · 与 ADR-0006 的关系**：后续 [ADR-0006（Accepted，方案 A）](0006-v01-default-scope-and-compatibility-risk.md) 已批准默认三规则冻结及 R-007/R-008 的旧版限定风险接受；**本 ADR 固定 Baseline 2023 作为特性参考的 Accepted 决策不变**。七项历史最低版本仍只是内部测试目标，缺乏逐环境可审计证据时不得据此公开承诺具体最低浏览器支持版本。风险接受不是补写 T0/T2 PASS，也不授权 `0.1.0` 升级/发布。
+
 - **状态**：Accepted（2026-11-03，维护者明确同意方案 A：固定 Baseline 2023 作为特性准入参考）
 - **日期**：2026-11-03
 - **关联**：[NFR-002、NFR-003、NFR-007](../REQUIREMENTS.md) · [浏览器矩阵](../research/BROWSER_REVIEW.md) · [ADR-0003](0003-mvp-package-contract.md)
