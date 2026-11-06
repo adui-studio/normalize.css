@@ -4,22 +4,22 @@
 **仓库**：[adui-studio/normalize.css](https://github.com/adui-studio/normalize.css)  
 **性质**：维护者批准的**人工版本管理和发行流程**；不使用 CI、GitHub Actions、自动发布服务或运行时 JavaScript。
 
-**最新版本事实（2026-11-05）**：`package.json` 为未发布的 `0.0.3/private:false`；[PR #25](https://github.com/adui-studio/normalize.css/pull/25) 已获维护者批准并合并 `main@5e299a65e5a091d17ff6d329cadb166613bec332`。新增 Reset、Forms、A11y、all.css 子路径，默认 Normalize 行为不变。维护者提供合并前实际 Windows `verify:mvp` **61/61 PASS**、8 Fixture 构建和 10 文件 npm dry-run；日志未提供精确 HEAD，也不证明全部浏览器/组件库行为。最新 GitHub 正式 Release 仍为 `v0.0.2`，`v0.0.3` Tag 未创建；当前助手运行环境无法访问 npm Registry，因此 **`0.0.3` Registry 版本占用尚须维护者本机核实**。此次通过的是 PR 合并审批，**不是 npm publish、Git Tag 或 GitHub Release 授权**；禁止新增 CI。下文 `0.0.2` 发布命令为已执行的历史示例，严禁照抄重发。
+**最新版本事实（2026-11-06）**：正式版本已到 **`@adui/normalize.css@0.0.3`**。维护者在 Windows 成功运行 `pnpm run release:publish`，最终 npm CLI 输出 `+ @adui/normalize.css@0.0.3`，发布 tarball 为 10 文件、9,223 B、SHA-1 `8f79c0bfd72db0a62e41facdcf788fdf0fbe6293`；GitHub API 已独立确认附注 Tag [`v0.0.3`](https://github.com/adui-studio/normalize.css/releases/tag/v0.0.3) 的提交目标为 `f5c08642e1ab6eaa1cb3d84782485f0298ae77be`，正式 Release 已 Published（非 Draft/Prerelease）。该提交已由维护者本机 `verify:mvp` 61/61 PASS、8 张 Fixture 构建及干净工作区验证。**不得重复发布 0.0.3、移动现有 v0.0.3 Tag，或将后续文档提交冒充该发行源码**。本文下方 `0.0.2` 和 `0.0.3` 预检的命令与“尚未发行”说明均为历史记录；新版本发布仍须重新审批，禁止新增 CI、自动发布与运行时 JS 依赖。
 
 ## 版本策略
 
-| 版本    | 定位                                                        | 状态                                                                                                   |
-| ------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| `0.0.1` | 首次 MVP：默认 R-003                                        | **npm 已发布**（维护者实际 `npm view` 及截图确认）；首次发布时未创建 Git Tag/Release                   |
-| `0.0.2` | R-003、R-007、R-008 与 npm Keywords                         | **已发行**：npm 版本可查；`v0.0.2` Tag 已核验，GitHub Release 已发布（2026-11-05）                     |
-| `0.0.3` | 默认 Normalize + 可选 Reset/Forms/A11y + `all.css` 整套候选 | **源码已合并**：工程测试 61/61 PASS；发行前 SHA/Registry/兼容风险核查及 npm/Tag/Release 单独授权待完成 |
-| `0.1.0` | 默认 `normalize.css` 规则范围完成、评审与必要验证后的里程碑 | **未来规划**；不因为增加一两条规则或发出 `0.0.2` 而提前升级                                            |
+| 版本    | 定位                                                        | 状态                                                                                  |
+| ------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| `0.0.1` | 首次 MVP：默认 R-003                                        | **npm 已发布**（维护者实际 `npm view` 及截图确认）；首次发布时未创建 Git Tag/Release  |
+| `0.0.2` | R-003、R-007、R-008 与 npm Keywords                         | **已发行**：npm 版本可查；`v0.0.2` Tag 已核验，GitHub Release 已发布（2026-11-05）    |
+| `0.0.3` | 默认 Normalize + 可选 Reset/Forms/A11y + `all.css`          | **已发行**：npm、附注 Tag `v0.0.3`、GitHub Release 完成；最终 SHA 工程验收 61/61 PASS |
+| `0.1.0` | 默认 `normalize.css` 规则范围完成、评审与必要验证后的里程碑 | **未来规划**；不因为增加一两条规则或发出 `0.0.2` 而提前升级                           |
 
-**当前版本决议（2026-11-05）**：正式发行至 `0.0.2`；仓库已合并 `0.0.3` 套件源码，但尚未向 npm 或 GitHub 发布。可选模块已作为显式子路径实现，默认 CSS 不变。`0.1.0` 仍属于未来完整性里程碑，不能提前升级或发布。
+**当前版本决议（2026-11-06）**：`0.0.3` 已正式发行，默认 CSS 保持 R-003/R-007/R-008，可选模块已作为公开子路径提供。`0.1.0` 仍属于未来完整性里程碑，不提前升级或发布。
 
-已经公开到 npm 的版本不可原地替换。若 `0.0.2` 发布后还需提前发行其他改进，**必须重新评审未被使用的版本号**，不能重发同版本，也不能为了方便提前占用 `0.1.0`。
+已经公开到 npm 的版本不可原地替换。若 `0.0.3` 发布后还需改进，**必须重新评审未使用的新版本号**，不能重发同版本，也不能为了方便提前占用 `0.1.0`。
 
-## 0.0.3 开发迭代（2026-11-05 开始）
+## 0.0.3 开发迭代记录（2026-11-05，历史过程）
 
 - 上一正式版本为 `0.0.2`，其 npm、Tag、GitHub Release 已归档；不要重复发布或移动历史 Tag。
 - 维护者明确要求开始 `0.0.3`：在独立开发分支中调整 `package.json#version`，同步 `tests/package.node.test.mjs`、`tests/package-real.node.test.mjs` 的固定版本断言；**创建候选不代表已经发布**。
@@ -28,7 +28,7 @@
 - 维护者已经提供合并前 `pnpm run verify:mvp` 61/61 PASS 与 `pnpm exec vp build` 八页成功的原始日志，但缺少这组日志的独立 Git SHA 输出；最终发行前须在准确发行提交上再核对/执行并记录仍缺的浏览器证据。正式 npm、Tag、Release 需要再次单独授权，**禁止提前执行 `pnpm run release:publish` 或创建 `v0.0.3` Tag**。
 - `0.1.0` 仍是 Normalize 完整性里程碑，不因 `0.0.3` 立项而改变验收门槛。
 
-## 0.0.3 合并后的集中发行前置核查（尚未授权发布）
+## 0.0.3 合并后的集中发行前置核查（历史记录，现已发行）
 
 以下是本次版本的**单次整体 Gate**，统一检查包契约与兼容性风险，不重新按 R-010/R-015/R-018 逐条要求维护者批准。2026-11-05 的 GitHub 远端回读确认 `main@5e299a65e5a091d17ff6d329cadb166613bec332`、PR #25 已合并，`v0.0.3` Tag 不存在，最新正式 Release 为 `v0.0.2`。**npm 远端版本占用尚未直接核实**。
 
@@ -53,7 +53,7 @@
 5. **集中兼容风险评估**：历史 Safari/WebKit 的 R-007 无前缀装饰、早期 Blink 的 R-008 行为以及可选 Reset/Forms/A11y 对真实 Chrome/Firefox/Safari、Vue/React/Element Plus/Ant Design/TDesign 的影响仍缺完整可审计矩阵。对外不要声明未经验证的最低版本；接受风险前，应记录哪些环境实际测过、哪些没有。特别注意 `all.css` 与 Tailwind Preflight/UnoCSS Reset 的重复 Reset 风险，以及键盘焦点、强制颜色、系统减少动态偏好。
 6. **独立发行授权**：只在维护者明确批准**此 `0.0.3` 的 npm 发布**后，才按下方既有人工流程执行发布；再以准确**已发布源码 SHA** 创建 `v0.0.3` Tag / Release（需对应单独授权），核验 Registry、Git Tag 和 Release 三者一致。不添加 CI，不提前升级 `0.1.0`。
 
-**当前状态**：完整 CSS 套件已合并、工程验收已有实际通过记录；**正式发布没有发生**，仍存在 Registry 未核验与兼容性证据缺口。这不影响已验证的工程结论，也不能把项目判成“全面浏览器测试通过”。
+**当时的预检状态（已由 2026-11-06 正式发行取代）**：完整 CSS 套件已合并，工程验收已有实际通过记录；当时尚未执行正式发布。真实浏览器与组件库完整兼容证据至今仍有缺口，不能据此宣称全面通过。
 
 ## 0.1.0 版本准备专项审核（尚未授权升级）
 
@@ -124,6 +124,15 @@
    这是**正式发布后的人工命令**，执行前应根据当次完整变更调整发行说明。`--verify-tag` 确保 GitHub Release 不会在找不到已有 Tag 时临时从错误的 HEAD 自动创建 Tag。
 
 7. **最终一致性核验**：npm Registry 版本存在，Git Tag 解析到同一次发行提交，GitHub Release 的 Tag、标题和说明正确；在 `CHANGELOG.md`、`PROJECT_CONTEXT.md` 与发行 Issue 中记录**实际**版本、发布时间、提交 SHA、结果与证据，再关闭对应发行任务。若任一操作失败，保留明确的 PARTIAL 状态，禁止宣称三者全部完成。
+
+## v0.0.3 实际发行记录（2026-11-06）
+
+- **npm**：维护者 Windows `pnpm run release:publish` 输出 `+ @adui/normalize.css@0.0.3` 并再次确认已发布；npm CLI 日志内包大小 **9,223 B**、10 个文件、SHA-1 `8f79c0bfd72db0a62e41facdcf788fdf0fbe6293`，与发行源码的本机 dry-run SHA-1 完全一致。此处 **不冒充助手已经独立查询 Registry**；npm 发行成功证据来自维护者提供的日志与确认。
+- **准确发行源码**：`f5c08642e1ab6eaa1cb3d84782485f0298ae77be`。维护者在该 HEAD 运行 `pnpm install --frozen-lockfile`、`vp check --fix`、`pnpm run verify:mvp`，共 **61/61 PASS**（Vitest 7、Node 离线 52、真实 tarball 安装 1、Vite+ `all.css` 消费 1），`vp build` 8 Fixture 页面成功，`git status --short` 干净。
+- **Git Tag**：已验证附注 `refs/tags/v0.0.3`，Tag 对象 SHA 为 `05e8b76d3fcb6b97c7bd698aee73f0043080de98`，解引用目标为**上述发行源码 SHA**，并非后续文档提交。
+- **GitHub Release**：[v0.0.3](https://github.com/adui-studio/normalize.css/releases/tag/v0.0.3) 的 `draft:false`、`prerelease:false`，发布于 `2026-11-05T23:41:24Z`（北京时间 2026-11-06 07:41），标题 `v0.0.3`，已附兼容性边界说明。
+- **项目管理**：[Issue #22](https://github.com/adui-studio/normalize.css/issues/22) 已按 Completed 关闭。该版本发布后才进行的 README / CHANGELOG / 工程文档修订只影响后续仓库状态，**不会改变既有 npm tarball / Tag / Release 归属**。
+- **保留事项**：Chrome/Firefox/Safari/移动端与组件库的全矩阵视觉、焦点与交互测试尚未完成，不对未验证的最低浏览器版本作出公开支持承诺。后续进展见 [Issue #18](https://github.com/adui-studio/normalize.css/issues/18)；`0.1.0` 尚未批准。
 
 ## v0.0.2 实际发行记录（2026-11-05）
 
