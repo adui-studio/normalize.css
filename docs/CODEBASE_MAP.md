@@ -1,5 +1,7 @@
 # CODEBASE_MAP — 仓库结构与定位
 
+**2026-11-07 · `v0.1.0` 已正式发行与后续验证定位（当前权威状态）**：发行源码 `cd28baaa5bf0a2af995053a7a35147e7392265a4`、npm `@adui/normalize.css@0.1.0`、附注 Tag 与 Published GitHub Release 均已核对；产品文件仍为 `src/normalize.css`、`src/reset.css`、`src/forms.css`、`src/a11y.css`、`src/all.css`，六个 CSS-only `exports` 与 `dist/normalize.css` 结构不变。真实 npm 包为十文件、9,240 B。新增发行后证据入口 [`docs/research/V010_POST_RELEASE_COMPATIBILITY.md`](research/V010_POST_RELEASE_COMPATIBILITY.md)，分层记录 Chromium 144/Linux 的有界 21/21 检查、历史组件/Reset 构建与仍缺的浏览器证据；复用 `tests/ecosystem-consumer.mjs`、`tests/reset-consumer.mjs`、`fixtures/modules-*.html`。**未新增测试脚本、产品 CSS、依赖或 CI**。下方阶段性“候选未开始/尚未发布”均仅是历史记录。
+
 **2026-11-06 · v0.1.0 候选开发范围地图（尚未开始）**：新增[候选启动与最小版本迁移清单](plans/V010_CANDIDATE_START_REVIEW.md)，以现有 `0.0.3` 为事实基线，明确未来如获授权只涉及 `package.json` 版本、`tests/package.node.test.mjs` / `tests/package-real.node.test.mjs` 的版本断言、双语 README、CHANGELOG 和受影响的工程/发行文档；合成 smoke 的 `0.0.0-smoke.0`、默认与可选产品 CSS、六个公开 CSS exports、Vite+ 配置及无 CI 约束保持不变。此处是文件定位与拟修改范围，不代表任何 `0.1.0` 产品/版本代码已实施。
 
 **2026-11-06 · v0.1.0 工程准入执行清单**：新增 [`docs/plans/V010_ENGINEERING_ADMISSION_PLAN.md`](plans/V010_ENGINEERING_ADMISSION_PLAN.md)，仅为基于 `main@52d7d78685f58c0eee963638b3d5d0427cc94ca6` 的真实测试命令覆盖盘点、Windows PowerShell 验收步骤、未来版本强绑定和旧浏览器证据边界。它不新增任何脚本、测试入口、源 CSS、依赖、CI，也不意味着 `0.1.0` 已获发布批准。
