@@ -1,12 +1,15 @@
 # 更新日志 · Changelog
 
-本文件记录 `@adui/normalize.css` 已发行的版本与后续变更。当前正式 npm 版本为 **`0.0.3`**，对应 [Git Tag / GitHub Release `v0.0.3`](https://github.com/adui-studio/normalize.css/releases/tag/v0.0.3)；历史版本 `0.0.1`、`0.0.2` 保持不变。
+本文件记录 `@adui/normalize.css` 已发行版本和候选变更。当前仓库源码版本为 **`0.1.0`**，实际 npm 发行版本以 Registry 为准；`0.0.3` 已正式发布，见 [Git Tag / GitHub Release `v0.0.3`](https://github.com/adui-studio/normalize.css/releases/tag/v0.0.3)。历史版本 `0.0.1`、`0.0.2` 保持不变。
 
-## 未发布 · Unreleased
+## 0.1.0 · 发行准备（发布状态以 npm Registry 与 Git Tag 为准）
 
-- **开发候选（尚未发布）**：获准在独立分支准备 `0.1.0`，仅同步 `package.json` 版本、两处真实包测试断言和必要的双语发行文档；默认 R-003/R-007/R-008、显式可选 Reset/Forms/A11y/All、六个 CSS-only 导出及运行时零依赖保持不变。
-- **待验收**：候选 HEAD 的 `verify:mvp`、`vp build`、真实 tarball 与消费检查尚未完成。旧 Safari/旧 Blink 风险继续按 ADR-0006 限定接受，不公开承诺未经实测的最低浏览器版本。
-- **未授权发布**：npm 正式版仍为 `0.0.3`；本节不代表 `0.1.0` 已上架或已经创建 Tag/Release，相关动作须再次单独批准。
+- **范围与产品行为**：依照 ADR-0006 方案 A，默认 Normalize 仍仅 R-003/R-007/R-008；Reset、Forms、A11y 与 `all.css` 继续显式 opt-in。相比已发布 `0.0.3`，产品 CSS 与六个 CSS-only 导出均不变，无运行时 JavaScript 依赖或新增 CI。
+- **版本迁移**：`package.json` 调整为 `0.1.0`，同步两处真实包版本断言与中英文发行说明；保留 `0.0.3` 历史已发行事实。
+- **工程验收（合并后源码）**：维护者在 `main@02dec1c9c3801fdb580b3b5798d803d348a2a213` 验证格式 94/94、Lint 22 文件零错误、Vitest 8/8、Node 离线 54/54、真实 npm tarball 安装 1/1、Vite+ CSS 消费 1/1，合计 64/64 PASS；8 个 Fixture 生产构建成功，工作区干净。
+- **当时打包预览**：10 个文件、9,281 B、无 bundled 依赖。该数字属于上述源码 SHA 的 dry-run；发行说明修改后包体积及摘要可能变化，应以最终发布提交重新打包的实际输出为准。
+- **兼容性边界**：旧 Safari/R-007、旧 Blink/R-008 风险按 ADR-0006 限定接受；现有测试不能证明全部历史浏览器、真实视觉、键盘或系统偏好矩阵通过，不承诺未经逐版本验证的最低浏览器版本。
+- **发行权限**：本段为版本内容记录，不表示已经发布 npm 或创建 `v0.1.0` Tag / GitHub Release；发布与打标签仍需独立授权。
 
 ## 0.0.3 · 2026-11-06（npm、Git Tag、GitHub Release 已发布）
 

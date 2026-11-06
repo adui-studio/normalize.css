@@ -6,7 +6,7 @@
 
 `@adui/normalize.css` 只修正经过评审的浏览器默认样式差异，尽量保留 HTML 原生语义、用户偏好及现有组件样式。提供纯 CSS 产物，**无运行时 JavaScript 依赖**。
 
-> **版本说明：** npm 已正式发布 **`0.0.3`**，对应 Git Tag / [GitHub Release `v0.0.3`](https://github.com/adui-studio/normalize.css/releases/tag/v0.0.3)。默认 Normalize 保持 R-003/R-007/R-008，新增可单独引入的 Reset、Forms、A11y 和组合入口 `all.css`。历史 `0.0.1` 仅含 R-003，`0.0.2` 首次包含三条默认规则。仓库正在准备 `0.1.0` 开发候选，**尚未完成候选验收或正式发布**；npm 最新正式版仍为 `0.0.3`。历史浏览器兼容性限制与正式发布仍需独立审核。
+> **版本说明：** 当前仓库源码版本为 **`0.1.0`**，默认 Normalize 仍仅包含 R-003/R-007/R-008，Reset、Forms、A11y 与 `all.css` 保持显式可选。**npm 实际已发布版本以 Registry 为准**（`npm view @adui/normalize.css version`）；`0.0.3` 已正式发布并首次提供上述可选模块，见 [GitHub Release `v0.0.3`](https://github.com/adui-studio/normalize.css/releases/tag/v0.0.3)。历史 `0.0.1` 仅含 R-003，`0.0.2` 首次包含三条默认规则。未经逐版本实测，不承诺具体最低浏览器版本。
 
 ## 特性
 
