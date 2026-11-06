@@ -1,5 +1,7 @@
 # SDD — 详细设计草案
 
+**2026-11-07 · `v0.1.0` 已发行的生效设计（当前优先事实）**：正式 npm `0.1.0` / 附注 Tag / GitHub Release 均固定于发行源码 `cd28baaa5bf0a2af995053a7a35147e7392265a4`，发行 tarball 为 10 文件、9,240 B 且 Registry SHA-1 / integrity 与预览一致。`exports["."]` 与 `/normalize.css` 保持默认三条 R-003/R-007/R-008，`/reset.css`、`/forms.css`、`/a11y.css`、`/all.css` 继续指向显式可选 CSS；`all.css` 仍按 Normalize → Reset → Forms → A11y 顺序 `@import`，无运行时 JS、无 CI。维护者 64/64 工程验收已归档；最新 Chromium 144/Linux Headless **21/21** 有界行为检查（内存 CSS 注入）不等于真实 HTTP `@import`、旧 Safari/Blink 或完整组件/原生交互矩阵。具体缺口见 [发行后兼容性矩阵](research/V010_POST_RELEASE_COMPATIBILITY.md)。此前 0.0.3 和“0.1.0 未授权”段落仅为历史设计/决策状态，本轮不修改产品设计及接口。
+
 **2026-11-06 · ADR-0006 规则范围批准与设计冻结**：维护者已接受 [ADR-0006 方案 A](adr/0006-v01-default-scope-and-compatibility-risk.md)，确认默认三条 CSS 规则与既有六个 CSS-only exports 保持现状；历史 R-022/023/024 的部分 Reset 实现属于主动保留 HTML 语义，Forms R-012/015 的局部行为继续只在 opt-in 中出现。R-007/R-008 旧版本风险仅限定接受，不将缺失的真机结果标为 PASS。**没有批准新增产品 CSS、更新 package 版本、启动 `0.1.0` 发布或 CI**，现有代码不需变更。
 
 **2026-11-06 · `v0.0.3` 发行后生效设计（当前事实）**：正式 npm `0.0.3` 已发布；默认 `exports["."] → ./dist/normalize.css` 保持 R-003/R-007/R-008，别名 `./normalize.css` 指向相同产物，Reset/Forms/A11y/All 分别映射到 `src/*.css`。`all.css` 使用 Normalize → Reset → Forms → A11y 四条相对 CSS `@import`；`vp pack` 只生成默认 CSS，五份 `src` CSS 随 npm `files:["dist","src"]` 原样分发。发行源码 `f5c08642e1ab6eaa1cb3d84782485f0298ae77be` 已通过 61/61 自动化测试、真实 tarball 安装与 Vite+ 组合消费，Git Tag/Release `v0.0.3` 已正式发布。默认入口不隐式引入可选模块，无 JS 运行时或 CI。**真实浏览器及组件库完整交互兼容矩阵仍待完善**；下方 0.0.1/0.0.2 首版规划是历史记录，不代表当前导出接口。
