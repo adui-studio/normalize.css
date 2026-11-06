@@ -32,9 +32,7 @@ function capture() {
   const result = {
     userAgent: navigator.userAgent,
     location: window.location.pathname,
-    stylesheet: link
-      ? { href: link.getAttribute("href"), loaded: link.sheet !== null }
-      : null,
+    stylesheet: link ? { href: link.getAttribute("href"), loaded: link.sheet !== null } : null,
     media: {
       forcedColors: matchMedia("(forced-colors: active)").matches,
       reducedMotion: matchMedia("(prefers-reduced-motion: reduce)").matches,

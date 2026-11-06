@@ -76,9 +76,7 @@ describe("规则复现 Fixture 契约", () => {
     expect(body(native)).toBe(body(all));
     expect(style(native)).toBe(style(all));
     expect(native).not.toContain('id="modules-css"');
-    expect(all).toContain(
-      '<link id="modules-css" rel="stylesheet" href="../src/all.css" />',
-    );
+    expect(all).toContain('<link id="modules-css" rel="stylesheet" href="../src/all.css" />');
     expect(all).toContain('src="./modules-probe.js"');
     expect(all).not.toMatch(/https?:\/\//);
   });

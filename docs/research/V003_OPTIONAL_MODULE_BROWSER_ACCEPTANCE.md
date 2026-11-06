@@ -13,10 +13,10 @@
 
 ## 2. 新增 M0 / M1 页面
 
-| 角色 | 路径（端口以 `vp dev` 实际输出为准） | 说明 |
-| --- | --- | --- |
-| M0 原生 | `/fixtures/modules-native.html` | 无本库 CSS；只使用两页相同的作者样式 |
-| M1 All | `/fixtures/modules-all.html` | 只比 M0 多一个 `<link id="modules-css" rel="stylesheet" href="../src/all.css" />` |
+| 角色    | 路径（端口以 `vp dev` 实际输出为准） | 说明                                                                              |
+| ------- | ------------------------------------ | --------------------------------------------------------------------------------- |
+| M0 原生 | `/fixtures/modules-native.html`      | 无本库 CSS；只使用两页相同的作者样式                                              |
+| M1 All  | `/fixtures/modules-all.html`         | 只比 M0 多一个 `<link id="modules-css" rel="stylesheet" href="../src/all.css" />` |
 
 两页的 `<body>` 和 `<style>` 必须逐字一致；公共 `fixtures/modules-probe.js` 使用 `getComputedStyle`、`matchMedia` 与焦点样式观察，将数据展示在 `#module-output`，并提供 `window.__aduiModuleCapture()` 重新采样。脚本只用于本地 Fixture，不随 npm 发行。
 
@@ -24,33 +24,33 @@
 
 ## 3. 行为验收要点
 
-| 模块 | 样例对象 / 属性 | 验收关注点 |
-| --- | --- | --- |
-| Reset | `module-box.boxSizing` | M1 应为 `border-box` |
-| Reset | 标题、段落、列表 `marginBlockStart/End` | M1 对应间距为 0；列表 marker 不得被清空 |
-| Reset | `module-svg.maxInlineSize` | M1 媒体宽度应受到 120px 容器约束；还需检查实际可见宽度 |
-| Reset | `module-table.borderCollapse` / `borderSpacing` | M1 使用折叠边框模型；该布局变化属于显式 opt-in |
-| Forms | Button / Input / Select / Textarea `fontFamily`、`fontSize` | M1 继承 18px 表单上下文字体；原生交互与外观仍可用 |
-| Forms | Checkbox / Radio / File / Fieldset / Legend | 检查可选中、可输入、文件按钮可见、图形无破坏 |
-| A11y | 键盘 Tab 的 `focusVisible` 与 outline | 必须由**真实键盘**触发，并辅以可见焦点截图 |
-| A11y | Windows 强制颜色模式与 `media.forcedColors` | 仅具备真实环境时验收，否则记 N/A |
-| A11y | 系统减少动态效果与 `rootScrollBehavior` | 共同作者样式先设置 smooth；当系统 reduce 时 M1 应改为 auto |
-| 原生行为 | Details、Dialog、Hidden | 展开/收起、Esc 关闭、隐藏元素仍按原生语义工作 |
+| 模块     | 样例对象 / 属性                                             | 验收关注点                                                 |
+| -------- | ----------------------------------------------------------- | ---------------------------------------------------------- |
+| Reset    | `module-box.boxSizing`                                      | M1 应为 `border-box`                                       |
+| Reset    | 标题、段落、列表 `marginBlockStart/End`                     | M1 对应间距为 0；列表 marker 不得被清空                    |
+| Reset    | `module-svg.maxInlineSize`                                  | M1 媒体宽度应受到 120px 容器约束；还需检查实际可见宽度     |
+| Reset    | `module-table.borderCollapse` / `borderSpacing`             | M1 使用折叠边框模型；该布局变化属于显式 opt-in             |
+| Forms    | Button / Input / Select / Textarea `fontFamily`、`fontSize` | M1 继承 18px 表单上下文字体；原生交互与外观仍可用          |
+| Forms    | Checkbox / Radio / File / Fieldset / Legend                 | 检查可选中、可输入、文件按钮可见、图形无破坏               |
+| A11y     | 键盘 Tab 的 `focusVisible` 与 outline                       | 必须由**真实键盘**触发，并辅以可见焦点截图                 |
+| A11y     | Windows 强制颜色模式与 `media.forcedColors`                 | 仅具备真实环境时验收，否则记 N/A                           |
+| A11y     | 系统减少动态效果与 `rootScrollBehavior`                     | 共同作者样式先设置 smooth；当系统 reduce 时 M1 应改为 auto |
+| 原生行为 | Details、Dialog、Hidden                                     | 展开/收起、Esc 关闭、隐藏元素仍按原生语义工作              |
 
 **禁止误判**：M0 和 M1 不要求所有计算值相等；Reset/Forms 具有明确的**预期差异**。采样脚本也不自动输出 PASS/FAIL。输入法、键盘、原生控件与系统偏好必须手工核实；一份 JSON 不能证明完整交互。
 
 ## 4. 证据优先级矩阵
 
-| 优先级 | 浏览器 / 生态 | 本轮 M0 / M1 状态 | 说明 |
-| --- | --- | --- | --- |
-| P0 | Chrome / Edge 当前稳定版，Windows | EVIDENCE_MISSING | 重点补表单、焦点与 forced-colors |
-| P0 | Firefox 当前稳定版 | EVIDENCE_MISSING | 补表单、布局、焦点、详情 |
-| P0 | 真实 Safari macOS 可用版本 | EVIDENCE_MISSING | 留意 R-007 简写及原生文件按钮 |
-| P1 | Chrome / Edge 120（安全隔离可得时） | EVIDENCE_MISSING | 专项验证旧 Blink R-008 修复价值 |
-| P1 | 真实 Safari 17.2 / iOS Safari 17.2（可得时） | EVIDENCE_MISSING | R-007 旧 WebKit 风险；不能用模拟 UA 代替 |
-| P1 | Android Chrome / Firefox 真机 | EVIDENCE_MISSING | 记录 OS / 浏览器完整版本 / 设备 |
-| P2 | Vue + Element Plus / Vue + TDesign / React + Ant Design | 待扩展 | 既有消费者主要覆盖默认 Normalize，不是 opt-in 模块 |
-| P2 | Tailwind Preflight / UnoCSS Reset | 待专项风险复核 | 避免重复引入 `reset.css` 或 `all.css` 造成双 Reset |
+| 优先级 | 浏览器 / 生态                                           | 本轮 M0 / M1 状态 | 说明                                               |
+| ------ | ------------------------------------------------------- | ----------------- | -------------------------------------------------- |
+| P0     | Chrome / Edge 当前稳定版，Windows                       | EVIDENCE_MISSING  | 重点补表单、焦点与 forced-colors                   |
+| P0     | Firefox 当前稳定版                                      | EVIDENCE_MISSING  | 补表单、布局、焦点、详情                           |
+| P0     | 真实 Safari macOS 可用版本                              | EVIDENCE_MISSING  | 留意 R-007 简写及原生文件按钮                      |
+| P1     | Chrome / Edge 120（安全隔离可得时）                     | EVIDENCE_MISSING  | 专项验证旧 Blink R-008 修复价值                    |
+| P1     | 真实 Safari 17.2 / iOS Safari 17.2（可得时）            | EVIDENCE_MISSING  | R-007 旧 WebKit 风险；不能用模拟 UA 代替           |
+| P1     | Android Chrome / Firefox 真机                           | EVIDENCE_MISSING  | 记录 OS / 浏览器完整版本 / 设备                    |
+| P2     | Vue + Element Plus / Vue + TDesign / React + Ant Design | 待扩展            | 既有消费者主要覆盖默认 Normalize，不是 opt-in 模块 |
+| P2     | Tailwind Preflight / UnoCSS Reset                       | 待专项风险复核    | 避免重复引入 `reset.css` 或 `all.css` 造成双 Reset |
 
 `EVIDENCE_MISSING` 表示当前仓库没有本轮新增场景的**原始实测附件**，不意味着维护者此前没有运行过，也不否认 W-06 的管理验收。真实 Safari 与 Playwright WebKit、真机与移动视口模拟必须区分。旧浏览器只能用于受控本地页面测试，不登录账号或访问不可信网站。
 
@@ -81,7 +81,7 @@ M0 不应请求本库 CSS；M1 在 Network 中应加载 `../src/all.css` 及四�
 按下 Tab 导航、操作 Button / Input / Checkbox / Radio / File / Details / Dialog，记录鼠标、键盘、Esc 关闭、样式与截图。系统开启减少动态效果后重载；有条件再启用 Windows 强制颜色模式并重载。控制台重新取样：
 
 ```js
-window.__aduiModuleCapture()
+window.__aduiModuleCapture();
 ```
 
 对 M0 和 M1 分别保存原始 JSON、Network 截图、操作日志、OS / 设备与浏览器完整版本号；使用 Console 后焦点可能变化，**以实际 Tab 时自动更新的页面采样和截图**为准。移动设备不可用自己的 localhost 代替开发机 IP，具体 LAN 网络策略应自行确认。
@@ -98,16 +98,16 @@ node tests/t2-evidence.mjs .\t2-native.json .\t2-package.json
 
 ## 6. 每环境证据记录模板
 
-| 字段 | 结果 |
-| --- | --- |
-| HEAD / 浏览器品牌与完整版本 / OS / 设备 | 待填写 |
-| M0 与 M1 两份原始 JSON | 待提供 |
-| 实际 CSS Network 与四个导入 | 待提供 |
-| Reset（布局、列表、媒体、表格） | EVIDENCE_MISSING |
-| Forms（字体、输入、原生控件） | EVIDENCE_MISSING |
+| 字段                                            | 结果             |
+| ----------------------------------------------- | ---------------- |
+| HEAD / 浏览器品牌与完整版本 / OS / 设备         | 待填写           |
+| M0 与 M1 两份原始 JSON                          | 待提供           |
+| 实际 CSS Network 与四个导入                     | 待提供           |
+| Reset（布局、列表、媒体、表格）                 | EVIDENCE_MISSING |
+| Forms（字体、输入、原生控件）                   | EVIDENCE_MISSING |
 | A11y（键盘焦点、forced-colors、reduced-motion） | EVIDENCE_MISSING |
-| Details / Dialog / Hidden 原生交互 | EVIDENCE_MISSING |
-| 截图、失败重现步骤 / 判定 | 待提供 |
+| Details / Dialog / Hidden 原生交互              | EVIDENCE_MISSING |
+| 截图、失败重现步骤 / 判定                       | 待提供           |
 
 状态只能按真实证据填写 `PASS` / `FAIL` / `BLOCKED` / `N/A` / `EVIDENCE_MISSING`。缺少真实样例不能脑补；`CSS.supports` 也只能作为语法线索，不能代替 computed style 与可见结果。
 
