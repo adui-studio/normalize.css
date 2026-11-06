@@ -1,5 +1,7 @@
 # RELEASING — 版本策略与人工发行清单
 
+**2026-11-06 · v0.1.0 工程准入计划已建立，但尚未启动候选发布**：基于 ADR-0006 Accepted 的三条默认规则与限定旧浏览器风险策略，新增 [工程准入预检与 SHA 绑定清单](plans/V010_ENGINEERING_ADMISSION_PLAN.md)。它记录现有 `verify:mvp` 与 `vp build` / 生态 / Reset / 浏览器的覆盖差别，以及未来版本变更须同步 `package.json` 和两处测试中的 `0.0.3` 字面量；**本轮并未更改任何版本断言，也未运行针对 `0.1.0` 的完整本机验收**。当前正式发布仍为 `v0.0.3`。此项不是 npm 发布授权，不运行 `release:publish`、不创建 Tag/Release、不增加 CI。
+
 **2026-11-06 · 下一里程碑已批准范围，不是发行授权**：维护者正式接受 [ADR-0006 方案 A](adr/0006-v01-default-scope-and-compatibility-risk.md)，默认 Normalize 继续仅 R-003/R-007/R-008，显式可选模块行为保持；旧 Safari/Blink 限定兼容风险已登记，不宣称未经逐版本验证的最低支持版本。**仅 D-01/D-02 范围及风险签收已完成，`0.1.0` 的新发布提交固定 SHA 工程验证、版本变更、npm 发布与 Git Tag/Release 尚未授权或执行**。现有正式 `v0.0.3` 不变，不增加 CI。
 
 **生效日期**：2026-11-05  
