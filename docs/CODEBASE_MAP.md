@@ -1,5 +1,7 @@
 # CODEBASE_MAP — 仓库结构与定位
 
+**2026-11-06 · ADR-0006 范围与兼容风险提案**：新增 [`docs/adr/0006-v01-default-scope-and-compatibility-risk.md`](adr/0006-v01-default-scope-and-compatibility-risk.md)，状态 **Proposed**。它将已合并的 36 条规则准入研究转成三规则冻结、旧 Safari/旧 Blink 风险与未来 `0.1.0` 独立发行 Gate 的**待签收选项**。不修改已经 Accepted 的 ADR-0001～0005，也不构成产品 CSS、公开版本或 CI 变更。
+
 **2026-11-06 · 新增 v0.1.0 规则准入研究文档（待评审）**：[`docs/research/V01_RULE_ADMISSION_REVIEW_20261106.md`](research/V01_RULE_ADMISSION_REVIEW_20261106.md) 为下一阶段 36 条候选分类、默认规则与已发布可选模块实物映射、R-007/R-008 兼容风险及 G-01～G-07 版本准入门槛的**草案**。仅新增研究文件与历史文档引用，不修改 `src/`、`tests/`、`fixtures/`、`package.json`、Vite+ 配置、依赖、CI 或已发布的 `0.0.3`。
 
 **2026-11-06 · Issue #18 浏览器模块补证文件定位（开发分支）**：新增 `fixtures/modules-native.html`、`fixtures/modules-all.html`（显式加载 `../src/all.css`）、`fixtures/modules-probe.js`，以及 [v0.0.3 可选模块浏览器验收矩阵](research/V003_OPTIONAL_MODULE_BROWSER_ACCEPTANCE.md)。`fixtures/index.html` 新增 M0/M1 导航，`tests/fixtures.node.test.mjs`、`tests/fixtures.test.ts` 添加同 DOM/作者 CSS、唯一 ID、本地资源等静态契约。**新增页面只供 `vp dev` 手工验收；不修改 `vite.config.ts` 的八张正式 build 页面列表**，不进入 npm `files:["dist","src"]`；未修改 `src/`、`package.json`、锁文件、依赖、CI。此分支尚待本机与真实浏览器验证，不将候选设施表述为已验证兼容性。
