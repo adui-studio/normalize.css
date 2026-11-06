@@ -1,5 +1,7 @@
 # CODEBASE_MAP — 仓库结构与定位
 
+**2026-11-06 · 新增 v0.1.0 规则准入研究文档（待评审）**：[`docs/research/V01_RULE_ADMISSION_REVIEW_20261106.md`](research/V01_RULE_ADMISSION_REVIEW_20261106.md) 为下一阶段 36 条候选分类、默认规则与已发布可选模块实物映射、R-007/R-008 兼容风险及 G-01～G-07 版本准入门槛的**草案**。仅新增研究文件与历史文档引用，不修改 `src/`、`tests/`、`fixtures/`、`package.json`、Vite+ 配置、依赖、CI 或已发布的 `0.0.3`。
+
 **2026-11-06 · Issue #18 浏览器模块补证文件定位（开发分支）**：新增 `fixtures/modules-native.html`、`fixtures/modules-all.html`（显式加载 `../src/all.css`）、`fixtures/modules-probe.js`，以及 [v0.0.3 可选模块浏览器验收矩阵](research/V003_OPTIONAL_MODULE_BROWSER_ACCEPTANCE.md)。`fixtures/index.html` 新增 M0/M1 导航，`tests/fixtures.node.test.mjs`、`tests/fixtures.test.ts` 添加同 DOM/作者 CSS、唯一 ID、本地资源等静态契约。**新增页面只供 `vp dev` 手工验收；不修改 `vite.config.ts` 的八张正式 build 页面列表**，不进入 npm `files:["dist","src"]`；未修改 `src/`、`package.json`、锁文件、依赖、CI。此分支尚待本机与真实浏览器验证，不将候选设施表述为已验证兼容性。
 
 **2026-11-06 · `v0.0.3` 已发行代码地图（当前权威状态）**：正式发行源码为 `f5c08642e1ab6eaa1cb3d84782485f0298ae77be`，npm 版本 `0.0.3`，同一提交对应 GitHub 附注 Tag / Release `v0.0.3`。公开 CSS 导出共六个：`@adui/normalize.css`（默认 `dist/normalize.css`），及 `/normalize.css` 别名、`/reset.css`、`/forms.css`、`/a11y.css`、`/all.css`。`src/normalize.css` 仍包含默认三条规则，`src/reset.css`、`src/forms.css`、`src/a11y.css` 为可选模块，`src/all.css` 使用四行相对 `@import` 组合；Vite+ 只构建默认 CSS 到 `dist/`，可选文件在 `src/` 原样分发。十文件 npm 包及 Vite+ 消费验证通过，61/61 自动化测试、8 Fixture 页面构建通过；无 JS 运行时或 CI。旧目录树中若出现 `0.0.1`/`0.0.2`、单出口、待发布字样，均为**历史阶段快照**，以此段和当前代码为准。

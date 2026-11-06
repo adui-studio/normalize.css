@@ -1,0 +1,127 @@
+# v0.1.0 · 默认 Normalize 规则完整性与准入评审（草案）
+
+**建立日期**：2026-11-06  
+**任务**：[Issue #18](https://github.com/adui-studio/normalize.css/issues/18)  
+**研究基线**：`main@d29e92484278efb230ab4d179c5c608a1d99af5b`；已正式发布 `@adui/normalize.css@0.0.3`，对应 Git Tag/Release `v0.0.3` 的固定发行源码为 `f5c08642e1ab6eaa1cb3d84782485f0298ae77be`。  
+**性质**：**候选评审 / 待维护者裁定**，不是已批准的 CSS 开发、`0.1.0` 版本升级或发布计划。本轮不修改产品 CSS、依赖、CI、构建或公开接口。  
+**继承研究**：[W-05 首版准入](W05_RULE_ACCEPTANCE.md) · [36 条历史候选](RULE_REVIEW.md) · [此前完整性评审](DEFAULT_NORMALIZE_V01_READINESS.md) · [R-007/R-008 专项](R007_R008_COMPATIBILITY_V003.md) · [R-010/R-015/R-018 专项](R010_R015_R018_REVIEW_V003.md) · [v0.0.3 可选模块浏览器验收](V003_OPTIONAL_MODULE_BROWSER_ACCEPTANCE.md)。
+
+## 1. 版本与工程事实（2026-11-06）
+
+- **已发布、已实现**：`package.json` 仍为 `0.0.3`，`private:false`；总共 **6 个 CSS-only exports**：根入口、`/normalize.css`、`/reset.css`、`/forms.css`、`/a11y.css`、`/all.css`。无 JavaScript 运行时依赖，默认 Normalize 不隐式导入可选模块。
+- **默认规则**：`src/normalize.css` 只有 R-003 `b,strong {font-weight:bolder}`、R-007 `:where(abbr[title])` 的点状下划线、R-008 `:where(table)` 的 `border-color:currentColor`。R-007/R-008 已发行，**不是新候选代码**。
+- **可选模块**：`src/reset.css`、`src/forms.css`、`src/a11y.css` 和组合 `src/all.css` 已于 `0.0.3` 公开发行，不能再写作“尚未提供子路径”；它们也**不自动意味着历史 R-020～026、031 的全部原始方案逐字实现**。
+- **测试实际状态**：维护者提供 PR #28 Windows `verify:mvp` 的 **64/64 PASS**（Vitest 8、离线 Node 54、真实包 1、Vite+ 消费 1），8 张历史 Fixture 构建成功，`vp check` 90 文件格式正确和 22 个 Lint 文件无警告。Chrome 156 有 M0/M1 截图、CSSOM 与计算样式证据，且维护者已确认可选模块和跨浏览器人工验收通过；**具体浏览器/OS/设备的全量原始 JSON、系统偏好逐项附件未在仓库完成索引**。管理验收与逐环境可审计材料不得混为一谈。
+- **仓库进度**：PR #27 发行后文档同步与 PR #28 可选模块测试均已合并 `main`；`v0.0.3` Tag 仍指向当时固定发行源码。后续纯研究提交不能改变历史发行包，也不能重发同一 npm 版本。
+- **版本边界**：`0.1.0` 尚未启动或获得发布授权。规则完整性 ≠ 添加更多 CSS；即便维持当前 3 条默认规则，也必须有维护者的**新的正式范围裁定**和对应版本验收。
+
+## 2. 36 条候选的当前准入分层
+
+> **统计口径不变**：沿用 W-05 / 2026-11-05 准入复审的**历史候选归属**，合计 3 个默认、17 个暂缓、8 个可选方向、8 个排除默认。这里的“可选方向”不是“八个已一比一实现的 CSS 补丁”；不能用历史数目反推包内容。
+
+| 分类 | 规则 ID | 数量 | `0.1.0` 本轮建议 |
+| --- | --- | ---: | --- |
+| 默认已发行 | R-003、R-007、R-008 | 3 | 维持当前声明，关注历史适用边界，暂不增删 |
+| 暂缓默认 | R-001、002、004～006、009～016、018、027、028、035 | 17 | 本里程碑不纳入；遇有真实明确目标缺陷再重开 |
+| 可选模块方向 | R-020～026、031 | 8 | 与已发行文件逐条映射；差异不自动要求补齐 |
+| 排除默认 | R-017、019、029、030、032～034、036 | 8 | 维持原生语义、无障碍和低侵入红线 |
+| **合计** | R-001～R-036 | **36** | 这是**研究分类**，不是 36 条待写 CSS |
+
+### 2.1 默认已发行的三条
+
+| ID | 当前具体产品声明 | 暂定决策 | 兼容性证据 / 重开条件 |
+| --- | --- | --- | --- |
+| R-003 | `b, strong { font-weight: bolder; }` | **保留** | Chrome 120 的旧 Blink 字重差异及 WHATWG 建议渲染有既有依据；继续避免固定 `font-weight:700` 破坏相对字重 |
+| R-007 | `:where(abbr[title]) { text-decoration: underline dotted; }` | **保留，历史 Safari 适用性待边界裁定** | WebKit Bug 277889 已 FIXED，但 Safari 26.2 才完整实现四个长属性的 `text-decoration` 简写；旧 Safari 的作者级无前缀声明解析是否达到目标，需真实设备/确切版本的 CSSOM + 可见结果；确保无 title、作者装饰不会被覆盖 |
+| R-008 | `:where(table) { border-color: currentColor; }` | **保留，旧 Blink 兼容收益需明确** | Chrome 149 和 Edge 149 官方宣布移除 UA `border-color:gray`，故现代 Blink 中可能冗余；旧 Blink 的表格 `border` 属性、作者显式 `border-color` 与文字颜色需要 T0/T2 证据。没有风险证据时不为减少一条规则而删除 |
+
+**依据区别**：上游修复、CSS 标准与 MDN 是 **S/U 资料**；当前仓库、维护者日志和截图是 **T 级限定范围**；同一厂商当前版本通过**不能替代**旧 Safari 17.x / Chrome 120 的真机回归。W-06 和 PR #28 的管理验收已认可，但不因此伪造历史最低版本的独立实测记录。
+
+### 2.2 17 条暂缓默认（逐项“退出 / 重开”条件）
+
+| ID | 历史意图 | `0.1.0` 决策建议 | 如要重开，需要提供 |
+| --- | --- | --- | --- |
+| R-001 | html 根行高统一 | 不加入默认；属于宿主排版 | 真实 UA 差异、不同字体/语言和组件继承影响 |
+| R-002 | iOS 文字自动缩放 | 不加入默认；保护用户字号偏好 | 真机方向变化、系统文字放大、WebView 问题 |
+| R-004 | 等宽字体与字号 | 不加入默认；已有专门否决结论 | 证明不会覆盖用户 monospace 字号偏好且有必要修复 |
+| R-005 | small 默认字号 | 不加入默认 | 具体 UA 对小字号语义的可复现不一致 |
+| R-006 | sub/sup 行高定位 | 不加入默认 | 上下标、数学/化学内容、字体与行高的真实差异 |
+| R-009 | hr 高度、盒模型、溢出 | 不加入默认 | 证明不破坏 HTML `size`/`align` 等呈现属性与现代 `overflow` 行为 |
+| R-010 | progress 垂直对齐 | 不加入默认 | 目标 UA 确切错误、原生控件/作者明确垂直对齐回归 |
+| R-011 | summary list-item 显示 | 不加入默认 | 受限 `details > summary:first-of-type` 场景中可复现错误，marker/键盘保持 |
+| R-012 | 表单控件 margin | **默认暂缓；可选 Forms 已主动设置 margin:0** | 先明确是否只是 opt-in 排版；不得把 Forms 行为重新放回默认 |
+| R-013 | search 外观 | 不加入默认 | 平台原生搜索按钮/装饰造成的具体功能差异，非统一美观 |
+| R-014 | WebKit search 私有装饰 | 不加入默认 | 指定 WebKit 版本和可复现真实缺陷、无侵入回退 |
+| R-015 | file 选择按钮伪元素 | **默认暂缓；可选 Forms 已使用标准伪元素继承字体** | 旧版本不能正确识别的明确目标、原生按钮/键盘不回归 |
+| R-016 | placeholder 颜色/透明度 | 不加入默认 | 可读性/系统颜色与目标 UA 的明确缺陷 |
+| R-018 | 未打开 dialog 隐藏 | 不加入默认 | 关闭状态错误可见且非作者覆盖；`showModal`、popover、焦点仍正常 |
+| R-027 | 表单背景边框圆角 | 不加入默认；不设统一主题 | 如确需产品外观，另提显式 Forms API 而非默认修复 |
+| R-028 | :user-invalid 全局校验样式 | 不加入默认；交给应用设计 | 表单验证时机、错误反馈与无障碍的具体 opt-in 需求 |
+| R-035 | accent-color | 不加入默认；尊重宿主主题 | 明确可选视觉契约、OS 高对比度与控件适配 |
+
+上述 **17 项是本阶段“默认入口不准入”的建议**，不是永久剔除。若今后有可重现缺陷，按“具体 UA/OS/版本、原生 T0、单规则 T1、包 T2、侵入性、组件回归、来源固定版本、独立审批”重新打开。
+
+### 2.3 8 个可选方向：历史设计 vs. v0.0.3 实际 CSS
+
+| ID | 历史候选目的 | `v0.0.3` 实际情况 | 差异判定 |
+| --- | --- | --- | --- |
+| R-020 | `body margin:0` | **已实现**：`reset.css` 的 `:where(body) { margin:0 }` | 显式 Reset，符合边界 |
+| R-021 | 全局 `border-box` | **已实现**：`*,*::before,*::after { box-sizing:border-box }` | 显式 Reset，符合边界 |
+| R-022 | 标题字号、字重重置 | **仅实现标题等元素 `margin-block:0`**，保留 HTML 标题字号与字重 | **部分覆盖 / 有意更保守**；不应按历史候选补清字号字重 |
+| R-023 | 列表 marker、缩进归零 | **只将 `ul/ol` 的 `margin-block` 清零**，保留 marker 与缩进 | **部分覆盖 / 有意保留语义**；不能因“未清 marker”视为缺陷 |
+| R-024 | 媒体元素 block 与流式宽高 | **只为 img/svg/video/canvas 设 `max-inline-size:100%`**，不强制 `display:block` 或固定高度 | **部分覆盖 / 避免打断行内布局** |
+| R-025 | 表格 `border-collapse` | **已实现**：`reset.css` 设置 `collapse` 且 `border-spacing:0` | 仅 opt-in |
+| R-026 | 表单字体继承 | **已实现**：`forms.css` 控件 `font:inherit`，额外设 `margin:0`、字段与文件按钮规则 | 额外行为对应 R-012、R-015 的 opt-in 版本，不等于进入默认 |
+| R-031 | 有限 `:focus-visible` 增强 | **已实现**：`a11y.css` 可见焦点、`forced-colors` 颜色、减少动态下 `scroll-behavior:auto` | 仅 opt-in；不等同于 R-029 全局 `animation:none!important` |
+
+**分界**：历史“可选模块设计 8 条”与今天“已发行四个可选 CSS 模块”不是一对一版本映射。产品 CSS 与历史候选有意不完全相同，属于当前实现取舍，而非未经验证的“缺漏”。
+
+### 2.4 8 条默认排除（保持）
+
+| ID | 排除项 | 边界 |
+| --- | --- | --- |
+| R-017 | 全局重绘 dialog 主题 | 保留原生系统主题、top layer 和焦点语义 |
+| R-019 | `[hidden] { display:none!important }` 类强制隐藏 | 保护 `hidden="until-found"` |
+| R-029 | 全局强制禁用动画 `!important` | A11y 仅针对系统 reduce 处理 root smooth scroll |
+| R-030 | 无条件 `outline:none` | 保留可见键盘焦点 |
+| R-032 | 全局主题、滚动条 | 由应用自己配置 |
+| R-033 | 无条件取消 iOS 点击高亮 | 保留平台交互反馈 |
+| R-034 | 全局 `word-break:break-all` | 保护多语言可读性 |
+| R-036 | 强制全局字体栈 | 由应用自行决定 |
+
+## 3. `0.1.0` 的正式准入门槛（建议）
+
+| 门槛 | 当前事实 | 建议完成标准 |
+| --- | --- | --- |
+| G-01 · 历史 36 条与发布后实际 CSS 映射 | **本研究完成草案** | 维护者审核批准 3/17/8/8 分类和上述部分实现差异，形成固定决策 |
+| G-02 · R-007/R-008 风险处置 | 上游研究完成；旧 Safari/旧 Blink 真正目标收益仍存在专项目标 | 明确**保留但不公开最低版本保证**的风险接受，或取得目标老版本实测再裁定改动；不以虚构 PASS 阻塞 |
+| G-03 · 低侵入与原生语义 | 默认 15 探针、M0/M1 Fixture 与限定范围的人工浏览器验收存在 | 验收默认三规则与作者覆盖、组件库叠加的实质回归；历史 W-06/W-07 已采纳的成熟规则免重复政策仍适用 |
+| G-04 · 工程契约与固定提交 | `v0.0.3` 发行 SHA 61/61 PASS，PR #28 开发分支 Windows 64/64 PASS、8 HTML 构建；两批对应不同提交 | 未来任何 `0.1.0` 开发提交须重新绑定准确 SHA、完整 `verify:mvp`/`vp build`/真实 tarball/消费测试；不沿用不同提交的结果冒充当前测试 |
+| G-05 · 对外兼容性措辞 | 历史七个最低目标并没有完整逐环境原始附件索引；PR #28 跨浏览器通过为维护者管理确认 | 未取得对应老版本独立证据前，不公布最低支持 Chrome 120 / Safari 17.2 等具体数字；明确“已实测范围”和“未验证风险” |
+| G-06 · 版本与发行决策 | 当前 npm / package `0.0.3`，Tag/Release `v0.0.3` | 维护者**另行明确批准** `0.1.0` 版本范围、工程验收和实际 npm/Tag/Release；不能在研究 PR 内提前升级 |
+| G-07 · 无新增侵入性 | CSS-only、无运行时 JS、无 CI | 保持可选模块 opt-in；不强制根字号、主题、滚动条、原生焦点、动画全禁或 UI 组件皮肤 |
+
+**建议的范围裁定**：`0.1.0` **可以考虑继续只保留三条默认规则**；“完整”应表示候选已充分审阅、风险与可选分层已明确、验证及公开契约达到目标，不意味着机械实现历史 36 条中的更多规则。此处属于研究建议，**尚未批准范围冻结**。
+
+## 4. 下一轮优先事项与风险清单
+
+1. **P0 / R-007 · 旧 Safari**：限定 WebKit 旧版 `text-decoration` 简写解析；优先复用已有旧 Safari 证据，缺失时补真机/目标版本的 T0/T2 与 `CSS.supports` / CSSOM / 可见下划线；明确与作者 `overline` 或其他 decoration 的优先级。不得将 Playwright WebKit 或 UA 替换当作品牌 Safari。
+2. **P0 / R-008 · 旧 Blink**：查已有 Chrome/Edge 120 历史资料或本地离线旧版环境，核验 table `border` 属性、`borderTopColor` vs `color` 和作者边框；新版 Chrome/Edge 149+ 零差异应记作“该环境修复已原生具备”，不是规则失败。
+3. **P1 / 历史候选与可选模块的实际映射**：请维护者明确认可 R-022/023/024 有意部分实施的行为边界；Forms R-012/015 的选择性 opt-in 行为不得伪称默认准入。
+4. **P1 / 发布后文档清理**：旧 `DEFAULT_NORMALIZE_V01_READINESS.md` 和历史设计中有“`0.0.3` 未发布”的阶段快照；本研究与当前仓库发行记录为权威新事实，避免将旧表述迁移成公开 README。保留原始研究的时间边界，不删除历史证据。
+5. **P2 / 组件叠加**：针对可选模块 + Vue/React/Element Plus/Ant Design/TDesign 以及 Tailwind/UnoCSS Reset 的重复 Reset，保留用户 opt-in 责任；复用已验收 W-06/PR #28 结论，对真正的新默认行为或历史浏览器缺陷才做针对性补证。
+
+## 5. 第一手资料与历史上下文
+
+- [WHATWG HTML Rendering](https://html.spec.whatwg.org/multipage/rendering.html)：`b/strong`、`hr`、`details/summary`、`progress`、`dialog` 的原生建议渲染；**UA 建议不等于必须额外写作者级 CSS**。
+- [WebKit Bug 277889](https://bugs.webkit.org/show_bug.cgi?id=277889)：历史 `abbr[title]` 下划线问题；上游 FIXED 不证明每个历史 Safari 构建都具备本库需要的作者级语法行为。
+- [WebKit Features for Safari 26.2](https://webkit.org/blog/17640/webkit-features-for-safari-26-2/)（2025-12）：确认 `text-decoration` 四长属性完整简写能力。
+- [Chrome 149 Release Notes](https://developer.chrome.com/release-notes/149) 与 [Edge 149 Release Notes](https://learn.microsoft.com/en-us/microsoft-edge/web-platform/release-notes/149)（2026-06）：确认移除 UA 表格灰色边框。
+- [W-05 规则验收](W05_RULE_ACCEPTANCE.md) 与 [原 36 条候选](RULE_REVIEW.md)：按**2026-11-04 当时版本**阅读，不能误当为今天的文件状态；现有文件实际文本以 `src/*.css` 和 `package.json` 为准。
+
+## 6. 本轮实施与验收状态
+
+- **已实际完成**：读取 `main` 相关文件，核对 36 条历史候选、五份 `src` CSS 与六个 exports；对照 Chrome/Edge 149 和 Safari 26.2 厂商正式说明；形成本研究的分类、版本门槛与重开条件。
+- **没有执行**：新 CSS 规则、版本升级、本地 `vp check`、`verify:mvp`、浏览器设备测试、npm 发布、Tag/Release 或任何 CI。
+- **需维护者审核**：是否接受 `0.1.0` 默认继续三条规则作为候选边界；如何处置 R-007/R-008 历史最低版本证据；是否批准把历史 8 个可选方向的部分实现映射作为当前产品设计定稿。
+- **下一项操作**：本研究以**独立 Draft PR** 提交，先完成本机 Markdown 格式校验，审查后由维护者独立决定是否合并；**本轮不将“继续”理解为发布或合并授权**。
