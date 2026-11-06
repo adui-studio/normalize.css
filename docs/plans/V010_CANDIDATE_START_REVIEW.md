@@ -14,18 +14,18 @@
 
 ## 2. 已核实的仓库契约（2026-11-06）
 
-| 核查项 | 当前实际值 | 候选阶段限制 |
-| --- | --- | --- |
-| `package.json#name` | `@adui/normalize.css` | 不更名 |
-| `package.json#version` | `0.0.3` | **仅获独立许可后**改为 `0.1.0` |
-| `package.json#private` | `false` | 不误改为 `true`；非发布授权 |
-| `package.json#exports` | 六个 CSS-only 公共入口 | 保留所有既有映射 |
-| `package.json#files` | `dist` 和 `src` | 不额外暴露测试资产 |
-| `package.json#sideEffects` | `["**/*.css"]` | 保留 CSS 副作用声明 |
-| `package.json#engines` | `^22.18.0 \|\| ^24.11.0 \|\| >=26.0.0` | 不无故扩大或收窄 |
-| `package.json#packageManager` | `pnpm@12.15.0` | 不更新工具链或依赖 |
-| `vite.config.ts` | `vp pack` 构建默认 CSS；`vp build` 构建八页 Fixture | 不把 Fixture 当作正式包文件 |
-| `pnpm-lock.yaml` | 已含 pnpm 和 Vite+ 锁定数据 | 不手改；以冻结安装的真实结果判定 |
+| 核查项                        | 当前实际值                                          | 候选阶段限制                     |
+| ----------------------------- | --------------------------------------------------- | -------------------------------- |
+| `package.json#name`           | `@adui/normalize.css`                               | 不更名                           |
+| `package.json#version`        | `0.0.3`                                             | **仅获独立许可后**改为 `0.1.0`   |
+| `package.json#private`        | `false`                                             | 不误改为 `true`；非发布授权      |
+| `package.json#exports`        | 六个 CSS-only 公共入口                              | 保留所有既有映射                 |
+| `package.json#files`          | `dist` 和 `src`                                     | 不额外暴露测试资产               |
+| `package.json#sideEffects`    | `["**/*.css"]`                                      | 保留 CSS 副作用声明              |
+| `package.json#engines`        | `^22.18.0 \|\| ^24.11.0 \|\| >=26.0.0`              | 不无故扩大或收窄                 |
+| `package.json#packageManager` | `pnpm@12.15.0`                                      | 不更新工具链或依赖               |
+| `vite.config.ts`              | `vp pack` 构建默认 CSS；`vp build` 构建八页 Fixture | 不把 Fixture 当作正式包文件      |
+| `pnpm-lock.yaml`              | 已含 pnpm 和 Vite+ 锁定数据                         | 不手改；以冻结安装的真实结果判定 |
 
 **默认产品规则与公开模块**：`src/normalize.css` 三条，`src/reset.css`、`src/forms.css`、`src/a11y.css`、`src/all.css` 保持现有行为与公开路径。不增加运行时 JavaScript，不新增依赖、CI 或自动发布工作流。
 
@@ -33,16 +33,16 @@
 
 下表是**未来候选 PR 的预期文件范围**，并非本轮已修改的文件。具体内容需以启动当日的最新 `main` 重新核对。
 
-| 文件 | 必要动作 | 原因与注意 |
-| --- | --- | --- |
-| `package.json` | `version: "0.0.3" → "0.1.0"` | 仅升级包版本；六个 `exports`、依赖、`files`、`engines` 等不变 |
-| `tests/package.node.test.mjs` | 第 16 行当前 `pkg.version === "0.0.3"` 的固定断言改为 `0.1.0` | 同步包元数据契约 |
-| `tests/package-real.node.test.mjs` | 第 82 行当前 `manifest.version === "0.0.3"` 的固定断言改为 `0.1.0` | 真实 tarball/离线安装版本一致 |
-| `README.md` | 更新页首当前正式版与候选状态说明；保留 `0.0.3` 历史首次发布子路径的准确表述 | 不把尚未发布的 `0.1.0` 写成 npm 已上架 |
-| `README.en.md` | 与中文 README 同步候选状态及实际兼容性措辞 | 不虚构最低浏览器支持版本 |
-| `CHANGELOG.md` | 在 **Unreleased/候选** 下记录里程碑和“产品 CSS 不变”；发行后再归档正式版本段落 | 发行前不得写已发布日期、Tag/SHA 或 npm 成功 |
-| `docs/RELEASING.md`、`docs/PROJECT_CONTEXT.md`、`docs/HARNESS.md`、`docs/CODEBASE_MAP.md` | 只同步确实受影响的候选状态、门槛、命令及代码地图 | 保留旧 `0.0.3` 发行事实及其固定 SHA |
-| `pnpm-lock.yaml` | **不预设必须修改**；先做冻结安装，只有工具确定必要时才在单独审查下更新 | 避免凭印象手工改锁文件 |
+| 文件                                                                                      | 必要动作                                                                       | 原因与注意                                                    |
+| ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------- |
+| `package.json`                                                                            | `version: "0.0.3" → "0.1.0"`                                                   | 仅升级包版本；六个 `exports`、依赖、`files`、`engines` 等不变 |
+| `tests/package.node.test.mjs`                                                             | 第 16 行当前 `pkg.version === "0.0.3"` 的固定断言改为 `0.1.0`                  | 同步包元数据契约                                              |
+| `tests/package-real.node.test.mjs`                                                        | 第 82 行当前 `manifest.version === "0.0.3"` 的固定断言改为 `0.1.0`             | 真实 tarball/离线安装版本一致                                 |
+| `README.md`                                                                               | 更新页首当前正式版与候选状态说明；保留 `0.0.3` 历史首次发布子路径的准确表述    | 不把尚未发布的 `0.1.0` 写成 npm 已上架                        |
+| `README.en.md`                                                                            | 与中文 README 同步候选状态及实际兼容性措辞                                     | 不虚构最低浏览器支持版本                                      |
+| `CHANGELOG.md`                                                                            | 在 **Unreleased/候选** 下记录里程碑和“产品 CSS 不变”；发行后再归档正式版本段落 | 发行前不得写已发布日期、Tag/SHA 或 npm 成功                   |
+| `docs/RELEASING.md`、`docs/PROJECT_CONTEXT.md`、`docs/HARNESS.md`、`docs/CODEBASE_MAP.md` | 只同步确实受影响的候选状态、门槛、命令及代码地图                               | 保留旧 `0.0.3` 发行事实及其固定 SHA                           |
+| `pnpm-lock.yaml`                                                                          | **不预设必须修改**；先做冻结安装，只有工具确定必要时才在单独审查下更新         | 避免凭印象手工改锁文件                                        |
 
 **明确不应修改**：
 
@@ -91,15 +91,15 @@ node tests/reset-consumer.mjs unocss-tailwind-compat
 
 ## 5. 独立 Gate 与授权顺序
 
-| Gate | 当前审查状态 | 后续完成条件 |
-| --- | --- | --- |
-| D-01 范围 | **已批准** | 保留 R-003/R-007/R-008 和 opt-in 边界 |
-| D-02 历史风险 | **已批准限定接受** | 不公开承诺缺少证据的最低浏览器版本 |
-| D-03 浏览器/生态 | **部分历史管理验收 + 构建级证据** | 仅陈述实际已测环境；补足必要交互/级联回归 |
-| D-04 候选 SHA 工程 | **尚未执行** | 正式候选存在后按第 4 节完整重跑，结果绑定候选最终 SHA |
-| D-05 对外措辞 | **政策已定，候选文案待审** | README、CHANGELOG 与 npm 文案分清候选/正式版 |
-| D-06 版本/发布 | **尚未授权** | 先独立授权候选开发，再独立授权 npm、Tag 和 Release |
-| D-07 无 CI | **持续约束** | 无 CI、无运行时 JS、无无关改动 |
+| Gate               | 当前审查状态                      | 后续完成条件                                          |
+| ------------------ | --------------------------------- | ----------------------------------------------------- |
+| D-01 范围          | **已批准**                        | 保留 R-003/R-007/R-008 和 opt-in 边界                 |
+| D-02 历史风险      | **已批准限定接受**                | 不公开承诺缺少证据的最低浏览器版本                    |
+| D-03 浏览器/生态   | **部分历史管理验收 + 构建级证据** | 仅陈述实际已测环境；补足必要交互/级联回归             |
+| D-04 候选 SHA 工程 | **尚未执行**                      | 正式候选存在后按第 4 节完整重跑，结果绑定候选最终 SHA |
+| D-05 对外措辞      | **政策已定，候选文案待审**        | README、CHANGELOG 与 npm 文案分清候选/正式版          |
+| D-06 版本/发布     | **尚未授权**                      | 先独立授权候选开发，再独立授权 npm、Tag 和 Release    |
+| D-07 无 CI         | **持续约束**                      | 无 CI、无运行时 JS、无无关改动                        |
 
 ### 拟申请的第一个独立决定
 
