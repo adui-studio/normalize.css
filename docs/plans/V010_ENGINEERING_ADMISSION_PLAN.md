@@ -1,5 +1,7 @@
 # v0.1.0 · 工程准入预检与验收执行计划
 
+**2026-11-06 · PR #31 合并后执行状态更新（当前优先）**：维护者在 Windows 的 `main@2fe462ce4133b7942ed9a6fe7a7d0765923d4bac` 上提供了 `vp check --fix`、`vp check` 及干净工作区日志：93 份文件格式检查通过，22 份 Lint 文件无警告/错误。之前的 `verify:mvp` 64/64、8 页 Fixture 构建和 6 项生态/Reset 隔离构建属于前一阶段的本机反馈，其中六项隔离构建明确绑定 `main@10eae4cb6a58ee1278b94ae4037cba01d853387d`，**不能冒充本次合并 SHA 上重跑或未来 `0.1.0` 候选的 D-04 PASS**。本文件最初标记的“待执行”保留建立时点语义；实际后续状态见第八节。不修改 CSS、版本、依赖、CI 或发布记录。
+
 **建立日期**：2026-11-06  
 **任务**：[Issue #18](https://github.com/adui-studio/normalize.css/issues/18)  
 **仓库核查基线**：`main@52d7d78685f58c0eee963638b3d5d0427cc94ca6`。当前 `package.json` 版本仍为 `0.0.3`；已发布 `v0.0.3` 的源提交为 `f5c08642e1ab6eaa1cb3d84782485f0298ae77be`。  
@@ -137,3 +139,31 @@ git diff --check / git status --short：
 **尚未执行**：本地 `pnpm install`、`vp check`、`verify:mvp`、`vp build`、隔离生态/Reset 和真实浏览器；本研究不生成新的自动化 PASS 数字，也不构成 `0.1.0` 启动/发布授权。
 
 **下阶段**：维护者在当前 `main` 执行第三节工程预检并提供 SHA/日志；独立验收后再审是否启动 `0.1.0` 候选版本开发、需要补哪些精确测试和公开文档。不得将“继续”视为已经同意升版或发布。
+
+## 八、2026-11-06 · 合并后本机执行反馈与版本准入结论
+
+本节是 [PR #31](https://github.com/adui-studio/normalize.css/pull/31) 已合并后的**新增实测记录**。本节只覆盖收到的终端输出，不追认未经提供的设备、版本和交互结果。
+
+### 8.1 已执行：当前 main 的静态检查
+
+- 操作环境：维护者 Windows PowerShell；`git rev-parse HEAD` 报告 `2fe462ce4133b7942ed9a6fe7a7d0765923d4bac`。
+- `vp check --fix`：格式处理成功，Lint 22 份文件无警告或错误。
+- `vp check`：**93/93 文件格式 PASS，22 份 Lint 文件无警告或错误**。
+- `git status --short`：无输出，工作区无可见未提交改动。
+- 本批日志没有新的 `verify:mvp`、`vp build`、隔离消费者、Reset 叠加、T0/T2 或 M0/M1 执行结果。上方第七节是本计划创建时的历史状态，不覆盖此项补录。
+
+### 8.2 已执行：此前基线的工程、生态及 Reset 检查
+
+- 维护者之前提供 `pnpm install --frozen-lockfile` 成功、`verify:mvp` **64/64 PASS**（Vitest 8、Node 离线 54、真实 tarball 1、Vite+ CSS 消费 1）、8 张既定 Fixture 构建 PASS 的完整终端输出；该组日志本身未提供每个命令执行时的精确 HEAD，不重写为新合并 SHA 的正式复验。
+- 此后维护者明确记录 `main@10eae4cb6a58ee1278b94ae4037cba01d853387d`，在同一干净工作区执行 **3/3 组件消费者构建 PASS**（Vue 3 + Element Plus、Vue 3 + TDesign Vue Next、React + Ant Design）和 **3/3 Reset 隔离构建 PASS**（Tailwind CSS v4 Preflight、UnoCSS tailwind-v4、UnoCSS tailwind-compat），执行后 HEAD 相同。
+- 六项专项只证明真实 tarball 解析和生产构建，**不证明浏览器中实际视觉、CSS 层叠、键盘焦点、交互及系统偏好**。两种 CSS 导入顺序的 SHA-256 差异不能单独作为兼容性缺陷或等效性的结论。
+- 专项日志的详细数值与验证边界已归档在 [PR #31 验收评论](https://github.com/adui-studio/normalize.css/pull/31#issuecomment-6680347064)。
+
+### 8.3 Gate 状态与下一步
+
+- **D-01 / D-02：已批准**。遵循 ADR-0006 方案 A，默认仍只有 R-003/R-007/R-008；可选 Reset/Forms/A11y/All 保持 opt-in，旧 Safari/Blink 风险限定接受。
+- **D-03：部分已验证**。历史浏览器管理验收已确认，但原始逐版本证据不完整；六项当前生态/Reset 结果仅为构建级 PASS。缺证据时不公开最低浏览器支持版本。
+- **D-04：未执行**。上述均不是未来 `0.1.0` 候选的准确提交验收；开始候选且获授权后，必须重新记录发布候选准确 HEAD、冻结安装、`verify:mvp`、`vp build`、真实包及消费检查。
+- **D-05：公开兼容性措辞原则有效，候选文案待审核**；**D-06：版本升级、npm、Tag/Release 未授权**；**D-07：保持最小改动、无 CI、无运行时 JS**。
+
+**当前结论：可继续评审是否启动 `0.1.0` 候选，但未达到“该版本已验收/可发布”状态。** 不新增默认 CSS 规则凑数，不提前改 `package.json` 的 `0.0.3` 与两处测试强绑定。是否启动版本迁移、合并和正式发布分别需要独立授权。
