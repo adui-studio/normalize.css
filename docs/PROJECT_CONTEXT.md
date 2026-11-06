@@ -1,5 +1,7 @@
 # PROJECT_CONTEXT — 项目长期上下文
 
+**2026-11-06 · v0.1.0 候选启动评审（规划中，未经授权）**：已在当前 `main@7b0e5092e6240590e5273a291de6c94ebc4e9173` 核对 `package.json@0.0.3`、两项真实包版本断言、合成 smoke 固定版本、六个 CSS-only exports、双语 README/CHANGELOG 与工程、发行门槛，新建[候选启动及最小版本迁移计划](plans/V010_CANDIDATE_START_REVIEW.md)。维护者此 SHA 上 `vp check` 93/93 文件格式、22 份 Lint 无异常且工作区干净；此为当前 `0.0.3` 源码文档基线的静态验证，不是未来 `0.1.0` 候选 D-04 PASS。ADR-0006 的默认 R-003/R-007/R-008 范围、可选模块及限定历史兼容风险保持不变；本轮仅研究候选启动顺序，不改版本、CSS、测试实现、依赖、CI 或已发行 npm/Tag/Release。`0.1.0` 版本候选启动、合并与发行均需后续独立批准。
+
 **2026-11-06 · PR #31 合并后的 v0.1.0 准入进展（当前执行事实）**：PR #31 已合并至 `main@2fe462ce4133b7942ed9a6fe7a7d0765923d4bac`。维护者本机报告该 SHA 上 `vp check --fix` 与 `vp check` 成功（93/93 文件格式、22 份 Lint 无警告/错误），`git status --short` 无输出。此前独立工程 `verify:mvp` 64/64 与 8 页 Fixture 构建属于历史日志，3 项 Vue/React 组件库与 3 项 Tailwind/UnoCSS Reset 生产构建 PASS 明确绑定 `main@10eae4cb6a58ee1278b94ae4037cba01d853387d`；均不冒充 `0.1.0` 候选固定 SHA 的验收。按 [工程准入计划第八节](plans/V010_ENGINEERING_ADMISSION_PLAN.md#八2026-11-06--合并后本机执行反馈与版本准入结论) 继续补足浏览器行为证据与 D-04～D-06 决策。**当前正式版本仍为 0.0.3，0.1.0 升版/发行未授权，不新增 CSS、依赖或 CI。**
 
 **2026-11-06 · Issue #18 / v0.1.0 工程准入预检准备（最新，未执行）**：`main@52d7d78685f58c0eee963638b3d5d0427cc94ca6` 已合并 PR #30、ADR-0006 方案 A 为 Accepted，默认 Normalize R-003/R-007/R-008 正式冻结且仅限定接受旧 Safari/Blink 的历史风险。现以 [工程准入计划](plans/V010_ENGINEERING_ADMISSION_PLAN.md) 盘点真实 `package.json` 和 Vite+ 测试覆盖，指出 `verify:mvp` 之外还需单独执行 `vp build`、生态消费者、Reset 叠加及真实浏览器证据；生态/Reset 脚本的隔离 npm 依赖安装可能需要网络。**本轮只准备本地操作清单，未实际运行测试、未启动 `0.1.0` 候选或获得升级/发布授权**；保持 npm `0.0.3`、原有 CSS/exports/依赖/CI/Tag/Release 全部不变。
