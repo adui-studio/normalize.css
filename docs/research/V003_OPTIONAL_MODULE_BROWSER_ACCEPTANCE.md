@@ -20,7 +20,7 @@
 
 两页的 `<body>` 和 `<style>` 必须逐字一致；公共 `fixtures/modules-probe.js` 使用 `getComputedStyle`、`matchMedia` 与焦点样式观察，将数据展示在 `#module-output`，并提供 `window.__aduiModuleCapture()` 重新采样。脚本只用于本地 Fixture，不随 npm 发行。
 
-**证据边界**：M1 加载的是仓库 `src/all.css`（该文件也随 npm 包发布），而非从 Registry 安装 tarball 后运行的消费应用。因此 M1 是**本地模块行为证据**，不是新的真实 npm 消费 PASS。`stylesheet.loaded: true` 仅反映浏览器已识别样式表，仍需在 Network 里核验四个相对 `@import` 和实际规则内容。
+**证据边界**：M1 加载的是仓库 `src/all.css`（该文件也随 npm 包发布），而非从 Registry 安装 tarball 后运行的消费应用。因此 M1 是**本地模块行为证据**，不是新的真实 npm 消费 PASS。`stylesheet.loaded: true` 仅反映浏览器已识别样式表；还应检查实际 CSSOM 规则与计算样式。Vite/Vite+ 开发服务可能使用 `postcss-import` 将四个相对 `@import` 内联到一个 `all.css` 响应中，因此**不能要求 Network 中必须出现四个独立 CSS 请求**。若导入没有被内联，应核对相应子请求；无论采用哪种处理方式，均不得有加载错误。
 
 ## 3. 行为验收要点
 
@@ -76,7 +76,7 @@ pnpm exec vp dev
 - `http://localhost:5173/fixtures/modules-native.html`
 - `http://localhost:5173/fixtures/modules-all.html`
 
-M0 不应请求本库 CSS；M1 在 Network 中应加载 `../src/all.css` 及四个 CSS 模块。M1 的 `stylesheet.href` 应是 `../src/all.css`、`stylesheet.loaded` 应为 `true`。如果 CSS 404、加载失败或导入异常，**记为 INVALID，不能写 PASS**。
+M0 不应加载本库 CSS；M1 应能在 Network 识别 `../src/all.css`（响应 `200` 或浏览器缓存有效时的 `304` 均可能正常）。Vite+ 开发服务可以内联四个相对导入，因此只看到 `all.css` 一个 CSS 请求**不应判失败**。M1 的 `stylesheet.href` 应为 `../src/all.css`、`stylesheet.loaded` 应为 `true`；必须进一步确认 CSSOM 中 Normalize / Reset / Forms / A11y 的代表规则存在、对应计算样式符合预期，并排除 404/资源内容错误。若仍是原生 `@import`，再检查其子请求。仅凭 `loaded:true` 或 `304` 不能直接判定四模块完整生效。
 
 按下 Tab 导航、操作 Button / Input / Checkbox / Radio / File / Details / Dialog，记录鼠标、键盘、Esc 关闭、样式与截图。系统开启减少动态效果后重载；有条件再启用 Windows 强制颜色模式并重载。控制台重新取样：
 
@@ -96,13 +96,47 @@ node tests/t2-evidence.mjs .\t2-native.json .\t2-package.json
 
 **不可使用 `tests/t2-evidence.mjs` 去比较新 M0/M1**：它只认旧 T0/T2 的 15 探针、页面角色与 3 条默认规则的 CSSOM。`vp build` 原有 8 个 Fixture 入口保持不变；新 M0/M1 仅由 `vp dev` 直接服务，故 `vp build` 成功也不等于手工页面已验收。
 
+
+### 5.1 Vite+ CSS @import 内联与缓存的判断
+
+Vite 官方文档明确支持经 postcss-import 内联 CSS `@import`（见 [Vite CSS @import Inlining](https://vite.dev/guide/features#css)）。因此开发服务的 Network 面板仅出现一个 `all.css` 很常见，并不能推导其余四个模块未加载。若显示 `304 Not Modified`，说明客户端缓存验证后可复用现有资源；也不应仅凭状态码认定所有规则正确。
+
+可在 M1 页面（保持没有切换为其他样式源）打开 DevTools Console，运行**只读 CSSOM 采样**，收集四个模块各一条代表选择器：
+
+```js
+const stylesheet = document.querySelector("#modules-css")?.sheet;
+if (!stylesheet) throw new Error("all.css stylesheet missing");
+const selectors = [];
+function collectRules(rules) {
+  for (const rule of rules) {
+    if (rule.type === CSSRule.IMPORT_RULE) {
+      if (!rule.styleSheet) throw new Error("unresolved CSS @import");
+      collectRules(rule.styleSheet.cssRules);
+    } else if (rule.type === CSSRule.STYLE_RULE) {
+      selectors.push(rule.selectorText.replace(/\s+/g, ""));
+    } else if ("cssRules" in rule) {
+      collectRules(rule.cssRules);
+    }
+  }
+}
+collectRules(stylesheet.cssRules);
+console.table({
+  normalize: selectors.includes("b,strong"),
+  reset: selectors.some((selector) => selector.includes("*::before") && selector.includes("*::after")),
+  forms: selectors.includes(":where(button,input,select,textarea)"),
+  a11y: selectors.includes(":where(:focus-visible)"),
+});
+```
+
+四项均为 `true` 是**当前源码结构下四类代表规则可被 CSSOM 读取**的证据，但还须结合已有计算样式、真实键盘/原生控件操作及系统偏好判断效果。若 CSSOM 因安全限制无法访问，记录 `BLOCKED` 并检查 Network Response / Sources 与样式来源，**不要伪造通过**。测试 Console 后焦点可能变化，焦点结果以真实 Tab 采样为准。
+
 ## 6. 每环境证据记录模板
 
 | 字段                                            | 结果             |
 | ----------------------------------------------- | ---------------- |
 | HEAD / 浏览器品牌与完整版本 / OS / 设备         | 待填写           |
 | M0 与 M1 两份原始 JSON                          | 待提供           |
-| 实际 CSS Network 与四个导入                     | 待提供           |
+| `all.css` Network、CSSOM 四模块规则及缓存状态 | 待提供           |
 | Reset（布局、列表、媒体、表格）                 | EVIDENCE_MISSING |
 | Forms（字体、输入、原生控件）                   | EVIDENCE_MISSING |
 | A11y（键盘焦点、forced-colors、reduced-motion） | EVIDENCE_MISSING |
