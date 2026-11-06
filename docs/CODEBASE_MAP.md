@@ -1,5 +1,7 @@
 # CODEBASE_MAP — 仓库结构与定位
 
+**2026-11-06 · v0.1.0 候选开发范围地图（尚未开始）**：新增[候选启动与最小版本迁移清单](plans/V010_CANDIDATE_START_REVIEW.md)，以现有 `0.0.3` 为事实基线，明确未来如获授权只涉及 `package.json` 版本、`tests/package.node.test.mjs` / `tests/package-real.node.test.mjs` 的版本断言、双语 README、CHANGELOG 和受影响的工程/发行文档；合成 smoke 的 `0.0.0-smoke.0`、默认与可选产品 CSS、六个公开 CSS exports、Vite+ 配置及无 CI 约束保持不变。此处是文件定位与拟修改范围，不代表任何 `0.1.0` 产品/版本代码已实施。
+
 **2026-11-06 · v0.1.0 工程准入执行清单**：新增 [`docs/plans/V010_ENGINEERING_ADMISSION_PLAN.md`](plans/V010_ENGINEERING_ADMISSION_PLAN.md)，仅为基于 `main@52d7d78685f58c0eee963638b3d5d0427cc94ca6` 的真实测试命令覆盖盘点、Windows PowerShell 验收步骤、未来版本强绑定和旧浏览器证据边界。它不新增任何脚本、测试入口、源 CSS、依赖、CI，也不意味着 `0.1.0` 已获发布批准。
 
 **2026-11-06 · ADR-0006 范围与兼容风险方案 A 已批准**：新增 [`docs/adr/0006-v01-default-scope-and-compatibility-risk.md`](adr/0006-v01-default-scope-and-compatibility-risk.md)，状态 **Accepted（方案 A）**。它将已合并的 36 条规则准入研究正式裁定为默认三规则冻结、限定接受旧 Safari/旧 Blink 风险、不公开承诺未经版本验证的最低支持版本，并保留未来 `0.1.0` 独立发行 Gate。不修改已经 Accepted 的 ADR-0001～0005，也不构成产品 CSS、公开版本或 CI 变更。
