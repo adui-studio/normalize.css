@@ -19,19 +19,19 @@
 
 ## 二、对现有脚本的实际核查结果
 
-| 入口 / 文件 | 当前已存在的真实行为 | 是否在 `pnpm run verify:mvp` 内 | 准入意义 |
-| --- | --- | --- | --- |
-| `vp check` | 格式与 Lint 检查 | **是** | 本次 HEAD 的本机静态验证 |
-| `vp test` | `tests/**/*.test.ts`（当前包含 8 个 Fixture 契约用例） | **是** | Vitest 契约与结构检查；不是浏览器测试 |
-| `vp pack` | `vite.config.ts` 只以 `src/normalize.css` 生成 `dist/normalize.css` | **是** | 默认发行 CSS，非完整 HTML Fixture 构建 |
-| `pnpm run test:offline` | 9 份 Node 测试文件，包括默认和可选模块、Fixture、历史证据等 | **是** | 静态/合成/离线契约；实际测试条数以终端为准 |
-| `pnpm run test:package` | 真实 tarball、离线安装、6 个 CSS exports、文件白名单、禁止意外子路径 | **是** | npm 真实分发结构 |
-| `pnpm run test:consumer` | 真实 tarball 在隔离消费者中导入 `all.css` 并使用 Vite+ 生产构建 | **是** | 包装配方与 CSS 组合路径验证 |
-| `npm pack --dry-run --json --ignore-scripts` | 预览包文件、大小、元数据；**不发布** | **是** | 发包清单预检；预期 10 文件 |
-| `pnpm exec vp build` | `vite.config.ts` 明列 8 个历史 HTML Fixture 入口，输出到 `dist-fixtures` | **否** | 必须额外执行；它不包含新 M0/M1 两页 |
-| `node tests/ecosystem-consumer.mjs <case>` | 独立 Vue/React 组件消费者，打包默认 Normalize 并比较导入前后 | **否** | 生态叠加专项；需分别给定 case |
-| `node tests/reset-consumer.mjs <case>` | 独立 Tailwind/UnoCSS Reset，含原生、先导入和后导入三种对照 | **否** | 双重 Reset/导入顺序风险；需分别给定 case |
-| `pnpm exec vp dev` + T0/T2、M0/M1 页面 | 真实浏览器的计算样式、CSSOM、键盘、原生控件和系统偏好 | **否** | 人工证据，不以自动化计数代替 |
+| 入口 / 文件                                  | 当前已存在的真实行为                                                     | 是否在 `pnpm run verify:mvp` 内 | 准入意义                                   |
+| -------------------------------------------- | ------------------------------------------------------------------------ | ------------------------------- | ------------------------------------------ |
+| `vp check`                                   | 格式与 Lint 检查                                                         | **是**                          | 本次 HEAD 的本机静态验证                   |
+| `vp test`                                    | `tests/**/*.test.ts`（当前包含 8 个 Fixture 契约用例）                   | **是**                          | Vitest 契约与结构检查；不是浏览器测试      |
+| `vp pack`                                    | `vite.config.ts` 只以 `src/normalize.css` 生成 `dist/normalize.css`      | **是**                          | 默认发行 CSS，非完整 HTML Fixture 构建     |
+| `pnpm run test:offline`                      | 9 份 Node 测试文件，包括默认和可选模块、Fixture、历史证据等              | **是**                          | 静态/合成/离线契约；实际测试条数以终端为准 |
+| `pnpm run test:package`                      | 真实 tarball、离线安装、6 个 CSS exports、文件白名单、禁止意外子路径     | **是**                          | npm 真实分发结构                           |
+| `pnpm run test:consumer`                     | 真实 tarball 在隔离消费者中导入 `all.css` 并使用 Vite+ 生产构建          | **是**                          | 包装配方与 CSS 组合路径验证                |
+| `npm pack --dry-run --json --ignore-scripts` | 预览包文件、大小、元数据；**不发布**                                     | **是**                          | 发包清单预检；预期 10 文件                 |
+| `pnpm exec vp build`                         | `vite.config.ts` 明列 8 个历史 HTML Fixture 入口，输出到 `dist-fixtures` | **否**                          | 必须额外执行；它不包含新 M0/M1 两页        |
+| `node tests/ecosystem-consumer.mjs <case>`   | 独立 Vue/React 组件消费者，打包默认 Normalize 并比较导入前后             | **否**                          | 生态叠加专项；需分别给定 case              |
+| `node tests/reset-consumer.mjs <case>`       | 独立 Tailwind/UnoCSS Reset，含原生、先导入和后导入三种对照               | **否**                          | 双重 Reset/导入顺序风险；需分别给定 case   |
+| `pnpm exec vp dev` + T0/T2、M0/M1 页面       | 真实浏览器的计算样式、CSSOM、键盘、原生控件和系统偏好                    | **否**                          | 人工证据，不以自动化计数代替               |
 
 **关键边界**：`verify:mvp` 不包含 `vp build`、生态组件专项、Reset 叠加专项或真机浏览器。`vp build` 只构建当前 `vite.config.ts` 列出的 8 页，不自动包括 `modules-native.html` / `modules-all.html`；这两页可通过 `vp dev` 使用。不要因 8 页构建 PASS 就宣称 M0/M1 构建 PASS。
 
@@ -102,14 +102,14 @@ node tests/reset-consumer.mjs unocss-tailwind-compat
 
 ## 六、下一版本独立 Gate：不可提前视为通过
 
-| 关口 | 当前状态 | 本阶段可做 / 不可做 |
-| --- | --- | --- |
-| ADR-0006 D-01、D-02 | **Accepted** | 三条默认范围已冻结，历史兼容风险限定接受 |
-| D-03 | **历史管理验收与部分浏览器证据已存在** | 复用有效证据、补缺口；不能宣称所有目标旧版本逐项 PASS |
-| D-04 | **未来 `0.1.0` 的准确发布 SHA 尚不存在/未获批准** | 只建立命令与日志模板；不可复用旧版 61/61 或 64/64 填写 |
-| D-05 | **已有限定公开措辞政策** | 后续版本 README / npm 文案按真实结果核对，不新增未经证实的兼容保证 |
-| D-06 | **版本升级/发布尚未授权** | 不改版本号、不发 npm、不建 Tag/Release |
-| D-07 | **设计原则持续有效** | 保持 CSS-only、显式 opt-in、无 CI |
+| 关口                | 当前状态                                          | 本阶段可做 / 不可做                                                |
+| ------------------- | ------------------------------------------------- | ------------------------------------------------------------------ |
+| ADR-0006 D-01、D-02 | **Accepted**                                      | 三条默认范围已冻结，历史兼容风险限定接受                           |
+| D-03                | **历史管理验收与部分浏览器证据已存在**            | 复用有效证据、补缺口；不能宣称所有目标旧版本逐项 PASS              |
+| D-04                | **未来 `0.1.0` 的准确发布 SHA 尚不存在/未获批准** | 只建立命令与日志模板；不可复用旧版 61/61 或 64/64 填写             |
+| D-05                | **已有限定公开措辞政策**                          | 后续版本 README / npm 文案按真实结果核对，不新增未经证实的兼容保证 |
+| D-06                | **版本升级/发布尚未授权**                         | 不改版本号、不发 npm、不建 Tag/Release                             |
+| D-07                | **设计原则持续有效**                              | 保持 CSS-only、显式 opt-in、无 CI                                  |
 
 ### 每次实际运行的最小归档模板
 
