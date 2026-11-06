@@ -1,5 +1,7 @@
 # CODEBASE_MAP — 仓库结构与定位
 
+**2026-11-06 · v0.1.0 工程准入执行清单**：新增 [`docs/plans/V010_ENGINEERING_ADMISSION_PLAN.md`](plans/V010_ENGINEERING_ADMISSION_PLAN.md)，仅为基于 `main@52d7d78685f58c0eee963638b3d5d0427cc94ca6` 的真实测试命令覆盖盘点、Windows PowerShell 验收步骤、未来版本强绑定和旧浏览器证据边界。它不新增任何脚本、测试入口、源 CSS、依赖、CI，也不意味着 `0.1.0` 已获发布批准。
+
 **2026-11-06 · ADR-0006 范围与兼容风险方案 A 已批准**：新增 [`docs/adr/0006-v01-default-scope-and-compatibility-risk.md`](adr/0006-v01-default-scope-and-compatibility-risk.md)，状态 **Accepted（方案 A）**。它将已合并的 36 条规则准入研究正式裁定为默认三规则冻结、限定接受旧 Safari/旧 Blink 风险、不公开承诺未经版本验证的最低支持版本，并保留未来 `0.1.0` 独立发行 Gate。不修改已经 Accepted 的 ADR-0001～0005，也不构成产品 CSS、公开版本或 CI 变更。
 
 **2026-11-06 · 新增 v0.1.0 规则准入研究文档（待评审）**：[`docs/research/V01_RULE_ADMISSION_REVIEW_20261106.md`](research/V01_RULE_ADMISSION_REVIEW_20261106.md) 为下一阶段 36 条候选分类、默认规则与已发布可选模块实物映射、R-007/R-008 兼容风险及 G-01～G-07 版本准入门槛的**草案**。仅新增研究文件与历史文档引用，不修改 `src/`、`tests/`、`fixtures/`、`package.json`、Vite+ 配置、依赖、CI 或已发布的 `0.0.3`。
