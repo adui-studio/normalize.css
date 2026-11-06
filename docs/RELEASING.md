@@ -1,5 +1,7 @@
 # RELEASING — 版本策略与人工发行清单
 
+**2026-11-06 · v0.1.0 开发候选已启动，未发布**：维护者已批准 [PR #33](https://github.com/adui-studio/normalize.css/pull/33) 合并并独立启动最小版本迁移。开发分支 `chore/prepare-v0.1.0-20261106` 仅准备 `package.json#version=0.1.0`、两处对应的真实包断言及必要文档，不修改产品 CSS、六个公开 CSS 子路径、依赖或 CI。**这仅是源码候选，不是已验收的发行版本；在准确候选 HEAD 全量验证并获得单独发布授权前，禁止 `npm publish`、创建/移动 `v0.1.0` Tag 或创建 Release**。当前 npm 正式版本仍为 `0.0.3`，历史 Tag/Release 保持不变。
+
 **2026-11-06 · v0.1.0 候选启动评审（仅计划）**：新增[候选启动及版本迁移清单](plans/V010_CANDIDATE_START_REVIEW.md)，基于已批准 ADR-0006 方案 A，明确如未来取得单独授权，可保持默认三条 CSS 规则及 opt-in 公开接口不变，仅在独立开发 PR 修改 `package.json#version`、两处版本断言和确实受影响的中英文文档。此处尚未授权升级至 `0.1.0`、候选合并、npm publish、Tag/Release；未来候选须按准确 SHA 全量本机验收，现有 `0.0.3` 的正式发布记录不可覆盖，不新增 CI。
 
 **2026-11-06 · v0.1.0 工程准入计划已建立，但尚未启动候选发布**：基于 ADR-0006 Accepted 的三条默认规则与限定旧浏览器风险策略，新增 [工程准入预检与 SHA 绑定清单](plans/V010_ENGINEERING_ADMISSION_PLAN.md)。它记录现有 `verify:mvp` 与 `vp build` / 生态 / Reset / 浏览器的覆盖差别，以及未来版本变更须同步 `package.json` 和两处测试中的 `0.0.3` 字面量；**本轮并未更改任何版本断言，也未运行针对 `0.1.0` 的完整本机验收**。当前正式发布仍为 `v0.0.3`。此项不是 npm 发布授权，不运行 `release:publish`、不创建 Tag/Release、不增加 CI。
