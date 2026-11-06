@@ -100,12 +100,13 @@ node tests/t2-evidence.mjs .\t2-native.json .\t2-package.json
 
 Vite 官方文档明确支持经 postcss-import 内联 CSS `@import`（见 [Vite CSS @import Inlining](https://vite.dev/guide/features#css)）。因此开发服务的 Network 面板仅出现一个 `all.css` 很常见，并不能推导其余四个模块未加载。若显示 `304 Not Modified`，说明客户端缓存验证后可复用现有资源；也不应仅凭状态码认定所有规则正确。
 
-可在 M1 页面（保持没有切换为其他样式源）打开 DevTools Console，运行**只读 CSSOM 采样**，收集四个模块各一条代表选择器：
+可在 M1 页面（保持没有切换为其他样式源）打开 DevTools Console，运行**只读 CSSOM 与计算样式采样**。Reset 不再使用对 `*::before`、`*::after` 选择器文本的严格匹配，因为构建工具或浏览器可能规范化该文本；改为判断相关 CSSOM 声明和页面计算样式：
 
 ```js
 const stylesheet = document.querySelector("#modules-css")?.sheet;
 if (!stylesheet) throw new Error("all.css stylesheet missing");
 const selectors = [];
+const styleRules = [];
 function collectRules(rules) {
   for (const rule of rules) {
     if (rule.type === CSSRule.IMPORT_RULE) {
@@ -113,23 +114,31 @@ function collectRules(rules) {
       collectRules(rule.styleSheet.cssRules);
     } else if (rule.type === CSSRule.STYLE_RULE) {
       selectors.push(rule.selectorText.replace(/\s+/g, ""));
+      styleRules.push(rule);
     } else if ("cssRules" in rule) {
       collectRules(rule.cssRules);
     }
   }
 }
 collectRules(stylesheet.cssRules);
+const resetCssom =
+  styleRules.some((rule) => rule.style.getPropertyValue("box-sizing") === "border-box") &&
+  styleRules.some((rule) => rule.style.getPropertyValue("border-collapse") === "collapse");
+const resetComputed =
+  getComputedStyle(document.getElementById("module-box")).boxSizing === "border-box" &&
+  getComputedStyle(document.getElementById("module-table")).borderCollapse === "collapse" &&
+  getComputedStyle(document.getElementById("module-heading")).marginBlockStart === "0px";
 console.table({
   normalize: selectors.includes("b,strong"),
-  reset: selectors.some(
-    (selector) => selector.includes("*::before") && selector.includes("*::after"),
-  ),
+  reset: resetCssom && resetComputed,
   forms: selectors.includes(":where(button,input,select,textarea)"),
   a11y: selectors.includes(":where(:focus-visible)"),
+  resetCssom,
+  resetComputed,
 });
 ```
 
-四项均为 `true` 是**当前源码结构下四类代表规则可被 CSSOM 读取**的证据，但还须结合已有计算样式、真实键盘/原生控件操作及系统偏好判断效果。若 CSSOM 因安全限制无法访问，记录 `BLOCKED` 并检查 Network Response / Sources 与样式来源，**不要伪造通过**。测试 Console 后焦点可能变化，焦点结果以真实 Tab 采样为准。
+四个模块的主要结果均为 `true`，且 `resetCssom`、`resetComputed` 同时为 `true`，才代表当前 Fixture 的代表规则及计算样式符合预期。这个检查不等于所有 Reset 规则或完整浏览器兼容性已通过。维护者 2026-11-06 Chrome 156 截图中旧脚本返回 `normalize:true`、`reset:false`、`forms:true`、`a11y:true`，但此前 M1 的 `border-box`、间距归零和 `border-collapse:collapse` 已表明 Reset 有可见效果；旧 `reset:false` 很可能是选择器序列化匹配造成的**假阴性**，仍需运行修正后的脚本才能确认完整四模块代表性核验。若 CSSOM 因安全限制无法访问，记录 `BLOCKED` 并检查 Network Response / Sources 与样式来源，**不要伪造通过**。测试 Console 后焦点可能变化，焦点结果以真实 Tab 采样为准。
 
 ## 6. 每环境证据记录模板
 
