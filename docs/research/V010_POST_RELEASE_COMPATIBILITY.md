@@ -114,7 +114,7 @@ pnpm exec vp dev
 在 `vp dev` 实际打印的 HTTP 地址依次访问 `/fixtures/modules-native.html`（M0）与 `/fixtures/modules-all.html`（M1）。**同一组两页必须使用同一浏览器、同一设备、相同系统偏好和同一服务来源**，各点击“保存当前 JSON 证据”，再在本机运行：
 
 ```powershell
-node tests/modules-evidence.mjs "D:\\evidence\\m0.json" "D:\\evidence\\m1.json"
+node tests/modules-evidence.mjs "./m0.json" "./m1.json"
 ```
 
 文件路径替换为实际下载位置。对照器只读取本地 JSON，不安装依赖、不连接网络；输出 `PROBE_PASS` / `PROBE_FAIL`、逐项检查与失败原因。退出码分别是 `0` / `1`；参数错误或 JSON 结构不合法为 `2`。本轮检查同一 UA、HTTP(S) 协议、媒体偏好、M1 样式加载与四模块 CSSOM、Reset 盒模型与表格、Forms 18px 字号继承、原生 hidden，以及 reduced-motion 下根滚动行为。对于样式差异采用**各模块的预期值**，不能把 M0/M1 全部计算样式相等作为通过依据。
