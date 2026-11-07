@@ -1,5 +1,7 @@
 # REQUIREMENTS — 软件需求与验收标准
 
+**2026-11-07 · NFR-002/NFR-007 跨浏览器阶段管理验收完成（最新）**：维护者报告本期跨浏览器验证完成；此前 Chrome 156 真实 M0/M1 JSON 静态 19/19、六项生态/Reset 生产构建 6/6、Chromium 144 有界检查 21/21 分别具有不同层级的证据。**管理结项不等于全部 Firefox/Safari/移动端原始版本、Network、键盘交互及系统偏好日志已可独立审计**，因此需求的对外兼容性声明边界仍按 ADR-0006 保持，不新增最低支持版本承诺。下一轮需求和新增规则必须满足[发行后阶段结项与准入门槛](plans/POST_V010_ACCEPTANCE_AND_NEXT_ITERATION.md)；默认三规则和已发布六个 CSS-only exports 不动，不新增产品 CSS、依赖、CI 或 npm 版本。
+
 **2026-11-07 · `v0.1.0` 需求实现与发行状态（当前优先事实）**：`@adui/normalize.css@0.1.0` 已在 npm 正式公开且 `latest=0.1.0`，发行包摘要与最终 SHA `cd28baaa5bf0a2af995053a7a35147e7392265a4` 的预览一致；GitHub 附注 Tag / Release 已核验归档。FR-001～FR-006 已发行的默认三规则、显式可选 Reset/Forms/A11y/All 和六个 CSS-only exports **行为不变**；FR-007 的规则依据和 ADR-0006 方案 A 仍然有效。维护者 Windows 工程 **64/64 PASS**、8 Fixture 构建 PASS 不能作为 NFR-002/NFR-007 全浏览器、移动端、UI 组件库兼容 PASS。新增 Chromium 144/Linux Headless 21/21 有界行为检查仅覆盖内存注入 CSS 与模拟媒体环境；详细证据缺口及现成生态/Reset 命令见 [发行后兼容性矩阵](research/V010_POST_RELEASE_COMPATIBILITY.md)。不扩大需求、不新增产品 CSS、版本、依赖或 CI；以下“0.1.0 未批准”均为对应日期的历史快照。
 
 **2026-11-06 · ADR-0006 范围与兼容风险签收（已生效的需求边界）**：维护者批准 [ADR-0006 方案 A](adr/0006-v01-default-scope-and-compatibility-risk.md)：默认 Normalize 三条 R-003/R-007/R-008 作为本里程碑冻结范围；17 暂缓 / 8 历史可选方向 / 8 排除默认的原分类与已发行模块的有意部分实现保持不变；接受 R-007 旧 Safari、R-008 旧 Blink 的**限定且未完全实测的风险**，不对外承诺未经证据覆盖的最低版本。FR/NFR 原要求不新增也不放宽；`0.1.0` 版本、发布候选的固定 SHA 验收、npm/Tag/Release **仍需独立批准**，本次不改 CSS、公开接口或 CI。
