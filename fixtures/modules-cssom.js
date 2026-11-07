@@ -23,7 +23,8 @@ export function inspectModuleStylesheet(sheet) {
   const includes = (selector, property, value) =>
     rules.some(
       (rule) =>
-        rule.selectorText.includes(selector) && rule.style.getPropertyValue(property).trim() === value,
+        rule.selectorText.includes(selector) &&
+        rule.style.getPropertyValue(property).trim() === value,
     );
   const modules = {
     normalize: includes("strong", "font-weight", "bolder"),
