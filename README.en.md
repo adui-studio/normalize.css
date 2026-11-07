@@ -93,6 +93,12 @@ The project uses **Baseline 2023** as a reference for evaluating CSS features, a
 
 Existing checks cover CSS-only packing, installation from a real local npm tarball, Vite+ production consumption, and selected browser/framework comparisons. Auditable, per-target results are not archived for every historical browser and operating-system target, so this README makes no unsupported minimum-version claims. Refer to the [browser support policy](docs/adr/0004-browser-support-policy.md) and [W-06 acceptance index](docs/research/W06_ACCEPTANCE_INDEX.md).
 
+### Optional A11y focus and system preferences
+
+When `@adui/normalize.css/a11y.css` (or `all.css`) is explicitly imported, `:where(:focus-visible)` adds a low-specificity outline to elements **for which the browser decides a visible focus indicator is helpful**. It is **not keyboard-only**: text inputs and textareas can also match `:focus-visible` after pointer focus. This is expected browser-heuristic behavior, not by itself a library regression. Applications and UI components can customize focus indicators, but the winning declaration still depends on cascade layers, origins, specificity, and source order.
+
+Under `forced-colors: active`, the optional module requests the system `Highlight` color for matching focus outlines. Under `prefers-reduced-motion: reduce`, it only sets the root `scroll-behavior` to `auto`; it does **not** disable animations globally. Actual visibility and component interactions require testing in the target environment. See the [A11y focus behavior review](docs/research/A11Y_FOCUS_VISIBLE_CONTRACT_20261107.md).
+
 ## npm download trend
 
 <a href="https://www.npmjs.com/package/@adui/normalize.css">
