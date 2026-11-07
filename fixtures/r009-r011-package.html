@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>R-009/R-011 · T0/T2 浏览器原生行为对照</title>
+    <style>
+      .hr-author {
+        height: 12px;
+        border: 3px dashed rgb(50, 80, 120);
+        overflow: visible;
+      }
+      .summary-author {
+        display: block;
+      }
+      .summary-marker::marker {
+        content: "§ ";
+      }
+    </style>
+    <link id="package-css" rel="stylesheet" href="../dist/normalize.css" />
+    <script type="module" src="./r009-r011-probe.js"></script>
+  </head>
+  <body>
+    <h1>R-009 / R-011 · T0/T2 原生行为对照</h1>
+    <p>两页 DOM 与作者样式完全相同；T2 仅增加打包后的默认 Normalize CSS。</p>
+    <section aria-label="R-009 hr 原生与作者样式">
+      <h2>R-009 · 水平分隔线</h2>
+      <p>无属性的原生 hr</p>
+      <hr id="hr-plain" />
+      <p>旧式 size=1</p>
+      <hr id="hr-size-one" size="1" />
+      <p>旧式 size=4</p>
+      <hr id="hr-size-four" size="4" />
+      <p>旧式 size、noshade</p>
+      <hr id="hr-noshade" size="4" noshade />
+      <p>旧式 color、width</p>
+      <hr id="hr-color-width" color="#1c466b" width="55%" />
+      <p>作者显式 border、height、overflow</p>
+      <hr id="hr-author" class="hr-author" />
+    </section>
+    <section aria-label="R-011 details 与 summary 原生交互">
+      <h2>R-011 · disclosure 原生行为</h2>
+      <details id="details-closed">
+        <summary id="summary-closed">默认关闭，键盘 Enter / Space 展开</summary>
+        <p>展开后可见的内容 A</p>
+      </details>
+      <details id="details-open" open>
+        <summary id="summary-open">默认展开，键盘 Enter / Space 收起</summary>
+        <p>展开后可见的内容 B</p>
+      </details>
+      <details id="details-author">
+        <summary id="summary-author" class="summary-author">作者显式 display: block</summary>
+        <p>原生交互应保留，marker 可被作者策略改变</p>
+      </details>
+      <details id="details-marker">
+        <summary id="summary-marker" class="summary-marker">作者自定义 ::marker</summary>
+        <p>不要把作者样式误当成浏览器缺陷</p>
+      </details>
+      <details id="details-fallback">
+        <p>无 summary，观察浏览器自行提供的默认标签</p>
+      </details>
+    </section>
+    <h2>实时静态探针（可在控制台调用 window.__aduiR009R011Capture()）</h2>
+    <p>请在按 Tab 聚焦 summary 时采样，并另行记录真实视觉与键盘操作；静态 JSON 不能证明 marker 可见性。</p>
+    <pre id="r009-r011-output" aria-live="polite">读取中</pre>
+  </body>
+</html>
