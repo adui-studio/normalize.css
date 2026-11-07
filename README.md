@@ -92,6 +92,17 @@ import "@adui/normalize.css/all.css";
 
 已完成的验证包含纯 CSS 打包、真实 npm tarball 本地安装、Vite+ 生产消费以及部分浏览器和框架对照。尚未形成所有历史目标浏览器与操作系统的逐项可审计通过记录，因此不在此声明具体最低浏览器版本。详情见 [浏览器支持策略](docs/adr/0004-browser-support-policy.md) 与 [W-06 验收记录](docs/research/W06_ACCEPTANCE_INDEX.md)。
 
+## npm 下载趋势
+
+<a href="https://www.npmjs.com/package/@adui/normalize.css">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://shieldcn.dev/chart/npm/@adui/normalize.css.svg?days=30&amp;bg=transparent&amp;border=false&amp;mode=dark" />
+    <img src="https://shieldcn.dev/chart/npm/@adui/normalize.css.svg?days=30&amp;bg=transparent&amp;border=false&amp;mode=light" alt="@adui/normalize.css 近 30 天 npm 下载趋势" width="760" />
+  </picture>
+</a>
+
+图表由第三方服务根据 npm 下载数据动态生成，显示可能存在缓存延迟。
+
 ## 本地开发
 
 仓库使用 **Vite+ 1.4.0** 和 **pnpm 12.15.0**。Node.js 版本要求为 `^22.18.0 || ^24.11.0 || >=26.0.0`。
