@@ -143,26 +143,26 @@ node tests/modules-evidence.mjs "./m0.json" "./m1.json"
 
 每一行都在**相同环境、相同偏好**的 M0 与 M1 两页实际操作，并另行截图或记录屏幕行为；`PROBE_PASS` 不能自动填写下表。
 
-| 验收项 | 手工步骤与预期 | 当前状态 |
-| --- | --- | --- |
-| HTTP / CSS 导入 | 在 M1 DevTools Network 重新加载，核对 `all.css` 响应成功（若 Vite+ 内联 `@import`，不要求出现 4 个独立请求），与 M0 的无导入形成对照；记录 URL、状态和失败请求 | **NOT_RUN**（已有 link/CSSOM 快照，不是 Network 响应） |
-| Tab / 焦点轮廓 | 从页面实际按 Tab 聚焦 `#module-button`、`#module-link`；观察可见焦点；在焦点仍在页面时截图或记录 `#module-output`，不要用点击导出按钮后的焦点替代键盘证据 | **NOT_RUN** |
-| Details / Summary | 用 Tab 聚焦 `summary`，按 Enter 和 Space 展开/折叠；marker 和键盘行为应正常，M0/M1 无异常回归 | **NOT_RUN** |
-| Dialog | 点击“打开原生 Dialog”；确认原生模态层出现；先按 Esc 关闭，再重新打开用原生“关闭”按钮关闭；记录两种路径 | **NOT_RUN** |
-| Forms | 实际在 input/textarea 输入、用键盘选择 select、勾选 checkbox/radio，检查 fieldset、legend、file 控件原生功能；比较两页正常操作 | **NOT_RUN** |
-| Reduced Motion | 在操作系统实际切换减少动态效果；分别在每种状态重新导出完整 M0/M1 一对 JSON；开启时 M1 `rootScrollBehavior=auto`，M0 保持作者 `smooth`；记录 OS 与设置路径 | **NOT_RUN**（仅关闭状态 JSON） |
-| Forced Colors | 仅在支持的真实环境开启/关闭强制颜色模式，重新采样两页并观察焦点颜色、表单与可读性；不支持则记 N/A，不将模拟值冒充系统切换 | **NOT_RUN**（仅关闭状态 JSON） |
+| 验收项            | 手工步骤与预期                                                                                                                                                 | 当前状态                                               |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
+| HTTP / CSS 导入   | 在 M1 DevTools Network 重新加载，核对 `all.css` 响应成功（若 Vite+ 内联 `@import`，不要求出现 4 个独立请求），与 M0 的无导入形成对照；记录 URL、状态和失败请求 | **NOT_RUN**（已有 link/CSSOM 快照，不是 Network 响应） |
+| Tab / 焦点轮廓    | 从页面实际按 Tab 聚焦 `#module-button`、`#module-link`；观察可见焦点；在焦点仍在页面时截图或记录 `#module-output`，不要用点击导出按钮后的焦点替代键盘证据      | **NOT_RUN**                                            |
+| Details / Summary | 用 Tab 聚焦 `summary`，按 Enter 和 Space 展开/折叠；marker 和键盘行为应正常，M0/M1 无异常回归                                                                  | **NOT_RUN**                                            |
+| Dialog            | 点击“打开原生 Dialog”；确认原生模态层出现；先按 Esc 关闭，再重新打开用原生“关闭”按钮关闭；记录两种路径                                                         | **NOT_RUN**                                            |
+| Forms             | 实际在 input/textarea 输入、用键盘选择 select、勾选 checkbox/radio，检查 fieldset、legend、file 控件原生功能；比较两页正常操作                                 | **NOT_RUN**                                            |
+| Reduced Motion    | 在操作系统实际切换减少动态效果；分别在每种状态重新导出完整 M0/M1 一对 JSON；开启时 M1 `rootScrollBehavior=auto`，M0 保持作者 `smooth`；记录 OS 与设置路径      | **NOT_RUN**（仅关闭状态 JSON）                         |
+| Forced Colors     | 仅在支持的真实环境开启/关闭强制颜色模式，重新采样两页并观察焦点颜色、表单与可读性；不支持则记 N/A，不将模拟值冒充系统切换                                      | **NOT_RUN**（仅关闭状态 JSON）                         |
 
 ### 3. 平台和版本记录模板
 
 先在 PR #41 记录**测试前、测试后**完整 `git rev-parse HEAD`，及 `pnpm run verify:mvp`、`pnpm exec vp build` 的准确结果。然后按平台分开填写以下表格，未实际执行的保留 `NOT_RUN`：
 
-| 平台 | M0/M1 JSON 静态对照 | Network | 键盘 / Dialog / Details / Forms | 系统偏好 | 版本证据 |
-| --- | --- | --- | --- | --- | --- |
-| Windows Chrome 156 | **PASS，19/19** | NOT_RUN | NOT_RUN | 关闭状态已采样；开启场景 NOT_RUN | UA 有主版本，完整补丁号未核实 |
-| Windows Firefox | NOT_RUN | NOT_RUN | NOT_RUN | NOT_RUN | 待记录 |
-| macOS Safari | NOT_RUN | NOT_RUN | NOT_RUN | NOT_RUN | 待记录 |
-| iOS Safari / Android 浏览器 | NOT_RUN | NOT_RUN | NOT_RUN | NOT_RUN | 待记录 |
+| 平台                        | M0/M1 JSON 静态对照 | Network | 键盘 / Dialog / Details / Forms | 系统偏好                         | 版本证据                      |
+| --------------------------- | ------------------- | ------- | ------------------------------- | -------------------------------- | ----------------------------- |
+| Windows Chrome 156          | **PASS，19/19**     | NOT_RUN | NOT_RUN                         | 关闭状态已采样；开启场景 NOT_RUN | UA 有主版本，完整补丁号未核实 |
+| Windows Firefox             | NOT_RUN             | NOT_RUN | NOT_RUN                         | NOT_RUN                          | 待记录                        |
+| macOS Safari                | NOT_RUN             | NOT_RUN | NOT_RUN                         | NOT_RUN                          | 待记录                        |
+| iOS Safari / Android 浏览器 | NOT_RUN             | NOT_RUN | NOT_RUN                         | NOT_RUN                          | 待记录                        |
 
 Safari 的正式验证应使用 Apple 的实际 Safari 环境；WebKit 自动化不能未经说明替代正式 Safari 版本。手机与开发机使用可信局域网地址访问（不要认为手机 `localhost` 指向开发电脑），必要时再按实际 Vite+ CLI 支持能力开放局域网绑定，切勿暴露公网。
 
