@@ -14,6 +14,15 @@ const summaryIds = [
   "summary-marker",
 ];
 
+function markerContent(element) {
+  try {
+    return getComputedStyle(element, "::marker")?.content ?? null;
+  } catch {
+    // 旧引擎可能无法读取 ::marker：保留 null，不中止其它样本采集。
+    return null;
+  }
+}
+
 function sample(id) {
   const element = document.getElementById(id);
   const style = getComputedStyle(element);
@@ -34,7 +43,7 @@ function sample(id) {
     listStyleType: style.listStyleType,
     listStylePosition: style.listStylePosition,
     color: style.color,
-    markerContent: getComputedStyle(element, "::marker")?.content ?? null,
+    markerContent: markerContent(element),
     detailsOpen: element.closest("details")?.open ?? null,
   };
 }
