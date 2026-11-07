@@ -96,3 +96,37 @@ pnpm exec vp dev
 在 `vp dev` 输出的本地 HTTP 地址打开 `/fixtures/modules-native.html` 和 `/fixtures/modules-all.html`；分别在 DevTools Console 执行 `window.__aduiModuleCapture()` 并导出 JSON。M0 预期 `stylesheet === null`；M1 预期 `pageProtocol === "http:"`（或 HTTPS）、`stylesheet.loaded === true`、`stylesheet.cssom.complete === true`，四个模块标记均为 `true` 且 `error === null`。同时通过 Network 确认 `all.css` 及内联/独立子导入无失败响应，比较 Reset/Forms 计算样式，再实际操作 Tab、Details、Dialog、原生表单与系统偏好。
 
 **限制**：CSSOM 声明完整性不是 HTTP 状态证明，也不能替代可见焦点、实际键盘交互或真实 Safari/Firefox/移动端结果。若在某个浏览器拿不到 CSSOM（例如跨源安全限制），会返回 `complete:false` 与 `error`，该场景记录为待调查，不自动判定 CSS 本身错误。新辅助脚本不属于 npm 包，且不增加依赖、CI 或产品 CSS。
+
+## 六、跨浏览器 M0/M1 证据导出与离线对照（新开发分支，待维护者验收）
+
+本轮针对 Firefox、Safari、移动浏览器缺少可重复归档 JSON 的问题，复用现有 M0/M1 页面和 `window.__aduiModuleCapture()`，不修改已发行产品 CSS。两页新增同一“保存当前 JSON 证据”按钮，浏览器将当前静态快照生成本地 `adui-modules-m0-*.json` / `adui-modules-m1-*.json`。数据追加 `capturedAt`（UTC 时间戳）及 `viewport`（视口宽高和像素比），不发送远程请求、不写本地持久化存储。浏览器可能打开 JSON 而非直接下载；此时可从已有 `#module-output` 复制数据。下载文件含 UA、页面路径与环境信息，归档或分享前注意审查设备隐私。
+
+### 1. 本地验收与采样
+
+```powershell
+git rev-parse HEAD
+pnpm install --frozen-lockfile
+pnpm run verify:mvp
+pnpm exec vp build
+pnpm exec vp dev
+```
+
+在 `vp dev` 实际打印的 HTTP 地址依次访问 `/fixtures/modules-native.html`（M0）与 `/fixtures/modules-all.html`（M1）。**同一组两页必须使用同一浏览器、同一设备、相同系统偏好和同一服务来源**，各点击“保存当前 JSON 证据”，再在本机运行：
+
+```powershell
+node tests/modules-evidence.mjs "D:\\evidence\\m0.json" "D:\\evidence\\m1.json"
+```
+
+文件路径替换为实际下载位置。对照器只读取本地 JSON，不安装依赖、不连接网络；输出 `PROBE_PASS` / `PROBE_FAIL`、逐项检查与失败原因。退出码分别是 `0` / `1`；参数错误或 JSON 结构不合法为 `2`。本轮检查同一 UA、HTTP(S) 协议、媒体偏好、M1 样式加载与四模块 CSSOM、Reset 盒模型与表格、Forms 18px 字号继承、原生 hidden，以及 reduced-motion 下根滚动行为。对于样式差异采用**各模块的预期值**，不能把 M0/M1 全部计算样式相等作为通过依据。
+
+### 2. Firefox / Safari / 移动端专项注意
+
+- 桌面 Firefox、macOS Safari、iOS Safari 和 Android Chrome/Firefox **分别记录**浏览器产品完整版本、OS 版本、设备型号、浏览器设置与准确 HEAD；UA 字符串本身不足以独立证明版本。
+- 手机需要从可信局域网访问开发机实际监听地址，必要时按当前 Vite+ 支持的启动参数开放局域网监听并配置本机防火墙；不要把本地调试服务器暴露到公网，也不要假定 `localhost` 指向开发电脑。
+- 真实键盘 Tab / `:focus-visible`、Details、Dialog 打开和 Esc、表单选择/输入、文件控件、列表 marker，以及系统强制颜色和减少动态效果的**真实切换**，仍需分别记录手工结果及截图。移动软键盘/触屏不能自动替代实体键盘验收。
+- 若需测试系统偏好开启前后行为，按每种偏好状态**重新导出完整 M0/M1 一对文件**，不要把开启与关闭状态混合比较。导出按钮的点击会改变当前焦点，因此导出的 `focus` 字段不能单独证明 Tab 焦点效果。
+- Network 应独立确认 `all.css` 及其内联或独立 `@import` 均加载成功；单凭 `link.sheet` 与 CSSOM 代表规则不是完整 HTTP 证据。现有 M1 用的是仓库 `src/all.css`，**不是 npm Registry tarball 安装后的页面**。
+
+### 3. 验证状态与边界
+
+当前新对照器已在隔离 Node 22.16.0 环境执行 **6/6 合成测试 PASS**（正常、缺失模块、reduced-motion、不同 UA/媒体偏好、file/未加载、非法数据）。这不等于真实 Firefox/Safari/iOS/Android HTTP 和交互测试通过。本分支完整 Windows `verify:mvp`、`vp build`、真实浏览器导出与实际用户设备结果均 **NOT_RUN / 待维护者补证**；不得把 `PROBE_PASS` 或维护者管理签收扩展成公开的最低浏览器支持保证。此变更仅涉及 Fixture、离线对照器、既有离线测试和文档，未增加运行时 JS、依赖、CI、产品 CSS 或 npm 版本。
