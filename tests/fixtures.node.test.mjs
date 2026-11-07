@@ -357,3 +357,62 @@ test("M0/M1 expose identical offline JSON export controls", () => {
   assert.match(source, /link\.download =/);
   assert.doesNotMatch(source, /fetch\s*\(|XMLHttpRequest|localStorage|sendBeacon/);
 });
+
+test("R-009/R-011 research fixtures preserve T0/T2 DOM and author CSS", () => {
+  const native = read("r009-r011-native.html");
+  const packed = read("r009-r011-package.html");
+  const body = (markup) => markup.match(/<body>[\s\S]*?<\/body>/)?.[0];
+  const style = (markup) => markup.match(/<style>[\s\S]*?<\/style>/)?.[0];
+
+  assert.ok(body(native), "Missing R-009/R-011 native fixture body");
+  assert.equal(body(native), body(packed));
+  assert.equal(style(native), style(packed));
+  assert.ok(!native.includes('id="package-css"'));
+  assert.ok(!native.includes('href="../dist/normalize.css"'));
+  assert.ok(packed.includes('<link id="package-css" rel="stylesheet" href="../dist/normalize.css" />'));
+
+  for (const html of [native, packed]) {
+    assert.ok(html.includes('src="./r009-r011-probe.js"'));
+    assert.ok(html.includes('<pre id="r009-r011-output" aria-live="polite">'));
+    assert.doesNotMatch(html, /(?:src|href)="https?:\/\//i);
+    const values = ids(html);
+    assert.equal(new Set(values).size, values.length, "Duplicate R-009/R-011 fixture IDs");
+    for (const id of [
+      "hr-plain",
+      "hr-size-one",
+      "hr-size-four",
+      "hr-noshade",
+      "hr-color-width",
+      "hr-author",
+      "details-closed",
+      "summary-closed",
+      "details-open",
+      "summary-open",
+      "details-author",
+      "summary-author",
+      "details-marker",
+      "summary-marker",
+      "details-fallback",
+    ]) {
+      assert.ok(values.includes(id), "Missing R-009/R-011 scenario: " + id);
+    }
+  }
+});
+
+test("R-009/R-011 probes remain local and keep product CSS unchanged", () => {
+  const source = read("r009-r011-probe.js");
+  assert.ok(source.includes("window.__aduiR009R011Capture = capture"));
+  assert.ok(source.includes("getBoundingClientRect().height"));
+  assert.ok(source.includes('getComputedStyle(element, "::marker")'));
+  assert.doesNotMatch(source, /fetch\s*\(|XMLHttpRequest|localStorage|sendBeacon/);
+
+  const index = read("index.html");
+  const vite = readFileSync(new URL("../vite.config.ts", import.meta.url), "utf8");
+  for (const name of ["r009-r011-native", "r009-r011-package"]) {
+    assert.ok(index.includes('href="./' + name + '.html"'));
+    assert.ok(vite.includes('"' + name + '"'), "Missing Vite+ fixture build input: " + name);
+  }
+
+  const normalize = readFileSync(new URL("../src/normalize.css", import.meta.url), "utf8");
+  assert.doesNotMatch(normalize, /(?:^|\n)\s*(?:hr|summary|details)\s*\{/m);
+});
