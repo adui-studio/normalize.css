@@ -1,5 +1,10 @@
 # @adui/normalize.css
 
+[![npm version](https://img.shields.io/npm/v/%40adui%2Fnormalize.css?style=flat-square&logo=npm&logoColor=white&color=cb3837)](https://www.npmjs.com/package/@adui/normalize.css)
+[![GitHub release](https://img.shields.io/github/v/release/adui-studio/normalize.css?style=flat-square&logo=github&logoColor=white&color=2563eb)](https://github.com/adui-studio/normalize.css/releases/latest)
+[![MIT license](https://img.shields.io/github/license/adui-studio/normalize.css?style=flat-square&color=64748b)](LICENSE)
+[![CSS only](https://img.shields.io/badge/runtime-CSS--only-0f766e?style=flat-square)](package.json)
+
 **简体中文** · [English](README.en.md)
 
 轻量、低侵入、基于明确规则依据的现代 CSS Normalize 基础库。
