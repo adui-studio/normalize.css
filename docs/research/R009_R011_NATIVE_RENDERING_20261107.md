@@ -1,5 +1,7 @@
 # R-009 / R-011 · 现代 HTML 原生渲染与实际包对照（研究候选）
 
+**2026-11-07 · 合并后进展（优先于下方研究候选状态）**：[PR #44](https://github.com/adui-studio/normalize.css/pull/44) 已按维护者验收与独立合并授权进入 `main@72e2c0b8d6883b2e21fea326ee3e28687cf00abc`，随后 `main` 又推进至 `922bf34208110d4f51365bbc27ce11b09353ce90`。专用 R-009/R-011 T0/T2 Fixture、只读探针及离线静态契约均已入主干，但未新增任何 `hr`、`summary` 的产品声明。两规则仍 **`deferred`**；[Issue #43](https://github.com/adui-studio/normalize.css/issues/43) 保持 Open，只有在目标浏览器/OS 提供可复现差异时才评估是否修复。维护者报告通过相关验收不等于取得所有 Firefox/Safari/移动端及键盘/marker 的逐项原始证据。下方“新建/NOT_RUN”是 PR 创建阶段的检查边界与历史记录，不表示 PR 仍未合并。
+
 **2026-11-07 · 基线**：`main@5a57ecfe1e5abb027725ae2da40722e8d7b3d50e`；正式 npm `@adui/normalize.css@0.1.0`。  
 **任务**：[Issue #43](https://github.com/adui-studio/normalize.css/issues/43)；**状态**：规范与竞品核查完成，新增可复现 T0/T2 Fixture；**浏览器实机结果待补证**。  
 **约束**：现行默认 Normalize 仅 R-003/R-007/R-008；R-009/R-011 仍 `deferred`，不修改 `src/*.css`、公开导出、版本、依赖、CI 或历史发行内容。
