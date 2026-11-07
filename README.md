@@ -93,6 +93,12 @@ import "@adui/normalize.css/all.css";
 
 已完成的验证包含纯 CSS 打包、真实 npm tarball 本地安装、Vite+ 生产消费以及部分浏览器和框架对照。尚未形成所有历史目标浏览器与操作系统的逐项可审计通过记录，因此不在此声明具体最低浏览器版本。详情见 [浏览器支持策略](docs/adr/0004-browser-support-policy.md) 与 [W-06 验收记录](docs/research/W06_ACCEPTANCE_INDEX.md)。
 
+### 可选 A11y 的焦点与系统偏好
+
+显式引入 `@adui/normalize.css/a11y.css`（或 `all.css`）后，`:where(:focus-visible)` 会为**浏览器判定需要可见焦点提示的元素**提供低特异性轮廓。它**不是键盘专属选择器**：鼠标点击可输入文字的 `input`、`textarea` 时，也可能匹配 `:focus-visible` 并出现轮廓。这属于浏览器启发式行为，不应直接当作兼容问题。应用及 UI 组件库仍可定制焦点外观，但应核对 `@layer`、样式来源、特异性与导入顺序，不能假设任意声明始终优先。
+
+可选模块在 `forced-colors: active` 下为匹配的焦点轮廓指定系统色 `Highlight`；在 `prefers-reduced-motion: reduce` 下仅将根元素滚动行为设为 `auto`，**不全局禁用动画**。是否真正可见、组件层叠是否冲突应在目标环境中验证。具体行为、标准依据与检查步骤见 [A11y 焦点行为研究](docs/research/A11Y_FOCUS_VISIBLE_CONTRACT_20261107.md)。
+
 ## npm 下载趋势
 
 <a href="https://www.npmjs.com/package/@adui/normalize.css">

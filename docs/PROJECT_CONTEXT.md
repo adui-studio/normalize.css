@@ -1,5 +1,7 @@
 # PROJECT_CONTEXT — 项目长期上下文
 
+**2026-11-07 · Issue #45 A11y :focus-visible 契约研究（待审核）**：基于当前 `main@72e2c0b8d6883b2e21fea326ee3e28687cf00abc`，核查已发行 `src/a11y.css` 的浏览器焦点启发式：`:where(:focus-visible)` 并非仅在键盘操作时匹配，鼠标聚焦可输入文本框亦可能触发；强制颜色 `Highlight` 和减少动态时根滚动 `auto` 都有明确且有限的作用范围。已创建 [专项资料、使用契约和复用 M0/M1 的检查步骤](research/A11Y_FOCUS_VISIBLE_CONTRACT_20261107.md)，同步中英文 README；**本次只改文档**，不编辑 `src/a11y.css` 现有注释或任何 CSS 声明、不新增测试设施/CI、不改变 npm `0.1.0`。尚无组件冲突实测或真实 Windows forced-colors / pointer-focus 的本轮逐项日志，不能写成浏览器 PASS。
+
 **2026-11-07 · 新阶段 Issue #43 R-009/R-011 研究候选（最新）**：旧 Issue #18 已获维护者授权 `completed` 结项；正式 npm `v0.1.0` 保持不变。为审查原先 deferred 的 `hr` 和 `details/summary` 是否确需新规则，当前新分支增加不改变产品 CSS 的 T0/T2 专项浏览器对照页和只读探针，整合进 Vite+ 本地 Fixture 构建与现有 Node 离线契约；依据 WHATWG HTML 建议渲染和竞品 v8 / modern-normalize v3.0.1 的实际不同取舍，**仍建议两规则暂缓**，等待浏览器完整版本、HTTP CSS、视觉和交互证据。详见 [专项研究](research/R009_R011_NATIVE_RENDERING_20261107.md)，后续准入遵循 [NEXT_ITERATION](plans/POST_V010_ACCEPTANCE_AND_NEXT_ITERATION.md)。未执行 Windows 完整测试，也未批准新默认 CSS、版本、依赖、CI 或 npm 发行。
 
 **2026-11-07 · 兼容性阶段结项及下一轮开发准入（最新）**：维护者确认跨浏览器兼容性验证已完成，记为本阶段**管理验收完成**；这不是逐设备、逐浏览器完整版本原始证据全已公开归档。当前 `main@949683c2cf2be82c8f6898ef83afcd635d0ac607` 已包含 PR #40/#41 的 CSSOM 识别、M0/M1 本地 JSON 导出和离线对照器；Chrome 156 真实 JSON 静态 19/19 PASS，独立六项生态/Reset 生产构建 6/6 PASS，Chromium 144 内存 CSS 21/21 的适用范围各不相同。新建[发行后兼容性结项与下一轮开发准入计划](plans/POST_V010_ACCEPTANCE_AND_NEXT_ITERATION.md)，未来只有出现新 UA 缺陷或真实组件冲突及可验证验收标准时，才独立评审 CSS、版本和新需求。Issue #18 保持 Open，等待本次归档评审后确定结项处理；默认三规则、六个 CSS-only exports、已发布 npm/Tag/Release、依赖和 CI 不变。未独立归档的 Firefox/Safari/移动端精确构建与系统偏好证据不可冒称 PASS。
