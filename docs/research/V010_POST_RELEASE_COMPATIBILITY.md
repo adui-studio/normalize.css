@@ -7,12 +7,12 @@
 
 ## 一、已有证据按类型分层
 
-| 证据来源 | 实际事实 | 不能据此证明 |
-| --- | --- | --- |
-| 维护者 Windows 发行候选验收 | `8bb687f4deda6a5373b53e8c4d45eba34736207a` 上 `verify:mvp` **64/64 PASS**，格式 94/94、Lint 22 文件无错误，8 张 HTML Fixture 构建成功；合并后 `main@cd28baaa` 的打包预览摘要与候选相同 | 所有浏览器的视觉、焦点、系统偏好与真实设备兼容 |
-| npm Registry + GitHub 发行核验 | 官方 npm `latest=0.1.0`、SHA-1 / SHA-512 integrity 均与最终预览一致；附注 Tag / GitHub Release 均指向发行源码 | 任意新的跨浏览器行为 PASS |
-| 旧阶段的六项独立生态 / Reset 构建 | 仓库 HARNESS 已归档 **3 个组件库 + 3 个 Reset 的生产构建 PASS**，绑定历史源码 `main@10eae4cb6a58ee1278b94ae4037cba01d853387d` | 本次 `v0.1.0` 发布 SHA 对这六项已经重跑；构建 PASS 不等于浏览器交互 PASS |
-| PR #28 / Issue #18 的 Chrome 156 管理验收 | Windows Chrome 156 的 M0/M1 静态样式、CSSOM 与 Network 局部证据，键盘和原生交互由维护者签收；其后维护者也确认跨浏览器管理验收通过 | 未提供原始逐平台构建号、JSON 和系统偏好附件的环境已达到独立可审计 PASS |
+| 证据来源                                  | 实际事实                                                                                                                                                                               | 不能据此证明                                                             |
+| ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| 维护者 Windows 发行候选验收               | `8bb687f4deda6a5373b53e8c4d45eba34736207a` 上 `verify:mvp` **64/64 PASS**，格式 94/94、Lint 22 文件无错误，8 张 HTML Fixture 构建成功；合并后 `main@cd28baaa` 的打包预览摘要与候选相同 | 所有浏览器的视觉、焦点、系统偏好与真实设备兼容                           |
+| npm Registry + GitHub 发行核验            | 官方 npm `latest=0.1.0`、SHA-1 / SHA-512 integrity 均与最终预览一致；附注 Tag / GitHub Release 均指向发行源码                                                                          | 任意新的跨浏览器行为 PASS                                                |
+| 旧阶段的六项独立生态 / Reset 构建         | 仓库 HARNESS 已归档 **3 个组件库 + 3 个 Reset 的生产构建 PASS**，绑定历史源码 `main@10eae4cb6a58ee1278b94ae4037cba01d853387d`                                                          | 本次 `v0.1.0` 发布 SHA 对这六项已经重跑；构建 PASS 不等于浏览器交互 PASS |
+| PR #28 / Issue #18 的 Chrome 156 管理验收 | Windows Chrome 156 的 M0/M1 静态样式、CSSOM 与 Network 局部证据，键盘和原生交互由维护者签收；其后维护者也确认跨浏览器管理验收通过                                                      | 未提供原始逐平台构建号、JSON 和系统偏好附件的环境已达到独立可审计 PASS   |
 
 ## 二、本轮独立 Chromium 对照（真实执行，范围受限）
 
@@ -65,14 +65,14 @@ pnpm exec vp dev
 
 在真实浏览器打开 `/fixtures/modules-native.html` 与 `/fixtures/modules-all.html`，记录浏览器完整 Build / OS / 设备；在 Console 采集 `window.__aduiModuleCapture()`；结合 Network 验证实际 `all.css` 已加载及模块代表声明确实生效。**Vite+ 可能内联 CSS `@import`，无需强制要求四个独立网络请求**。实际键盘 Tab、Details、Dialog、表单、系统 forced-colors 与减少动态效果需要独立检查。
 
-| 测试维度 | 当前状态 | 继续补证 |
-| --- | --- | --- |
-| Windows Chrome 156 M0/M1 | 已有 PR #28 的有限静态证据和维护者交互验收 | 若要用于正式支持承诺，补浏览器完整版本、原始 JSON / 实际系统偏好与截图 |
-| Chromium 144 / Linux Headless | **21/21 本次有界测试 PASS** | 真实 HTTP `all.css` 导入链、完整 CSSOM / 网络与真实系统偏好 |
-| Firefox 当前版本、Safari 当前版本 | 维护者旧阶段报告跨浏览器管理验收，但缺独立版本化原始附件 | T0/T2、M0/M1、原生交互与聚焦、版本/OS、计算样式 JSON |
-| Safari 17.2 / 旧 Blink 120（可获得时） | ADR-0006 限定风险接受，并非该特定版本 PASS | R-007 / R-008 的真实差异与作者样式优先级 |
-| iOS Safari / Android Chrome / Firefox | 没有本轮逐设备原始证据 | 设备/OS/浏览器构建、表单/焦点/强制颜色/动态偏好 |
-| Vue Element Plus、Vue TDesign、React Ant Design | 六项历史隔离构建的生态部分可追溯 | 用最终 `v0.1.0` 重跑三个场景，再用真实浏览器比对按钮、输入、焦点 |
-| Tailwind CSS / UnoCSS Reset 三种组合 | 六项历史隔离构建的 Reset 部分可追溯 | 用最终 `v0.1.0` 重跑三个场景，分别核对导入顺序及获胜 CSS 声明 |
+| 测试维度                                        | 当前状态                                                 | 继续补证                                                               |
+| ----------------------------------------------- | -------------------------------------------------------- | ---------------------------------------------------------------------- |
+| Windows Chrome 156 M0/M1                        | 已有 PR #28 的有限静态证据和维护者交互验收               | 若要用于正式支持承诺，补浏览器完整版本、原始 JSON / 实际系统偏好与截图 |
+| Chromium 144 / Linux Headless                   | **21/21 本次有界测试 PASS**                              | 真实 HTTP `all.css` 导入链、完整 CSSOM / 网络与真实系统偏好            |
+| Firefox 当前版本、Safari 当前版本               | 维护者旧阶段报告跨浏览器管理验收，但缺独立版本化原始附件 | T0/T2、M0/M1、原生交互与聚焦、版本/OS、计算样式 JSON                   |
+| Safari 17.2 / 旧 Blink 120（可获得时）          | ADR-0006 限定风险接受，并非该特定版本 PASS               | R-007 / R-008 的真实差异与作者样式优先级                               |
+| iOS Safari / Android Chrome / Firefox           | 没有本轮逐设备原始证据                                   | 设备/OS/浏览器构建、表单/焦点/强制颜色/动态偏好                        |
+| Vue Element Plus、Vue TDesign、React Ant Design | 六项历史隔离构建的生态部分可追溯                         | 用最终 `v0.1.0` 重跑三个场景，再用真实浏览器比对按钮、输入、焦点       |
+| Tailwind CSS / UnoCSS Reset 三种组合            | 六项历史隔离构建的 Reset 部分可追溯                      | 用最终 `v0.1.0` 重跑三个场景，分别核对导入顺序及获胜 CSS 声明          |
 
 **结果记录原则**：`PASS` 必须附准确版本、环境、样本与原始日志；`MANUAL_ACCEPTED` 是维护者管理确认；`NOT_RUN` 或 `EVIDENCE_MISSING` 不自动升级为通过。发现回归先定位具体规则/导入顺序，再决定是否启动新版本修复。不得为了扩大规则数量修改默认 Normalize，也不得新增 CI。

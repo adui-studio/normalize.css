@@ -25,7 +25,7 @@
 | `0.0.1` | 首次 MVP：默认 R-003                               | **npm 已发布**（维护者实际 `npm view` 及截图确认）；首次发布时未创建 Git Tag/Release  |
 | `0.0.2` | R-003、R-007、R-008 与 npm Keywords                | **已发行**：npm 版本可查；`v0.0.2` Tag 已核验，GitHub Release 已发布（2026-11-05）    |
 | `0.0.3` | 默认 Normalize + 可选 Reset/Forms/A11y + `all.css` | **已发行**：npm、附注 Tag `v0.0.3`、GitHub Release 完成；最终 SHA 工程验收 61/61 PASS |
-| `0.1.0` | 默认三规则与可选模块保持既有公开契约 | **已正式发行**：npm latest、附注 Tag / GitHub Release 均已核对一致 |
+| `0.1.0` | 默认三规则与可选模块保持既有公开契约               | **已正式发行**：npm latest、附注 Tag / GitHub Release 均已核对一致                    |
 
 **当前版本决议（2026-11-07）**：npm `0.1.0` 已正式发行并成为 `latest`，附注 `v0.1.0` Git Tag / GitHub Release 精确固定到发行源码。保持 R-003/R-007/R-008 与所有可选模块既有契约；浏览器/生态后续验证见 [发行后兼容性矩阵](research/V010_POST_RELEASE_COMPATIBILITY.md)。
 
