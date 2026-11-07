@@ -3,7 +3,7 @@
  * Optional accessibility enhancements; never remove native focus behavior.
  */
 
-/* Keyboard focus stays visible without changing mouse-only focus behavior. */
+/* Respect UA focus-visible heuristics, including pointer focus on text inputs. */
 :where(:focus-visible) {
   outline: 2px solid currentColor;
   outline-offset: 2px;
