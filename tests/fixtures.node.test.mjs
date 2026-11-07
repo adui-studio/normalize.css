@@ -198,7 +198,9 @@ test("optional module CSSOM probe finds native imports, nested rules and missing
   const normalize = { cssRules: [rule("b, strong", { "font-weight": "bolder" })] };
   // Chromium may serialize "*::before" as "::before"; both must be recognized.
   const reset = { cssRules: [rule("*, ::before, ::after", { "box-sizing": "border-box" })] };
-  const forms = { cssRules: [rule(":where(button, input, select, textarea)", { font: "inherit" })] };
+  const forms = {
+    cssRules: [rule(":where(button, input, select, textarea)", { font: "inherit" })],
+  };
   const a11y = {
     cssRules: [{ cssRules: [rule(":where(:focus-visible)", { "outline-offset": "2px" })] }],
   };
