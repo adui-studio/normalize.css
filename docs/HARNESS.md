@@ -1,5 +1,7 @@
 # HARNESS — 执行、验证与反馈环境
 
+**2026-11-07 · 跨浏览器管理验收完成，进入下一轮规则准入（最新）**：维护者报告跨浏览器验证完成；现有可核对结果分别是 Chrome 156 的 M0/M1 两份真实 JSON 静态对照 **19/19 PASS**、六组生态/Reset 真实 tarball 消费生产构建 **6/6 PASS**，以及 Linux Chromium 144 的内存注入有界检查 **21/21 PASS**。PR #40/#41 已合并，M0/M1 的本地 JSON 导出与 `node tests/modules-evidence.mjs <M0.json> <M1.json>` 离线对照已在 `main`。这不代表每个真实 Safari/Firefox/移动版本都取得原始附件、全部交互或媒体切换审计凭据；具体分层及下一轮需求 Gate 见 [阶段归档计划](plans/POST_V010_ACCEPTANCE_AND_NEXT_ITERATION.md)。不新增脚本、依赖、产品 CSS、版本或 CI；下一阶段不继续重复开发已完成的证据采集工具。
+
 **2026-11-07 · 跨浏览器证据采集增强（新测试分支，待本机验收）**：在已合并 [PR #40](https://github.com/adui-studio/normalize.css/pull/40) 的 CSSOM 检测基础上，M0/M1 页面新增本地 JSON 导出按钮，`tests/modules-evidence.mjs` 提供零依赖的静态样式与导入完整性离线对照；现有 `test:offline` 的 `tests/fixtures.node.test.mjs` 增加 7 项合成/静态契约。隔离 Node 22.16.0 对对照器的 6 项合成测试通过，CLI 缺少参数时退出码 2 已核验；尚未在维护者 Windows 执行新分支 `verify:mvp`、`vp build` 和 Firefox/Safari/移动端 HTTP + 交互验收。操作见[发行后兼容性矩阵第六节](research/V010_POST_RELEASE_COMPATIBILITY.md)。无产品 CSS、依赖、CI 或版本变更。
 
 **2026-11-07 · 当前补测进展（PR 开发分支，未合并）**：维护者在 `main@691525255b8cb585e7412e17e3d29de15a4fa520` 的三个生态消费者和三个 Reset 消费者已实际构建 **6/6 PASS**；独立日志见 [Issue #18](https://github.com/adui-studio/normalize.css/issues/18#issuecomment-6699745295)。下一步仅为 `fixtures/modules-*.html` 补充同源 CSSOM 四模块检测，使用现有 `pnpm run test:offline` 和 `pnpm exec vp dev` 人工验收 M0/M1 的真实 HTTP、计算样式、Tab、原生交互；现有 `verify:mvp` 会包含新增 Node 测试，未增加命令、依赖或 CI。当前开发环境已验证 Node 模拟与 Chromium 内联 CSS 声明检测，但 **localhost HTTP 被环境策略阻断，维护者 Windows 分支全量测试仍 NOT_RUN**。操作步骤见[发行后兼容性矩阵第五节](research/V010_POST_RELEASE_COMPATIBILITY.md)。
