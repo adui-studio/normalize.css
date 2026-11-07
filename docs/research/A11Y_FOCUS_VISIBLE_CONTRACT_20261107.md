@@ -1,5 +1,7 @@
 # A11y · :focus-visible 启发式与可选模块边界审查
 
+**2026-11-07 · 合并后进展（本研究的新状态，优先于下方历史“待确认”记录）**：中英文使用契约已通过 [PR #46](https://github.com/adui-studio/normalize.css/pull/46) 合入 `main`；维护者又独立批准并验收 [PR #47](https://github.com/adui-studio/normalize.css/pull/47)，仅将 `src/a11y.css` 的一句误导性英文注释更正为 `Respect UA focus-visible heuristics, including pointer focus on text inputs.`，未变更 CSS 选择器、声明、媒体查询或公共导出。Issue [#45](https://github.com/adui-studio/normalize.css/issues/45) 仍 Open，等待真实 forced-colors、组件焦点层叠或输入设备场景的具体证据；没有新资料时不推定产品存在 CSS Bug，也不扩大兼容 PASS 范围。本文件下文“此次修改仅文档”“是否授权源码注释”是 PR #46 研究阶段的原始记录。
+
 **日期**：2026-11-07  
 **追踪**：[Issue #45](https://github.com/adui-studio/normalize.css/issues/45)  
 **核对基线**：`main@72e2c0b8d6883b2e21fea326ee3e28687cf00abc`；已发布 `@adui/normalize.css@0.1.0`  
