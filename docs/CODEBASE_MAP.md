@@ -1,5 +1,7 @@
 # CODEBASE_MAP — 仓库结构与定位
 
+**2026-11-07 · 发行后测试资产已合并及下一轮规划位置（最新）**：PR #40/#41 已合入 `main@949683c2cf2be82c8f6898ef83afcd635d0ac607`；`fixtures/modules-cssom.js` 负责标准 CSSOM 嵌套导入检测，`fixtures/modules-probe.js` 在 M0/M1 页面采样并本地导出 JSON，`tests/modules-evidence.mjs` 是离线 CLI，`tests/fixtures.node.test.mjs` 含相应静态和合成验证。下一轮规则准入说明在 [`docs/plans/POST_V010_ACCEPTANCE_AND_NEXT_ITERATION.md`](plans/POST_V010_ACCEPTANCE_AND_NEXT_ITERATION.md)，兼容性结论在 [`docs/research/V010_POST_RELEASE_COMPATIBILITY.md`](research/V010_POST_RELEASE_COMPATIBILITY.md)。这些 Fixture/测试 JS 不属于 npm 运行时，产品 `src/*.css`、六个 exports、依赖与 CI 仍不变。
+
 **2026-11-07 · 浏览器证据导出与对照文件定位（新分支，待验收）**：`fixtures/modules-native.html` 与 `fixtures/modules-all.html` 同步加入离线导出按钮；公共 `fixtures/modules-probe.js` 追加 `capturedAt`、`viewport` 和 Blob JSON 下载能力（不上传数据）。新增 `tests/modules-evidence.mjs`，可通过 `node tests/modules-evidence.mjs <M0.json> <M1.json>` 进行单浏览器、同媒体偏好的静态证据对照；`tests/fixtures.node.test.mjs` 添加其合成测试，无新 npm script。具体测试与证据边界见 [v0.1.0 补证矩阵第六节](research/V010_POST_RELEASE_COMPATIBILITY.md)。
 
 **2026-11-07 · M0/M1 浏览器 CSSOM 补证文件定位（新分支待验收）**：`fixtures/modules-cssom.js` 新增纯浏览器 Fixture 辅助函数 `inspectModuleStylesheet`，递归读取同源 `CSSStyleSheet` 的 `@import` 与嵌套规则，识别四模块代表声明；`fixtures/modules-probe.js` 在原有 M0/M1 计算样式记录中追加 `pageProtocol` 和 `stylesheet.cssom`。`tests/fixtures.node.test.mjs` 增加存在、缺失和异常情形的离线测试；运行和证据边界见 [v0.1.0 补证矩阵](research/V010_POST_RELEASE_COMPATIBILITY.md)。不改产品 `src/`、六个 npm CSS 导出、Vite+ 工具链、依赖或 CI；这些 Fixture JS 不打进 npm 发布包。
