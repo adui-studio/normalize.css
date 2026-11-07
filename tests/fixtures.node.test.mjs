@@ -335,10 +335,7 @@ test("file protocol or unloaded stylesheet cannot pass", () => {
 });
 
 test("malformed module evidence must not be reported as PASS", () => {
-  assert.throws(
-    () => compareModuleEvidence({}, syntheticModuleEvidence("M1")),
-    /M0.location/,
-  );
+  assert.throws(() => compareModuleEvidence({}, syntheticModuleEvidence("M1")), /M0.location/);
   const all = syntheticModuleEvidence("M1");
   all.styles["module-input"] = null;
   assert.throws(

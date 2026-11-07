@@ -65,8 +65,7 @@ export function compareModuleEvidence(nativeJson, allJson) {
   check("same-user-agent", native.userAgent === all.userAgent, "两份证据的 userAgent 不一致");
   check(
     "same-http-environment",
-    ["http:", "https:"].includes(native.pageProtocol) &&
-      native.pageProtocol === all.pageProtocol,
+    ["http:", "https:"].includes(native.pageProtocol) && native.pageProtocol === all.pageProtocol,
     "两页必须通过相同的 HTTP(S) 协议访问，不能使用 file://",
   );
   check(
@@ -97,11 +96,7 @@ export function compareModuleEvidence(nativeJson, allJson) {
     "Reset 表格应采用 collapse",
   );
   for (const key of ["module-button", "module-input", "module-select", "module-textarea"]) {
-    check(
-      `forms-${key}`,
-      all.styles[key].fontSize === "18px",
-      `${key} 应继承作者区域的 18px 字号`,
-    );
+    check(`forms-${key}`, all.styles[key].fontSize === "18px", `${key} 应继承作者区域的 18px 字号`);
   }
   check(
     "native-hidden-preserved",
