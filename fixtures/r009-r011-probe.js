@@ -7,12 +7,7 @@ const hrIds = [
   "hr-color-width",
   "hr-author",
 ];
-const summaryIds = [
-  "summary-closed",
-  "summary-open",
-  "summary-author",
-  "summary-marker",
-];
+const summaryIds = ["summary-closed", "summary-open", "summary-author", "summary-marker"];
 
 function markerContent(element) {
   try {
@@ -55,9 +50,7 @@ function capture() {
     userAgent: navigator.userAgent,
     location: window.location.pathname,
     protocol: window.location.protocol,
-    stylesheet: link
-      ? { href: link.getAttribute("href"), loaded: link.sheet !== null }
-      : null,
+    stylesheet: link ? { href: link.getAttribute("href"), loaded: link.sheet !== null } : null,
     focus: {
       id: focused?.id || null,
       focusVisible: focused?.matches(":focus-visible") ?? false,

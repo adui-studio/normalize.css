@@ -8,15 +8,15 @@
 
 ## 一、来源与适用范围
 
-| 来源 | 核对内容 | 可证明 / 不可证明 |
-| --- | --- | --- |
-| [WHATWG HTML Rendering §15.3.11](https://html.spec.whatwg.org/multipage/rendering.html#the-hr-element) | 建议 UA 为 `hr` 使用 `color: gray`、`border-style: inset`、1px 边框、`margin-block: .5em`、`margin-inline: auto`、`overflow: hidden`；另外规定 `align`、`size`、`noshade`、`color`、`width` 的呈现属性处理 | 是对**用户代理默认渲染的建议**，不能推出作者级 CSS 应覆盖这些属性，也不代表每个浏览器实现完全一致 |
-| [WHATWG HTML Rendering §15.5.5](https://html.spec.whatwg.org/multipage/rendering.html#the-details-and-summary-elements) | 建议 `details, summary` 默认为 `block`，`details > summary:first-of-type` 为 `list-item`，使用 `disclosure-closed` / `disclosure-open`；无直接 summary 时提供 UA 自定义的默认标签 | 不等于要全局设置 `summary {display:list-item}`，且并非所有可访问性和 marker 行为在全部浏览器完全一致 |
-| [MDN `summary`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/summary) | 描述原生 disclosure、作者改 `display:block` 可隐藏默认三角、存在辅助技术/标题语义差异 | 是行为参考，不是本库特定版本的实测证明 |
-| [necolas/normalize.css v8 当前主仓库文件](https://github.com/necolas/normalize.css/blob/master/normalize.css) | 保留旧 `hr` 的 `box-sizing:content-box; height:0; overflow:visible` 以及全局 `summary {display:list-item}`；源文件注释包含 Firefox / Edge / IE 等历史动机 | 是历史修复方案，并非如今 `@adui/normalize.css` 必须移植的规则 |
-| [modern-normalize v3.0.1 源码](https://github.com/sindresorhus/modern-normalize/blob/main/modern-normalize.css) | 仍有 `summary {display:list-item}`，但当前源码**未包含针对 `hr` 的专门规则**，全局盒模型属于其 opinionated 选择 | 证明竞品取舍并不统一，不能独立证明某个具体 UA 仍有 bug |
+| 来源                                                                                                                    | 核对内容                                                                                                                                                                                                   | 可证明 / 不可证明                                                                                    |
+| ----------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| [WHATWG HTML Rendering §15.3.11](https://html.spec.whatwg.org/multipage/rendering.html#the-hr-element)                  | 建议 UA 为 `hr` 使用 `color: gray`、`border-style: inset`、1px 边框、`margin-block: .5em`、`margin-inline: auto`、`overflow: hidden`；另外规定 `align`、`size`、`noshade`、`color`、`width` 的呈现属性处理 | 是对**用户代理默认渲染的建议**，不能推出作者级 CSS 应覆盖这些属性，也不代表每个浏览器实现完全一致    |
+| [WHATWG HTML Rendering §15.5.5](https://html.spec.whatwg.org/multipage/rendering.html#the-details-and-summary-elements) | 建议 `details, summary` 默认为 `block`，`details > summary:first-of-type` 为 `list-item`，使用 `disclosure-closed` / `disclosure-open`；无直接 summary 时提供 UA 自定义的默认标签                          | 不等于要全局设置 `summary {display:list-item}`，且并非所有可访问性和 marker 行为在全部浏览器完全一致 |
+| [MDN `summary`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/summary)                           | 描述原生 disclosure、作者改 `display:block` 可隐藏默认三角、存在辅助技术/标题语义差异                                                                                                                      | 是行为参考，不是本库特定版本的实测证明                                                               |
+| [necolas/normalize.css v8 当前主仓库文件](https://github.com/necolas/normalize.css/blob/master/normalize.css)           | 保留旧 `hr` 的 `box-sizing:content-box; height:0; overflow:visible` 以及全局 `summary {display:list-item}`；源文件注释包含 Firefox / Edge / IE 等历史动机                                                  | 是历史修复方案，并非如今 `@adui/normalize.css` 必须移植的规则                                        |
+| [modern-normalize v3.0.1 源码](https://github.com/sindresorhus/modern-normalize/blob/main/modern-normalize.css)         | 仍有 `summary {display:list-item}`，但当前源码**未包含针对 `hr` 的专门规则**，全局盒模型属于其 opinionated 选择                                                                                            | 证明竞品取舍并不统一，不能独立证明某个具体 UA 仍有 bug                                               |
 
-特别注意：WHATWG 的 Rendering 章节使用 *expected* 描述建议的 UA 表现。若作者侧为兼容旧引擎新增规则，需要证明实际缺陷和规则的额外价值；不能把规范建议当作需要复制到 CSS Normalize 的清单。
+特别注意：WHATWG 的 Rendering 章节使用 _expected_ 描述建议的 UA 表现。若作者侧为兼容旧引擎新增规则，需要证明实际缺陷和规则的额外价值；不能把规范建议当作需要复制到 CSS Normalize 的清单。
 
 ## 二、仓库实际代码与缺口
 
@@ -28,16 +28,16 @@
 
 新增 `fixtures/r009-r011-native.html`（T0）和 `fixtures/r009-r011-package.html`（T2），以及同源 `r009-r011-probe.js`。两页 **body、作者 `style`、探针完全相同**，T2 只额外导入 `../dist/normalize.css`；这是真实 `vp pack` 产物路径，非候选规则或内存 CSS。保留现有固定默认规则。
 
-| 场景 | DOM 或作者样式 | 核对点 |
-| --- | --- | --- |
-| R-009 / 1 | `hr` | 原生高度、边框、溢出与实际渲染高度 |
-| R-009 / 2 | `hr size="1"`、`hr size="4"` | 历史 `size` 呈现属性 |
-| R-009 / 3 | `hr size="4" noshade`、`hr color width` | 呈现属性的组合与优先级 |
-| R-009 / 4 | 作者 `height`、`border`、`overflow` | T2 不得覆盖作者明确意图 |
-| R-011 / 1 | `details > summary`（默认关闭） | `display`、marker、实际点击/Enter/Space 展开 |
-| R-011 / 2 | `details open > summary` | 初始打开、原生 marker、收起与焦点 |
-| R-011 / 3 | 作者 `summary {display:block}`（仅局部 class） | 作者显式隐藏 marker 的策略不得被新默认规则覆盖 |
-| R-011 / 4 | 作者 `summary::marker`，以及无 `summary` 的 `details` | 作者自定义与 UA 后备 label，应人工核对视觉 |
+| 场景      | DOM 或作者样式                                        | 核对点                                         |
+| --------- | ----------------------------------------------------- | ---------------------------------------------- |
+| R-009 / 1 | `hr`                                                  | 原生高度、边框、溢出与实际渲染高度             |
+| R-009 / 2 | `hr size="1"`、`hr size="4"`                          | 历史 `size` 呈现属性                           |
+| R-009 / 3 | `hr size="4" noshade`、`hr color width`               | 呈现属性的组合与优先级                         |
+| R-009 / 4 | 作者 `height`、`border`、`overflow`                   | T2 不得覆盖作者明确意图                        |
+| R-011 / 1 | `details > summary`（默认关闭）                       | `display`、marker、实际点击/Enter/Space 展开   |
+| R-011 / 2 | `details open > summary`                              | 初始打开、原生 marker、收起与焦点              |
+| R-011 / 3 | 作者 `summary {display:block}`（仅局部 class）        | 作者显式隐藏 marker 的策略不得被新默认规则覆盖 |
+| R-011 / 4 | 作者 `summary::marker`，以及无 `summary` 的 `details` | 作者自定义与 UA 后备 label，应人工核对视觉     |
 
 探针记录 UA、访问路径、HTTP(S) 协议、T2 链接状态、`hr` 计算样式与 `getBoundingClientRect().height`、`summary` 的 display/list-style/marker 内容、当前 `details.open` 及焦点快照。**不修改被测原生节点，不发送网络请求、不写浏览器持久存储**。
 

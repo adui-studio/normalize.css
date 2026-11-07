@@ -369,7 +369,9 @@ test("R-009/R-011 research fixtures preserve T0/T2 DOM and author CSS", () => {
   assert.equal(style(native), style(packed));
   assert.ok(!native.includes('id="package-css"'));
   assert.ok(!native.includes('href="../dist/normalize.css"'));
-  assert.ok(packed.includes('<link id="package-css" rel="stylesheet" href="../dist/normalize.css" />'));
+  assert.ok(
+    packed.includes('<link id="package-css" rel="stylesheet" href="../dist/normalize.css" />'),
+  );
 
   for (const html of [native, packed]) {
     assert.ok(html.includes('src="./r009-r011-probe.js"'));
