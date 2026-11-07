@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync, existsSync } from "node:fs";
 import { test } from "node:test";
 import { inspectModuleStylesheet } from "../fixtures/modules-cssom.js";
+import { compareModuleEvidence } from "./modules-evidence.mjs";
 
 const read = (name) => readFileSync(new URL(`../fixtures/${name}`, import.meta.url), "utf8");
 const fixtureNames = [
@@ -240,5 +241,119 @@ test("optional module probe exposes CSSOM and document protocol without remote A
   assert.match(source, /from "\.\/modules-cssom\.js"/);
   assert.match(source, /pageProtocol: window\.location\.protocol/);
   assert.match(source, /cssom: inspectModuleStylesheet\(link\.sheet\)/);
+  assert.doesNotMatch(source, /fetch\s*\(|XMLHttpRequest|localStorage|sendBeacon/);
+});
+
+function syntheticModuleEvidence(role) {
+  const styles = Object.fromEntries(
+    [
+      "module-box",
+      "module-table",
+      "module-button",
+      "module-input",
+      "module-select",
+      "module-textarea",
+      "module-hidden",
+    ].map((id) => [id, {}]),
+  );
+  styles["module-box"].boxSizing = role === "M1" ? "border-box" : "content-box";
+  styles["module-table"].borderCollapse = role === "M1" ? "collapse" : "separate";
+  styles["module-hidden"].display = "none";
+  for (const id of ["module-button", "module-input", "module-select", "module-textarea"]) {
+    styles[id].fontSize = role === "M1" ? "18px" : "13px";
+  }
+  return {
+    userAgent: "Synthetic Browser/1 (unit-test only)",
+    location: role === "M0" ? "/fixtures/modules-native.html" : "/fixtures/modules-all.html",
+    pageProtocol: "http:",
+    stylesheet:
+      role === "M0"
+        ? null
+        : {
+            href: "../src/all.css",
+            loaded: true,
+            cssom: {
+              normalize: true,
+              reset: true,
+              forms: true,
+              a11y: true,
+              complete: true,
+              error: null,
+            },
+          },
+    media: { reducedMotion: false, forcedColors: false },
+    rootScrollBehavior: "smooth",
+    styles,
+  };
+}
+
+test("M0/M1 synthetic static probes pass without claiming browser support", () => {
+  const result = compareModuleEvidence(
+    syntheticModuleEvidence("M0"),
+    syntheticModuleEvidence("M1"),
+  );
+  assert.equal(result.status, "PROBE_PASS");
+  assert.equal(result.failed, 0);
+  assert.ok(result.checked >= 12);
+});
+
+test("missing imported module cannot pass evidence comparison", () => {
+  const all = syntheticModuleEvidence("M1");
+  all.stylesheet.cssom.forms = false;
+  all.stylesheet.cssom.complete = false;
+  const result = compareModuleEvidence(syntheticModuleEvidence("M0"), all);
+  assert.equal(result.status, "PROBE_FAIL");
+  assert.match(result.issues.join(" "), /cssom-forms/);
+});
+
+test("reduced-motion branch checks computed behavior", () => {
+  const native = syntheticModuleEvidence("M0");
+  const all = syntheticModuleEvidence("M1");
+  native.media.reducedMotion = true;
+  all.media.reducedMotion = true;
+  all.rootScrollBehavior = "auto";
+  assert.equal(compareModuleEvidence(native, all).status, "PROBE_PASS");
+  all.rootScrollBehavior = "smooth";
+  assert.equal(compareModuleEvidence(native, all).status, "PROBE_FAIL");
+});
+
+test("different browser or media settings cannot pass", () => {
+  const native = syntheticModuleEvidence("M0");
+  const all = syntheticModuleEvidence("M1");
+  all.userAgent = "Other Browser/1";
+  all.media.forcedColors = true;
+  assert.equal(compareModuleEvidence(native, all).status, "PROBE_FAIL");
+});
+
+test("file protocol or unloaded stylesheet cannot pass", () => {
+  const native = syntheticModuleEvidence("M0");
+  const all = syntheticModuleEvidence("M1");
+  native.pageProtocol = "file:";
+  all.pageProtocol = "file:";
+  all.stylesheet.loaded = false;
+  assert.equal(compareModuleEvidence(native, all).status, "PROBE_FAIL");
+});
+
+test("malformed module evidence must not be reported as PASS", () => {
+  assert.throws(() => compareModuleEvidence({}, syntheticModuleEvidence("M1")), /M0.location/);
+  const all = syntheticModuleEvidence("M1");
+  all.styles["module-input"] = null;
+  assert.throws(
+    () => compareModuleEvidence(syntheticModuleEvidence("M0"), all),
+    /M1.styles.module-input/,
+  );
+});
+
+test("M0/M1 expose identical offline JSON export controls", () => {
+  const native = read("modules-native.html");
+  const all = read("modules-all.html");
+  for (const html of [native, all]) {
+    assert.match(html, /<button id="module-export" type="button">/);
+  }
+  const source = read("modules-probe.js");
+  assert.match(source, /capturedAt: new Date\(\)\.toISOString\(\)/);
+  assert.match(source, /URL\.createObjectURL\(data\)/);
+  assert.match(source, /URL\.revokeObjectURL\(url\)/);
+  assert.match(source, /link\.download =/);
   assert.doesNotMatch(source, /fetch\s*\(|XMLHttpRequest|localStorage|sendBeacon/);
 });
