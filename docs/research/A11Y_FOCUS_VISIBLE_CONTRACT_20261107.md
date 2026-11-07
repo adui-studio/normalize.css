@@ -49,6 +49,6 @@
 ## 五、研究决定与尚未完成的事项
 
 - **研究结论**：`:focus-visible` 的指针例外已经由标准和浏览器资料解释；**目前没有证据证明已发布 A11y CSS 存在必须修复的功能性 Bug**。因此建议当前规则 **KEEP**，先同步中英文用户说明。
-- **此次修改**：仅 README.zh/README.en 与工程研究/上下文/验收指引文档，产品 `src/a11y.css` 注释及声明、公开 CSS exports、依赖、CI、版本和 Tag/Release **不变**。
+- **此次修改**：仅 README.md/README.en.md 与工程研究/上下文/验收指引文档，产品 `src/a11y.css` 注释及声明、公开 CSS exports、依赖、CI、版本和 Tag/Release **不变**。
 - **待确认**：Windows 真实 forced-colors、reduced-motion、文本框 pointer-focus 的版本化样本；真实组件样式层叠冲突是否存在；是否授权将 `src/a11y.css` 内部英文注释修改为更准确的 UA heuristic 描述。
 - **关闭条件**：维护者认可本次对外契约澄清，且未报告具体回归，可按“研究完毕、产品声明不变”结项；若提交真实可复现问题，再另立最小缺陷修复范围。此文档本身不是完整浏览器验收 PASS。
