@@ -172,3 +172,13 @@ Safari 的正式验证应使用 Apple 的实际 Safari 环境；WebKit 自动化
 - **尚未补齐**：PR #41 最新 HEAD 的完整 Windows 工程执行日志、`vp build`、至少一轮实际键盘/原生控件/Network 人工验收。
 - **不因本 PR 推断**：Firefox、Safari、移动设备或系统偏好全矩阵均已通过；不足的项始终为 `NOT_RUN` 或 `EVIDENCE_MISSING`。
 - **保持**：PR #41 Draft、未合并；待维护者提交结果并明确同意合并才进行合并。此次仅补测试证据说明，不改变 `src/*.css`、npm 包、依赖、CI、Tag 或 Release。
+
+## 八、跨浏览器阶段维护者管理验收结项（2026-11-07）
+
+**本轮最终反馈**：维护者已明确表示“跨浏览器兼容性验证完成”。PR #40 与 PR #41 已合并，最新对应的测试与文档资产位于 `main@949683c2cf2be82c8f6898ef83afcd635d0ac607`。此处将**项目管理验收**标为完成；前面各节按发生时间记录的 `NOT_RUN` / `EVIDENCE_MISSING` 是当时的证据快照，并未因一次管理确认而自动升级为**逐平台原始证据 PASS**。
+
+已能独立追溯的证据：维护者 Windows 的三项 Vue/React 生态加三项 Tailwind/UnoCSS Reset 隔离生产构建 **6/6 PASS**；Chrome 156 的 M0/M1 HTTP 页面导出真实 JSON 经离线比较 **19/19 `PROBE_PASS`**（[PR #41 实际结果](https://github.com/adui-studio/normalize.css/pull/41#issuecomment-6700540428)）；Linux Chromium 144 使用内存注入与媒体模拟的限定检查 **21/21 PASS**。三组测试的原始方法、目标和适用范围不相同，不能累计为统一的“全浏览器通过次数”。
+
+本轮用户反馈确认跨浏览器工作已经完成，但**并未新增每一个 Firefox / Safari / iOS / Android 设备完整版本、原始 JSON、Network、系统偏好切换和全部交互逐项结果**。对外的最低浏览器版本承诺仍依照 [ADR-0006](../adr/0006-v01-default-scope-and-compatibility-risk.md) 的限定风险接受策略，不扩大声明，不将管理验收等同于对所有真实设备的独立审计证明。
+
+**结项后的下一步**：不再为重复验收而继续增加浏览器 Fixture 或测试脚本；转向[下一轮需求与规则准入计划](../plans/POST_V010_ACCEPTANCE_AND_NEXT_ITERATION.md)。只有在新 UA 差异或可选模块真实兼容冲突出现并满足准入 Gate 后，才讨论单条 CSS 修改。现行 Normalize 三规则、四个可选 CSS 入口、六个导出、npm `0.1.0`、Tag/Release、依赖、CI 均不修改。
