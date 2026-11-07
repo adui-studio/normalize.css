@@ -1,15 +1,17 @@
 # 更新日志 · Changelog
 
-本文件记录 `@adui/normalize.css` 已发行版本和候选变更。当前仓库源码版本为 **`0.1.0`**，实际 npm 发行版本以 Registry 为准；`0.0.3` 已正式发布，见 [Git Tag / GitHub Release `v0.0.3`](https://github.com/adui-studio/normalize.css/releases/tag/v0.0.3)。历史版本 `0.0.1`、`0.0.2` 保持不变。
+本文件记录 `@adui/normalize.css` 已发行版本和历史候选变更。当前正式 npm 版本为 **[`0.1.0`](https://github.com/adui-studio/normalize.css/releases/tag/v0.1.0)**，已确认 npm `latest`、发布包 SHA-1 / integrity、附注 Git Tag 及 GitHub Release 一致。旧版 `0.0.1`、`0.0.2`、`0.0.3` 的发行记录保持不变。
 
-## 0.1.0 · 发行准备（发布状态以 npm Registry 与 Git Tag 为准）
+## 0.1.0 · 2026-11-06（npm、附注 Git Tag、GitHub Release 已发布）
 
 - **范围与产品行为**：依照 ADR-0006 方案 A，默认 Normalize 仍仅 R-003/R-007/R-008；Reset、Forms、A11y 与 `all.css` 继续显式 opt-in。相比已发布 `0.0.3`，产品 CSS 与六个 CSS-only 导出均不变，无运行时 JavaScript 依赖或新增 CI。
 - **版本迁移**：`package.json` 调整为 `0.1.0`，同步两处真实包版本断言与中英文发行说明；保留 `0.0.3` 历史已发行事实。
 - **工程验收（合并后源码）**：维护者在 `main@02dec1c9c3801fdb580b3b5798d803d348a2a213` 验证格式 94/94、Lint 22 文件零错误、Vitest 8/8、Node 离线 54/54、真实 npm tarball 安装 1/1、Vite+ CSS 消费 1/1，合计 64/64 PASS；8 个 Fixture 生产构建成功，工作区干净。
-- **当时打包预览**：10 个文件、9,281 B、无 bundled 依赖。该数字属于上述源码 SHA 的 dry-run；发行说明修改后包体积及摘要可能变化，应以最终发布提交重新打包的实际输出为准。
+- **最终发行包**：发行源码 `cd28baaa5bf0a2af995053a7a35147e7392265a4` 经 `npm pack --dry-run` 确认 10 个文件、9,240 B、无 bundled 依赖；已公开 npm Registry 的 `dist.shasum=09ad11dc9c52538941fb8bdf5629f4841411dde3` 及 integrity 与最终预览一致。历史较早 SHA 的 9,281 B 仅为当时的候选预览。
 - **兼容性边界**：旧 Safari/R-007、旧 Blink/R-008 风险按 ADR-0006 限定接受；现有测试不能证明全部历史浏览器、真实视觉、键盘或系统偏好矩阵通过，不承诺未经逐版本验证的最低浏览器版本。
-- **发行权限**：本段为版本内容记录，不表示已经发布 npm 或创建 `v0.1.0` Tag / GitHub Release；发布与打标签仍需独立授权。
+- **正式发行**：npm `0.1.0` / `latest` 已公开；GitHub 附注 `v0.1.0` Tag 对象 `61ce800543c4d8a53c7c098c3d945843a219ef91` 解引用到上述发行源码，Release 已于 2026-11-06T10:07:24Z Published（非 Draft/Prerelease）。本版默认与可选 CSS 均不改变此前已发行行为；发行后的文档同步不能更改旧 tarball。
+
+**发行后浏览器证据**：2026-11-07 在 Chromium 144/Linux Headless 完成 21/21 个受限 CSS 行为检查，逐文件 Git Blob 与发行 Tag 一致；采用内存 CSS 注入和媒体模拟，**不等于**实际 HTTP 导入、Windows 系统偏好或全浏览器组件矩阵 PASS。详见 [v0.1.0 发行后兼容性矩阵](docs/research/V010_POST_RELEASE_COMPATIBILITY.md)。
 
 ## 0.0.3 · 2026-11-06（npm、Git Tag、GitHub Release 已发布）
 

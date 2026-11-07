@@ -6,7 +6,7 @@ A lightweight, low-intrusion CSS Normalize library built around documented rule 
 
 `@adui/normalize.css` corrects selected browser-default differences while preserving native HTML semantics, user preferences, and existing component styles wherever possible. It ships **CSS only, with no runtime JavaScript dependencies**.
 
-> **Version note:** The current repository source version is **`0.1.0`**. Default Normalize still contains only R-003, R-007, and R-008; Reset, Forms, Accessibility, and `all.css` remain explicit opt-ins. **Check the npm registry for the currently published version** (`npm view @adui/normalize.css version`). Version `0.0.3` was published and first introduced those optional modules; see [GitHub Release `v0.0.3`](https://github.com/adui-studio/normalize.css/releases/tag/v0.0.3). Earlier `0.0.1` includes only R-003, while `0.0.2` first introduced the three-rule default. No unverified minimum-browser-version guarantee is made.
+> **Version note:** The latest published npm version is **[`0.1.0`](https://github.com/adui-studio/normalize.css/releases/tag/v0.1.0)** (npm `latest`, package digests, annotated Git tag, and published GitHub Release verified). Default Normalize retains R-003, R-007 and R-008; Reset, Forms, Accessibility and `all.css` remain explicit opt-ins and were first introduced in `0.0.3`. Earlier `0.0.1` includes only R-003, and `0.0.2` first introduced the three-rule default. See the [post-release compatibility matrix](docs/research/V010_POST_RELEASE_COMPATIBILITY.md); no unverified minimum-browser-version guarantee is made.
 
 ## Features
 
