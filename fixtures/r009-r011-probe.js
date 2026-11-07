@@ -34,7 +34,7 @@ function sample(id) {
     listStyleType: style.listStyleType,
     listStylePosition: style.listStylePosition,
     color: style.color,
-    markerContent: getComputedStyle(element, "::marker").content,
+    markerContent: getComputedStyle(element, "::marker")?.content ?? null,
     detailsOpen: element.closest("details")?.open ?? null,
   };
 }
