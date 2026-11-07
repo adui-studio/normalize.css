@@ -1,3 +1,5 @@
+import { inspectModuleStylesheet } from "./modules-cssom.js";
+
 // 仅供本地浏览器 Fixture，绝不作为 npm 运行时脚本分发。
 const properties = {
   "module-heading": ["marginBlockStart", "marginBlockEnd", "fontSize", "fontWeight"],
@@ -32,7 +34,14 @@ function capture() {
   const result = {
     userAgent: navigator.userAgent,
     location: window.location.pathname,
-    stylesheet: link ? { href: link.getAttribute("href"), loaded: link.sheet !== null } : null,
+    pageProtocol: window.location.protocol,
+    stylesheet: link
+      ? {
+          href: link.getAttribute("href"),
+          loaded: link.sheet !== null,
+          cssom: inspectModuleStylesheet(link.sheet),
+        }
+      : null,
     media: {
       forcedColors: matchMedia("(forced-colors: active)").matches,
       reducedMotion: matchMedia("(prefers-reduced-motion: reduce)").matches,

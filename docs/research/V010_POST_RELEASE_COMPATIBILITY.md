@@ -76,3 +76,23 @@ pnpm exec vp dev
 | Tailwind CSS / UnoCSS Reset 三种组合            | 六项历史隔离构建的 Reset 部分可追溯                      | 用最终 `v0.1.0` 重跑三个场景，分别核对导入顺序及获胜 CSS 声明          |
 
 **结果记录原则**：`PASS` 必须附准确版本、环境、样本与原始日志；`MANUAL_ACCEPTED` 是维护者管理确认；`NOT_RUN` 或 `EVIDENCE_MISSING` 不自动升级为通过。发现回归先定位具体规则/导入顺序，再决定是否启动新版本修复。不得为了扩大规则数量修改默认 Normalize，也不得新增 CI。
+
+## 五、发行后 CSSOM 真实导入补证（开发中，2026-11-07）
+
+维护者已在 Windows `main@691525255b8cb585e7412e17e3d29de15a4fa520` 上执行三组 Vue/React 与三组 Tailwind/UnoCSS Reset 的**真实 tarball 隔离生产构建，6/6 PASS**。原始日志和 PowerShell 汇总误报的根因记录于 [Issue #18](https://github.com/adui-studio/normalize.css/issues/18#issuecomment-6699745295)。这六项属于**构建证据**，不作为浏览器交互、视觉或 CSS 层叠 PASS。
+
+为补足本文件第二节所述的 HTTP `all.css` 缺口，本轮在现有 `fixtures/modules-probe.js` 中增加同源 CSSOM 模块声明观察，纯辅助逻辑位于 `fixtures/modules-cssom.js`。探针读取 M1 的 `link.sheet.cssRules`，递归追踪标准 `@import` 的 `CSSImportRule.styleSheet` 与打包器内联后的嵌套规则，分别判断 Normalize、Reset、Forms、A11y 的代表性声明。M0 仍无 `modules-css` 链接，M0/M1 的 DOM、作者样式和被测产品 CSS 均不改动。
+
+本轮只完成**代码与有界单测候选**：Node 模拟覆盖四模块存在、单模块缺失、空样式表及 CSSOM 访问异常；Chromium 内联 CSS 的代表性声明识别已执行并通过。尤其在 Chromium CSSOM 中，`*::before` 可能序列化为 `::before`，Reset 检查因此只按伪元素片段与 `box-sizing: border-box` 匹配。浏览器容器对 `127.0.0.1` HTTP 导航返回 `ERR_BLOCKED_BY_ADMINISTRATOR`，**未完成本轮真实 HTTP 测试，也未在维护者 Windows 上执行分支完整 `vp check` / `verify:mvp`**。
+
+维护者本机复验（PowerShell）：
+
+```powershell
+pnpm install --frozen-lockfile
+pnpm run verify:mvp
+pnpm exec vp dev
+```
+
+在 `vp dev` 输出的本地 HTTP 地址打开 `/fixtures/modules-native.html` 和 `/fixtures/modules-all.html`；分别在 DevTools Console 执行 `window.__aduiModuleCapture()` 并导出 JSON。M0 预期 `stylesheet === null`；M1 预期 `pageProtocol === "http:"`（或 HTTPS）、`stylesheet.loaded === true`、`stylesheet.cssom.complete === true`，四个模块标记均为 `true` 且 `error === null`。同时通过 Network 确认 `all.css` 及内联/独立子导入无失败响应，比较 Reset/Forms 计算样式，再实际操作 Tab、Details、Dialog、原生表单与系统偏好。
+
+**限制**：CSSOM 声明完整性不是 HTTP 状态证明，也不能替代可见焦点、实际键盘交互或真实 Safari/Firefox/移动端结果。若在某个浏览器拿不到 CSSOM（例如跨源安全限制），会返回 `complete:false` 与 `error`，该场景记录为待调查，不自动判定 CSS 本身错误。新辅助脚本不属于 npm 包，且不增加依赖、CI 或产品 CSS。

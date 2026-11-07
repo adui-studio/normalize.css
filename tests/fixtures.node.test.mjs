@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync, existsSync } from "node:fs";
 import { test } from "node:test";
+import { inspectModuleStylesheet } from "../fixtures/modules-cssom.js";
 
 const read = (name) => readFileSync(new URL(`../fixtures/${name}`, import.meta.url), "utf8");
 const fixtureNames = [
@@ -187,4 +188,57 @@ test("v0.0.3 optional module probe has no network or storage dependencies", () =
     assert.ok(index.includes('href="./' + name + '"'));
     assert.ok(existsSync(new URL("../fixtures/" + name, import.meta.url)));
   }
+});
+
+test("optional module CSSOM probe finds native imports, nested rules and missing modules", () => {
+  const rule = (selectorText, declarations) => ({
+    selectorText,
+    style: { getPropertyValue: (property) => declarations[property] ?? "" },
+  });
+  const normalize = { cssRules: [rule("b, strong", { "font-weight": "bolder" })] };
+  // Chromium may serialize "*::before" as "::before"; both must be recognized.
+  const reset = { cssRules: [rule("*, ::before, ::after", { "box-sizing": "border-box" })] };
+  const forms = {
+    cssRules: [rule(":where(button, input, select, textarea)", { font: "inherit" })],
+  };
+  const a11y = {
+    cssRules: [{ cssRules: [rule(":where(:focus-visible)", { "outline-offset": "2px" })] }],
+  };
+  const imported = [normalize, reset, forms, a11y].map((styleSheet) => ({ styleSheet }));
+
+  assert.deepEqual(inspectModuleStylesheet({ cssRules: imported }), {
+    normalize: true,
+    reset: true,
+    forms: true,
+    a11y: true,
+    complete: true,
+    error: null,
+  });
+  assert.deepEqual(inspectModuleStylesheet({ cssRules: imported.slice(0, 3) }), {
+    normalize: true,
+    reset: true,
+    forms: true,
+    a11y: false,
+    complete: false,
+    error: null,
+  });
+  assert.equal(inspectModuleStylesheet(null), null);
+  assert.deepEqual(
+    inspectModuleStylesheet({
+      get cssRules() {
+        const error = new Error("cross-origin stylesheet");
+        error.name = "SecurityError";
+        throw error;
+      },
+    }),
+    { complete: false, error: "SecurityError" },
+  );
+});
+
+test("optional module probe exposes CSSOM and document protocol without remote APIs", () => {
+  const source = read("modules-probe.js");
+  assert.match(source, /from "\.\/modules-cssom\.js"/);
+  assert.match(source, /pageProtocol: window\.location\.protocol/);
+  assert.match(source, /cssom: inspectModuleStylesheet\(link\.sheet\)/);
+  assert.doesNotMatch(source, /fetch\s*\(|XMLHttpRequest|localStorage|sendBeacon/);
 });
