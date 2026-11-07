@@ -1,5 +1,7 @@
 # CODEBASE_MAP — 仓库结构与定位
 
+**2026-11-07 · 浏览器证据导出与对照文件定位（新分支，待验收）**：`fixtures/modules-native.html` 与 `fixtures/modules-all.html` 同步加入离线导出按钮；公共 `fixtures/modules-probe.js` 追加 `capturedAt`、`viewport` 和 Blob JSON 下载能力（不上传数据）。新增 `tests/modules-evidence.mjs`，可通过 `node tests/modules-evidence.mjs <M0.json> <M1.json>` 进行单浏览器、同媒体偏好的静态证据对照；`tests/fixtures.node.test.mjs` 添加其合成测试，无新 npm script。具体测试与证据边界见 [v0.1.0 补证矩阵第六节](research/V010_POST_RELEASE_COMPATIBILITY.md)。
+
 **2026-11-07 · M0/M1 浏览器 CSSOM 补证文件定位（新分支待验收）**：`fixtures/modules-cssom.js` 新增纯浏览器 Fixture 辅助函数 `inspectModuleStylesheet`，递归读取同源 `CSSStyleSheet` 的 `@import` 与嵌套规则，识别四模块代表声明；`fixtures/modules-probe.js` 在原有 M0/M1 计算样式记录中追加 `pageProtocol` 和 `stylesheet.cssom`。`tests/fixtures.node.test.mjs` 增加存在、缺失和异常情形的离线测试；运行和证据边界见 [v0.1.0 补证矩阵](research/V010_POST_RELEASE_COMPATIBILITY.md)。不改产品 `src/`、六个 npm CSS 导出、Vite+ 工具链、依赖或 CI；这些 Fixture JS 不打进 npm 发布包。
 
 **2026-11-07 · `v0.1.0` 已正式发行与后续验证定位（当前权威状态）**：发行源码 `cd28baaa5bf0a2af995053a7a35147e7392265a4`、npm `@adui/normalize.css@0.1.0`、附注 Tag 与 Published GitHub Release 均已核对；产品文件仍为 `src/normalize.css`、`src/reset.css`、`src/forms.css`、`src/a11y.css`、`src/all.css`，六个 CSS-only `exports` 与 `dist/normalize.css` 结构不变。真实 npm 包为十文件、9,240 B。新增发行后证据入口 [`docs/research/V010_POST_RELEASE_COMPATIBILITY.md`](research/V010_POST_RELEASE_COMPATIBILITY.md)，分层记录 Chromium 144/Linux 的有界 21/21 检查、历史组件/Reset 构建与仍缺的浏览器证据；复用 `tests/ecosystem-consumer.mjs`、`tests/reset-consumer.mjs`、`fixtures/modules-*.html`。**未新增测试脚本、产品 CSS、依赖或 CI**。下方阶段性“候选未开始/尚未发布”均仅是历史记录。
