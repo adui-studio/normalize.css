@@ -92,6 +92,17 @@ The project uses **Baseline 2023** as a reference for evaluating CSS features, a
 
 Existing checks cover CSS-only packing, installation from a real local npm tarball, Vite+ production consumption, and selected browser/framework comparisons. Auditable, per-target results are not archived for every historical browser and operating-system target, so this README makes no unsupported minimum-version claims. Refer to the [browser support policy](docs/adr/0004-browser-support-policy.md) and [W-06 acceptance index](docs/research/W06_ACCEPTANCE_INDEX.md).
 
+## npm download trend
+
+<a href="https://www.npmjs.com/package/@adui/normalize.css">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://shieldcn.dev/chart/npm/@adui/normalize.css.svg?days=30&amp;bg=transparent&amp;border=false&amp;mode=dark" />
+    <img src="https://shieldcn.dev/chart/npm/@adui/normalize.css.svg?days=30&amp;bg=transparent&amp;border=false&amp;mode=light" alt="@adui/normalize.css npm download trend over the last 30 days" width="760" />
+  </picture>
+</a>
+
+The chart is dynamically generated from npm download data by a third-party service; updates may be cached.
+
 ## Local development
 
 The repository uses **Vite+ 1.4.0** and **pnpm 12.15.0**. Supported Node.js engine ranges are `^22.18.0 || ^24.11.0 || >=26.0.0`.
