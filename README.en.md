@@ -38,11 +38,11 @@ Import the stylesheet from an application entry point that supports package CSS 
 import "@adui/normalize.css";
 ```
 
-The default package root `@adui/normalize.css` still resolves to `dist/normalize.css`. The subpaths below are **published starting with npm `0.0.3`** and are not available in `0.0.2` or earlier.
+In the current `0.1.0` release, the default `@adui/normalize.css` entry resolves to `dist/normalize.css` and includes only R-003, R-007 and R-008. Reset, Forms, Accessibility and All remain explicit opt-ins; these subpaths have been available since `0.0.3`. See the [changelog](CHANGELOG.md) for version history.
 
-### Default Normalize rules (since `0.0.2`)
+### Default Normalize rules (`0.1.0`)
 
-Published `0.0.1` contains R-003 alone. **Published `0.0.2`** contains three rules (R-003, R-007 and R-008):
+The current release retains these three rules:
 
 ```css
 b,
@@ -59,9 +59,9 @@ strong {
 }
 ```
 
-R-003 preserves relative emphasis; R-007 standardizes dotted underlines on titled abbreviations; R-008 aligns table border color with the current text color. The two newer rules use low-specificity `:where()` selectors. **The `0.0.3` default entry retains the same three rules.** Windows engineering checks passed on its release commit, but this is not a full real-browser T0/T2 compatibility pass or a minimum-browser-version guarantee. See the [rule evidence](docs/research/RULE_EVIDENCE_R003_R004.md) and [default scope review](docs/research/DEFAULT_NORMALIZE_V01_READINESS.md).
+R-003 preserves relative emphasis; R-007 standardizes dotted underlines on titled abbreviations; R-008 aligns table border color with the current text color. The two newer rules use low-specificity `:where()` selectors. `0.1.0` retains these rules. Existing engineering checks and selected browser comparisons do not establish a complete per-version browser matrix or a minimum-browser-version guarantee. See the [changelog](CHANGELOG.md) for version history, the [rule evidence](docs/research/RULE_EVIDENCE_R003_R004.md) and [default scope review](docs/research/DEFAULT_NORMALIZE_V01_READINESS.md).
 
-### Published `0.0.3`: CSS modules and import paths
+### CSS modules and import paths (`0.1.0`)
 
 | Entry                               | Scope                                                                                                                                 |
 | ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
