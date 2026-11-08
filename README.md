@@ -38,11 +38,11 @@ npm install @adui/normalize.css
 import "@adui/normalize.css";
 ```
 
-默认根入口 `@adui/normalize.css` 仍对应 `dist/normalize.css`。下列模块自 **npm `0.0.3`** 起可公开安装使用；`0.0.2` 及更早版本不提供这些新子路径。
+当前正式版 `0.1.0` 的默认根入口 `@adui/normalize.css` 对应 `dist/normalize.css`，仅包含 R-003、R-007、R-008。Reset、Forms、A11y 和 All 均须显式选择；这些子路径从 `0.0.3` 起提供。历史版本差异见 [更新日志](CHANGELOG.md)。
 
-### 默认 Normalize 规则（自 `0.0.2` 起）
+### 默认 Normalize 规则（`0.1.0`）
 
-`0.0.1` 只包含 R-003；**已正式发布的 `0.0.2`** 新增 R-007、R-008，总计三条规则：
+当前正式版保留以下三条规则：
 
 ```css
 b,
@@ -59,9 +59,9 @@ strong {
 }
 ```
 
-R-003 保留相对字重；R-007 对含 `title` 的缩写补齐点状下划线；R-008 将表格边框颜色与当前文字颜色对齐。后两者采用低特异性的 `:where()`。**`0.0.3` 默认入口仍保持这三条规则**；发行源码已通过 Windows 工程验证，但未完成全部目标浏览器的真实 T0/T2 矩阵，不承诺未经验证的最低浏览器版本。 背景见 [规则证据](docs/research/RULE_EVIDENCE_R003_R004.md) 与 [默认规则范围审核](docs/research/DEFAULT_NORMALIZE_V01_READINESS.md)。
+R-003 保留相对字重；R-007 对含 `title` 的缩写补齐点状下划线；R-008 将表格边框颜色与当前文字颜色对齐。后两者采用低特异性的 `:where()`。`0.1.0` 继续保持这三条规则；现有工程和部分浏览器验证不能替代所有目标环境的逐版本实测，因此不承诺未经验证的最低浏览器版本。历史规则演进见 [更新日志](CHANGELOG.md)，依据见 [规则证据](docs/research/RULE_EVIDENCE_R003_R004.md) 与 [默认规则范围审核](docs/research/DEFAULT_NORMALIZE_V01_READINESS.md)。
 
-### `0.0.3` 已发布：模块与导入路径
+### CSS 模块与导入路径（`0.1.0`）
 
 | 引入路径                            | 内容与影响范围                                                                                       |
 | ----------------------------------- | ---------------------------------------------------------------------------------------------------- |
@@ -79,7 +79,7 @@ import "@adui/normalize.css";
 import "@adui/normalize.css/forms.css";
 ```
 
-**需要全部模块时，二选一使用组合入口，不要同时重复引入单模块：**
+**需要全部模块时，仅引入组合入口，不要重复引入单模块：**
 
 ```js
 import "@adui/normalize.css/all.css";
