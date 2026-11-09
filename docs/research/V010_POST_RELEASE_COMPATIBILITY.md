@@ -9,16 +9,16 @@
 
 **本轮验收提交**：`d2daf5af0cd7598fea78b638107ce7270995a29a`。维护者在 Windows PowerShell 的 `D:\Workspace\adui-studio\normalize.css` 中执行 `pnpm verify:mvp`、`pnpm exec vp build`、`git rev-parse HEAD` 和 `git status --short` 并提供终端输出。GitHub compare 查询确认此 SHA 与当时的 `main` **identical（ahead 0 / behind 0）**；`git status --short` 没有输出，表示本机工作区干净。
 
-| 执行项目 | 本机日志确认结果 |
-| --- | --- |
-| `vp check` | 103 个文件格式通过；25 个文件 Lint 无警告、无错误 |
-| `vp test` | Vitest 8 / 8 PASS |
-| `test:offline` | Node 离线契约 65 / 65 PASS |
-| `test:package` | 真实 npm tarball 安装 1 / 1 PASS |
-| `test:consumer` | Vite+ `all.css` 实际消费构建 1 / 1 PASS |
-| `vp pack` | `dist/normalize.css` 311 B，构建成功 |
-| `npm pack --dry-run --json --ignore-scripts` | 10 个文件、9,514 B 压缩包，解压后 23,990 B；仅本地预览，**未执行发布** |
-| `pnpm exec vp build` | 25 modules transformed；Fixture 生产构建 PASS（149 ms）；终端列出 10 个 HTML 页面及静态资源 |
+| 执行项目                                     | 本机日志确认结果                                                                            |
+| -------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| `vp check`                                   | 103 个文件格式通过；25 个文件 Lint 无警告、无错误                                           |
+| `vp test`                                    | Vitest 8 / 8 PASS                                                                           |
+| `test:offline`                               | Node 离线契约 65 / 65 PASS                                                                  |
+| `test:package`                               | 真实 npm tarball 安装 1 / 1 PASS                                                            |
+| `test:consumer`                              | Vite+ `all.css` 实际消费构建 1 / 1 PASS                                                     |
+| `vp pack`                                    | `dist/normalize.css` 311 B，构建成功                                                        |
+| `npm pack --dry-run --json --ignore-scripts` | 10 个文件、9,514 B 压缩包，解压后 23,990 B；仅本地预览，**未执行发布**                      |
+| `pnpm exec vp build`                         | 25 modules transformed；Fixture 生产构建 PASS（149 ms）；终端列出 10 个 HTML 页面及静态资源 |
 
 **自动化测试合计：75 / 75 PASS**（Vitest 8 + Node 离线 65 + 真实包 1 + CSS 消费 1）。本次 `npm pack --dry-run` 预览摘要 `844956141c79ab64af3cb149d86b686db67d2696`，与本文件顶部所记录的**已发布** `0.1.0` 摘要不同：发行后 README 等仓库文档已有调整，预览包不是已发布包的二进制重验，也不代表重新发布 `0.1.0`。
 
