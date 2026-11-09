@@ -12,7 +12,7 @@
 
 项目提供**默认 Normalize** 与显式可选的 **Reset、Forms、A11y** 模块，全部以纯 CSS 交付，**无运行时 JavaScript 依赖**。
 
-**当前正式版本：** [v0.1.0](https://github.com/adui-studio/normalize.css/releases/tag/v0.1.0) · [npm](https://www.npmjs.com/package/@adui/normalize.css) · [更新日志](CHANGELOG.md)
+**发行信息：** [npm 最新版本](https://www.npmjs.com/package/@adui/normalize.css) · [GitHub Releases](https://github.com/adui-studio/normalize.css/releases) · [更新日志](CHANGELOG.md)
 
 ## 特性
 

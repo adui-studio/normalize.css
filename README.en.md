@@ -12,7 +12,7 @@ A lightweight, modular CSS normalization library for modern web applications. It
 
 The package provides a **conservative default Normalize** and explicitly optional **Reset, Forms, and Accessibility** modules. It ships CSS only, with **no runtime JavaScript dependencies**.
 
-**Current release:** [v0.1.0](https://github.com/adui-studio/normalize.css/releases/tag/v0.1.0) · [npm](https://www.npmjs.com/package/@adui/normalize.css) · [Changelog](CHANGELOG.md)
+**Releases:** [Latest on npm](https://www.npmjs.com/package/@adui/normalize.css) · [GitHub Releases](https://github.com/adui-studio/normalize.css/releases) · [Changelog](CHANGELOG.md)
 
 ## Features
 

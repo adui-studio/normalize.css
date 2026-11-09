@@ -79,7 +79,7 @@ test(
     assert.deepEqual(manifest.sideEffects, ["**/*.css"]);
     assert.deepEqual(manifest.files, ["dist", "src"]);
     assert.equal(Object.hasOwn(manifest, "dependencies"), false);
-    assert.equal(manifest.version, "0.1.0");
+    assert.equal(manifest.version, "0.1.1");
     assert.equal(manifest.private, false);
 
     const tmp = mkdtempSync(join(tmpdir(), "adui-real-css-pack-"));
