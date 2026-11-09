@@ -8,41 +8,73 @@
 
 **简体中文** · [English](README.en.md)
 
-轻量、低侵入、基于明确规则依据的现代 CSS Normalize 基础库。
+面向现代 Web 应用的轻量、模块化 CSS 标准化库。以经过评审的浏览器默认样式差异为修正对象，尽可能保留 HTML 原生语义、用户偏好及应用已有样式。
 
-`@adui/normalize.css` 只修正经过评审的浏览器默认样式差异，尽量保留 HTML 原生语义、用户偏好及现有组件样式。提供纯 CSS 产物，**无运行时 JavaScript 依赖**。
+项目提供**默认 Normalize** 与显式可选的 **Reset、Forms、A11y** 模块，全部以纯 CSS 交付，**无运行时 JavaScript 依赖**。
 
-> **版本说明：** npm 最新正式版为 **[`0.1.0`](https://github.com/adui-studio/normalize.css/releases/tag/v0.1.0)**（已核对 npm `latest`、包摘要、附注 Git Tag 与 GitHub Release）。默认 Normalize 保持 R-003/R-007/R-008；Reset、Forms、A11y 及 `all.css` 继续显式可选，这些模块最早在 `0.0.3` 发布。历史 `0.0.1` 仅含 R-003，`0.0.2` 首次包含三条默认规则。浏览器兼容性以[发行后实测矩阵](docs/research/V010_POST_RELEASE_COMPATIBILITY.md)为准，不承诺未经逐版本验证的最低浏览器版本。
+**当前正式版本：** [v0.1.0](https://github.com/adui-studio/normalize.css/releases/tag/v0.1.0) · [npm](https://www.npmjs.com/package/@adui/normalize.css) · [更新日志](CHANGELOG.md)
 
 ## 特性
 
-- **默认克制**：不清空全部元素的间距，不强制设置根字号、主题或按钮外观。
-- **尊重原生行为**：保留等宽字体的浏览器默认设置，不覆盖键盘焦点及系统无障碍偏好。
-- **纯 CSS 交付**：根入口继续由 Vite+ 构建，可选模块以静态 CSS 源文件随 npm 包发布，不附加运行时 JavaScript。
-- **规则可追溯**：每条正式规则都经过用途、作用范围和兼容风险评审。
-- **完整且可组合**：默认 Normalize、独立 Reset、Forms、A11y 及 `all.css` 组合入口；适用于原生 HTML、Vue、React，并保留按需选择的能力。
+- **低侵入默认样式**：仅包含经过评审的必要规则，不统一清除元素间距、根字体、主题或控件外观。
+- **模块化引入**：按需选择 Normalize、Reset、Forms、A11y，或显式引入完整组合。
+- **尊重原生行为**：保留原生语义、焦点交互、列表标记和系统无障碍偏好；可选增强不会全局禁用动画。
+- **可追溯的规则依据**：重要规则的用途、浏览器依据、影响范围及风险记录于项目文档。
+- **纯 CSS 分发**：支持能够解析 CSS 包导入的工具链；无运行时 JavaScript 依赖。
 
-## 安装与使用
+## 安装
 
-### 从 npm 安装
+使用 pnpm：
 
 ```sh
 pnpm add @adui/normalize.css
-# 或
+```
+
+或使用 npm：
+
+```sh
 npm install @adui/normalize.css
 ```
 
-在能够解析 CSS 包导入的应用入口中引入，建议放在应用自定义样式之前：
+在应用入口引入默认样式，通常应位于应用自定义样式之前：
 
 ```js
 import "@adui/normalize.css";
 ```
 
-当前正式版 `0.1.0` 的默认根入口 `@adui/normalize.css` 对应 `dist/normalize.css`，仅包含 R-003、R-007、R-008。Reset、Forms、A11y 和 All 均须显式选择；这些子路径从 `0.0.3` 起提供。历史版本差异见 [更新日志](CHANGELOG.md)。
+默认入口**不会**自动引入 Reset、Forms 或 A11y。
 
-### 默认 Normalize 规则（`0.1.0`）
+## 模块与导入方式
 
-当前正式版保留以下三条规则：
+| 导入路径 | 作用 |
+| --- | --- |
+| `@adui/normalize.css` | 默认 Normalize，仅包含 R-003、R-007、R-008 |
+| `@adui/normalize.css/normalize.css` | 默认 Normalize 的显式别名 |
+| `@adui/normalize.css/reset.css` | 可选布局 Reset：盒模型、部分间距、媒体尺寸与表格布局 |
+| `@adui/normalize.css/forms.css` | 可选表单排版：字体继承、控件间距及部分原生控件布局 |
+| `@adui/normalize.css/a11y.css` | 可选无障碍增强：可见焦点、强制颜色与减少动态偏好 |
+| `@adui/normalize.css/all.css` | 完整组合入口，依次引入 Normalize → Reset → Forms → A11y |
+
+### 按需组合
+
+可以在默认 Normalize 基础上引入需要的模块，例如：
+
+```js
+import "@adui/normalize.css";
+import "@adui/normalize.css/forms.css";
+```
+
+如需全部模块，**只引入组合入口**，不再重复引入单独模块：
+
+```js
+import "@adui/normalize.css/all.css";
+```
+
+`all.css` 使用相对 CSS `@import` 组织模块，使用时应确保应用构建工具支持该处理方式。已经使用 Tailwind Preflight 或 UnoCSS Reset 的项目通常不需要再叠加本库的 Reset 或 `all.css`，以免重复修改全局布局样式。
+
+### 默认 Normalize
+
+当前默认入口仅包含以下三条规则：
 
 ```css
 b,
@@ -59,45 +91,68 @@ strong {
 }
 ```
 
-R-003 保留相对字重；R-007 对含 `title` 的缩写补齐点状下划线；R-008 将表格边框颜色与当前文字颜色对齐。后两者采用低特异性的 `:where()`。`0.1.0` 继续保持这三条规则；现有工程和部分浏览器验证不能替代所有目标环境的逐版本实测，因此不承诺未经验证的最低浏览器版本。历史规则演进见 [更新日志](CHANGELOG.md)，依据见 [规则证据](docs/research/RULE_EVIDENCE_R003_R004.md) 与 [默认规则范围审核](docs/research/DEFAULT_NORMALIZE_V01_READINESS.md)。
+- **R-003**：保持 `b`、`strong` 的相对字重。
+- **R-007**：为带 `title` 的 `abbr` 设置点状下划线。
+- **R-008**：使 `table` 边框颜色遵循当前文字颜色。
 
-### CSS 模块与导入路径（`0.1.0`）
+R-007 和 R-008 使用 `:where()` 降低选择器特异性。规则取舍及历史兼容性风险见 [ADR-0006](docs/adr/0006-v01-default-scope-and-compatibility-risk.md)。
 
-| 引入路径                            | 内容与影响范围                                                                                       |
-| ----------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| `@adui/normalize.css`               | **默认 Normalize**，保持已发布的 R-003 / R-007 / R-008 三条低侵入规则；不自动执行 Reset              |
-| `@adui/normalize.css/normalize.css` | 默认 Normalize 的显式别名，功能与根入口相同                                                          |
-| `@adui/normalize.css/reset.css`     | 可选布局 Reset：`border-box`、主体及常见文本间距、媒体最大宽度、表格折叠；保留列表 marker 与原生焦点 |
-| `@adui/normalize.css/forms.css`     | 可选表单排版：字体继承、外边距、fieldset/legend、标准文件按钮字体；不移除原生控件外观                |
-| `@adui/normalize.css/a11y.css`      | 可选无障碍增强：键盘焦点可见、强制颜色模式、减少动态偏好下关闭根平滑滚动；不全局禁用动画             |
-| `@adui/normalize.css/all.css`       | 显式完整组合包，按 Normalize → Reset → Forms → A11y 导入上述模块                                     |
+### 可选 Reset
 
-**按需组合（推荐）：**
+`reset.css` 提供全局 `border-box` 盒模型，包括 `::before`、`::after` 伪元素，并调整部分页面间距、媒体最大宽度和表格布局。
 
 ```js
-import "@adui/normalize.css";
-import "@adui/normalize.css/forms.css";
+import "@adui/normalize.css/reset.css";
 ```
 
-**需要全部模块时，仅引入组合入口，不要重复引入单模块：**
+Reset 会改变现有布局的计算方式，建议根据项目已有的样式基础决定是否引入。它不会统一清除标题字号、字重或列表标记。
 
-```js
-import "@adui/normalize.css/all.css";
+### 可选 Forms 与 A11y
+
+`forms.css` 主要提供表单字体继承和必要的布局规范，不统一重绘按钮、输入框等原生控件。其部分规则会影响表单控件的外边距。
+
+`a11y.css` 使用 `:focus-visible` 增强焦点提示，配合 `forced-colors` 使用系统色，并在 `prefers-reduced-motion: reduce` 时将根元素滚动行为设为 `auto`。它**不取消原生焦点，也不全局禁用动画**。
+
+`:focus-visible` 的匹配遵循浏览器启发式，并不只与键盘操作有关；输入框等可编辑元素在指针聚焦后也可能匹配。详情见 [A11y 行为说明](docs/research/A11Y_FOCUS_VISIBLE_CONTRACT_20261107.md)。
+
+## 浏览器兼容性
+
+项目以 **Baseline 2023** 作为 CSS 特性评审参考，而非对特定浏览器最低版本的公开支持承诺。
+
+已有验证涉及 CSS 打包、实际 npm 包消费、Vite+ 生产构建，以及部分浏览器和组件生态对照；但现有可审计记录尚未覆盖全部目标浏览器、设备、操作系统和系统偏好场景，因此**不公布未经逐版本证据支持的最低浏览器版本**。
+
+具体范围与证据限制参见 [浏览器支持策略](docs/adr/0004-browser-support-policy.md) 和 [发行后兼容性记录](docs/research/V010_POST_RELEASE_COMPATIBILITY.md)。对于组件库及其他 CSS Reset，请在目标应用中核对导入顺序、级联层、选择器特异性和交互行为。
+
+## 本地开发与验证
+
+项目使用 **Vite+ 1.4.0** 与 **pnpm 12.15.0**；Node.js 版本范围为 `^22.18.0 || ^24.11.0 || >=26.0.0`。
+
+```sh
+git clone https://github.com/adui-studio/normalize.css.git
+cd normalize.css
+pnpm install --frozen-lockfile
+
+pnpm exec vp pack
+pnpm exec vp dev
 ```
 
-`all.css` 使用相对 `@import` 引入随包分发的 CSS 文件；Vite+ 等支持 CSS `@import` 内联的打包器可处理它们。默认入口**没有** `@layer`、全局主题、根字号覆盖、强制按钮外观或 `!important`。可选 Reset 会改变页面间距和表格布局，已有 Tailwind Preflight/UnoCSS Reset 的项目通常**不应再叠加** `reset.css` 或 `all.css`，避免重复重置。
+执行现有本地质量检查及 Fixture 构建：
 
-## 兼容性与设计边界
+```sh
+pnpm run verify:mvp
+pnpm exec vp build
+```
 
-项目以 **Baseline 2023** 作为 CSS 特性评审参考，结合规则来源、浏览器差异及本地回归结果决定是否纳入。它**不等于**对某个浏览器最低版本作出公开兼容承诺。
+`verify:mvp` 包含格式、Lint、测试、CSS 打包、真实 npm tarball 消费检查及 npm 打包预览；`vp build` 构建本地 Fixture 页面。这些命令**不会发布 npm 包**。项目不使用 CI，相关验证由维护者在本地执行。
 
-已完成的验证包含纯 CSS 打包、真实 npm tarball 本地安装、Vite+ 生产消费以及部分浏览器和框架对照。尚未形成所有历史目标浏览器与操作系统的逐项可审计通过记录，因此不在此声明具体最低浏览器版本。详情见 [浏览器支持策略](docs/adr/0004-browser-support-policy.md) 与 [W-06 验收记录](docs/research/W06_ACCEPTANCE_INDEX.md)。
+详见 [本地验收与交付说明](docs/MVP_0_0_1_HANDOFF.md)。
 
-### 可选 A11y 的焦点与系统偏好
+## 文档
 
-显式引入 `@adui/normalize.css/a11y.css`（或 `all.css`）后，`:where(:focus-visible)` 会为**浏览器判定需要可见焦点提示的元素**提供低特异性轮廓。它**不是键盘专属选择器**：鼠标点击可输入文字的 `input`、`textarea` 时，也可能匹配 `:focus-visible` 并出现轮廓。这属于浏览器启发式行为，不应直接当作兼容问题。应用及 UI 组件库仍可定制焦点外观，但应核对 `@layer`、样式来源、特异性与导入顺序，不能假设任意声明始终优先。
-
-可选模块在 `forced-colors: active` 下为匹配的焦点轮廓指定系统色 `Highlight`；在 `prefers-reduced-motion: reduce` 下仅将根元素滚动行为设为 `auto`，**不全局禁用动画**。是否真正可见、组件层叠是否冲突应在目标环境中验证。具体行为、标准依据与检查步骤见 [A11y 焦点行为研究](docs/research/A11Y_FOCUS_VISIBLE_CONTRACT_20261107.md)。
+- [需求说明](docs/REQUIREMENTS.md) · [架构设计](docs/ARCHITECTURE.md) · [详细设计](docs/SDD.md)
+- [规则评审](docs/research/W05_RULE_ACCEPTANCE.md) · [兼容性验收](docs/research/W06_ACCEPTANCE_INDEX.md)
+- [代码地图](docs/CODEBASE_MAP.md) · [项目上下文](docs/PROJECT_CONTEXT.md)
+- [更新日志](CHANGELOG.md) · [发行规范](docs/RELEASING.md)
 
 ## npm 下载趋势
 
@@ -108,42 +163,13 @@ import "@adui/normalize.css/all.css";
   </picture>
 </a>
 
-图表由第三方服务根据 npm 下载数据动态生成，显示可能存在缓存延迟。
-
-## 本地开发
-
-仓库使用 **Vite+ 1.4.0** 和 **pnpm 12.15.0**。Node.js 版本要求为 `^22.18.0 || ^24.11.0 || >=26.0.0`。
-
-```sh
-git clone https://github.com/adui-studio/normalize.css.git
-cd normalize.css
-pnpm install --frozen-lockfile
-
-pnpm exec vp pack   # 构建默认 dist/normalize.css；可选模块直接来自 src/*.css
-pnpm exec vp dev    # 启动本地 Fixture 预览
-```
-
-运行完整的本地质量检查和 Fixture 构建：
-
-```sh
-pnpm run verify:mvp
-pnpm exec vp build
-```
-
-`verify:mvp` 包括格式/Lint、单元与离线测试、CSS 打包、真实 tarball 消费及 npm 打包**预览**；`vp build` 构建本地 Fixture 页面到 `dist-fixtures/`。两者都**不会发布 npm 包**，项目也不配置 CI。完整测试范围及历史实测记录见 [MVP 验收清单](docs/MVP_0_0_1_HANDOFF.md)。
-
-## 文档
-
-- [需求与验收标准](docs/REQUIREMENTS.md) · [总体架构](docs/ARCHITECTURE.md) · [详细设计](docs/SDD.md)
-- [规则评审结论](docs/research/W05_RULE_ACCEPTANCE.md) · [浏览器与生态验收](docs/research/W06_ACCEPTANCE_INDEX.md)
-- [本地测试与交付说明](docs/MVP_0_0_1_HANDOFF.md) · [代码地图](docs/CODEBASE_MAP.md)
-- [更新日志](CHANGELOG.md) · [项目现状](docs/PROJECT_CONTEXT.md)
+图表由第三方服务动态生成，可能存在缓存延迟。
 
 ## 参与贡献
 
-欢迎通过 [GitHub Issues](https://github.com/adui-studio/normalize.css/issues) 提交浏览器差异、规则建议和文档问题。规则变更请说明浏览器依据、影响范围、可能的样式或无障碍风险，并尽量提供可复现用例和测试结果。
+欢迎通过 [GitHub Issues](https://github.com/adui-studio/normalize.css/issues) 报告浏览器差异、组件冲突或提出规则建议。涉及 CSS 行为的提案应提供适用浏览器与版本、复现方式、预期结果及潜在的布局或无障碍影响。
 
-提交变更前请阅读 [AGENTS.md](AGENTS.md) 和 [Pull Request 模板](.github/pull_request_template.md)。项目要求最小必要改动，**不新增 CI 或自动发布工作流**。
+提交前请阅读 [AGENTS.md](AGENTS.md) 与 [Pull Request 模板](.github/pull_request_template.md)。项目遵循最小必要改动原则，不新增 CI 或自动发布工作流。
 
 ## 许可证
 
