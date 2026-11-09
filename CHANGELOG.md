@@ -2,6 +2,13 @@
 
 本文件记录 `@adui/normalize.css` 已发行版本和历史候选变更。当前正式 npm 版本为 **[`0.1.0`](https://github.com/adui-studio/normalize.css/releases/tag/v0.1.0)**，已确认 npm `latest`、发布包 SHA-1 / integrity、附注 Git Tag 及 GitHub Release 一致。旧版 `0.0.1`、`0.0.2`、`0.0.3` 的发行记录保持不变。
 
+## 0.1.1 · 2026-11-09（发行准备候选，未发布）
+
+- **目的**：将 GitHub 主分支已整理的中英文 README 随新的 npm tarball 交付，以更新 npm 包页面的使用说明。此前已发布的 `0.1.0` tarball 不会因仓库 README 更新而改变。
+- **版本准备**：拟将 `package.json` 与两处真实包测试断言从 `0.1.0` 同步调整至 `0.1.1`；中英文 README 改用不固定版本号的发行入口，避免新包携带过时的“当前正式版本”文案。
+- **行为不变**：默认 Normalize 继续仅 R-003/R-007/R-008，Reset、Forms、A11y、All 仍显式可选；六个 CSS-only exports、产品 CSS、运行时依赖与 CI 均不变。
+- **状态与门槛**：仅为开发分支版本准备，**不是已发布记录**。尚须维护者从官方 npm Registry 独立核对 `latest` 以及 `0.1.1` 是否占用，在准确候选 HEAD 上完成格式、测试、真实 tarball、Fixture 构建、README 入包及工作区验证，并另行批准合并、npm 发布、Git Tag 和 GitHub Release。本次不执行任何发布动作。
+
 ## 0.1.0 · 2026-11-06（npm、附注 Git Tag、GitHub Release 已发布）
 
 - **范围与产品行为**：依照 ADR-0006 方案 A，默认 Normalize 仍仅 R-003/R-007/R-008；Reset、Forms、A11y 与 `all.css` 继续显式 opt-in。相比已发布 `0.0.3`，产品 CSS 与六个 CSS-only 导出均不变，无运行时 JavaScript 依赖或新增 CI。
