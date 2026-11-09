@@ -8,41 +8,73 @@
 
 [简体中文](README.md) · **English**
 
-A lightweight, low-intrusion CSS Normalize library built around documented rule evidence.
+A lightweight, modular CSS normalization library for modern web applications. It addresses reviewed browser-default differences while preserving native HTML semantics, user preferences, and existing application styles wherever practical.
 
-`@adui/normalize.css` corrects selected browser-default differences while preserving native HTML semantics, user preferences, and existing component styles wherever possible. It ships **CSS only, with no runtime JavaScript dependencies**.
+The package provides a **conservative default Normalize** and explicitly optional **Reset, Forms, and Accessibility** modules. It ships CSS only, with **no runtime JavaScript dependencies**.
 
-> **Version note:** The latest published npm version is **[`0.1.0`](https://github.com/adui-studio/normalize.css/releases/tag/v0.1.0)** (npm `latest`, package digests, annotated Git tag, and published GitHub Release verified). Default Normalize retains R-003, R-007 and R-008; Reset, Forms, Accessibility and `all.css` remain explicit opt-ins and were first introduced in `0.0.3`. Earlier `0.0.1` includes only R-003, and `0.0.2` first introduced the three-rule default. See the [post-release compatibility matrix](docs/research/V010_POST_RELEASE_COMPATIBILITY.md); no unverified minimum-browser-version guarantee is made.
+**Current release:** [v0.1.0](https://github.com/adui-studio/normalize.css/releases/tag/v0.1.0) · [npm](https://www.npmjs.com/package/@adui/normalize.css) · [Changelog](CHANGELOG.md)
 
 ## Features
 
-- **Conservative by default:** No blanket removal of element margins or forced root font size, theme, or button appearance.
-- **Native behavior first:** Keeps browser-default monospace settings, keyboard focus, and system accessibility preferences intact.
-- **CSS-only distribution:** The root export remains a Vite+-built CSS asset, and optional CSS sources are packaged as static files without runtime JavaScript.
-- **Evidence-driven rules:** Every included rule has an explicit purpose, scope, and compatibility review.
-- **Complete and composable:** Conservative Normalize, optional Reset, Forms, Accessibility, and a combined entry point for plain HTML, Vue, and React apps.
+- **Conservative defaults:** Only reviewed normalization rules; no blanket removal of margins, forced root typography, themes, or control appearances.
+- **Modular imports:** Use Normalize, Reset, Forms, and Accessibility individually or opt in to the combined entry.
+- **Native behavior first:** Preserve semantic elements, focus behavior, list markers, and system accessibility preferences; optional enhancements do not disable all animations.
+- **Traceable decisions:** Significant rules are documented with their purpose, browser evidence, scope, and risks.
+- **CSS-only distribution:** Works with tooling that supports package CSS imports; no runtime JavaScript dependencies.
 
-## Installation and usage
+## Installation
 
-### Install from npm
+With pnpm:
 
 ```sh
 pnpm add @adui/normalize.css
-# or
+```
+
+Or with npm:
+
+```sh
 npm install @adui/normalize.css
 ```
 
-Import the stylesheet from an application entry point that supports package CSS imports, preferably before application-specific styles:
+Import the default stylesheet in your application entry, generally before application-specific styles:
 
 ```js
 import "@adui/normalize.css";
 ```
 
-In the current `0.1.0` release, the default `@adui/normalize.css` entry resolves to `dist/normalize.css` and includes only R-003, R-007 and R-008. Reset, Forms, Accessibility and All remain explicit opt-ins; these subpaths have been available since `0.0.3`. See the [changelog](CHANGELOG.md) for version history.
+The default entry **does not** automatically include Reset, Forms, or Accessibility.
 
-### Default Normalize rules (`0.1.0`)
+## Modules and imports
 
-The current release retains these three rules:
+| Import | Purpose |
+| --- | --- |
+| `@adui/normalize.css` | Default Normalize with only R-003, R-007, and R-008 |
+| `@adui/normalize.css/normalize.css` | Explicit alias of the default Normalize |
+| `@adui/normalize.css/reset.css` | Optional layout reset for box sizing, selected margins, media sizing, and tables |
+| `@adui/normalize.css/forms.css` | Optional forms typography, spacing, and selected native control layout |
+| `@adui/normalize.css/a11y.css` | Optional focus, forced-colors, and reduced-motion enhancements |
+| `@adui/normalize.css/all.css` | Opt-in combined entry: Normalize → Reset → Forms → Accessibility |
+
+### Selective imports
+
+You can import only the modules you need alongside default Normalize:
+
+```js
+import "@adui/normalize.css";
+import "@adui/normalize.css/forms.css";
+```
+
+To enable the entire set, **import the combined entry alone** rather than duplicating individual modules:
+
+```js
+import "@adui/normalize.css/all.css";
+```
+
+The `all.css` entry uses relative CSS `@import` statements. Make sure your build tool handles these imports. Applications that already use Tailwind Preflight or UnoCSS Reset generally should not add this package's Reset or `all.css`, because multiple global resets may introduce redundant layout changes.
+
+### Default Normalize
+
+The default entry currently consists of three rules:
 
 ```css
 b,
@@ -59,45 +91,68 @@ strong {
 }
 ```
 
-R-003 preserves relative emphasis; R-007 standardizes dotted underlines on titled abbreviations; R-008 aligns table border color with the current text color. The two newer rules use low-specificity `:where()` selectors. `0.1.0` retains these rules. Existing engineering checks and selected browser comparisons do not establish a complete per-version browser matrix or a minimum-browser-version guarantee. See the [changelog](CHANGELOG.md) for version history, the [rule evidence](docs/research/RULE_EVIDENCE_R003_R004.md) and [default scope review](docs/research/DEFAULT_NORMALIZE_V01_READINESS.md).
+- **R-003:** Preserve relative emphasis for `b` and `strong`.
+- **R-007:** Apply a dotted underline to `abbr` elements with a `title` attribute.
+- **R-008:** Make `table` border color follow the current text color.
 
-### CSS modules and import paths (`0.1.0`)
+R-007 and R-008 use `:where()` for low selector specificity. See [ADR-0006](docs/adr/0006-v01-default-scope-and-compatibility-risk.md) for scope decisions and historical browser risks.
 
-| Entry                               | Scope                                                                                                                                 |
-| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| `@adui/normalize.css`               | **Default Normalize**: only R-003, R-007, and R-008, preserving the low-intrusion published behavior                                  |
-| `@adui/normalize.css/normalize.css` | Explicit alias for the default CSS root                                                                                               |
-| `@adui/normalize.css/reset.css`     | Optional layout Reset: border-box sizing, selected margins, responsive media sizing, table collapse; preserves list markers and focus |
-| `@adui/normalize.css/forms.css`     | Optional forms typography, margins, fieldset/legend sizing, native file button font; does not repaint native controls                 |
-| `@adui/normalize.css/a11y.css`      | Optional focus-visible, forced-colors, and reduced-motion root scrolling enhancements; does not disable animations globally           |
-| `@adui/normalize.css/all.css`       | Full opt-in composition: Normalize → Reset → Forms → Accessibility                                                                    |
+### Optional Reset
 
-**Recommended selective imports:**
+`reset.css` applies global `border-box` sizing, including `::before` and `::after`, and adjusts selected document margins, responsive media sizing, and table layout.
 
 ```js
-import "@adui/normalize.css";
-import "@adui/normalize.css/forms.css";
+import "@adui/normalize.css/reset.css";
 ```
 
-**Use the combined entry by itself if you explicitly want all modules:**
+Reset changes layout calculations and should be selected according to the application's existing CSS foundation. It preserves native heading sizes, heading weights, and list markers.
 
-```js
-import "@adui/normalize.css/all.css";
+### Optional Forms and Accessibility
+
+`forms.css` provides font inheritance and selected layout normalization while preserving native button and input appearance. Some rules affect control margins.
+
+`a11y.css` enhances focus indication with `:focus-visible`, uses a system color under `forced-colors`, and sets root scrolling to `auto` under `prefers-reduced-motion: reduce`. It **does not remove native focus or disable animations globally**.
+
+`:focus-visible` follows browser heuristics; it is not keyboard-only. Editable controls may match after pointer focus. See the [Accessibility behavior review](docs/research/A11Y_FOCUS_VISIBLE_CONTRACT_20261107.md).
+
+## Browser compatibility
+
+The project uses **Baseline 2023** as a reference for evaluating CSS features, **not** as a public minimum-browser-version guarantee.
+
+Existing verification covers CSS packaging, real npm tarball consumption, Vite+ production builds, and selected browser and ecosystem comparisons. Auditable evidence does not yet cover every intended browser, device, operating system, and accessibility preference combination. Accordingly, the project **does not claim unsupported minimum browser versions**.
+
+See the [browser support policy](docs/adr/0004-browser-support-policy.md) and [post-release compatibility record](docs/research/V010_POST_RELEASE_COMPATIBILITY.md). When integrating with UI libraries or other CSS resets, verify import order, cascade layers, specificity, and interactive behavior in the target application.
+
+## Local development and verification
+
+The project uses **Vite+ 1.4.0** and **pnpm 12.15.0**. Its Node.js engine range is `^22.18.0 || ^24.11.0 || >=26.0.0`.
+
+```sh
+git clone https://github.com/adui-studio/normalize.css.git
+cd normalize.css
+pnpm install --frozen-lockfile
+
+pnpm exec vp pack
+pnpm exec vp dev
 ```
 
-The `all.css` entry uses relative CSS `@import` references to files shipped inside the package. Vite+ and other CSS-aware bundlers can inline these imports. The default CSS still avoids `@layer`, root font-size changes, global themes, invasive control resets, and `!important`. The optional Reset **changes margins and table layout**; projects already using Tailwind Preflight or UnoCSS Reset should normally avoid stacking `reset.css` or `all.css` on top of another reset.
+Run the existing local quality checks and fixture build:
 
-## Browser compatibility and design boundaries
+```sh
+pnpm run verify:mvp
+pnpm exec vp build
+```
 
-The project uses **Baseline 2023** as a reference for evaluating CSS features, alongside browser evidence and local regression results. This reference **is not a published minimum-browser-version guarantee**.
+`verify:mvp` covers formatting, linting, tests, CSS packaging, real npm tarball consumption, and an npm package dry run. `vp build` builds local fixture pages. **Neither command publishes to npm.** The project does not use CI; maintainers run these checks locally.
 
-Existing checks cover CSS-only packing, installation from a real local npm tarball, Vite+ production consumption, and selected browser/framework comparisons. Auditable, per-target results are not archived for every historical browser and operating-system target, so this README makes no unsupported minimum-version claims. Refer to the [browser support policy](docs/adr/0004-browser-support-policy.md) and [W-06 acceptance index](docs/research/W06_ACCEPTANCE_INDEX.md).
+See the [local verification and handoff guide](docs/MVP_0_0_1_HANDOFF.md).
 
-### Optional A11y focus and system preferences
+## Documentation
 
-When `@adui/normalize.css/a11y.css` (or `all.css`) is explicitly imported, `:where(:focus-visible)` adds a low-specificity outline to elements **for which the browser decides a visible focus indicator is helpful**. It is **not keyboard-only**: text inputs and textareas can also match `:focus-visible` after pointer focus. This is expected browser-heuristic behavior, not by itself a library regression. Applications and UI components can customize focus indicators, but the winning declaration still depends on cascade layers, origins, specificity, and source order.
-
-Under `forced-colors: active`, the optional module requests the system `Highlight` color for matching focus outlines. Under `prefers-reduced-motion: reduce`, it only sets the root `scroll-behavior` to `auto`; it does **not** disable animations globally. Actual visibility and component interactions require testing in the target environment. See the [A11y focus behavior review](docs/research/A11Y_FOCUS_VISIBLE_CONTRACT_20261107.md).
+- [Requirements](docs/REQUIREMENTS.md) · [Architecture](docs/ARCHITECTURE.md) · [Detailed design](docs/SDD.md)
+- [Rule acceptance](docs/research/W05_RULE_ACCEPTANCE.md) · [Compatibility acceptance](docs/research/W06_ACCEPTANCE_INDEX.md)
+- [Codebase map](docs/CODEBASE_MAP.md) · [Project context](docs/PROJECT_CONTEXT.md)
+- [Changelog](CHANGELOG.md) · [Release process](docs/RELEASING.md)
 
 ## npm download trend
 
@@ -108,42 +163,13 @@ Under `forced-colors: active`, the optional module requests the system `Highligh
   </picture>
 </a>
 
-The chart is dynamically generated from npm download data by a third-party service; updates may be cached.
-
-## Local development
-
-The repository uses **Vite+ 1.4.0** and **pnpm 12.15.0**. Supported Node.js engine ranges are `^22.18.0 || ^24.11.0 || >=26.0.0`.
-
-```sh
-git clone https://github.com/adui-studio/normalize.css.git
-cd normalize.css
-pnpm install --frozen-lockfile
-
-pnpm exec vp pack   # Build default dist/normalize.css; optional modules ship from src/*.css
-pnpm exec vp dev    # Start local fixtures
-```
-
-Run the local verification suite and build the fixture pages:
-
-```sh
-pnpm run verify:mvp
-pnpm exec vp build
-```
-
-`verify:mvp` runs formatting/lint checks, unit and offline tests, CSS packing, real tarball consumption, and an npm package **dry run**. `vp build` produces local fixture pages under `dist-fixtures/`. **Neither command publishes to npm**, and this repository does not use CI. See the [MVP handoff and verification checklist](docs/MVP_0_0_1_HANDOFF.md) for the test scope and historical results.
-
-## Documentation
-
-- [Requirements](docs/REQUIREMENTS.md) · [Architecture](docs/ARCHITECTURE.md) · [Detailed design](docs/SDD.md)
-- [Rule acceptance](docs/research/W05_RULE_ACCEPTANCE.md) · [Browser/ecosystem acceptance](docs/research/W06_ACCEPTANCE_INDEX.md)
-- [Local verification](docs/MVP_0_0_1_HANDOFF.md) · [Codebase map](docs/CODEBASE_MAP.md)
-- [Changelog](CHANGELOG.md) · [Project context](docs/PROJECT_CONTEXT.md)
+The chart is generated by a third-party service and may be cached.
 
 ## Contributing
 
-Use [GitHub Issues](https://github.com/adui-studio/normalize.css/issues) to report browser differences or propose rules or documentation changes. For CSS rule changes, describe the browser evidence, affected scope, cascade/accessibility risks, and a reproducible test case when possible.
+Use [GitHub Issues](https://github.com/adui-studio/normalize.css/issues) to report browser differences, component conflicts, or rule proposals. CSS behavior changes should include affected browsers and versions, reproduction steps, expected behavior, and possible layout or accessibility impacts.
 
-Read [AGENTS.md](AGENTS.md) and the [Pull Request template](.github/pull_request_template.md) before contributing. Keep changes minimal; **do not add CI or automated publishing workflows**.
+Read [AGENTS.md](AGENTS.md) and the [Pull Request template](.github/pull_request_template.md) before contributing. Keep changes minimal; do not add CI or automated publishing workflows.
 
 ## License
 
