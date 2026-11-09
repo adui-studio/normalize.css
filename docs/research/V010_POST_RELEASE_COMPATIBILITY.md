@@ -5,6 +5,25 @@
 **发行事实**：[GitHub Release v0.1.0](https://github.com/adui-studio/normalize.css/releases/tag/v0.1.0) 已正式发布（非 Draft / Prerelease）；用户在 npm 官方 Registry 查询到 `0.1.0` 且 `latest=0.1.0`，`dist.shasum=09ad11dc9c52538941fb8bdf5629f4841411dde3`，与最终发包前预览一致。  
 **决策边界**：[ADR-0006](../adr/0006-v01-default-scope-and-compatibility-risk.md) 方案 A：默认仍为 R-003/R-007/R-008，可选 Reset / Forms / A11y / All 继续显式引入；不宣称未经逐版本验证的最低浏览器版本。
 
+## 2026-11-09 · 发行后主分支工程复验（维护者 Windows 实测）
+
+**本轮验收提交**：`d2daf5af0cd7598fea78b638107ce7270995a29a`。维护者在 Windows PowerShell 的 `D:\Workspace\adui-studio\normalize.css` 中执行 `pnpm verify:mvp`、`pnpm exec vp build`、`git rev-parse HEAD` 和 `git status --short` 并提供终端输出。GitHub compare 查询确认此 SHA 与当时的 `main` **identical（ahead 0 / behind 0）**；`git status --short` 没有输出，表示本机工作区干净。
+
+| 执行项目 | 本机日志确认结果 |
+| --- | --- |
+| `vp check` | 103 个文件格式通过；25 个文件 Lint 无警告、无错误 |
+| `vp test` | Vitest 8 / 8 PASS |
+| `test:offline` | Node 离线契约 65 / 65 PASS |
+| `test:package` | 真实 npm tarball 安装 1 / 1 PASS |
+| `test:consumer` | Vite+ `all.css` 实际消费构建 1 / 1 PASS |
+| `vp pack` | `dist/normalize.css` 311 B，构建成功 |
+| `npm pack --dry-run --json --ignore-scripts` | 10 个文件、9,514 B 压缩包，解压后 23,990 B；仅本地预览，**未执行发布** |
+| `pnpm exec vp build` | 25 modules transformed；Fixture 生产构建 PASS（149 ms）；终端列出 10 个 HTML 页面及静态资源 |
+
+**自动化测试合计：75 / 75 PASS**（Vitest 8 + Node 离线 65 + 真实包 1 + CSS 消费 1）。本次 `npm pack --dry-run` 预览摘要 `844956141c79ab64af3cb149d86b686db67d2696`，与本文件顶部所记录的**已发布** `0.1.0` 摘要不同：发行后 README 等仓库文档已有调整，预览包不是已发布包的二进制重验，也不代表重新发布 `0.1.0`。
+
+**证据边界**：上述 PASS 由维护者提供本机终端日志，GitHub 已独立确认所报 SHA 对应当时的 `main`；本轮没有独立重跑本机测试，也没有新增 Firefox/Safari/移动端逐版本实机、系统偏好或 HTTP Network 原始证据。因此该结论仅为 **发行后主分支工程与 Fixture 构建验收**，不能扩大为所有浏览器的兼容性 PASS。该记录为后续文档提交前的快照，不表示在新增此文档后的 HEAD 上重跑；默认 CSS、六项 exports、npm `0.1.0`、依赖和 CI 均不变。
+
 ## 一、已有证据按类型分层
 
 | 证据来源                                  | 实际事实                                                                                                                                                                               | 不能据此证明                                                             |
