@@ -46,14 +46,14 @@ The default entry **does not** automatically include Reset, Forms, or Accessibil
 
 ## Modules and imports
 
-| Import | Purpose |
-| --- | --- |
-| `@adui/normalize.css` | Default Normalize with only R-003, R-007, and R-008 |
-| `@adui/normalize.css/normalize.css` | Explicit alias of the default Normalize |
-| `@adui/normalize.css/reset.css` | Optional layout reset for box sizing, selected margins, media sizing, and tables |
-| `@adui/normalize.css/forms.css` | Optional forms typography, spacing, and selected native control layout |
-| `@adui/normalize.css/a11y.css` | Optional focus, forced-colors, and reduced-motion enhancements |
-| `@adui/normalize.css/all.css` | Opt-in combined entry: Normalize → Reset → Forms → Accessibility |
+| Import                              | Purpose                                                                          |
+| ----------------------------------- | -------------------------------------------------------------------------------- |
+| `@adui/normalize.css`               | Default Normalize with only R-003, R-007, and R-008                              |
+| `@adui/normalize.css/normalize.css` | Explicit alias of the default Normalize                                          |
+| `@adui/normalize.css/reset.css`     | Optional layout reset for box sizing, selected margins, media sizing, and tables |
+| `@adui/normalize.css/forms.css`     | Optional forms typography, spacing, and selected native control layout           |
+| `@adui/normalize.css/a11y.css`      | Optional focus, forced-colors, and reduced-motion enhancements                   |
+| `@adui/normalize.css/all.css`       | Opt-in combined entry: Normalize → Reset → Forms → Accessibility                 |
 
 ### Selective imports
 

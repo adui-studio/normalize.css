@@ -46,14 +46,14 @@ import "@adui/normalize.css";
 
 ## 模块与导入方式
 
-| 导入路径 | 作用 |
-| --- | --- |
-| `@adui/normalize.css` | 默认 Normalize，仅包含 R-003、R-007、R-008 |
-| `@adui/normalize.css/normalize.css` | 默认 Normalize 的显式别名 |
-| `@adui/normalize.css/reset.css` | 可选布局 Reset：盒模型、部分间距、媒体尺寸与表格布局 |
-| `@adui/normalize.css/forms.css` | 可选表单排版：字体继承、控件间距及部分原生控件布局 |
-| `@adui/normalize.css/a11y.css` | 可选无障碍增强：可见焦点、强制颜色与减少动态偏好 |
-| `@adui/normalize.css/all.css` | 完整组合入口，依次引入 Normalize → Reset → Forms → A11y |
+| 导入路径                            | 作用                                                    |
+| ----------------------------------- | ------------------------------------------------------- |
+| `@adui/normalize.css`               | 默认 Normalize，仅包含 R-003、R-007、R-008              |
+| `@adui/normalize.css/normalize.css` | 默认 Normalize 的显式别名                               |
+| `@adui/normalize.css/reset.css`     | 可选布局 Reset：盒模型、部分间距、媒体尺寸与表格布局    |
+| `@adui/normalize.css/forms.css`     | 可选表单排版：字体继承、控件间距及部分原生控件布局      |
+| `@adui/normalize.css/a11y.css`      | 可选无障碍增强：可见焦点、强制颜色与减少动态偏好        |
+| `@adui/normalize.css/all.css`       | 完整组合入口，依次引入 Normalize → Reset → Forms → A11y |
 
 ### 按需组合
 
