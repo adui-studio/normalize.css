@@ -1,6 +1,6 @@
 {
   "name": "@adui/normalize.css",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": false,
   "description": "A lightweight, modular CSS normalize with optional reset, forms and accessibility styles, without runtime JavaScript.",
   "keywords": [
